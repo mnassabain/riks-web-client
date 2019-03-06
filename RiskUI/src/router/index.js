@@ -5,6 +5,7 @@ import Login from '@/views/Login'
 import Register from '@/views/Register'
 import CreateGame from '@/views/CreateGame'
 import JoinGame from '@/views/JoinGame'
+import Start from '@/views/Start'
 
 Vue.use(Router)
 
@@ -14,7 +15,8 @@ export default new Router({
     { path: '/Register', name: 'Register', component: Register },
     { path: '/Login', name: 'Login', component: Login },
     { path: '/CreateGame', name: 'CreateGame', component: CreateGame },
-    { path: '/JoinGame', name: 'JoinGame', component: JoinGame }
+    { path: '/JoinGame', name: 'JoinGame', component: JoinGame },
+    { path: '/Start', name: 'Start', component: Start }
 
   ]
 })

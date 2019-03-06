@@ -27,9 +27,6 @@ export default {
     }
   },
   methods: {
-    // registerUser() {
-    //   console.log(this.pseudo, this.login, this.password)
-    // }
   }
 }
 </script>
