@@ -32,11 +32,11 @@ export default {
   name: 'JoinGame',
   data () {
     return {
-        items: [
-            { id: 0, text: 'room1 \t 2/6' },
-            { id: 1, text: 'room2 \t 4/6' },
-            { id: 2, text: 'room3 \t 6/6' }
-        ]
+      items: [
+        { id: 0, text: 'room1 \t 2/6' },
+        { id: 1, text: 'room2 \t 4/6' },
+        { id: 2, text: 'room3 \t 6/6' }
+      ]
     }
   },
   methods: {

@@ -31,11 +31,11 @@ export default {
   name: 'Start',
   data () {
     return {
-        items: [
-            { id: 0, text: 'Player 1' },
-            { id: 1, text: 'Player 2' },
-            { id: 2, text: 'Player 3' }
-        ]
+      items: [
+        { id: 0, text: 'Player 1' },
+        { id: 1, text: 'Player 2' },
+        { id: 2, text: 'Player 3' }
+      ]
     }
   },
   methods: {
