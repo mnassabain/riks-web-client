@@ -6,6 +6,7 @@ import Register from '@/views/Register'
 import CreateGame from '@/views/CreateGame'
 import JoinGame from '@/views/JoinGame'
 import Start from '@/views/Start'
+//import GameWindow from '@/views/GameWindow'
 
 Vue.use(Router)
 
@@ -16,7 +17,8 @@ export default new Router({
     { path: '/Login', name: 'Login', component: Login },
     { path: '/CreateGame', name: 'CreateGame', component: CreateGame },
     { path: '/JoinGame', name: 'JoinGame', component: JoinGame },
-    { path: '/Start', name: 'Start', component: Start }
+    { path: '/Start', name: 'Start', component: Start },
+    // { path: '/GameWindow', name: 'GameWindow', component: GameWindow }
 
   ]
 })

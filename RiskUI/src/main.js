@@ -27,7 +27,7 @@ Vue.config.productionTip = false
 
 Vue.use(Vuetify)
 Vue.use(Raivue)
-Vue.use(VueSocketio, `//${window.location.host}`, store)
+Vue.use(VueSocketio, "http://192.168.43.17:9002", store)
 
 new Vue({
   router,

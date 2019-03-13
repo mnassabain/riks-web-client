@@ -14,7 +14,7 @@
             </ul>
           </div>
           <div class="form-group text-center">
-            <router-link :to="{ path: '' }" tag="button" class="btn form-control btn-success text-center">Start</router-link>
+            <router-link :to="{ path: '/GameWindow' }" tag="button" class="btn form-control btn-success text-center">Start</router-link>
             OR
             <router-link :to="{ path: '/Home' }" class="btn btn-link">Cancel</router-link>
           </div>
