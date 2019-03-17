@@ -27,9 +27,11 @@ export default new Vuex.Store({
   },
   mutations: {
     SOCKET_CONNECT (state) {
+      console.log("Connected")
       state.connected = true
     },
     SOCKET_DISCONNECT (state) {
+      console.log("Disconnected")
       state.connected = false
     },
     SOCKET_MESSAGE (state, message) {
@@ -44,6 +46,7 @@ export default new Vuex.Store({
     },
     SOCKET_ERROR (state, message) {
       state.error = message.error
+      console.log(message)
     },
     set_turn (state, team) {
       state.turn = team

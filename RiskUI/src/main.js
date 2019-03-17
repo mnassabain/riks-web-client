@@ -4,7 +4,7 @@
 import 'vuetify/dist/vuetify.min.css'
 import 'raivue/dist/raivue.css'
 
-import VueSocketio from 'vue-socket.io'
+import VueSocketIO from 'vue-socket.io'
 import Vuetify from 'vuetify'
 import Raivue from 'raivue'
 import Vue from 'vue'
@@ -27,7 +27,16 @@ Vue.config.productionTip = false
 
 Vue.use(Vuetify)
 Vue.use(Raivue)
-Vue.use(VueSocketio, "http://192.168.43.17:9002", store)
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: 'http://localhost:3000',
+  vuex: {
+      store,
+      actionPrefix: 'SOCKET_',
+      mutationPrefix: 'SOCKET_'
+  },
+  options: {transports: ['websocket'], upgrade: false}
+}))
 
 new Vue({
   router,

@@ -12,7 +12,8 @@
            <input v-model="password" type="password" placeholder="Password" class="form-control">
           </div>
           <div class="form-group text-center">
-            <router-link :to="{ path: '/Login' }" tag="button" class="btn form-control btn-success">Login</router-link>
+            <button v-on:click="loginUser">Greet</button>
+            <router-link :to="{ path: '/Login' }" v-on:click="loginUser" tag="button" class="btn form-control btn-success">Login</router-link>
             <router-link :to="{ path: '/Register' }" class="btn btn-link">Register</router-link>
           </div>
         </div>
@@ -32,7 +33,8 @@ export default {
   },
   methods: {
     loginUser () {
-      console.log(this.login, this.password)
+      console.log(this.$socket);
+      this.$socket.emit('test', {data:"test1"});
     }
   }
 }
