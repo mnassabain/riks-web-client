@@ -33,8 +33,8 @@ export default {
   },
   methods: {
     loginUser () {
-      console.log(this.$socket);
-      this.$socket.emit('test', {data:"test1"});
+      console.log(this.$socket)
+      this.$socket.emit('test', {data: 'test1'})
     }
   }
 }

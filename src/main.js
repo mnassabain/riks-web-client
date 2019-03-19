@@ -31,11 +31,11 @@ Vue.use(new VueSocketIO({
   debug: true,
   connection: 'http://localhost:3000',
   vuex: {
-      store,
-      actionPrefix: 'SOCKET_',
-      mutationPrefix: 'SOCKET_'
+    store,
+    actionPrefix: 'SOCKET_',
+    mutationPrefix: 'SOCKET_'
   },
-  options: {transports: ['websocket'], upgrade: false}
+  options: { transports: ['websocket'], upgrade: false }
 }))
 
 new Vue({

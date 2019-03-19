@@ -6,7 +6,7 @@ import Register from '@/views/Register'
 import CreateGame from '@/views/CreateGame'
 import JoinGame from '@/views/JoinGame'
 import Start from '@/views/Start'
-//import GameWindow from '@/views/GameWindow'
+// import GameWindow from '@/views/GameWindow'
 
 Vue.use(Router)
 

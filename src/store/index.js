@@ -27,11 +27,11 @@ export default new Vuex.Store({
   },
   mutations: {
     SOCKET_CONNECT (state) {
-      console.log("Connected")
+      console.log('Connected')
       state.connected = true
     },
     SOCKET_DISCONNECT (state) {
-      console.log("Disconnected")
+      console.log('Disconnected')
       state.connected = false
     },
     SOCKET_MESSAGE (state, message) {

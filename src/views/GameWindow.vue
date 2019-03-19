@@ -408,7 +408,8 @@ export default {
   methods: {
 
 /*********************************************************************************************************************/
-/*Menu button handling*/
+
+/* Menu button handling */
 /* When the user clicks on the button, toggle between hiding and showing the dropdown content */
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
@@ -800,8 +801,8 @@ body {
   font-family: Copperplate, serif;
 }
 
-#GameMap {
-}
+/* #GameMap {
+} */
 
 /* Tokens display NorthWest UI*/
 #tokens {
@@ -818,7 +819,7 @@ body {
   /*box-shadow: 8px 8px 10px -1px rgba(0,0,0,0.4);*/
 }
 
-#tokenTypeOne {
+/* #tokenTypeOne {
 }
 
 #tokenTypeTwo {
@@ -828,11 +829,10 @@ body {
 }
 
 #tokenTypeThree {
-}
+} */
 
 [id^="tokenType"],
 [id*="tokenType"] {
-  display: inline-block;
   float: left;
   margin: 2px 5px 0px 5px;
 }
@@ -1102,7 +1102,6 @@ p {
 }
 
 #playerControlMessage {
-  display: inline-block;
   float: left;
   width: 150px;
   color: #fdf6eb;
@@ -1141,7 +1140,6 @@ p {
 
 /* Play button on player control*/
 #phaseControlBtn {
-  display: inline-block;
   float: left;
   background-color: #fdf6eb;
   height: 50px;
@@ -1218,7 +1216,6 @@ p {
   height: 15px;
   background-color: rgb(225, 103, 103);
   float: left;
-  display: inline-block;
 }
 
 #ratioGreen {
@@ -1226,7 +1223,6 @@ p {
   height: 15px;
   background-color: rgb(90, 170, 83);
   float: left;
-  display: inline-block;
 }
 
 #ratioBlue {
@@ -1234,7 +1230,6 @@ p {
   height: 15px;
   background-color: #3d76e2;
   float: left;
-  display: inline-block;
 }
 
 #ratioPlayerFour {
@@ -1280,10 +1275,11 @@ p {
 }
 }*/
 /************************************************************************/
+/* 
 .draggable,
 .draggable-group {
-  /*cursor: move;*/
-}
+  cursor: move;
+} */
 
 /****************************************************************************/
 #timer {
