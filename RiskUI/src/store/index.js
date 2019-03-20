@@ -2,6 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import * as Cookies from 'js-cookie'
+import {
+  SOCKET_ONOPEN,
+  SOCKET_ONCLOSE,
+  SOCKET_ONERROR,
+  SOCKET_ONMESSAGE,
+  SOCKET_RECONNECT,
+  SOCKET_RECONNECT_ERROR
+} from './mutation-type'
 
 Vue.use(Vuex)
 const inFifteenMinutes = new Date(new Date().getTime() + 15 * 60 * 1000)
@@ -16,53 +24,32 @@ export default new Vuex.Store({
     }
   })],
   state: {
-    connected: false,
-    game: {},
-    room: '',
-    username: '',
-    error: '',
-    turn: ''
-  },
-  getters: {
+    socket: {
+      isConnected: false,
+      message: '',
+      reconnectError: false,
+    }
   },
   mutations: {
-    SOCKET_CONNECT (state) {
-      state.connected = true
+    [SOCKET_ONOPEN](state, event) {
+      state.socket.isConnected = true
     },
-    SOCKET_DISCONNECT (state) {
-      state.connected = false
+    [SOCKET_ONCLOSE](state, event) {
+      state.socket.isConnected = false
     },
-    SOCKET_MESSAGE (state, message) {
-      state.game = message
-      state.turn = message.starting_color
-      state.room = message.game_id
-      state.error = null
+    [SOCKET_ONERROR](state, event) {
+      console.error(state, event)
     },
-    SOCKET_JOIN_ROOM (state, message) {
-      state.error = null
-      state.room = message.room
+    // default handler called for all methods
+    [SOCKET_ONMESSAGE](state, message) {
+      state.socket.message = message
     },
-    SOCKET_ERROR (state, message) {
-      state.error = message.error
+    // mutations for reconnect methods
+    [SOCKET_RECONNECT](state, count) {
+      console.info(state, count)
     },
-    set_turn (state, team) {
-      state.turn = team
-    },
-    set_game (state, game) {
-      state.game = game
-    },
-    set_room (state, room) {
-      state.room = room
-    },
-    set_username (state, username) {
-      state.username = username
-    },
-    reset_error (state) {
-      state.room = ''
-      state.error = ''
-    },
-    reset_room (state) {
-      state.game = {}
+    [SOCKET_RECONNECT_ERROR](state) {
+      state.socket.reconnectError = true;
     }
   }
 })

@@ -4,15 +4,33 @@
 import 'vuetify/dist/vuetify.min.css'
 import 'raivue/dist/raivue.css'
 
-import VueSocketio from 'vue-socket.io'
 import Vuetify from 'vuetify'
 import Raivue from 'raivue'
 import Vue from 'vue'
 import { sync } from 'vuex-router-sync'
+import VueNativeSock from 'vue-native-websocket'
 import App from './App'
 import router from './router'
 import store from './store'
 import './registerServiceWorker'
+import {
+  SOCKET_ONOPEN,
+  SOCKET_ONCLOSE,
+  SOCKET_ONERROR,
+  SOCKET_ONMESSAGE,
+  SOCKET_RECONNECT,
+  SOCKET_RECONNECT_ERROR
+} from './store/mutation-type'
+
+const mutations = {
+  SOCKET_ONOPEN,
+  SOCKET_ONCLOSE,
+  SOCKET_ONERROR,
+  SOCKET_ONMESSAGE,
+  SOCKET_RECONNECT,
+  SOCKET_RECONNECT_ERROR
+}
+
 
 // add bugsnag
 import * as bugsnag from 'bugsnag-js'
@@ -27,7 +45,11 @@ Vue.config.productionTip = false
 
 Vue.use(Vuetify)
 Vue.use(Raivue)
-Vue.use(VueSocketio, `//${window.location.host}`, store)
+Vue.use(VueNativeSock, 'ws://192.168.43.58:9002', {
+  reconnection: true,
+  format: 'json', 
+  store: store,
+  mutations: mutations })
 
 new Vue({
   router,
