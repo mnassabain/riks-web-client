@@ -127,6 +127,7 @@
       id="GameMap"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1024 792"
+      v-on:load="init"
       width="100%"
       height="100%"
     >
@@ -396,14 +397,19 @@
 <script>
 
   // Import all the functions from GameWindowJS.js
-  import * as GameWindow from './GameWindowJS.js'
+  import * as GameWindow from '../js/GameWindowJS.js'
 
   export default {
     methods: {
-      dropdownClick : GameWindow.dropdownClick
+      dropdownClick : GameWindow.dropdownClick,
+      init : GameWindow.init
+    },
+    mounted () {
+      
     }
+
   }
 
 </script>
 
-<style src="./GameWindow.css" scoped></style>
+<style src="../css/GameWindow.css" scoped></style>

@@ -14,6 +14,9 @@ import router from './router'
 import store from './store'
 import './registerServiceWorker'
 
+// D3 library
+import * as d3 from 'd3'
+
 // add bugsnag
 import * as bugsnag from 'bugsnag-js'
 import * as bugsnagVue from 'bugsnag-vue'
@@ -52,3 +55,5 @@ new Vue({
     sync(store, router) // done. Returns an unsync callback fn
   }
 }).$mount('#app')
+
+Vue.use(d3)

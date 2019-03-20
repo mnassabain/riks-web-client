@@ -16,6 +16,7 @@
   "dependencies": {
     "bugsnag-js": "^4.7.2",
     "bugsnag-vue": "^1.0.1",
+    "d3": "^5.9.2",
     "js-cookie": "^2.2.0",
     "raivue": "^0.1.9",
     "register-service-worker": "^1.4.1",

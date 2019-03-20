@@ -93,9 +93,9 @@ export function init (evt) {
     endDrag(evt)
   })
 
-  planisphere.addEventListener('dblclick', function (evt) {
-    placeSoldier(evt)
-  })
+  // planisphere.addEventListener('dblclick', function (evt) {
+  //   placeSoldier(evt)
+  // })
 
   function getMousePosition (evt) {
     var CTM = svg.getScreenCTM()
@@ -130,7 +130,7 @@ export function init (evt) {
     offset.y -= transform.matrix.f
   }
 
-   function startDrag (evt) {
+  function startDrag (evt) {
     if (evt.target.classList.contains('draggable')) {
       selectedElement = evt.target
       console.log('if')
@@ -143,7 +143,7 @@ export function init (evt) {
     }
   }
 
-   function drag (evt) {
+  function drag (evt) {
     if (selectedElement) {
       evt.preventDefault()
       var coord = getMousePosition(evt)
@@ -151,47 +151,33 @@ export function init (evt) {
     }
   }
 
-   function endDrag (evt) {
+  function endDrag (evt) {
     selectedElement = false
   }
 
   /* Put a soldier svg element on county when double clicked
    *  issue : fix double soldier placement, ajust soldier position
    *  on some countries */
-   function placeSoldier (evt) {
-    var country = evt.target
+  // function placeSoldier (evt) {
+  //   var country = evt.target
 
-    var bbox = country.getBBox()
-    var x = Math.floor(bbox.x + bbox.width / 2.0) - 20
-    var y = Math.floor(bbox.y + bbox.height / 2.0) - 15
+  //   var bbox = country.getBBox()
+  //   var x = Math.floor(bbox.x + bbox.width / 2.0) - 20
+  //   var y = Math.floor(bbox.y + bbox.height / 2.0) - 15
 
-    /* console.log("Center of Path : x = " + x + " y = " + y);
+  //   var test = this.$d3.select(country.getAttribute('id')).toString()
+  //   console.log('id = ' + test)
 
-        var parentCountry = document.getElementById('matrix-group');
-        var rect = document.createElementNS(svgNS,'rect');
-        rect.setAttribute('x',x.toString());
-        rect.setAttribute('y',y.toString());
-        rect.setAttribute('width',"10");
-        rect.setAttribute('height',"10");
-        rect.setAttribute('fill','red');
-        rect.setAttribute('class', "draggable-group");
-        rect.setAttribute('transform', "matrix(1 0 0 1 0 0) translate(10, 0)");
-        parentCountry.appendChild(rect);
-    */
-
-    var test = d3.select(country.getAttribute('id')).toString()
-    console.log('id = ' + test)
-
-    var svg = d3
-      .select('#matrix-group g')
-      /* var svg = d3.select('#' + (country.getAttribute('id')).toString()) */
-      .append('svg:image')
-      .attr('xlink:href', 'assets/soldier.svg')
-      .attr('width', '40')
-      .attr('height', '40')
-      .attr('x', x.toString())
-      .attr('y', y.toString())
-  }
+  //   var svg = this.$d3
+  //     .select('#matrix-group g')
+  //     /* var svg = d3.select('#' + (country.getAttribute('id')).toString()) */
+  //     .append('svg:image')
+  //     .attr('xlink:href', 'assets/soldier.svg')
+  //     .attr('width', '40')
+  //     .attr('height', '40')
+  //     .attr('x', x.toString())
+  //     .attr('y', y.toString())
+  // }
 }
 
 // generic function to create an xml element
