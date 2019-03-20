@@ -2,7 +2,7 @@ module.exports = {
     lintOnSave: false,
     devServer: {
         proxy: {
-            '/socket.io': {
+            '/VueNativeSock': {
                 target: 'http://192.168.43.17:9002',
                 ws: true,
                 changeOrigin: true,
