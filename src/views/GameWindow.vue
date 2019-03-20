@@ -41,7 +41,7 @@
 
     <!--Menu button NorthEast UI-->
     <div class="dropdown">
-      <button id="menuBtn" onclick="myFunction()" class="dropbtn"></button>
+      <button id="menuBtn" onclick="GameWindowJS.dropdownClick()" class="dropbtn"></button>
       <div id="myDropdown" class="dropdown-content">
         <a href="#">Parameters</a>
         <a href="#">Quit</a>
@@ -104,10 +104,7 @@
 
     <div id="chat">
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-      <p>
-        Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
-      </p>
+      <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
       <p>nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit</p>
     </div>
 
@@ -130,7 +127,6 @@
       id="GameMap"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1024 792"
-      onload="init(evt)"
       width="100%"
       height="100%"
     >
@@ -397,369 +393,20 @@
   </div>
 </template>
 
-
-
 <script>
 
-export default {
-  name: 'GameWindow',
-  data () {
-  },
-  methods: {
+  import GameWindowJS from './GameWindowJS.js'
 
-/*********************************************************************************************************************/
-
-/* Menu button handling */
-/* When the user clicks on the button, toggle between hiding and showing the dropdown content */
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
-
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-            }
-        }
+  export default {
+    mounted() {
+      GameWindowJS.init()
     }
-}
-
-
-/*SVG map handling*/
-var svg;
-var doc;
-var map;
-var label;
-var text;
-var highlight;
-var countries;
-var seas;
-var viewbox;
-var centerX;
-var centerY;
-var mapTransform;
-var transformMatrix;
-var svgNS;
-var planisphere;
-
-var selectedElement, offset, transform;
-var el;
-
-/*Initialize the SVG map on the UI*/
-init = function( evt )
-{
-
-    svgNS = "http://www.w3.org/2000/svg";
-    svg = evt.target;
-    doc = svg.ownerDocument;
-    map = doc.getElementById( 'GameMap' );
-    planisphere = doc.getElementById('matrix-group');
-    label = newElement( 'text', 'id=label font-size=30 stroke=black fill=white stoke-width=50 text-insert=middle x=20 y=500' );
-    text = doc.createTextNode( 'Riks World' );
-    //label.appendChild( text );
-    svg.appendChild( label );
-    highlight = doc.getElementById( "highlight" );
-
-    countries = document.getElementsByClassName('country');
-
-    startChr();
-
-    for (var i = 0; i < countries.length; i++)
-    {
-        var country = countries[i];
-        country.addEventListener('mouseover', function(evt){
-            mouseoverCountry(evt);
-        });
-    }
-
-    seas = document.getElementsByClassName('sea');
-    for (var i = 0; i < seas.length; i++)
-    {
-        var sea = seas[i];
-        sea.addEventListener('mouseover', function(evt){
-            mouseoverSea(evt);
-        });
-    }
-
-    viewbox = svg.getAttributeNS(null, "viewBox").split(" ");
-    centerX = parseFloat(viewbox[2]) / 2;
-    centerY = parseFloat(viewbox[3]) / 2;
-    mapTransform = svg.getElementById("matrix-group");
-    transformMatrix = [1, 0, 0, 1, 0, 0];
-
-    planisphere.addEventListener('mousedown', function(evt){
-        startDrag(evt);
-    });
-    planisphere.addEventListener('mousemove', function(evt){
-        drag(evt);
-    });
-    planisphere.addEventListener('mouseup', function(evt){
-        endDrag(evt);
-    });
-    planisphere.addEventListener('mouseleave', function(evt){
-        endDrag(evt);
-    });
-
-    planisphere.addEventListener("dblclick", function (evt){
-        placeSoldier(evt);
-    });
-
-    getMousePosition = function(evt) {
-        var CTM = svg.getScreenCTM();
-        if (evt.touches) { evt = evt.touches[0]; }
-        return {
-            x: (evt.clientX - CTM.e) / CTM.a,
-            y: (evt.clientY - CTM.f) / CTM.d
-        };
-    }
-
-    initialiseDragging  = function(evt) {
-        offset = getMousePosition(evt);
-
-        // Make sure the first transform on the element is a translate transform
-        var transforms = selectedElement.transform.baseVal;
-
-        if (transforms.length === 0 || transforms.getItem(0).type !== SVGTransform.SVG_TRANSFORM_TRANSLATE) {
-            // Create an transform that translates by (0, 0)
-            var translate = svg.createSVGTransform();
-            translate.setTranslate(0, 0);
-            selectedElement.transform.baseVal.insertItemBefore(translate, 0);
-        }
-
-        // Get initial translation
-        transform = transforms.getItem(0);
-        offset.x -= transform.matrix.e;
-        offset.y -= transform.matrix.f;
-    }
-
-    startDrag = function(evt) {
-        if (evt.target.classList.contains('draggable')) {
-            selectedElement = evt.target;
-            console.log("if");
-            initialiseDragging(evt);
-
-        } else if (evt.target.parentNode.classList.contains('draggable-group')) {
-            selectedElement = evt.target.parentNode;
-            initialiseDragging(evt);
-
-            //console.log("else if");
-        }
-
-    }
-
-    drag = function(evt) {
-        if (selectedElement) {
-            evt.preventDefault();
-            var coord = getMousePosition(evt);
-            transform.setTranslate(coord.x - offset.x, coord.y - offset.y);
-        }
-    }
-
-    endDrag = function(evt) {
-        selectedElement = false;
-    }
-
-    /* Put a soldier svg element on county when double clicked
-    *  issue : fix double soldier placement, ajust soldier position
-    *  on some countries*/
-    placeSoldier = function(evt) {
-        var country = evt.target;
-
-        var bbox = country.getBBox();
-        var x = (Math.floor(bbox.x + bbox.width/2.0))-20;
-        var y = (Math.floor(bbox.y + bbox.height/2.0)-15);
-
-        /*console.log("Center of Path : x = " + x + " y = " + y);
-
-        var parentCountry = document.getElementById('matrix-group');
-        var rect = document.createElementNS(svgNS,'rect');
-        rect.setAttribute('x',x.toString());
-        rect.setAttribute('y',y.toString());
-        rect.setAttribute('width',"10");
-        rect.setAttribute('height',"10");
-        rect.setAttribute('fill','red');
-        rect.setAttribute('class', "draggable-group");
-        rect.setAttribute('transform', "matrix(1 0 0 1 0 0) translate(10, 0)");
-        parentCountry.appendChild(rect);
-    */
-
-        var test = (d3.select(country.getAttribute('id'))).toString();
-        console.log("id = " + test);
-
-        var svg = d3.select("#matrix-group g")
-        /*var svg = d3.select('#' + (country.getAttribute('id')).toString())*/
-            .append("svg:image")
-            .attr("xlink:href", "assets/soldier.svg")
-            .attr("width", "40")
-            .attr("height", "40")
-            .attr('x',x.toString())
-            .attr('y',y.toString());
-    }
-}
-
-// generic function to create an xml element
-newElement = function( type, attrs )
-{
-    var result = doc.createElementNS( "http://www.w3.org/2000/svg", type );
-    if( result )
-    {
-        attr = attrs.split( ' ' );
-        for( var i = 0; i < attr.length; i++ )
-        {
-            value = attr[i].split( '=' );
-            result.setAttribute( value[0], value[1] );
-        }
-    }
-    return result;
-}
-
-mouseoverSea = function( evt )
-{
-    var sea = evt.target;
-    highlight.setAttribute( 'd', 'm0 0' );
-    text.textContent = sea.getAttribute( 'id' );
-}
-
-/*Display country name when mouse hovers it  */
-mouseoverCountry = function( evt )
-{
-    var country = evt.target;
-    var outline = country.getAttribute( 'd' );
-    highlight.setAttribute( 'd', outline );
-    text.textContent = country.getAttribute( 'id' );
-}
-
-/***********************************************************************************************/
-
-/*Mouse wheel event handling */
-if (window.addEventListener) {
-    // IE9, Chrome, Safari, Opera
-    window.addEventListener("mousewheel", wheel, false);
-    // Firefox
-    window.addEventListener("DOMMouseScroll", wheel, false);
-}
-// IE 6/7/8
-else window.attachEvent("onmousewheel", wheel);
-
-wheel = function(event){
-    var e = window.event || e;
-    if (event.wheelDelta) { /* IE/Opera. */
-        delta = event.wheelDelta/120;
-    } else if (event.detail) { /* Mozilla case. */
-
-        delta = -event.detail/3;
-    }
-    if (delta)
-        handleWheelEvt(delta);
-
-    if (event.preventDefault)
-        event.preventDefault();
-    event.returnValue = false;
-}
-
-handleWheelEvt = function(delta) {
-    if (delta < 0) {
-        zoom(0.95);
-    } else {
-        zoom(1.05);
-    }
-}
-
-/******************************************************************************************************/
-/*Map position handling by incrementation of coordinates*/
-pan = function(dx, dy) {
-    transformMatrix[4] += dx;
-    transformMatrix[5] += dy;
-
-    var translateNames = function(x, y) {
-        return [x + dx, y + dy];
-    };
-
-    setMatrix(translateNames);
-}
-
-/*Map zoom handling*/
-zoom = function(scale) {
-    for (var i = 0; i < 6; i++) {
-        transformMatrix[i] *= scale;
-    }
-
-    transformMatrix[4] += (1 - scale) * centerX;
-    transformMatrix[5] += (1 - scale) * centerY;
-
-    var scaleNames = function(x, y) {
-        return [
-            centerX - (centerX - x) * scale,
-            centerY - (centerY - y) * scale
-        ];
-    };
-
-    setMatrix(scaleNames);
-}
-
-setMatrix = function(transformNames) {
-    var newTransform = "matrix(" +  transformMatrix.join(' ') + ")";
-    mapTransform.setAttributeNS(null, "transform", newTransform);
-
-}
-
-/*****************************************************************************************************/
-
-/* Timer handling : issue : the timer stops when the tab is not
- * focused on the browser */
-var tenthSec = 0;
-var seconds = 0;
-var minutes = 0;
-
-var startTimer = 0;
-
-chronometer = function() {
-    if(startTimer == 1) {
-        // set tenth of seconds
-        tenthSec += 1;
-
-        // set seconds
-        if(tenthSec > 9) {
-            tenthSec = 0;
-            seconds += 1;
-        }
-
-        // set minutes
-        if(seconds > 59) {
-            seconds = 0;
-            minutes += 1;
-        }
-
-        // adds data in #timer
-        document.getElementById('timer').innerHTML = minutes+ ' : '+ seconds;
-
-        setTimeout("chronometer()", 100);
-    }
-}
-
-/* starts the timer*/
- startChr = function() {
-    startTimer = 1;
-    chronometer();
-}
-
   }
-}
+
 </script>
 
-
-
-
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/*
-Colors palette:
+/*  Colors palette:
 
 Text #FDF6EB
 
@@ -783,13 +430,13 @@ Player orange #F0713C
 
 Player yellow #F6D63D
 
-Player purple #9367DA
-*/
+Player purple #9367DA   */
 
 @font-face {
   font-family: "Copperplate";
   src: url("/static/Copperplate-01.ttf");
 }
+
 html,
 body {
   width: 100%;
@@ -805,6 +452,7 @@ body {
 } */
 
 /* Tokens display NorthWest UI*/
+
 #tokens {
   width: 150px;
   height: 50px;
@@ -851,13 +499,13 @@ body {
 }
 
 /* Menu Button NorthEast UI */
+
 #menuBtn {
   background-color: #27282d;
   background-image: url(/static/menu.svg);
   background-size: 70% 70%;
   background-repeat: no-repeat;
   background-position: center;
-
   position: absolute;
   top: 0;
   right: 0;
@@ -875,6 +523,7 @@ body {
 }
 
 /* The container <div> - needed to position the dropdown content */
+
 .dropdown {
   width: 40px;
   height: 40px;
@@ -884,6 +533,7 @@ body {
 }
 
 /* Dropdown Content (Hidden by Default) */
+
 .dropdown-content {
   display: none;
   position: absolute;
@@ -895,6 +545,7 @@ body {
 }
 
 /* Links inside the dropdown */
+
 .dropdown-content a {
   color: #fdf6eb;
   padding: 12px 16px;
@@ -903,18 +554,22 @@ body {
 }
 
 /* Change color of dropdown links on hover */
+
 .dropdown-content a:hover {
   background-color: #fdf6eb;
   color: #27282d;
 }
 
 /* Show the dropdown menu */
+
 .show {
   display: block;
 }
 
 /*-----------------------------------------------------------*/
+
 /* Players list on southeast UI*/
+
 ul {
   position: absolute;
   bottom: -15px;
@@ -922,6 +577,7 @@ ul {
 }
 
 /* Elements of players list*/
+
 li[id^="playerSlot"],
 li[id*="playerSlot"] {
   width: 160px;
@@ -962,6 +618,7 @@ li[id*="playerSlot"] {
   bottom: 180px;
   color: rgb(223, 111, 73);
 }
+
 #playerSlotSix {
   bottom: 225px;
   color: rgb(147, 107, 216);
@@ -981,22 +638,27 @@ li[id*="playerSlot"] {
   border-left-color: #3d76e2;
   border-top-color: #3d76e2;
 }
+
 #playerSlotTwo::after {
   border-left-color: #df4c4c;
   border-top-color: #df4c4c;
 }
+
 #playerSlotThree::after {
   border-left-color: #59ad4a;
   border-top-color: #59ad4a;
 }
+
 #playerSlotFour::after {
   border-left-color: #f6d63d;
   border-top-color: #f6d63d;
 }
+
 #playerSlotFive::after {
   border-left-color: #f0713c;
   border-top-color: #f0713c;
 }
+
 #playerSlotSix::after {
   border-left-color: #9367da;
   border-top-color: #9367da;
@@ -1037,6 +699,7 @@ li[id*="playerSlot"] {
 }*/
 
 /* Player name*/
+
 p {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -1047,6 +710,7 @@ p {
 }
 
 /*Display specific player info on mouse hover West UI*/
+
 .playerListContainer {
   bottom: 0;
   left: 100%;
@@ -1068,6 +732,7 @@ p {
   width: 0px;
   height: 100px;
 }
+
 .playerListContainer:hover .playerInfosOverlay {
   width: 300px;
   left: 0;
@@ -1086,7 +751,9 @@ p {
 }
 
 /************************************************************************/
+
 /* Player controls southwest UI*/
+
 #playerControls {
   width: 300px;
   height: 60px;
@@ -1116,6 +783,7 @@ p {
 }
 
 /* Current Phase indicator on player control*/
+
 /*#playerControlCurrentPhase {
     width: 120px;
     height: 50px;
@@ -1139,6 +807,7 @@ p {
 }
 
 /* Play button on player control*/
+
 #phaseControlBtn {
   float: left;
   background-color: #fdf6eb;
@@ -1159,6 +828,7 @@ p {
 }
 
 /* Combat zone on south UI*/
+
 #combat {
   position: absolute;
   bottom: 0;
@@ -1194,8 +864,11 @@ p {
   font-size: 1.5em;
   font-weight: bold;
 }
+
 /* ------------------------------------------------------------------------*/
+
 /* Ratio bar on north UI*/
+
 #ratioBar {
   position: absolute;
   top: 0;
@@ -1235,14 +908,19 @@ p {
 #ratioPlayerFour {
   background-color: rgb(227, 199, 92);
 }
+
 #ratioPlayerFive {
   background-color: rgb(223, 111, 73);
 }
+
 #ratioPlayerSix {
   background-color: rgb(147, 107, 216);
 }
+
 /***************************************************************************/
+
 /*Active player display on north UI (under the ratio bar)*/
+
 /*#activePlayerDisplay{
     position: absolute;
     top: 20px;
@@ -1257,6 +935,7 @@ p {
 }*/
 
 /*****************************************************************************/
+
 /*
 .compass {
     fill: #fff;
@@ -1274,14 +953,17 @@ p {
     stroke-width: 1;
 }
 }*/
+
 /************************************************************************/
-/* 
+
+/*
 .draggable,
 .draggable-group {
   cursor: move;
 } */
 
 /****************************************************************************/
+
 #timer {
   width: 60px;
   height: 25px;
