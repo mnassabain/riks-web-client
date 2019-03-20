@@ -1,15 +1,12 @@
-
-
-export function dropdownClick(){
+export function dropdownClick () {
   document.getElementById('myDropdown').classList.toggle('show');
 }
 /*********************************************************************************************************************/
 /* Menu button handling */
 /* When the user clicks on the button, toggle between hiding and showing the dropdown content */
 
-
 // Close the dropdown menu if the user clicks outside of it
-/*window.onclick = function (event) {
+window.onclick = function (event) {
   if (!event.target.matches('.dropbtn')) {
     var dropdowns = document.getElementsByClassName('dropdown-content')
     var i
@@ -20,7 +17,7 @@ export function dropdownClick(){
       }
     }
   }
-}*/
+}
 
 /* SVG map handling */
 var svg
@@ -111,7 +108,7 @@ export function init (evt) {
     }
   }
 
-  export function initialiseDragging (evt) {
+  function initialiseDragging (evt) {
     offset = getMousePosition(evt)
 
     // Make sure the first transform on the element is a translate transform
@@ -133,7 +130,7 @@ export function init (evt) {
     offset.y -= transform.matrix.f
   }
 
-  export function startDrag (evt) {
+   function startDrag (evt) {
     if (evt.target.classList.contains('draggable')) {
       selectedElement = evt.target
       console.log('if')
@@ -146,7 +143,7 @@ export function init (evt) {
     }
   }
 
-  export function drag (evt) {
+   function drag (evt) {
     if (selectedElement) {
       evt.preventDefault()
       var coord = getMousePosition(evt)
@@ -154,14 +151,14 @@ export function init (evt) {
     }
   }
 
-  export function endDrag (evt) {
+   function endDrag (evt) {
     selectedElement = false
   }
 
   /* Put a soldier svg element on county when double clicked
    *  issue : fix double soldier placement, ajust soldier position
    *  on some countries */
-  export function placeSoldier (evt) {
+   function placeSoldier (evt) {
     var country = evt.target
 
     var bbox = country.getBBox()
