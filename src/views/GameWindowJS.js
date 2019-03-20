@@ -1,12 +1,15 @@
+
+
+export function dropdownClick(){
+  document.getElementById('myDropdown').classList.toggle('show');
+}
 /*********************************************************************************************************************/
 /* Menu button handling */
 /* When the user clicks on the button, toggle between hiding and showing the dropdown content */
-function dropdownClick () {
-  document.getElementById('myDropdown').classList.toggle('show')
-}
+
 
 // Close the dropdown menu if the user clicks outside of it
-window.onclick = function (event) {
+/*window.onclick = function (event) {
   if (!event.target.matches('.dropbtn')) {
     var dropdowns = document.getElementsByClassName('dropdown-content')
     var i
@@ -17,7 +20,7 @@ window.onclick = function (event) {
       }
     }
   }
-}
+}*/
 
 /* SVG map handling */
 var svg
@@ -40,7 +43,7 @@ var selectedElement, offset, transform
 var el
 
 /* Initialize the SVG map on the UI */
-function init () {
+export function init (evt) {
   svgNS = 'http://www.w3.org/2000/svg'
   svg = evt.target
   doc = svg.ownerDocument
@@ -108,7 +111,7 @@ function init () {
     }
   }
 
-  function initialiseDragging (evt) {
+  export function initialiseDragging (evt) {
     offset = getMousePosition(evt)
 
     // Make sure the first transform on the element is a translate transform
@@ -130,7 +133,7 @@ function init () {
     offset.y -= transform.matrix.f
   }
 
-  function startDrag (evt) {
+  export function startDrag (evt) {
     if (evt.target.classList.contains('draggable')) {
       selectedElement = evt.target
       console.log('if')
@@ -143,7 +146,7 @@ function init () {
     }
   }
 
-  function drag (evt) {
+  export function drag (evt) {
     if (selectedElement) {
       evt.preventDefault()
       var coord = getMousePosition(evt)
@@ -151,14 +154,14 @@ function init () {
     }
   }
 
-  function endDrag (evt) {
+  export function endDrag (evt) {
     selectedElement = false
   }
 
   /* Put a soldier svg element on county when double clicked
    *  issue : fix double soldier placement, ajust soldier position
    *  on some countries */
-  function placeSoldier (evt) {
+  export function placeSoldier (evt) {
     var country = evt.target
 
     var bbox = country.getBBox()
@@ -195,7 +198,7 @@ function init () {
 }
 
 // generic function to create an xml element
-function newElement (type, attrs) {
+export function newElement (type, attrs) {
   var result = doc.createElementNS('http://www.w3.org/2000/svg', type)
   if (result) {
     attr = attrs.split(' ')
@@ -207,14 +210,14 @@ function newElement (type, attrs) {
   return result
 }
 
-function mouseoverSea (evt) {
+export function mouseoverSea (evt) {
   var sea = evt.target
   highlight.setAttribute('d', 'm0 0')
   text.textContent = sea.getAttribute('id')
 }
 
 /* Display country name when mouse hovers it  */
-function mouseoverCountry (evt) {
+export function mouseoverCountry (evt) {
   var country = evt.target
   var outline = country.getAttribute('d')
   highlight.setAttribute('d', outline)
@@ -233,7 +236,7 @@ if (window.addEventListener) {
 // IE 6/7/8
 else window.attachEvent('onmousewheel', wheel)
 
-function wheel (event) {
+export function wheel (event) {
   var e = window.event || e
   if (event.wheelDelta) {
     /* IE/Opera. */
@@ -249,7 +252,7 @@ function wheel (event) {
   event.returnValue = false
 }
 
-function handleWheelEvt (delta) {
+export function handleWheelEvt (delta) {
   if (delta < 0) {
     zoom(0.95)
   } else {
@@ -259,7 +262,7 @@ function handleWheelEvt (delta) {
 
 /******************************************************************************************************/
 /* Map position handling by incrementation of coordinates */
-function pan (dx, dy) {
+export function pan (dx, dy) {
   transformMatrix[4] += dx
   transformMatrix[5] += dy
 
@@ -271,7 +274,7 @@ function pan (dx, dy) {
 }
 
 /* Map zoom handling */
-function zoom (scale) {
+export function zoom (scale) {
   for (var i = 0; i < 6; i++) {
     transformMatrix[i] *= scale
   }
@@ -286,7 +289,8 @@ function zoom (scale) {
   setMatrix(scaleNames)
 }
 
-function setMatrix (transformNames) {
+
+export function setMatrix (transformNames) {
   var newTransform = 'matrix(' + transformMatrix.join(' ') + ')'
   mapTransform.setAttributeNS(null, 'transform', newTransform)
 }
@@ -301,7 +305,7 @@ var minutes = 0
 
 var startTimer = 0
 
-function chronometer () {
+export function chronometer () {
   if (startTimer === 1) {
     // set tenth of seconds
     tenthSec += 1
@@ -326,7 +330,7 @@ function chronometer () {
 }
 
 /* starts the timer */
-function startChr () {
+export function startChr () {
   startTimer = 1
   chronometer()
 }

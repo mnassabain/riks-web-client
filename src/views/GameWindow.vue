@@ -41,7 +41,7 @@
 
     <!--Menu button NorthEast UI-->
     <div class="dropdown">
-      <button id="menuBtn" onclick="GameWindowJS.dropdownClick()" class="dropbtn"></button>
+      <button id="menuBtn" v-on:click="dropdownClick()" class="dropbtn"></button>
       <div id="myDropdown" class="dropdown-content">
         <a href="#">Parameters</a>
         <a href="#">Quit</a>
@@ -395,11 +395,11 @@
 
 <script>
 
-  import GameWindowJS from './GameWindowJS.js'
+  import * as GameWindow from './GameWindowJS.js'
 
   export default {
-    mounted() {
-      GameWindowJS.init()
+    methods: {
+      dropdownClick : GameWindow.dropdownClick
     }
   }
 
