@@ -1,5 +1,5 @@
 export function dropdownClick () {
-  document.getElementById('myDropdown').classList.toggle('show');
+  document.getElementById('myDropdown').classList.toggle('show')
 }
 /*********************************************************************************************************************/
 /* Menu button handling */

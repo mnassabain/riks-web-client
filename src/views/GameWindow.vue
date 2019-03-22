@@ -393,7 +393,6 @@
     </svg>
   </div>
 </template>
-
 <script>
 
   // Import all the functions from GameWindowJS.js
@@ -405,7 +404,7 @@
       init : GameWindow.init
     },
     mounted () {
-      
+
     }
 
   }
