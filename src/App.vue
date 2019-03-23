@@ -1,7 +1,7 @@
 
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png" style="width:40%"> -->
+    <!-- <img src="./assets/logo.svg" style="width:40%"> -->
     <div class="container">
       <router-view></router-view>
     </div>
@@ -25,7 +25,8 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Copperplate';
+  src:  url('./assets/fonts/Copperplate.ttf');
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

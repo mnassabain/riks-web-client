@@ -1,0 +1,72 @@
+
+/*
+Colors palette:
+
+Text #FDF6EB
+Icons in the interface #FBE3C2
+Interface accent color #F9CE93
+Interface background #27282D
+Interface grey contrast element #5D5D61
+Water #2E4267
+Player red #DF4C4C
+Player blue #3D76E2
+Player green #59AD4A
+Player orange #F0713C
+Player yellow #F6D63D
+Player purple #9367DA
+*/
+
+@font-face {
+    font-family: 'Copperplate';
+    src:  url('../assets/fonts/Copperplate.ttf');
+}
+
+html, body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #27282D;
+    font-family: Copperplate;
+    color: #FDF6EB;
+    height: 100vh;
+	width: 100vw;
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+
+/* Boutons */
+
+.button {
+  border: none;
+  padding: 10px 10px;
+  width: 80%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 23px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: #27282D;
+  color: #FDF6EB;
+  border: 3px solid #F9CE93;
+  border-radius: 8px;
+}
+
+.button1:hover {
+  background-color: #FBE3C2;
+  border: 3px solid #FBE3C2;
+  color: #27282D;
+  border-radius: 8px;
+}
