@@ -1,22 +1,23 @@
 <template>
 <body>
-    <div class="col-lg-6">
-      <img src="../assets/logo.svg" class="img-fluid" alt="Responsive image">
-      <h3 class="text-center my-4">Login</h3>
-      <div class="form-group">
-        <input v-model="login" type="text" placeholder="Login" class="form-control">
+    <div class="col-lg-5">
+      <img src="../assets/logo.svg" class="img-fluid mb-2" alt="Responsive image">
+      <h1 class="text-center mb-4">The game of global domination</h1>
+      <div class="form-group my-3 mt-5">
+        <input v-model="login" type="text" class="my-1" placeholder="LogIn">
+        <input v-model="password" type="password" class="my-1 mb-2" placeholder="Password">
       </div>
-      <div class="form-group">
-        <input v-model="password" type="password" placeholder="Password" class="form-control">
-      </div>
-      <div class="form-group text-center">
+      <div class="text-center mt-4">
         <router-link
           :to="{ path: '/Login' }"
           v-on:click="loginUser"
           tag="button"
-          class="button button1"
-        >Login</router-link>
-        <router-link :to="{ path: '/Register' }" class="button button1">Register</router-link>
+          class="button login-button my-1"
+        >Log In</router-link>
+      </div>
+      <div class="text-center mt-5">
+        <h3>Not registered yet?</h3>
+        <router-link :to="{ path: '/Register' }" class="button register-button my-1">Register</router-link>
       </div>
     </div>
 </body>

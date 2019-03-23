@@ -1,4 +1,3 @@
-
 /*
 Colors palette:
 
@@ -17,56 +16,90 @@ Player purple #9367DA
 */
 
 @font-face {
-    font-family: 'Copperplate';
-    src:  url('../assets/fonts/Copperplate.ttf');
+  font-family: "Copperplate";
+  src: url("../assets/fonts/Copperplate.ttf");
 }
 
-html, body{
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #27282D;
-    font-family: Copperplate;
-    color: #FDF6EB;
-    height: 100vh;
-	width: 100vw;
-	position: absolute;
-	left: 0;
-	top: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #27282d;
+  font-family: Copperplate;
+  color: #fdf6eb;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-
-/* Boutons */
+/* * Boutons */
 
 .button {
   border: none;
-  padding: 10px 10px;
+  padding: 5px 0px;
   width: 80%;
+  border-radius: 8px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 23px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
+  font-size: 26px;
   transition-duration: 0.4s;
   cursor: pointer;
 }
 
-.button1 {
-  background-color: #27282D;
-  color: #FDF6EB;
-  border: 3px solid #F9CE93;
-  border-radius: 8px;
+.login-button {
+  background-color: #f9ce93;
+  color: #27282d;
+  border: 3px solid #f9ce93;
+  font-weight: bold;
+}
+.login-button:hover {
+  background-color: #5cb14d;
+  border: 3px solid #5cb14d;
+  color: #27282d;
 }
 
-.button1:hover {
-  background-color: #FBE3C2;
-  border: 3px solid #FBE3C2;
-  color: #27282D;
-  border-radius: 8px;
+.register-button {
+  background-color: #27282d;
+  color: #fdf6eb;
+  border: 3px solid #f9ce93;
+  width: 60%;
+  font-size: 23px;
+}
+.register-button:hover {
+  background-color: #fbe3c2;
+  border: 3px solid #fbe3c2;
+  color: #27282d;
+  width: 60%;
+  font-size: 23px;
+}
+
+/* * Input */
+
+input {
+  width: 100%;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border-color: transparent;
+  border-bottom: 2px solid #f9ce93;
+  outline: none;
+  font-size: 20px;
+  transition-duration: 0.4s;
+  margin: 1vh;
+}
+input:hover {
+  background-color: #48484d;
+  border-radius: 5px 5px 0px 0px;
+}
+input:focus {
+  background-color: #48484d;
+  border-radius: 5px 5px 0px 0px;
 }
