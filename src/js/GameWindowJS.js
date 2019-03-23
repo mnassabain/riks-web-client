@@ -316,4 +316,3 @@ export function chronometer () {
 export function startChr () {
   startTimer = 1
   chronometer()
-}
