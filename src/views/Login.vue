@@ -1,7 +1,6 @@
 <template>
   <div class="row my-5">
     <div class="col-md-6 offset-md-3">
-      <h1> Welcome to Risk game </h1>
       <div class="card">
         <div class="card-body">
           <div class="form-group text-center">
