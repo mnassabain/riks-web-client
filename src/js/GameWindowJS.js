@@ -272,7 +272,6 @@ export function zoom (scale) {
   setMatrix(scaleNames)
 }
 
-
 export function setMatrix (transformNames) {
   var newTransform = 'matrix(' + transformMatrix.join(' ') + ')'
   mapTransform.setAttributeNS(null, 'transform', newTransform)
@@ -308,7 +307,7 @@ export function chronometer () {
     // adds data in #timer
     document.getElementById('timer').innerHTML = minutes + ' : ' + seconds
 
-    setTimeout('chronometer()', 100)
+    setTimeout(chronometer(), 100)
   }
 }
 
@@ -316,3 +315,4 @@ export function chronometer () {
 export function startChr () {
   startTimer = 1
   chronometer()
+}
