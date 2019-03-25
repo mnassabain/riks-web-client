@@ -1,34 +1,21 @@
 /*
-
 Colors palette:
 
 Text #FDF6EB
-
 Icons in the interface #FBE3C2
-
 Interface accent color #F9CE93
-
 Interface background #27282D
-
 Interface grey contrast element #5D5D61
-
 Water #2E4267
-
 Player red #DF4C4C
-
 Player blue #3D76E2
-
 Player green #59AD4A
-
 Player orange #F0713C
-
 Player yellow #F6D63D
-
 Player purple #9367DA
-
 */
 
-@font-face {
+ @font-face {
     font-family: 'Copperplate';
     src:  url('../assets/fonts/Copperplate.ttf');
 }
@@ -43,7 +30,14 @@ html, body{
     font-family: Copperplate, serif;
 }
 
-#GameMap {
+#frame {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #2E4267;
+    font-family: Copperplate, serif;
 }
 
 /* Tokens display NorthWest UI*/
@@ -61,20 +55,7 @@ html, body{
     /*box-shadow: 8px 8px 10px -1px rgba(0,0,0,0.4);*/
 }
 
-#tokenTypeOne{
-}
-
-#tokenTypeTwo {
-}
-
-#tokenTypeThree{
-}
-
-#tokenTypeThree{
-}
-
 [id^='tokenType'], [id*='tokenType']{
-    display: inline-block;
     float: left;
     margin : 2px 5px 0px 5px;
 }
@@ -88,7 +69,6 @@ html, body{
 [id^='nbTokenType'], [id*='nbTokenType']{
     color: #FDF6EB;
     text-align: center;
-
 }
 
 /* Menu Button NorthEast UI */
@@ -98,8 +78,6 @@ html, body{
     background-size: 70% 70%;
     background-repeat: no-repeat;
     background-position: center;
-
-
     position: absolute;
     top: 0;
     right: 0;
@@ -115,7 +93,6 @@ html, body{
     cursor: pointer;
    /* box-shadow: -8px 8px 10px -1px rgba(0,0,0,0.4);*/
 }
-
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
@@ -156,17 +133,12 @@ html, body{
     display:block;
 }
 
-
 /*-----------------------------------------------------------*/
 /* Players list on southeast UI*/
-ul{
-    position: absolute;
-    bottom: -15px;
-    right: 0;
-}
 
 /* Elements of players list*/
 li[id^='playerSlot'], li[id*='playerSlot'] {
+    position: absolute;
     width : 160px;
     height: 36px;
     background-color: #27282D;
@@ -211,7 +183,7 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     color: rgb(147,107,216);
 }
 
-[id^='playerSlot']::after {
+[id^="playerSlot"]::after {
     content: '';
     position: absolute;
     top: 1px;
@@ -246,91 +218,176 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     border-top-color: #9367DA;
 }
 
+[id^="playerSlot"][id$="Info"]{
+    right: 170px;
+    width: 0px;
+    border: transparent;
+    -webkit-transition: width 2s ease-out; /* For Safari 3.1 to 6.0 */
+    transition: width 0.3s ease-out;
+    overflow: hidden;
+}
 
-/*#playerSlotOne {
+#playerSlotOneInfo {
     bottom: 0px;
-    border: solid 4px #F9CE93;
     color: rgb(64,121,221);
 }
-
-#playerSlotTwo {
-    bottom: 45px;
-    color: rgb(225,103,103);
-}
-
-#playerSlotThree {
-    bottom: 90px;
-    color: rgb(90,170,83);
-}
-
-#playerSlotFour {
-    bottom: 0px;
-    right: 155px;
-    color: rgb(227,199,92);
-}
-
-#playerSlotFive {
-    bottom: 45px;
-    right: 155px;
-
-    color:  rgb(223,111,73);
-}
-#playerSlotSix {
-    bottom: 90px;
-    right: 155px;
-    color: rgb(147,107,216);
-}*/
-
-
-/* Player name*/
-p{
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    height: 1em;
-    margin: 10px 0px;
-    text-align: center;
-}
-
-/*Display specific player info on mouse hover West UI*/
-.playerListContainer{
-    bottom: 0;
-    left: 100%;
-    width: 0;
-    transition: .5s ease;
-    position: absolute;
-    right: 5px;
-    height: 200px;
-    background-color: #27282D;
+#playerSlotOne:hover ~ #playerSlotOneInfo {
+    width: 260px;
     border: solid 2px #F9CE93;
 }
 
-.playerInfosOverlay{
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background-color: #3D76E2;
+#playerSlotTwoInfo {
+    bottom: 45px;
+    color: rgb(225,103,103);
+}
+#playerSlotTwo:hover ~ #playerSlotTwoInfo {
+    width: 260px;
+    border: solid 2px #F9CE93;
+}
+
+#playerSlotThreeInfo {
+    bottom: 90px;
+    color: rgb(90,170,83);
+}
+#playerSlotThree:hover ~ #playerSlotThreeInfo {
+    width: 260px;
+    border: solid 2px #F9CE93;
+}
+
+#playerSlotFourInfo {
+    bottom: 135px;
+    color: rgb(227,199,92);
+}
+#playerSlotFour:hover ~ #playerSlotFourInfo {
+    width: 260px;
+    border: solid 2px #F9CE93;
+}
+
+#playerSlotFiveInfo {
+    bottom: 180px;
+    color:  rgb(223,111,73);
+}
+#playerSlotFive:hover ~ #playerSlotFiveInfo {
+     width: 260px;
+     border: solid 2px #F9CE93;
+}
+
+#playerSlotSixInfo {
+    bottom: 225px;
+    color: rgb(147,107,216);
+}
+#playerSlotSix:hover ~ #playerSlotSixInfo {
+     width: 260px;
+     border: solid 2px #F9CE93;
+}
+
+[id^='player'][id*='TokenType']{
+    float: left;
+    margin : 4px 5px 0px 5px;
+}
+
+[id^='player'][id*='TokenType'] > img {
+    width: 25px;
+    height: 25px;
+    fill: #FBE3C2;
+}
+
+[id^='player'][id*='NbTokenType']{
+    color: #FDF6EB;
+    text-align: center;
+}
+
+/* Player name*/
+[id^='player'][id$='Name'] > p{
+    text-overflow: ellipsis;
     overflow: hidden;
-    width: 0px;
-    height: 100px;
+    white-space: nowrap;
+    margin: 4px 0px;
+    text-align: center;
+    height: 1.5em;
 }
-.playerListContainer:hover .playerInfosOverlay{
-    width: 300px;
-    left: 0;
-}
+
+
+/****************************************************************************/
 
 #chat{
     position: absolute;
-    left: 50px;
-    bottom: -50px;
-    width: 300px;
+    left: 20px;
+    bottom: 100px;
+    width: 350px;
     height: 300px;
+    border: solid 2px #FBE3C2;
+    border-radius: 4px;
+    opacity: 0.5;
 }
 
-#chat > p{
+#chat:hover{
+    opacity: 1;
+}
+
+#chatHeader {
+    padding:5px 10px;
     color: #FDF6EB;
 }
 
+#chatTitle {
+    float:left;
+    margin: 0;
+    padding: 0;
+}
+
+.hideBtn { float:right; }
+
+#chat ~ form, p {
+    margin:0;
+    padding:0;
+}
+
+#chatWindow {
+    text-align:left;
+    margin:0 auto;
+    height:240px;
+    width:330px;
+    border:1px solid #FDF6EB;
+    color : #FDF6EB;
+    overflow:auto;
+    box-sizing:border-box;
+    padding: 5px 10px;
+
+}
+
+#chatWindow > p {
+    text-align: left;
+    word-wrap: break-word;
+    margin-top: 5px;
+}
+
+#chatForm {
+    margin: 5px 10px;
+    padding: 0px;
+}
+
+#playerMsgInput {
+    width: 250px;
+    height: 20px;
+    font-size:12px;
+    font-family: Copperplate, serif;
+    border: 1px solid #FDF6EB;
+    border-radius: 2px;
+    opacity: 0.5;
+}
+
+#submitMsgBtn {
+    width: 70px;
+    height: 25px;
+    color: #FDF6EB;
+    font-size:12px;
+    font-family: Copperplate, serif;
+    background-color: transparent;
+    border: solid 1px #FDF6EB;
+    border-radius: 5px;
+    opacity: 0.9;
+}
 
 /************************************************************************/
 /* Player controls southwest UI*/
@@ -346,10 +403,10 @@ p{
     /*box-shadow: 8px -8px 16px -2px rgba(0,0,0,0.4);*/
     margin-left: 5px;
     margin-bottom: 5px;
+    line-height: normal;
 }
 
 #playerControlMessage{
-    display: inline-block;
     float: left;
     width: 150px;
     color: #FDF6EB;
@@ -363,17 +420,6 @@ p{
     font-size: 1.5em;
     font-weight: bold;
 }
-
-
-/* Current Phase indicator on player control*/
-/*#playerControlCurrentPhase {
-    width: 120px;
-    height: 50px;
-    margin: 5px 5px;
-    background-color: #F9CE93;
-    display: inline-block;
-    float: left;
-}*/
 
 #playerControls::after {
     content: '';
@@ -390,8 +436,7 @@ p{
 
 /* Play button on player control*/
 #phaseControlBtn {
-    display: inline-block;
-    float: left;
+    float: right;
     background-color: #FDF6EB;
     height: 50px;
     width: 100px;
@@ -399,7 +444,7 @@ p{
     border-radius: 12px;
     outline: none;
     border: none;
-    font-family: Copperplate;
+    font-family: Copperplate, Serif;
     font-weight: bold;
     text-align: left;
     font-size: 1.3em;
@@ -408,7 +453,6 @@ p{
 #phaseControlBtn::-moz-focus-inner {
     border: 0;
 }
-
 
 /* Combat zone on south UI*/
 #combat {
@@ -439,7 +483,7 @@ p{
     top: 20px;
     text-align: center;
     font-size: 1.5em;
-
+    line-height: normal;
 }
 
 #combat > div > span {
@@ -452,7 +496,7 @@ p{
 #ratioBar {
     position: absolute;
     top: 0;
-    width: 500px;
+    width: 600px;
     height: 10px;
     border: 2px solid #F9CE93;
     /*box-shadow: 0px 8px 10px 0px rgba(0,0,0,0.4);*/
@@ -464,77 +508,46 @@ p{
     overflow: hidden;
 }
 
-#ratioRed {
-    width: 140px;
+#ratioPlayerOne {
+    width: 100px;
     height: 15px;
     background-color: rgb(225,103,103);
     float: left;
-    display: inline-block;
-
 }
 
-#ratioGreen {
+#ratioPlayerTwo {
     width: 100px;
     height: 15px;
     background-color: rgb(90,170,83);
     float: left;
-    display: inline-block;
 }
 
-#ratioBlue {
+#ratioPlayerThree {
     width: 100px;
     height: 15px;
     background-color: #3D76E2;
     float: left;
-    display: inline-block;
 }
-
 
 #ratioPlayerFour {
     background-color: rgb(227,199,92);
+    width: 100px;
+    height: 15px;
+    float: left;
 }
+
 #ratioPlayerFive {
-    background-color:  rgb(223,111,73);
+    background-color: #DF4C4C;
+    width: 100px;
+    height: 15px;
+    float: left;
 }
+
 #ratioPlayerSix {
     background-color: rgb(147,107,216);
-}
-/***************************************************************************/
-/*Active player display on north UI (under the ratio bar)*/
-/*#activePlayerDisplay{
-    position: absolute;
-    top: 20px;
-    width: 200px;
-    height: 100px;
-    background-color: rgba(238,232,170,0.5);
-    box-shadow: 0px 8px 10px 0px rgba(0,0,0,0.4);
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-}*/
-
-/*****************************************************************************/
-/*
-.compass {
-    fill: #fff;
-    stroke: #000;
-    stroke-width: 1;
-}
-.button {
-    fill: rgb(43,44,49);
-    stroke: rgb(249,204,150);
-    stroke-width: 0.5;
-    stroke-miterlimit:6;
-    stroke-linecap: round;
-}
-.button:hover {
-    stroke-width: 1;
-}
-}*/
-/************************************************************************/
-.draggable, .draggable-group {
-    /*cursor: move;*/
+    width: 100px;
+    height: 15px;
+    float: left;
 }
 
 /****************************************************************************/
