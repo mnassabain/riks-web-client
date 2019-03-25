@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import {Packet} from "../Packet.js";
+
 export default {
   name: 'Home',
   data () {
@@ -42,13 +44,14 @@ export default {
     connection() {
       localStorage.login = this.login
       localStorage.password = this.password
-      const params = {
-        login: this.login,
-        password: this.password,
+      var params = {
+        userID: this.login,
+        userPassword: this.password,
       };
-      console.log("socketttttt")
-      var test = {type: "hello"};
-      this.$socket.send(JSON.stringify(test))
+
+      
+
+      this.$socket.send(new Packet("CONNECT", params).getJson());
     }
   }
 }

@@ -45,7 +45,7 @@ Vue.config.productionTip = false
 
 Vue.use(Vuetify)
 Vue.use(Raivue)
-Vue.use(VueNativeSock, 'ws://192.168.43.58:9002', {
+Vue.use(VueNativeSock, 'ws://diiiazote.tk:9002', {
   reconnection: true,
   format: 'json', 
   store: store,

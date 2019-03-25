@@ -32,6 +32,7 @@ export default new Vuex.Store({
   },
   mutations: {
     [SOCKET_ONOPEN](state, event) {
+      console.info(state, event)
       state.socket.isConnected = true
     },
     [SOCKET_ONCLOSE](state, event) {
@@ -42,6 +43,8 @@ export default new Vuex.Store({
     },
     // default handler called for all methods
     [SOCKET_ONMESSAGE](state, message) {
+      console.log("===== MESSAGE =====");
+      console.log(message);
       state.socket.message = message
     },
     // mutations for reconnect methods

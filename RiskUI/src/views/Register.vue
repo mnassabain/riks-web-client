@@ -6,7 +6,7 @@
         <div class="card-body">
           <h3 class="text-center my-4">Register</h3>
           <div class="form-group">
-           <input id="player-pseudo" type="text" placeholder="Pseudo" class="form-control">
+           <input id="player-pseudo" type="text" placeholder="Pseudo" class="form-control" v-model="login">
           </div>
           <!-- <div class="form-group">
            <input id="player-login" type="text" placeholder="Login" class="form-control">
@@ -15,13 +15,13 @@
            <input id="player-login-conf" type="text" placeholder="Confirm Login" class="form-control">
           </div> -->
           <div class="form-group">
-           <input id="psswd" type="password" placeholder="Password" class="form-control">
+           <input id="psswd" type="password" placeholder="Password" class="form-control" v-model="password">
           </div>
           <div class="form-group">
            <input id="psswd-conf" type="password" placeholder="Confirm Password" class="form-control">
           </div>
           <div class="form-group text-center">
-            <router-link :to="{ path: '/Login' }" tag="button" class="btn form-control btn-success">Register</router-link>
+            <button tag="button" class="btn form-control btn-success" @click="registerUser">Register</button>
             <router-link to="/" class="btn btn-link">Login</router-link>
           </div>
         </div>
@@ -31,18 +31,24 @@
 </template>
 
 <script>
+import {Packet} from "../Packet.js";
+
 export default {
   name: 'Register',
   data () {
     return {
-      pseudo: '',
       login: '',
       password: ''
     }
   },
   methods: {
     registerUser () {
-      console.log(this.pseudo, this.login, this.password)
+      var params = {
+        userID: this.login,
+        userPassword: this.password,
+      };
+
+      this.$socket.send(new Packet("SIGN_UP", params).getJson());
     }
   }
 }

@@ -6,7 +6,7 @@
         <div class="card-body">
           <h3 class="text-center my-4">Join Game</h3>
           <div class="form-group">
-           <input v-model="tag" id="tag" type="text" placeholder="Enter tag" class="form-control text-center">
+           <input v-model="lobbyID" id="tag" type="text" placeholder="Enter tag" class="form-control text-center">
           </div>
           <div class="form-group">
             <ul v-for="item in items" :key="item.id">
@@ -16,7 +16,7 @@
             </ul>
           </div>
           <div class="form-group text-center">
-            <router-link :to="{ path: '/Start' }" tag="button" class="btn form-control btn-success text-center">Done</router-link>
+            <button @click="JoinGame" tag="button" class="btn form-control btn-success text-center">Join</button>
             OR
             <router-link :to="{ path: '/CreateGame' }" class="btn btn-link">Create Game</router-link>
           </div>
@@ -28,6 +28,8 @@
 
 <script>
 
+import {Packet} from "../Packet.js";
+
 export default {
   name: 'JoinGame',
   data () {
@@ -36,13 +38,23 @@ export default {
         { id: 0, text: 'room1 \t 2/6' },
         { id: 1, text: 'room2 \t 4/6' },
         { id: 2, text: 'room3 \t 6/6' }
-      ]
+      ],
+      lobbyID: '',
+      lobbyPassword: ''
     }
   },
   methods: {
     JoinGame () {
-      console.log(this.nameOfRoom, this.passwordOfRoom)
+      var params = {
+        playerID: "",
+        lobbyID: this.lobbyID,
+        lobbyPassword: this.lobbyPassword
+      };
+      this.$socket.send(new Packet("JOIN_LOBBY", params).getJson());
     }
+  },
+  mounted(){
+    this.$socket.send(new Packet("LOBBY_LIST").getJson());
   }
 }
 </script>

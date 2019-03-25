@@ -12,10 +12,10 @@
            <input id="passwordOfRoom" v-model="passwordOfRoom" type="password" placeholder="Password of the room" class="form-control text-center">
           </div>
           <div class="form-group">
-           <input id="numberOfPlayers" type="number" min="2" max="6" class="form-control text-center" value="2">
+           <input id="numberOfPlayers" type="number" min="2" max="6" class="form-control text-center" value="2" v-model="maxPlayers">
           </div>
           <div class="form-group text-center">
-            <router-link :to="{ path: '/Start' }" tag="button" class="btn form-control btn-success text-center">Done</router-link>
+            <button @click="createGame" tag="button" class="btn form-control btn-success text-center">Done</button>
             OR
             <router-link :to="{ path: '/JoinGame' }" class="btn btn-link">Join game</router-link>
           </div>
@@ -26,17 +26,29 @@
 </template>
 
 <script>
+
+import {Packet} from "../Packet.js";
+
 export default {
   name: 'CreateGame',
   data () {
     return {
       nameOfRoom: '',
-      passwordOfRoom: ''
+      passwordOfRoom: '',
+      maxPlayers: ''
     }
   },
   methods: {
     createGame () {
-      console.log(this.nameOfRoom, this.passwordOfRoom)
+      var params = {
+        userID: localStorage.login,
+        lobbyName: this.nameOfRoom,
+        lobbyPassword: this.passwordOfRoom,
+        maxPlayers: this.maxPlayers,
+        mapName: ""
+      };
+
+      this.$socket.send(new Packet("CREATE_LOBBY", params).getJson());
     }
   }
 }
