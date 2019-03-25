@@ -44,3 +44,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style src="../css/Menu.css" scoped></style>
+<style>
+body {
+  background-color: #27282d;
+}
+</style>
