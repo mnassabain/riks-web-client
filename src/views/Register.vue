@@ -11,7 +11,7 @@
     </div>
     <div>
       <router-link
-        :to="{ path: '/CreateGame' }"
+        to="/"
         tag="button"
         class="button validate-button my-1"
       >Register</router-link>

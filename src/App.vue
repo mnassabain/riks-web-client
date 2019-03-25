@@ -10,14 +10,14 @@
 
 <script>
 import Home from '@/components/Home'
-import Login from '@/views/Login'
+import MainMenu from '@/views/MainMenu'
 import Register from '@/views/Register'
 
 export default {
   name: 'App',
   components: {
     Home,
-    Login,
+    MainMenu,
     Register
   }
 }
@@ -30,7 +30,5 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
