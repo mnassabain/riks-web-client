@@ -41,11 +41,11 @@ export default {
   methods: {
     createGame () {
       var params = {
-        userID: localStorage.login,
+        userID: "sdfsdf",
         lobbyName: this.nameOfRoom,
         lobbyPassword: this.passwordOfRoom,
-        maxPlayers: this.maxPlayers,
-        mapName: ""
+        maxPlayers: 8,
+        mapName: "sdfsdf"
       };
 
       this.$socket.send(new Packet("CREATE_LOBBY", params).getJson());
