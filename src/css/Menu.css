@@ -48,9 +48,7 @@ body {
 /* * Boutons */
 
 .button {
-  border: none;
   padding: 0.6vh 0px;
-  width: 60%;
   border-radius: 8px;
   text-align: center;
   text-decoration: none;
@@ -65,11 +63,11 @@ body {
   color: #27282d;
   border: 3px solid #f9ce93;
   font-weight: bold;
+  width: 60%;
 }
 .validate-button:hover {
   background-color: #5cb14d;
   border: 3px solid #5cb14d;
-  color: #27282d;
 }
 
 .second-button {
@@ -82,6 +80,56 @@ body {
 .second-button:hover {
   background-color: #fbe3c2;
   border: 3px solid #fbe3c2;
+  color: #27282d;
+}
+
+.menu-button {
+  background-color: #f9ce93;
+  color: #27282d;
+  border: 3px solid #f9ce93;
+  font-weight: bold;
+  width: 80%;
+  position: relative;
+}
+.menu-button:hover {
+  background-color: #fbe3c2;
+  border: 3px solid #fbe3c2;
+}
+.menu-button:after {
+  content: '\00bb';
+  position: relative;
+  opacity: 0;
+  right: -1%;
+  transition: 0.5s;
+}
+.menu-button:hover:after {
+  opacity: 1;
+  right: -8%;
+}
+
+.settings-button {
+  background-color: #27282d;
+  color: #fdf6eb;
+  border: 3px solid #f9ce93;
+  font-weight: bold;
+  width: 60%;
+}
+.settings-button:hover {
+  background-color: #fbe3c2;
+  border: 3px solid #fbe3c2;
+  color: #27282d;
+}
+
+.logout-button {
+  background-color: #27282d;
+  color: #fdf6eb;
+  border: 3px solid #f9ce93;
+  font-weight: bold;
+  width: 60%;
+}
+.logout-button:hover {
+  background-color: #e24935;
+  border: 3px solid #e24935;
   color: #27282d;
 }
 
@@ -109,22 +157,30 @@ input:focus {
   border-radius: 5px 5px 0px 0px;
 }
 
-/* * Home page margins */
+/* * Layout */
 
 .logo-block {
   margin-top: 4vh;
   margin-bottom: 4vh;
   color: #fbe3c2;
 }
+
 .logo {
   height: 28vh;
 }
+
 .input-block {
   margin-top: 4vh;
   margin-bottom: 3vh;
 }
+
 .additional-button-block {
   margin-top: 7vh;
+}
+
+.buttons-block {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
 }
 
 .center {

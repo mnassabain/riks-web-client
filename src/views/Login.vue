@@ -1,49 +1,32 @@
 <template>
-  <div class="row my-5">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-body">
-          <div class="form-group text-center">
-            <router-link to="/CreateGame" tag="button" class="btn form-control btn-success">Create Game</router-link>
-          </div>
-          <div class="form-group text-center">
-            <router-link to="/JoinGame" tag="button" class="btn form-control btn-success">Join Game</router-link>
-          </div>
-        </div>
-      </div>
+<body>
+  <div class="text-center col-lg-6">
+    <div class="logo-block">
+      <img src="../assets/logo.svg" class="img-fluid logo">
+      <h2>The game of global domination</h2>
+    </div>
+    <div class="buttons-block">
+      <router-link
+        :to="{ path: '/JoinGame' }"
+        tag="button"
+        class="button menu-button my-2"
+      >Join a game</router-link>
+      <router-link
+        :to="{ path: '/CreateGame' }"
+        tag="button"
+        class="button menu-button my-2"
+      >Create a game</router-link>
+    </div>
+    <div class="buttons-block">
+      <router-link :to="{ path: '' }" tag="button" class="button settings-button my-2">Settings</router-link>
+      <router-link to="/" tag="button" class="button logout-button my-2">Log Out</router-link>
     </div>
   </div>
+</body>
 </template>
 
-<script>
-export default {
-  name: 'Register',
-  data () {
-    return {
-      pseudo: '',
-      login: '',
-      password: ''
-    }
-  },
-  methods: {
-  }
-}
-</script>
+
+<script></script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+<style src="../css/Menu.css" scoped></style>
