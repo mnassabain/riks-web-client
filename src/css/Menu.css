@@ -43,6 +43,10 @@ body {
   user-select: none;
 }
 
+h1 {
+  font-size: 60px;
+}
+
 /* * Boutons */
 
 .button {
@@ -104,6 +108,17 @@ body {
   opacity: 1;
   right: -8%;
 }
+
+.room-button {
+  background-color: #48484d;
+  color: #fdf6eb;
+  border-radius: 3px;
+}
+.menu-button:hover {
+  background-color: #5D5D61;
+  border: 3px solid #fbe3c2;
+}
+
 
 .settings-button {
   background-color: #27282d;
@@ -183,4 +198,21 @@ input:focus {
 
 .center {
   align-items: center;
+}
+
+.rooms {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+
+.list {
+  margin-top: 4vh;
+  margin-bottom: 3vh;
 }

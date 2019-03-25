@@ -4,9 +4,9 @@
     <div>
       <h1>Rooms</h1>
     </div>
-    <div class="form-group">
+    <div class="rooms">
       <ul v-for="item in items" :key="item.id">
-        <router-link to="/Start" tag="button" class="button menu-button">{{ item.text }}</router-link>
+        <router-link to="/Start" tag="button" class="button menu-button room-button">{{ item.text }}</router-link>
       </ul>
     </div>
     <div class="additional-button-block">
