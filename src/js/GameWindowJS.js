@@ -22,7 +22,7 @@ window.onclick = function (event) {
 /* SVG map handling */
 var svg
 var doc
-var map
+// var map
 var label
 var text
 var highlight
@@ -33,18 +33,17 @@ var centerX
 var centerY
 var mapTransform
 var transformMatrix
-var svgNS
+// var svgNS
 var planisphere
-
 var selectedElement, offset, transform
-var el
+// var el
 
 /* Initialize the SVG map on the UI */
 export function init (evt) {
-  svgNS = 'http://www.w3.org/2000/svg'
+  /* svgNS = 'http://www.w3.org/2000/svg' */
   svg = evt.target
   doc = svg.ownerDocument
-  map = doc.getElementById('GameMap')
+  /* map = doc.getElementById('GameMap') */
   planisphere = doc.getElementById('matrix-group')
   label = newElement(
     'text',
@@ -67,7 +66,7 @@ export function init (evt) {
   }
 
   seas = document.getElementsByClassName('sea')
-  for (var i = 0; i < seas.length; i++) {
+  for (i = 0; i < seas.length; i++) {
     var sea = seas[i]
     sea.addEventListener('mouseover', function (evt) {
       mouseoverSea(evt)
@@ -138,8 +137,6 @@ export function init (evt) {
     } else if (evt.target.parentNode.classList.contains('draggable-group')) {
       selectedElement = evt.target.parentNode
       initialiseDragging(evt)
-
-      // console.log("else if");
     }
   }
 
@@ -184,9 +181,9 @@ export function init (evt) {
 export function newElement (type, attrs) {
   var result = doc.createElementNS('http://www.w3.org/2000/svg', type)
   if (result) {
-    attr = attrs.split(' ')
+    var attr = attrs.split(' ')
     for (var i = 0; i < attr.length; i++) {
-      value = attr[i].split('=')
+      var value = attr[i].split('=')
       result.setAttribute(value[0], value[1])
     }
   }
@@ -215,12 +212,12 @@ if (window.addEventListener) {
   window.addEventListener('mousewheel', wheel, false)
   // Firefox
   window.addEventListener('DOMMouseScroll', wheel, false)
+} else { // IE 6/7/8
+  window.attachEvent('onmousewheel', wheel)
 }
-// IE 6/7/8
-else window.attachEvent('onmousewheel', wheel)
 
 export function wheel (event) {
-  var e = window.event || e
+  var delta
   if (event.wheelDelta) {
     /* IE/Opera. */
     delta = event.wheelDelta / 120
@@ -306,7 +303,6 @@ export function chronometer () {
 
     // adds data in #timer
     document.getElementById('timer').innerHTML = minutes + ' : ' + seconds
-
     setTimeout(chronometer(), 100)
   }
 }
