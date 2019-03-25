@@ -44,7 +44,7 @@ body {
 
 .button {
   border: none;
-  padding: 5px 0px;
+  padding: 0.6vh 0px;
   width: 80%;
   border-radius: 8px;
   text-align: center;
@@ -89,11 +89,12 @@ input {
   padding: 12px 20px;
   box-sizing: border-box;
   border-color: transparent;
-  border-bottom: 2px solid #f9ce93;
+  border-bottom: 3px solid #f9ce93;
   outline: none;
   font-size: 20px;
   transition-duration: 0.4s;
-  margin: 1vh;
+  margin-top: 0.8vh;
+  margin-bottom: 0.8vh;
 }
 input:hover {
   background-color: #48484d;
@@ -102,4 +103,21 @@ input:hover {
 input:focus {
   background-color: #48484d;
   border-radius: 5px 5px 0px 0px;
+}
+
+/* * Home page margins */
+
+.logo-block {
+  margin-bottom: 4vh;
+  color: #fbe3c2;
+}
+.logo {
+  height: 28vh;
+}
+.input-block {
+  margin-top: 4vh;
+  margin-bottom: 3vh;
+}
+.register-block {
+  margin-top: 7vh;
 }
