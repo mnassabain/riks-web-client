@@ -36,7 +36,6 @@ body {
   left: 0;
   top: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -51,7 +50,7 @@ body {
 .button {
   border: none;
   padding: 0.6vh 0px;
-  width: 80%;
+  width: 60%;
   border-radius: 8px;
   text-align: center;
   text-decoration: none;
@@ -61,31 +60,29 @@ body {
   cursor: pointer;
 }
 
-.login-button {
+.validate-button {
   background-color: #f9ce93;
   color: #27282d;
   border: 3px solid #f9ce93;
   font-weight: bold;
 }
-.login-button:hover {
+.validate-button:hover {
   background-color: #5cb14d;
   border: 3px solid #5cb14d;
   color: #27282d;
 }
 
-.register-button {
+.second-button {
   background-color: #27282d;
   color: #fdf6eb;
   border: 3px solid #f9ce93;
-  width: 60%;
+  width: 40%;
   font-size: 23px;
 }
-.register-button:hover {
+.second-button:hover {
   background-color: #fbe3c2;
   border: 3px solid #fbe3c2;
   color: #27282d;
-  width: 60%;
-  font-size: 23px;
 }
 
 /* * Input */
@@ -96,6 +93,7 @@ input {
   box-sizing: border-box;
   border-color: transparent;
   border-bottom: 3px solid #f9ce93;
+  width: 90%;
   outline: none;
   font-size: 20px;
   transition-duration: 0.4s;
@@ -114,6 +112,7 @@ input:focus {
 /* * Home page margins */
 
 .logo-block {
+  margin-top: 4vh;
   margin-bottom: 4vh;
   color: #fbe3c2;
 }
@@ -124,6 +123,10 @@ input:focus {
   margin-top: 4vh;
   margin-bottom: 3vh;
 }
-.register-block {
+.additional-button-block {
   margin-top: 7vh;
+}
+
+.center {
+  align-items: center;
 }

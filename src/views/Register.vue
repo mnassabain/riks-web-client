@@ -1,6 +1,6 @@
 <template>
-<body>
-  <div class="text-center col-lg-5">
+<body class="center">
+  <div class="text-center col-lg-6">
     <div>
       <h1>Register</h1>
     </div>
@@ -9,16 +9,16 @@
       <input id="password" type="password" placeholder="Password">
       <input id="psswd-conf" type="password" placeholder="Confirm password">
     </div>
-    <div class="login-bu">
+    <div>
       <router-link
         :to="{ path: '/CreateGame' }"
         tag="button"
-        class="button login-button my-1"
+        class="button validate-button my-1"
       >Register</router-link>
     </div>
-    <div class="register-block">
+    <div class="additional-button-block">
       <h3>Already have an account?</h3>
-      <router-link to="/" tag="button" class="button register-button my-1">Log In</router-link>
+      <router-link to="/" tag="button" class="button second-button my-1">Log In</router-link>
     </div>
   </div>
 </body>

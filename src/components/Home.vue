@@ -1,6 +1,6 @@
 <template>
 <body>
-  <div class="text-center col-lg-5">
+  <div class="text-center col-lg-6">
     <div class="logo-block">
       <img src="../assets/logo.svg" class="img-fluid logo">
       <h2>The game of global domination</h2>
@@ -9,17 +9,21 @@
       <input id="user" type="text" placeholder="User Name">
       <input id="password" type="password" placeholder="Password">
     </div>
-    <div class="login-bu">
+    <div>
       <router-link
         :to="{ path: '/Login' }"
         v-on:click="loginUser"
         tag="button"
-        class="button login-button my-1"
+        class="button validate-button my-1"
       >Log In</router-link>
     </div>
-    <div class="register-block">
+    <div class="additional-button-block">
       <h3>Not registered yet?</h3>
-      <router-link :to="{ path: '/Register' }" tag="button" class="button register-button my-1">Register</router-link>
+      <router-link
+        :to="{ path: '/Register' }"
+        tag="button"
+        class="button second-button my-1"
+      >Register</router-link>
     </div>
   </div>
 </body>
