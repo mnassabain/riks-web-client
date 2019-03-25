@@ -39,7 +39,7 @@
 
     <!--Menu button NorthEast UI-->
     <div class="dropdown">
-      <button id="menuBtn" onclick="myFunction()" class="dropbtn"></button>
+      <button id="menuBtn" v-on:click="dropdownClick()" class="dropbtn"></button>
       <div id="myDropdown" class="dropdown-content">
         <a href="#">Parameters</a>
         <a href="#">Quit</a>
