@@ -31,42 +31,13 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-<<<<<<< HEAD
     [SOCKET_ONOPEN](state, event) {
       console.info(state, event)
       state.socket.isConnected = true
-=======
-<<<<<<<< HEAD:src/store/index.js
-    SOCKET_CONNECT (state) {
-      console.log('Connected')
-      state.connected = true
     },
-    SOCKET_DISCONNECT (state) {
-      console.log('Disconnected')
-      state.connected = false
-    },
-    SOCKET_MESSAGE (state, message) {
-      state.game = message
-      state.turn = message.starting_color
-      state.room = message.game_id
-      state.error = null
-    },
-    SOCKET_JOIN_ROOM (state, message) {
-      state.error = null
-      state.room = message.room
-    },
-    SOCKET_ERROR (state, message) {
-      state.error = message.error
-      console.log(message)
-    },
-    set_turn (state, team) {
-      state.turn = team
-========
     [SOCKET_ONOPEN](state, event) {
       console.info(state, event)
       state.socket.isConnected = true
->>>>>>>> fusion:RiskUI/src/store/index.js
->>>>>>> fusion
     },
     [SOCKET_ONCLOSE](state, event) {
       state.socket.isConnected = false

@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    <img src="./assets/Logo.svg" style="width:40%; margin-top:60px">
-
     <div class="container">
       <router-view></router-view>
     </div>
@@ -24,7 +22,7 @@ export default {
 </script>
 
 <script>
-this.$options.sockets.onmessage = (data) => console.log(data)
+//this.$options.sockets.onmessage = (data) => console.log(data)
 </script>
 
 
