@@ -41,7 +41,6 @@ export default {
   methods: {
     loginUser() {
       console.log(this.$socket);
-      this.$socket.emit("test", { data: "test1" });
     }
   }
 };

@@ -17,6 +17,8 @@ import './registerServiceWorker'
 // D3 library
 import * as d3 from 'd3'
 
+// import * as howler from 'howler'
+
 // add bugsnag
 import * as bugsnag from 'bugsnag-js'
 import * as bugsnagVue from 'bugsnag-vue'
@@ -57,3 +59,4 @@ new Vue({
 }).$mount('#app')
 
 Vue.use(d3)
+// Vue.use(howler)

@@ -25,7 +25,22 @@
 </body>
 </template>
 
-<script></script>
+<script>
+
+// import _ from "howler"
+
+export default {
+  name: "MainMenu",
+  data() {},
+  methods: {
+    // playSound() {
+    //   console.log('plop')
+    //   var sound = new _.Howl({ src: ['../assets/musics/The_Road_Ahead.mp3'] })
+    //   sound.play()
+    // }
+  }
+};
+</script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style src="../css/Menu.css" scoped></style>
