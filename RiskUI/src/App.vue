@@ -22,6 +22,13 @@ export default {
 }
 </script>
 
+<script>
+this.$options.sockets.onmessage = (data) => console.log(data)
+
+</script>
+
+
+
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

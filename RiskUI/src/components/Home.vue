@@ -32,14 +32,6 @@ export default {
       password: ''
     }
   },
-  // mounted() {
-  //     if (localStorage.login) {
-  //       this.login = localStorage.login
-  //     }
-  //     if (localStorage.password) {
-  //       this.password = localStorage.password
-  //     }
-  // },
   methods: {
     connection() {
       localStorage.login = this.login
@@ -48,10 +40,7 @@ export default {
         userID: this.login,
         userPassword: this.password,
       };
-
-      
-
-      this.$socket.send(new Packet("CONNECT", params).getJson());
+      this.$socket.send(new Packet("CONNECT", params).getJson())
     }
   }
 }
