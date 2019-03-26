@@ -1,28 +1,22 @@
 <template>
-  <div class="row my-5">
-    <div class="col-md-6 offset-md-3">
-      <h1> Starting Game </h1>
-      <div class="card">
-        <div class="card-body">
-          <h3 class="text-center my-4">Players</h3>
-          <div class="form-group">
-           <div class="form-group">
-            <ul v-for="item in items" :key="item.id">
-                <li>
-                    {{ item.text }}
-                </li>
-            </ul>
-          </div>
-          <div class="form-group text-center">
-            <router-link :to="{ path: '' }" tag="button" class="btn form-control btn-success text-center">Start</router-link>
-            OR
-            <router-link :to="{ path: '/Home' }" class="btn btn-link">Cancel</router-link>
-          </div>
-        </div>
-      </div>
+<body class="center">
+  <div class="text-center col-lg-6">
+    <div>
+      <h1>Room</h1>
+    </div>
+    <div class="list">
+      <ul v-for="item in items" :key="item.id">
+        <h3>{{ item.text }}</h3>
+      </ul>
+    </div>
+    <div>
+      <button @click="startGame" tag="button" class="button validate-button my-1">Start the Game</button>
+    </div>
+    <div class="additional-button-block">
+      <router-link to="/MainMenu" tag="button" class="button second-button my-1">Cancel</router-link>
     </div>
   </div>
-</div>
+</body>
 </template>
 
 <script>
@@ -46,19 +40,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+<style src="../css/Menu.css" scoped></style>
+<style>
+body {
+  background-color: #27282d;
 }
 </style>

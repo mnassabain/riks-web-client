@@ -1,32 +1,29 @@
 <template>
-  <div class="row my-5">
-    <div class="col-md-6 offset-md-3">
-      <h1> Create a new Risk game </h1>
-      <div class="card">
-        <div class="card-body">
-          <h3 class="text-center my-4">Create your room</h3>
-          <div class="form-group">
-           <input v-model="nameOfRoom" type="text" placeholder="Name of the room" class="form-control text-center">
-          </div>
-          <div class="form-group">
-           <input id="passwordOfRoom" v-model="passwordOfRoom" type="password" placeholder="Password of the room" class="form-control text-center">
-          </div>
-          <div class="form-group">
-           <input id="numberOfPlayers" type="number" min="2" max="6" class="form-control text-center" value="2" v-model="maxPlayers">
-          </div>
-          <div class="form-group text-center">
-            <button @click="createGame" tag="button" class="btn form-control btn-success text-center">Done</button>
-            OR
-            <router-link :to="{ path: '/JoinGame' }" class="btn btn-link">Join game</router-link>
-          </div>
-        </div>
-      </div>
+<body class="center">
+  <div class="text-center col-lg-6">
+    <div>
+      <h1>Create your room</h1>
+    </div>
+    <div class="input-block">
+      <input v-model="nameOfRoom" id="nameOfRoom" type="text" placeholder="Room Name">
+      <input
+        v-model="passwordOfRoom"
+        id="passwordOfRoom"
+        type="password"
+        placeholder="Room Password"
+      >
+    </div>
+    <div>
+      <button @click="createGame" tag="button" class="button validate-button my-1">Create Room</button>
+    </div>
+    <div class="additional-button-block">
+      <router-link to="/MainMenu" tag="button" class="button second-button my-1">Cancel</router-link>
     </div>
   </div>
+</body>
 </template>
 
 <script>
-
 import {Packet} from "../Packet.js";
 
 export default {
@@ -55,19 +52,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+<style src="../css/Menu.css" scoped></style>
+<style>
+body {
+  background-color: #27282d;
 }
 </style>

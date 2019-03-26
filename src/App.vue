@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <img src="./assets/Logo.svg" style="width:40%; margin-top:60px">
+
     <div class="container">
       <router-view></router-view>
     </div>
@@ -9,14 +10,14 @@
 
 <script>
 import Home from '@/components/Home'
-import Login from '@/views/Login'
+import MainMenu from '@/views/MainMenu'
 import Register from '@/views/Register'
 
 export default {
   name: 'App',
   components: {
     Home,
-    Login,
+    MainMenu,
     Register
   }
 }
@@ -24,19 +25,19 @@ export default {
 
 <script>
 this.$options.sockets.onmessage = (data) => console.log(data)
-
 </script>
 
 
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Copperplate';
+  src:  url('./assets/fonts/Copperplate.ttf');
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   /*margin-top: 60px;*/
-  background-color: #2c3e50
+  background-color: #2c3e50;
 }
 </style>

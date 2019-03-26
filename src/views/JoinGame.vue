@@ -1,29 +1,19 @@
 <template>
-  <div class="row my-5">
-    <div class="col-md-6 offset-md-3">
-      <h1> Join a room game of Risk </h1>
-      <div class="card">
-        <div class="card-body">
-          <h3 class="text-center my-4">Join Game</h3>
-          <div class="form-group">
-           <input v-model="lobbyID" id="tag" type="text" placeholder="Enter tag" class="form-control text-center">
-          </div>
-          <div class="form-group">
-            <ul v-for="item in items" :key="item.id">
-                <li>
-                    <button> {{ item.text }} </button>
-                </li>
-            </ul>
-          </div>
-          <div class="form-group text-center">
-            <button @click="JoinGame" tag="button" class="btn form-control btn-success text-center">Join</button>
-            OR
-            <router-link :to="{ path: '/CreateGame' }" class="btn btn-link">Create Game</router-link>
-          </div>
-        </div>
-      </div>
+<body class="center">
+  <div class="text-center col-lg-6">
+    <div>
+      <h1>Rooms</h1>
+    </div>
+    <div class="rooms">
+      <ul v-for="item in items" :key="item.id">
+        <button @click="JoinGame" tag="button" class="button menu-button room-button">{{ item.text }}</button>
+      </ul>
+    </div>
+    <div class="additional-button-block">
+      <router-link to="/MainMenu" tag="button" class="button second-button my-1">Cancel</router-link>
     </div>
   </div>
+</body>
 </template>
 
 <script>
@@ -66,19 +56,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+<style src="../css/Menu.css" scoped></style>
+<style>
+body {
+  background-color: #27282d;
 }
 </style>

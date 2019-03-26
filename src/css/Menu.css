@@ -1,0 +1,218 @@
+/*
+Colors palette:
+
+Text #FDF6EB
+Icons in the interface #FBE3C2
+Interface accent color #F9CE93
+Interface background #27282D
+Interface grey contrast element #5D5D61
+Water #2E4267
+Player red #DF4C4C
+Player blue #3D76E2
+Player green #59AD4A
+Player orange #F0713C
+Player yellow #F6D63D
+Player purple #9367DA
+*/
+
+@font-face {
+  font-family: "Copperplate";
+  src: url("../assets/fonts/Copperplate.ttf");
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #27282d;
+  font-family: Copperplate;
+  color: #fdf6eb;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+h1 {
+  font-size: 60px;
+}
+
+/* * Boutons */
+
+.button {
+  padding: 0.6vh 0px;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 26px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.validate-button {
+  background-color: #f9ce93;
+  color: #27282d;
+  border: 3px solid #f9ce93;
+  font-weight: bold;
+  width: 60%;
+}
+.validate-button:hover {
+  background-color: #5cb14d;
+  border: 3px solid #5cb14d;
+}
+
+.second-button {
+  background-color: #27282d;
+  color: #fdf6eb;
+  border: 3px solid #f9ce93;
+  width: 40%;
+  font-size: 23px;
+}
+.second-button:hover {
+  background-color: #fbe3c2;
+  border: 3px solid #fbe3c2;
+  color: #27282d;
+}
+
+.menu-button {
+  background-color: #f9ce93;
+  color: #27282d;
+  border: 3px solid #f9ce93;
+  font-weight: bold;
+  width: 80%;
+  position: relative;
+}
+.menu-button:hover {
+  background-color: #fbe3c2;
+  border: 3px solid #fbe3c2;
+}
+.menu-button:after {
+  content: '\00bb';
+  position: relative;
+  opacity: 0;
+  right: -1%;
+  transition: 0.5s;
+}
+.menu-button:hover:after {
+  opacity: 1;
+  right: -8%;
+}
+
+.room-button {
+  background-color: #48484d;
+  color: #fdf6eb;
+  border-radius: 3px;
+}
+.room-button:hover {
+  background-color: #5D5D61;
+  border: 3px solid #fbe3c2;
+}
+
+
+.settings-button {
+  background-color: #27282d;
+  color: #fdf6eb;
+  border: 3px solid #f9ce93;
+  font-weight: bold;
+  width: 60%;
+}
+.settings-button:hover {
+  background-color: #fbe3c2;
+  border: 3px solid #fbe3c2;
+  color: #27282d;
+}
+
+.logout-button {
+  background-color: #27282d;
+  color: #fdf6eb;
+  border: 3px solid #f9ce93;
+  font-weight: bold;
+  width: 60%;
+}
+.logout-button:hover {
+  background-color: #e24935;
+  border: 3px solid #e24935;
+  color: #27282d;
+}
+
+/* * Input */
+
+input {
+  width: 100%;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border-color: transparent;
+  border-bottom: 3px solid #f9ce93;
+  width: 90%;
+  outline: none;
+  font-size: 20px;
+  transition-duration: 0.4s;
+  margin-top: 0.8vh;
+  margin-bottom: 0.8vh;
+}
+input:hover {
+  background-color: #48484d;
+  border-radius: 5px 5px 0px 0px;
+}
+input:focus {
+  background-color: #48484d;
+  border-radius: 5px 5px 0px 0px;
+}
+
+/* * Layout */
+
+.logo-block {
+  margin-top: 4vh;
+  margin-bottom: 4vh;
+  color: #fbe3c2;
+}
+
+.logo {
+  height: 28vh;
+}
+
+.input-block {
+  margin-top: 4vh;
+  margin-bottom: 3vh;
+}
+
+.additional-button-block {
+  margin-top: 7vh;
+}
+
+.buttons-block {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+.center {
+  align-items: center;
+}
+
+.rooms {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+
+.list {
+  margin-top: 4vh;
+  margin-bottom: 3vh;
+}
