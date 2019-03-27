@@ -491,7 +491,8 @@ import * as GameWindow from '../js/GameWindowJS.js'
 export default {
   methods: {
     dropdownClick: GameWindow.dropdownClick,
-    init: GameWindow.init
+    init: GameWindow.init,
+    addLocalPlayerMessage: GameWindow.addLocalPlayerMessage
   },
   mounted () {
   }
