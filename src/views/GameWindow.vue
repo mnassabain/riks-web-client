@@ -2,6 +2,14 @@
   <div>
     <!--NorthWest UI -->
     <div id="tokens">
+      <div id="playerArmies">
+        <img src="../assets/icons/armies.svg">
+        <div id="nbTokenTypeOne">1</div>
+      </div>
+      <div id="playerTerritories">
+        <img src="../assets/icons/flag.svg">
+        <div id="nbTokenTypeOne">1</div>
+      </div>
       <div id="tokenTypeOne">
         <img src="../assets/icons/tokenTypeOne.svg">
         <div id="nbTokenTypeOne">1</div>
@@ -501,5 +509,28 @@ html, body{
     overflow: hidden;
     background-color: #2E4267;
     font-family: Copperplate, serif;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.container {
+  box-sizing: content-box;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  padding: 0%;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+#GameMap {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
 }
 </style>
