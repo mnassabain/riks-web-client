@@ -18,7 +18,6 @@ export default new Router({
     { path: '/CreateGame', name: 'CreateGame', component: CreateGame },
     { path: '/JoinGame', name: 'JoinGame', component: JoinGame },
     { path: '/Start', name: 'Start', component: Start },
-    { path: '/GameWindow', name: 'GameWindow', component: GameWindow }
-
-  ]
-})
+    { path: '/GameWindow', name: 'GameWindow', component: GameWindow },
+  ],
+});

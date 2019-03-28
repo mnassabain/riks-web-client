@@ -17,7 +17,7 @@
       <button @click="createGame" tag="button" class="button validate-button my-1">Create Room</button>
     </div>
     <div class="additional-button-block">
-      <router-link to="/MainMenu" tag="button" class="button second-button my-1">Cancel</router-link>
+      <v-btn class="button second-button my-1" @click="Cancel">Cancel</v-btn>
     </div>
   </div>
 </body>
@@ -46,6 +46,9 @@ export default {
       };
 
       this.$socket.send(new Packet("CREATE_LOBBY", params).getJson());
+    },
+    Cancel () {
+      return this.$router.push({path: '/MainMenu'})
     }
   }
 }

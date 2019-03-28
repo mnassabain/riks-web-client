@@ -43,15 +43,15 @@ export default {
       this.$socket.send(new Packet("JOIN_LOBBY", params).getJson());
     }
   },
-  created(){
-    this.$socket.send(new Packet("LOBBY_LIST").getJson());
-    this.$socket.onmessage = function(d){
-      var msg = JSON.parse(d.data);
-      if(!msg.data.error){
-        this.$set(this.items, msg.data.gameList);
-      }
-    }
-  }
+  // created(){
+  //   this.$socket.send(new Packet("LOBBY_LIST").getJson());
+  //   this.$socket.onmessage = function(d){
+  //     var msg = JSON.parse(d.data);
+  //     if(!msg.data.error){
+  //       this.$set(this.items, msg.data.gameList);
+  //     }
+  //   }
+  // }
 }
 </script>
 
