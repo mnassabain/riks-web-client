@@ -205,7 +205,7 @@
       <div id="chatForm">
         <form name="message" onsubmit="return false;">
           <input name="playerMsg" type="text" id="playerMsgInput" size="63" />
-          <input name="submitMsg" type="submit" id="submitMsgBtn" value="Send" onclick="addLocalPlayerMessage()"/>
+          <input name="submitMsg" type="submit" id="submitMsgBtn" value="Send" v-on:click="addLocalPlayerMessage()"/>
         </form>
       </div>
     </div>
