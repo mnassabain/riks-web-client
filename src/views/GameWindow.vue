@@ -533,5 +533,6 @@ html, body{
   width: 100%;
   height: 100%;
   margin: 0 auto;
+  background-color: #2E4267;
 }
 </style>
