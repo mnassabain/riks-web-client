@@ -40,6 +40,9 @@ var selectedElement, offset, transform
 
 /* Initialize the SVG map on the UI */
 export function init (evt) {
+  addDistantPlayerMessage()
+  setInterval(chronometer, 1000)
+    
   /* svgNS = 'http://www.w3.org/2000/svg' */
   svg = evt.target
   doc = svg.ownerDocument
@@ -55,8 +58,6 @@ export function init (evt) {
   highlight = doc.getElementById('highlight')
 
   countries = document.getElementsByClassName('country')
-
-  startChr()
 
   for (var i = 0; i < countries.length; i++) {
     var country = countries[i]
@@ -276,39 +277,57 @@ export function setMatrix (transformNames) {
 
 /*****************************************************************************************************/
 
-/* Timer handling : issue : the timer stops when the tab is not
- * focused on the browser */
-var tenthSec = 0
-var seconds = 0
-var minutes = 0
-
-var startTimer = 0
+/* Timer handling */
+var startingTime = Date.now()
 
 export function chronometer () {
-  if (startTimer === 1) {
-    // set tenth of seconds
-    tenthSec += 1
+  // Find the distance between now and the starting time
+  var distance = Date.now() - startingTime
 
-    // set seconds
-    if (tenthSec > 9) {
-      tenthSec = 0
-      seconds += 1
-    }
+  // Time calculations in minutes and seconds
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000)
 
-    // set minutes
-    if (seconds > 59) {
-      seconds = 0
-      minutes += 1
-    }
-
-    // adds data in #timer
-    document.getElementById('timer').innerHTML = minutes + ' : ' + seconds
-    setTimeout(chronometer(), 100)
-  }
+  // Output the result the timer
+  document.getElementById('timer').innerHTML = minutes + ':' + seconds
 }
 
-/* starts the timer */
-export function startChr () {
-  startTimer = 1
-  chronometer()
+/**********************************************************************************/
+/* adds the local player message into the chat
+* waiting for sending to server part */
+export function addLocalPlayerMessage () {
+  var playerName = 'Player_1'
+  var playerColor = '#3D76E2'
+  var msgParagraph = document.createElement('P')
+  msgParagraph.className = 'playerMessage'
+  msgParagraph.style.lineHeight = '1em'
+  var msgStr = document.getElementById('playerMsgInput').value
+  msgParagraph.innerHTML = '<span class="messagePlayerName" style="color: ' + playerColor + '">' + playerName + '</span><span class="messageContent"> : ' + msgStr + '</span>'
+  document.getElementById('chatWindow').appendChild(msgParagraph)
+  document.getElementById('chatWindow').scrollTop = document.getElementById('chatWindow').scrollHeight
+  document.getElementById('playerMsgInput').value = ''
+
+  /* to do chat messages sending to server */
+}
+
+/* add messages from others players into the chat
+* this function generates random values for the moment */
+export function addDistantPlayerMessage () {
+  console.log('add random message')
+  var min = 5
+  var max = 10
+  var rand = Math.floor(Math.random() * (max - min + 1) + min) // Generate Random number between 5 - 10
+  setTimeout(addDistantPlayerMessage, rand * 1000)
+
+  /* to do : getting chat messages from server */
+
+  var playerName = 'Player_2'
+  var playerColor = '#DF4C4C'
+  var msgParagraph = document.createElement('P')
+  msgParagraph.className = 'playerMessage'
+  msgParagraph.style.lineHeight = '1em'
+  var msgStr = 'Lorem ipsum dolor sit amet ...'
+  msgParagraph.innerHTML = '<span class="messagePlayerName" style="color: ' + playerColor + '">' + playerName + '</span><span class="messageContent"> : ' + msgStr + '</span>'
+  document.getElementById('chatWindow').appendChild(msgParagraph)
+  document.getElementById('chatWindow').scrollTop = document.getElementById('chatWindow').scrollHeight
 }

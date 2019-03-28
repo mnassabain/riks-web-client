@@ -2,6 +2,14 @@
   <div>
     <!--NorthWest UI -->
     <div id="tokens">
+      <div id="playerArmies">
+        <img src="../assets/icons/armies.svg">
+        <div id="nbTokenTypeOne">1</div>
+      </div>
+      <div id="playerTerritories">
+        <img src="../assets/icons/flag.svg">
+        <div id="nbTokenTypeOne">1</div>
+      </div>
       <div id="tokenTypeOne">
         <img src="../assets/icons/tokenTypeOne.svg">
         <div id="nbTokenTypeOne">1</div>
@@ -197,7 +205,7 @@
       <div id="chatForm">
         <form name="message" onsubmit="return false;">
           <input name="playerMsg" type="text" id="playerMsgInput" size="63" />
-          <input name="submitMsg" type="submit" id="submitMsgBtn" value="Send" onclick="addLocalPlayerMessage()"/>
+          <input name="submitMsg" type="submit" id="submitMsgBtn" value="Send" v-on:click="addLocalPlayerMessage()"/>
         </form>
       </div>
     </div>
@@ -483,7 +491,8 @@ import * as GameWindow from '../js/GameWindowJS.js'
 export default {
   methods: {
     dropdownClick: GameWindow.dropdownClick,
-    init: GameWindow.init
+    init: GameWindow.init,
+    addLocalPlayerMessage: GameWindow.addLocalPlayerMessage
   },
   mounted () {
   }
@@ -501,5 +510,29 @@ html, body{
     overflow: hidden;
     background-color: #2E4267;
     font-family: Copperplate, serif;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.container {
+  box-sizing: content-box;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  padding: 0%;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+#GameMap {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  background-color: #2E4267;
 }
 </style>
