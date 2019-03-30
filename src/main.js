@@ -47,6 +47,7 @@ if (bugsnagKey) {
 
 Vue.config.productionTip = false
 
+Vue.use(d3);
 Vue.use(Vuetify)
 Vue.use(Raivue)
 Vue.use(VueNativeSock, `//${window.location.host}`, {

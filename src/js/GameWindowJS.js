@@ -1,3 +1,5 @@
+import * as d3 from 'd3'
+
 export function dropdownClick () {
   document.getElementById('myDropdown').classList.toggle('show')
 }
@@ -93,9 +95,9 @@ export function init (evt) {
     endDrag(evt)
   })
 
-  // planisphere.addEventListener('dblclick', function (evt) {
-  //   placeSoldier(evt)
-  // })
+  planisphere.addEventListener('dblclick', function (evt) {
+     placeSoldier(evt)
+  })
 
   function getMousePosition (evt) {
     var CTM = svg.getScreenCTM()
@@ -156,26 +158,24 @@ export function init (evt) {
   /* Put a soldier svg element on county when double clicked
    *  issue : fix double soldier placement, ajust soldier position
    *  on some countries */
-  // function placeSoldier (evt) {
-  //   var country = evt.target
+   function placeSoldier (evt) {
+     var country = evt.target
 
-  //   var bbox = country.getBBox()
-  //   var x = Math.floor(bbox.x + bbox.width / 2.0) - 20
-  //   var y = Math.floor(bbox.y + bbox.height / 2.0) - 15
+     var bbox = country.getBBox()
+     var x = Math.floor(bbox.x + bbox.width / 2.0) - 20
+     var y = Math.floor(bbox.y + bbox.height / 2.0) - 15
 
-  //   var test = this.$d3.select(country.getAttribute('id')).toString()
-  //   console.log('id = ' + test)
+     var test = d3.select(country.getAttribute('id')).toString()
 
-  //   var svg = this.$d3
-  //     .select('#matrix-group g')
-  //     /* var svg = d3.select('#' + (country.getAttribute('id')).toString()) */
-  //     .append('svg:image')
-  //     .attr('xlink:href', 'assets/soldier.svg')
-  //     .attr('width', '40')
-  //     .attr('height', '40')
-  //     .attr('x', x.toString())
-  //     .attr('y', y.toString())
-  // }
+     var svg = d3
+      .select('#matrix-group g')
+      .append('svg:image')
+      .attr('xlink:href', '../assets/soldier.svg')
+      .attr('width', '40')
+      .attr('height', '40')
+      .attr('x', x.toString())
+      .attr('y', y.toString())
+   }
 }
 
 // generic function to create an xml element

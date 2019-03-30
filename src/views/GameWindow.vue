@@ -492,9 +492,13 @@ export default {
   methods: {
     dropdownClick: GameWindow.dropdownClick,
     init: GameWindow.init,
-    addLocalPlayerMessage: GameWindow.addLocalPlayerMessage
+    addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
+    test: function(){
+      console.log(this.$d3);
+    }
   },
   mounted () {
+    this.test()
   }
 }
 
