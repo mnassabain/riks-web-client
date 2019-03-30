@@ -206,7 +206,7 @@ export function mouseoverCountry (evt) {
   var country = evt.target
   var outline = country.getAttribute('d')
   highlight.setAttribute('d', outline)
-  text.textContent = country.getAttribute('id')
+  doc.getElementById('hovered-country').innerHTML = country.getAttribute('id');
 }
 
 /***********************************************************************************************/

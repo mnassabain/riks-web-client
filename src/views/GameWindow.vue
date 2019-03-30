@@ -56,6 +56,9 @@
     </div>
 
     <!-- SouthWest UI-->
+    <div class="hovered-country" id="hovered-country">
+      Hover over a country
+    </div>
     <div id="playerControls">
       <div id="playerControlMessage"><span id="phase">Phase 2</span><br/><span id="action">Attacking</span></div>
       <div id="playerControlButton"><button id="phaseControlBtn">Next<br/>Phase</button></div>
