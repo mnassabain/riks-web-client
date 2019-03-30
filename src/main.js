@@ -11,7 +11,6 @@ import VueNativeSock from 'vue-native-websocket'
 import App from './App'
 import router from './router'
 import store from './store'
-import './registerServiceWorker'
 import {
   SOCKET_ONOPEN,
   SOCKET_ONCLOSE,
