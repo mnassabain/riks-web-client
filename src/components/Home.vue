@@ -10,12 +10,12 @@
       <input id="password" type="password" placeholder="Password" v-model="password">
     </div>
     <div>
-      <router-link
+      <button
         :to="{ path: '/MainMenu' }"
-        @click.native="loginUser"
+        @click="loginUser"
         tag="button"
         class="button validate-button my-1"
-      >Log In</router-link>
+      >Log In</button>
     </div>
     <div class="additional-button-block">
       <h3>Not registered yet?</h3>
@@ -41,15 +41,39 @@ export default {
     }
   },
   methods: {
+    verify(data) {
+      var response = JSON.parse(data);
+
+      if (response.data.error == true)
+      {
+        alert("Error when connecting: " + response.data.response);
+      }
+      else
+      {
+        /* redirect user */
+        this.$router.push('/MainMenu');
+      }
+
+      delete this.$options.sockets.onmessage;
+    },
+
     loginUser() {
+      if (this.login == "" || this.password == "")
+        return;
+
       localStorage.login = this.login;
       localStorage.password = this.password;
       var params = {
         userID: this.login,
         userPassword: this.password,
       };
+
+      /* message listener */
+      this.$options.sockets.onmessage = (data) => this.verify(data.data);
+      
+      /* send message */
       this.$socket.send(new Packet("CONNECT", params).getJson());
-    }
+    },
   }
 }
 </script>
