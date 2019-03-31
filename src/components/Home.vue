@@ -6,13 +6,13 @@
       <h2>The game of global domination</h2>
     </div>
     <div class="input-block">
-      <input id="user" type="text" placeholder="User Name">
-      <input id="password" type="password" placeholder="Password">
+      <input id="user" type="text" placeholder="User Name" v-model="login">
+      <input id="password" type="password" placeholder="Password" v-model="password">
     </div>
     <div>
       <router-link
         :to="{ path: '/MainMenu' }"
-        v-on:click="loginUser"
+        @click.native="loginUser"
         tag="button"
         class="button validate-button my-1"
       >Log In</router-link>
@@ -41,14 +41,14 @@ export default {
     }
   },
   methods: {
-    connection() {
-      localStorage.login = this.login
-      localStorage.password = this.password
+    loginUser() {
+      localStorage.login = this.login;
+      localStorage.password = this.password;
       var params = {
         userID: this.login,
         userPassword: this.password,
       };
-      this.$socket.send(new Packet("CONNECT", params).getJson())
+      this.$socket.send(new Packet("CONNECT", params).getJson());
     }
   }
 }

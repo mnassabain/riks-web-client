@@ -23,7 +23,6 @@
 
 export default {
   name: "MainMenu",
-  data() {},
   methods: {
     // playSound() {
     //   console.log('plop')
