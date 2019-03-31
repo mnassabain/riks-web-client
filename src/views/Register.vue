@@ -5,9 +5,9 @@
       <h1>Register</h1>
     </div>
     <div class="input-block">
-      <input id="user" type="text" placeholder="User Name">
-      <input id="password" type="password" placeholder="Password">
-      <input id="psswd-conf" type="password" placeholder="Confirm password">
+      <input id="user" type="text" placeholder="User Name" v-model="login">
+      <input id="password" type="password" placeholder="Password" v-model="password">
+      <input id="psswd-conf" type="password" placeholder="Confirm password" v-model="passwordConfirm">
     </div>
     <div>
       <button
@@ -32,11 +32,17 @@ export default {
   data () {
     return {
       login: '',
-      password: ''
+      password: '',
+      passwordConfirm: ''
     }
   },
   methods: {
     registerUser () {
+      if (this.password != this.passwordConfirm)
+      {
+        return;
+      }
+
       var params = {
         userID: this.login,
         userPassword: this.password,
