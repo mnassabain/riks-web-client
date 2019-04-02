@@ -6,7 +6,7 @@
     </div>
     <div class="rooms">
       <ul v-for="item in items" :key="item.id">
-        <button @click="JoinGame" tag="button" class="button menu-button room-button">{{ item.text }}</button>
+        <button @click="JoinGame" tag="button" class="button menu-button room-button">{{ item.lobbyName }} - {{item.nbPlayers}}/{{item.maxPlayers}}</button>
       </ul>
     </div>
     <div class="additional-button-block">
@@ -24,11 +24,7 @@ export default {
   name: 'JoinGame',
   data () {
     return {
-      items: [
-        { id: 0, text: 'room1 \t 2/6' },
-        { id: 1, text: 'room2 \t 4/6' },
-        { id: 2, text: 'room3 \t 6/6' }
-      ],
+      items: [],
       lobbyID: '',
       lobbyPassword: ''
     }
@@ -43,15 +39,17 @@ export default {
       this.$socket.send(new Packet("JOIN_LOBBY", params).getJson());
     }
   },
-  // created(){
-  //   this.$socket.send(new Packet("LOBBY_LIST").getJson());
-  //   this.$socket.onmessage = function(d){
-  //     var msg = JSON.parse(d.data);
-  //     if(!msg.data.error){
-  //       this.$set(this.items, msg.data.gameList);
-  //     }
-  //   }
-  // }
+   created(){
+     var vm = this;
+     this.$socket.send(new Packet("LOBBY_LIST").getJson());
+     this.$socket.onmessage = function(d){
+       var msg = JSON.parse(d.data);
+       if(!msg.data.error){
+         vm.items = msg.data.gameList;
+         //vm.$set('items', msg.data.gameList);
+       }
+     }
+   }
 }
 </script>
 
