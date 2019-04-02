@@ -5,8 +5,10 @@
       <h1>Rooms</h1>
     </div>
     <div class="rooms">
-      <ul v-for="item in items" :key="item.id">
-        <button @click="JoinGame" tag="button" class="button menu-button room-button">{{ item.lobbyName }} - {{item.nbPlayers}}/{{item.maxPlayers}}</button>
+      <ul v-for="(item, index) in items" :key="item.id">
+        <button v-on:click="JoinGame(index)" tag="button" class="button menu-button room-button" v-bind="item.id">
+          {{ item.lobbyName }} - {{item.nbPlayers}}/{{item.maxPlayers}}
+        </button>
       </ul>
     </div>
     <div class="additional-button-block">
@@ -30,13 +32,30 @@ export default {
     }
   },
   methods: {
-    JoinGame () {
+    verify(data) {
+      var response = JSON.parse(data);
+
+      if (response.data.error == true)
+      {
+        alert("Error: " + response.data.response);
+      }
+      else
+      {
+        /* redirect user */
+        this.$router.push('/GameWindow');
+      }
+
+      delete this.$options.sockets.onmessage;
+    },
+    JoinGame (item) {
       var params = {
-        playerID: "",
-        lobbyID: this.lobbyID,
+        lobbyID: item,
         lobbyPassword: this.lobbyPassword
       };
       this.$socket.send(new Packet("JOIN_LOBBY", params).getJson());
+
+      /* message listener */
+      this.$options.sockets.onmessage = (data) => this.verify(data.data);
     }
   },
    created(){
@@ -46,7 +65,7 @@ export default {
        var msg = JSON.parse(d.data);
        if(!msg.data.error){
          vm.items = msg.data.gameList;
-         //vm.$set('items', msg.data.gameList);
+         console.log(msg.data.gameList);
        }
      }
    }
