@@ -48,7 +48,7 @@ var selectedElement, offset, transform
 export function init (evt) {
   addDistantPlayerMessage()
   setInterval(chronometer, 1000)
-    
+
   /* svgNS = 'http://www.w3.org/2000/svg' */
   svg = evt.target
   doc = svg.ownerDocument
@@ -174,7 +174,7 @@ export function init (evt) {
      var svg = d3
       .select('#matrix-group g')
       .append('svg:image')
-      .attr('xlink:href', '../assets/soldier.svg')
+      .attr('xlink:href', 'assets/icons/soldier.svg')
       .attr('width', '40')
       .attr('height', '40')
       .attr('x', x.toString())
