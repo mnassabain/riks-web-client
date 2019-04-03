@@ -17,8 +17,8 @@ const types = {
      KICK_FROM_LOBBY: 10,
      KICKED: 11,
      CLOSE_LOBBY: 12,
-     START_GAME: 13,
-     LEAVE_GAME: 14,
+     LEAVE_GAME: 13,
+     START_GAME: 14,
  
      /* misc */
      GAME_RESULTS: 15,
