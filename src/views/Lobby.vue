@@ -6,14 +6,14 @@
     </div>
     <div class="rooms">
       <ul v-for="(player) in players" :key="player.id">
-        <button tag="button" class="button menu-button room-button">
+        <button tag="button" class="button menu-button">
           {{player}}
         </button>
       </ul>
     </div>
     <div class="additional-button-block">
-      <router-link to="/MainMenu" tag="button" class="button second-button my-1">Back</router-link>
-      <button tag="button" class="button validate-button my-1" @click="getReady">Ready</button>
+        <button tag="button" class="button validate-button my-1" @click="getReady">Ready</button>
+        <button tag="button" class="button second-button my-1" @click="leaveLobby">Back</button>
     </div>
   </div>
 </body>
@@ -33,6 +33,9 @@ export default {
   methods: {
    getReady(){
        // TODO: send ready message to server
+   },
+   leaveLobby(){
+       // TODO: send leave message to server
    }
   },
   created(){

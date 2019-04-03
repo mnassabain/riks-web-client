@@ -5,8 +5,8 @@
       <h1>Rooms</h1>
     </div>
     <div class="rooms">
-      <ul v-for="(item, index) in items" :key="item.id">
-        <button v-on:click="JoinGame(index)" tag="button" class="button menu-button room-button" v-bind="item.id">
+      <ul v-for="(item) in items" :key="item.id">
+        <button v-on:click="JoinGame(item.lobbyID)" tag="button" class="button menu-button room-button" v-bind="item.id">
           {{ item.lobbyName }} - {{item.nbPlayers}}/{{item.maxPlayers}}
         </button>
       </ul>
@@ -26,9 +26,7 @@ export default {
   name: 'JoinGame',
   data () {
     return {
-      items: [],
-      lobbyID: '',
-      lobbyPassword: ''
+      items: []
     }
   },
   methods: {
