@@ -13,6 +13,7 @@
     </div>
     <div class="additional-button-block">
       <router-link to="/MainMenu" tag="button" class="button second-button my-1">Back</router-link>
+      <button tag="button" class="button validate-button my-1" @click="getReady">Ready</button>
     </div>
   </div>
 </body>
@@ -30,19 +31,21 @@ export default {
     }
   },
   methods: {
-   
+   getReady(){
+       // TODO: send ready message to server
+   }
   },
   created(){
      var vm = this;
      this.$socket.send(new Packet("LOBBY_STATE").getJson());
      this.$socket.onmessage = function(d){
-         console.log("lobby state");
-         console.log(d);
-       var msg = JSON.parse(d.data);
-       if(!msg.data.error){
-         vm.players = msg.data.gameData.playerNames;
-         console.log(msg.data.gameData);
-       }
+        console.log("lobby state");
+        console.log(d);
+        var msg = JSON.parse(d.data);
+        if(!msg.data.error){
+            vm.players = msg.data.gameData.playerNames;
+            console.log(msg.data.gameData);
+        }
      }
    }
 }
