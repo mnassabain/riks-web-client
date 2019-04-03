@@ -54,8 +54,8 @@ export default {
                 console.log(msg.data.gameData)
             }
             else if(msg.type == new Packet("LEAVE_GAME").type){
-                delete this.$socket.onmessage;
-                this.$router.push({path: "/MainMenu"})
+                delete vm.$socket.onmessage;
+                vm.$router.push({path: "/MainMenu"})
             }
         }  
      }
