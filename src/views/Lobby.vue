@@ -45,10 +45,15 @@ export default {
         console.log("lobby state");
         console.log(d);
         var msg = JSON.parse(d.data);
-        if(!msg.data.error){
-            vm.players = msg.data.gameData.playerNames;
-            console.log(msg.data.gameData);
+        if(msg.data.error){
+            // TODO: handle error
         }
+        else{
+            if(d.type == new Packet("LOBBY_STATE").type){
+                vm.players = msg.data.gameData.playerNames;
+                console.log(msg.data.gameData);
+            }
+        }  
      }
    }
 }
