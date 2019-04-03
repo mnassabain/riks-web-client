@@ -38,14 +38,14 @@ export default {
   methods: {
     createGame () {
       var params = {
-        userID: "sdfsdf",
         lobbyName: this.nameOfRoom,
         lobbyPassword: this.passwordOfRoom,
         maxPlayers: 8,
-        mapName: "sdfsdf"
+        mapName: ""
       };
 
       this.$socket.send(new Packet("CREATE_LOBBY", params).getJson());
+      this.$router.push({path: '/Lobby'})
     },
     Cancel () {
       return this.$router.push({path: '/MainMenu'})

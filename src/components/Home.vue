@@ -50,11 +50,12 @@ export default {
       }
       else
       {
+        delete this.$options.sockets.onmessage;
         /* redirect user */
         this.$router.push('/MainMenu');
       }
 
-      delete this.$options.sockets.onmessage;
+      
     },
 
     loginUser() {

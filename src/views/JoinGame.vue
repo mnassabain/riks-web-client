@@ -41,11 +41,13 @@ export default {
       }
       else
       {
+        delete this.$options.sockets.onmessage;
+        
         /* redirect user */
-        this.$router.push('/GameWindow');
+        this.$router.push({path: "/Lobby"});
       }
 
-      delete this.$options.sockets.onmessage;
+      
     },
     JoinGame (item) {
       var params = {
