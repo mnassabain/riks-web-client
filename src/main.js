@@ -19,6 +19,10 @@ import {
   SOCKET_RECONNECT,
   SOCKET_RECONNECT_ERROR
 } from './store/mutation-type'
+import * as bugsnag from 'bugsnag-js'
+import * as bugsnagVue from 'bugsnag-vue'
+// D3 library
+import * as d3 from 'd3'
 
 const mutations = {
   SOCKET_ONOPEN,
@@ -29,15 +33,6 @@ const mutations = {
   SOCKET_RECONNECT_ERROR
 }
 
-
-// D3 library
-import * as d3 from 'd3'
-
-// import * as howler from 'howler'
-
-// add bugsnag
-import * as bugsnag from 'bugsnag-js'
-import * as bugsnagVue from 'bugsnag-vue'
 const bugsnagKey = false
 if (bugsnagKey) {
   const bugsnagClient = bugsnag(bugsnagKey)
@@ -49,9 +44,9 @@ Vue.config.productionTip = false
 Vue.use(d3);
 Vue.use(Vuetify)
 Vue.use(Raivue)
-Vue.use(VueNativeSock, `ws://localhost:9002`, {
+Vue.use(VueNativeSock, `ws://192.168.43.17:9002`, {
   reconnection: true,
-  format: 'json', 
+  format: 'json',
   store: store,
   mutations: mutations })
 
