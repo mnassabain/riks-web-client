@@ -49,9 +49,13 @@ export default {
             // TODO: handle error
         }
         else{
-            if(d.type == new Packet("LOBBY_STATE").type){
-                vm.players = msg.data.gameData.playerNames;
-                console.log(msg.data.gameData);
+            if(msg.type == new Packet("LOBBY_STATE").type){
+                vm.players = msg.data.gameData.playerNames
+                console.log(msg.data.gameData)
+            }
+            else if(msg.type == new Packet("LEAVE_GAME").type){
+                delete this.$socket.onmessage;
+                this.$router.push({path: "/MainMenu"})
             }
         }  
      }
