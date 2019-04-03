@@ -11,14 +11,14 @@
     </div>
     <div class="buttons-block">
       <router-link to="" tag="button" class="button settings-button my-2">Settings</router-link>
-      <router-link to="/" tag="button" class="button logout-button my-2">Log Out</router-link>
+      <button tag="button" class="button logout-button my-2" @click="logout">Log Out</button>
     </div>
   </div>
 </body>
 </template>
 
 <script>
-
+import {Packet} from "../Packet.js";
 // import _ from "howler"
 
 export default {
@@ -29,6 +29,10 @@ export default {
     //   var sound = new _.Howl({ src: ['../assets/musics/The_Road_Ahead.mp3'] })
     //   sound.play()
     // }
+    logout() {
+      this.$socket.send(new Packet("DISCONNECT").getJson());
+      this.$router.push('/');
+    }
   }
 };
 </script>
