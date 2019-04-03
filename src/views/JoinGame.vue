@@ -41,8 +41,8 @@ export default {
       }
       else
       {
-        delete this.$options.sockets.onmessage;
-        
+        delete this.$socket.onmessage;
+
         /* redirect user */
         this.$router.push({path: "/Lobby"});
       }
@@ -57,7 +57,7 @@ export default {
       this.$socket.send(new Packet("JOIN_LOBBY", params).getJson());
 
       /* message listener */
-      this.$options.sockets.onmessage = (data) => this.verify(data.data);
+      this.$socket.onmessage = (data) => this.verify(data.data);
     }
   },
    created(){

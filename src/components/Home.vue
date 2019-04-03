@@ -55,7 +55,7 @@ export default {
       }
       else
       {
-        delete this.$options.sockets.onmessage;
+        delete this.$socket.onmessage;
         /* redirect user */
         this.$router.push('/MainMenu');
       }
@@ -75,7 +75,7 @@ export default {
       };
 
       /* message listener */
-      this.$options.sockets.onmessage = (data) => this.verify(data.data);
+      this.$socket.onmessage = (data) => this.verify(data.data);
 
       /* send message */
       this.$socket.send(new Packet("CONNECT", params).getJson());
