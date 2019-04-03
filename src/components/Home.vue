@@ -24,6 +24,11 @@
         tag="button"
         class="button second-button my-1"
       >Register</router-link>
+            <router-link
+        :to="{ path: '/GameWindow' }"
+        tag="button"
+        class="button second-button my-1"
+      >debug</router-link>
     </div>
   </div>
 </body>
@@ -71,7 +76,7 @@ export default {
 
       /* message listener */
       this.$options.sockets.onmessage = (data) => this.verify(data.data);
-      
+
       /* send message */
       this.$socket.send(new Packet("CONNECT", params).getJson());
     },
