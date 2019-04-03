@@ -50,7 +50,7 @@ export default {
     JoinGame (item) {
       var params = {
         lobbyID: item,
-        lobbyPassword: this.lobbyPassword
+        lobbyPassword: ""
       };
       this.$socket.send(new Packet("JOIN_LOBBY", params).getJson());
 

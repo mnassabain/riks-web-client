@@ -35,7 +35,7 @@ export default {
        // TODO: send ready message to server
    },
    leaveLobby(){
-       // TODO: send leave message to server
+       this.$socket.send(new Packet("LEAVE_GAME").getJson());
    }
   },
   created(){
