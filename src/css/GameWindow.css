@@ -486,7 +486,7 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     border-left: solid 2px #F9CE93;
 }
 
-#combat > div {
+.combatContent {
     color: #FDF6EB;
     width: 180px;
     height: 100px;
@@ -504,6 +504,27 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     font-size: 1.5em;
     font-weight: bold;
 }
+
+.bigBtn {
+    top: 0.6rem;
+    height: 6.8rem;
+}
+
+#armiesSelection {
+    top: 0.8rem;
+
+}
+
+.armiesSelectionBtn {
+    height: 3rem;
+    margin: 0.3rem;
+
+}
+
+#selectArmyOne {
+}
+
+
 /* ------------------------------------------------------------------------*/
 /* Ratio bar on north UI*/
 #ratioBar {

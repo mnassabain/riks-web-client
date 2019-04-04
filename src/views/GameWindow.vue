@@ -29,9 +29,7 @@
     </div>
 
     <!--Under Tokens NorthWest UI hidden by default-->
-    <div idTokenSpread>
-
-    </div>
+    <div idTokenSpread></div>
 
     <!--North UI-->
     <div id="ratioBar">
@@ -56,12 +54,19 @@
     </div>
 
     <!-- SouthWest UI-->
-    <div class="hovered-country" id="hovered-country">
-      Hover over a country
-    </div>
+    <div class="hovered-country" id="hovered-country">Hover over a country</div>
     <div id="playerControls">
-      <div id="playerControlMessage"><span id="phase">Phase 2</span><br/><span id="action">Attacking</span></div>
-      <div id="playerControlButton"><button id="phaseControlBtn">Next<br/>Phase</button></div>
+      <div id="playerControlMessage">
+        <span id="phase">Phase 2</span>
+        <br>
+        <span id="action">Attacking</span>
+      </div>
+      <div id="playerControlButton">
+        <button id="phaseControlBtn">
+          Next
+          <br>Phase
+        </button>
+      </div>
     </div>
 
     <!-- SouthEast UI-->
@@ -69,40 +74,52 @@
       <div class="playerList">
         <ul>
           <li id="playerSlotOne">
-            <div id="playerSlotOneName" class="playerListName"><p>player_1</p></div>
+            <div id="playerSlotOneName" class="playerListName">
+              <p>player_1</p>
+            </div>
           </li>
           <li id="playerSlotTwo">
-            <div id="playerSlotTwoName" class="playerListName"><p>player_2</p></div>
+            <div id="playerSlotTwoName" class="playerListName">
+              <p>player_2</p>
+            </div>
           </li>
           <li id="playerSlotThree">
-            <div id="playerSlotThreeName" class="playerListName"><p>player_3</p></div>
+            <div id="playerSlotThreeName" class="playerListName">
+              <p>player_3</p>
+            </div>
           </li>
           <li id="playerSlotFour">
-            <div id="playerSlotFourName" class="playerListName"><p>player_4</p></div>
+            <div id="playerSlotFourName" class="playerListName">
+              <p>player_4</p>
+            </div>
           </li>
           <li id="playerSlotFive">
-            <div id="playerSlotFiveName" class="playerListName"><p>player_5</p></div>
+            <div id="playerSlotFiveName" class="playerListName">
+              <p>player_5</p>
+            </div>
           </li>
           <li id="playerSlotSix">
-            <div id="playerSlotSixName" class="playerListName"><p>player_6</p></div>
+            <div id="playerSlotSixName" class="playerListName">
+              <p>player_6</p>
+            </div>
           </li>
           <li id="playerSlotOneInfo">
-              <div id="playerOneTokenTypeOne">
-                <img src="../assets/icons/tokenTypeOne.svg">
-                <div id="playerOneNbTokenTypeOne">2</div>
-              </div>
-              <div id="playerOneTokenTypeTwo">
-                <img src="../assets/icons/tokenTypeTwo.svg">
-                <div id="playerOneNbTokenTypeTwo">0</div>
-              </div>
-              <div id="playerOneTokenTypeThree">
-                <img src="../assets/icons/tokenTypeThree.svg">
-                <div id="playerOneNbTokenTypeThree">2</div>
-              </div>
-              <div id="playerOneTokenTypeJoker">
-                <img src="../assets/icons/tokenTypeJoker.svg">
-                <div id="playerOneNbTokenTypeJoker">1</div>
-              </div>
+            <div id="playerOneTokenTypeOne">
+              <img src="../assets/icons/tokenTypeOne.svg">
+              <div id="playerOneNbTokenTypeOne">2</div>
+            </div>
+            <div id="playerOneTokenTypeTwo">
+              <img src="../assets/icons/tokenTypeTwo.svg">
+              <div id="playerOneNbTokenTypeTwo">0</div>
+            </div>
+            <div id="playerOneTokenTypeThree">
+              <img src="../assets/icons/tokenTypeThree.svg">
+              <div id="playerOneNbTokenTypeThree">2</div>
+            </div>
+            <div id="playerOneTokenTypeJoker">
+              <img src="../assets/icons/tokenTypeJoker.svg">
+              <div id="playerOneNbTokenTypeJoker">1</div>
+            </div>
           </li>
           <li id="playerSlotTwoInfo">
             <div id="playerTwoTokenTypeOne">
@@ -207,17 +224,67 @@
       <div id="chatWindow"></div>
       <div id="chatForm">
         <form name="message" onsubmit="return false;">
-          <input name="playerMsg" type="text" id="playerMsgInput" size="63" />
-          <input name="submitMsg" type="submit" id="submitMsgBtn" value="Send" v-on:click="addLocalPlayerMessage()"/>
+          <input name="playerMsg" type="text" id="playerMsgInput" size="63">
+          <input
+            name="submitMsg"
+            type="submit"
+            id="submitMsgBtn"
+            value="Send"
+            v-on:click="addLocalPlayerMessage()"
+          >
         </form>
       </div>
     </div>
 
     <!-- South UI combat informations are displayed here-->
     <div id="combat">
-      <div>You are<br/>attacking<br/><span>Player_2</span></div>
-      <div></div>
-      <div>Attack with<br/><br/>Armies</div>
+
+      <!-- <div class="combatContent" id="combatInfo">
+        You are
+        <br>attacking
+        <br>
+        <span>Player_2</span>
+      </div>
+      <div class="combatContent bigBtn">
+        <img src="../assets/icons/attack.svg" class="bigBtn">
+      </div>
+      <div class="combatContent" id="armiesSelection">
+        <div>Attack with</div>
+        <div>
+          <img src="../assets/icons/emptyOne.svg" class="armiesSelectionBtn" id="selectArmyOne">
+          <img src="../assets/icons/emptyTwo.svg" class="armiesSelectionBtn" id="selectArmyTwo">
+          <img src="../assets/icons/emptyThree.svg" class="armiesSelectionBtn" id="selectArmyThree">
+        </div>
+        <div>Armies</div>
+      </div> -->
+
+      <div class="combatContent" id="combatInfo">
+        <span>Player_2</span><br>
+        is attacking<br>you
+      </div>
+      <div class="combatContent bigBtn">
+        <img src="../assets/icons/defend.svg" class="bigBtn">
+      </div>
+      <div class="combatContent" id="armiesSelection">
+        <div>Defend with</div>
+        <div>
+          <img src="../assets/icons/emptyOne.svg" class="armiesSelectionBtn" id="selectArmyOne">
+          <img src="../assets/icons/emptyTwo.svg" class="armiesSelectionBtn" id="selectArmyTwo">
+        </div>
+        <div>Armies</div>
+      </div>
+
+      <!-- <div class="combatContent" id="combatInfo">
+        You are
+        <br>attacking
+        <br>
+        <span>Player_2</span>
+      </div>
+      <div class="combatContent">
+      </div>
+      <div class="combatContent" id="armiesSelection">
+      </div> -->
+
     </div>
 
     <!--Map of the game-->
@@ -487,36 +554,35 @@
   </div>
 </template>
 <script>
-
 // Import all the functions from GameWindowJS.js
-import * as GameWindow from '../js/GameWindowJS.js'
+import * as GameWindow from "../js/GameWindowJS.js";
 
 export default {
   methods: {
     dropdownClick: GameWindow.dropdownClick,
     init: GameWindow.init,
     addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
-    test: function(){
+    test: function() {
       console.log(this.$d3);
     }
   },
-  mounted () {
-    this.test()
+  mounted() {
+    this.test();
   }
-}
-
+};
 </script>
 
 <style src="../css/GameWindow.css" scoped></style>
 <style>
-html, body{
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #2E4267;
-    font-family: Copperplate, serif;
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #2e4267;
+  font-family: Copperplate, serif;
 }
 
 #app {
@@ -540,6 +606,6 @@ html, body{
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  background-color: #2E4267;
+  background-color: #2e4267;
 }
 </style>
