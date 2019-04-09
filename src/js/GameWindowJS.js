@@ -42,13 +42,11 @@ var transformMatrix
 // var svgNS
 var planisphere
 var selectedElement, offset, transform
-// var el
 
 /* Initialize the SVG map on the UI */
 export function init (evt) {
   addDistantPlayerMessage()
   setInterval(chronometer, 1000)
-
   /* svgNS = 'http://www.w3.org/2000/svg' */
   svg = evt.target
   doc = svg.ownerDocument
@@ -58,11 +56,12 @@ export function init (evt) {
     'text',
     'id=label font-size=30 stroke=black fill=white stoke-width=50 text-insert=middle x=20 y=500'
   )
-  text = doc.createTextNode('Riks World')
-  // label.appendChild( text );
-  svg.appendChild(label)
+  viewbox = svg.getAttributeNS(null, 'viewBox').split(' ')
+  centerX = parseFloat(viewbox[2]) / 2
+  centerY = parseFloat(viewbox[3]) / 2
+  mapTransform = svg.getElementById('matrix-group')
+  transformMatrix = [1, 0, 0, 1, 0, 0]
   highlight = doc.getElementById('highlight')
-
   countries = document.getElementsByClassName('country')
 
   for (var i = 0; i < countries.length; i++) {
@@ -78,14 +77,8 @@ export function init (evt) {
     sea.addEventListener('mouseover', function (evt) {
       mouseoverSea(evt)
     })
-  }
-
-  viewbox = svg.getAttributeNS(null, 'viewBox').split(' ')
-  centerX = parseFloat(viewbox[2]) / 2
-  centerY = parseFloat(viewbox[3]) / 2
-  mapTransform = svg.getElementById('matrix-group')
-  transformMatrix = [1, 0, 0, 1, 0, 0]
-
+  } 
+  
   planisphere.addEventListener('mousedown', function (evt) {
     startDrag(evt)
   })
@@ -98,89 +91,89 @@ export function init (evt) {
   planisphere.addEventListener('mouseleave', function (evt) {
     endDrag(evt)
   })
-
+  
   planisphere.addEventListener('dblclick', function (evt) {
      placeSoldier(evt)
   })
-
-  function getMousePosition (evt) {
-    var CTM = svg.getScreenCTM()
-    if (evt.touches) {
-      evt = evt.touches[0]
-    }
-    return {
-      x: (evt.clientX - CTM.e) / CTM.a,
-      y: (evt.clientY - CTM.f) / CTM.d
-    }
-  }
-
-  function initialiseDragging (evt) {
-    offset = getMousePosition(evt)
-
-    // Make sure the first transform on the element is a translate transform
-    var transforms = selectedElement.transform.baseVal
-
-    if (
-      transforms.length === 0 ||
-      transforms.getItem(0).type !== SVGTransform.SVG_TRANSFORM_TRANSLATE
-    ) {
-      // Create an transform that translates by (0, 0)
-      var translate = svg.createSVGTransform()
-      translate.setTranslate(0, 0)
-      selectedElement.transform.baseVal.insertItemBefore(translate, 0)
-    }
-
-    // Get initial translation
-    transform = transforms.getItem(0)
-    offset.x -= transform.matrix.e
-    offset.y -= transform.matrix.f
-  }
-
-  function startDrag (evt) {
-    if (evt.target.classList.contains('draggable')) {
-      selectedElement = evt.target
-      console.log('if')
-      initialiseDragging(evt)
-    } else if (evt.target.parentNode.classList.contains('draggable-group')) {
-      selectedElement = evt.target.parentNode
-      initialiseDragging(evt)
-    }
-  }
-
-  function drag (evt) {
-    if (selectedElement) {
-      evt.preventDefault()
-      var coord = getMousePosition(evt)
-      transform.setTranslate(coord.x - offset.x, coord.y - offset.y)
-    }
-  }
-
-  function endDrag (evt) {
-    selectedElement = false
-  }
-
-  /* Put a soldier svg element on county when double clicked
-   *  issue : fix double soldier placement, ajust soldier position
-   *  on some countries */
-   function placeSoldier (evt) {
-     var country = evt.target
-
-     var bbox = country.getBBox()
-     var x = Math.floor(bbox.x + bbox.width / 2.0) - 20
-     var y = Math.floor(bbox.y + bbox.height / 2.0) - 15
-
-     var test = d3.select(country.getAttribute('id')).toString()
-
-     var svg = d3
-      .select('#matrix-group g')
-      .append('svg:image')
-      .attr('xlink:href', 'assets/icons/soldier.svg')
-      .attr('width', '40')
-      .attr('height', '40')
-      .attr('x', x.toString())
-      .attr('y', y.toString())
-   }
 }
+
+export function getMousePosition (evt) {
+  var CTM = svg.getScreenCTM()
+  if (evt.touches) {
+    evt = evt.touches[0]
+  }
+  return {
+    x: (evt.clientX - CTM.e) / CTM.a,
+    y: (evt.clientY - CTM.f) / CTM.d
+  }
+}
+
+export function initialiseDragging (evt) {
+  offset = getMousePosition(evt)
+
+  // Make sure the first transform on the element is a translate transform
+  var transforms = selectedElement.transform.baseVal
+
+  if (
+    transforms.length === 0 ||
+    transforms.getItem(0).type !== SVGTransform.SVG_TRANSFORM_TRANSLATE
+  ) {
+    // Create an transform that translates by (0, 0)
+    var translate = svg.createSVGTransform()
+    translate.setTranslate(0, 0)
+    selectedElement.transform.baseVal.insertItemBefore(translate, 0)
+  }
+
+  // Get initial translation
+  transform = transforms.getItem(0)
+  offset.x -= transform.matrix.e
+  offset.y -= transform.matrix.f
+}
+
+export function startDrag (evt) {
+  if (evt.target.classList.contains('draggable')) {
+    selectedElement = evt.target
+    console.log('if')
+    initialiseDragging(evt)
+  } else if (evt.target.parentNode.classList.contains('draggable-group')) {
+    selectedElement = evt.target.parentNode
+    initialiseDragging(evt)
+  }
+}
+
+export function drag (evt) {
+  if (selectedElement) {
+    evt.preventDefault()
+    var coord = getMousePosition(evt)
+    transform.setTranslate(coord.x - offset.x, coord.y - offset.y)
+  }
+}
+
+export function endDrag (evt) {
+  selectedElement = false
+}
+
+/* Put a soldier svg element on county when double clicked
+ *  issue : fix double soldier placement, ajust soldier position
+ *  on some countries */
+export function placeSoldier (evt) {
+   var country = evt.target
+
+   var bbox = country.getBBox()
+   var x = Math.floor(bbox.x + bbox.width / 2.0) - 20
+   var y = Math.floor(bbox.y + bbox.height / 2.0) - 15
+
+   var test = d3.select(country.getAttribute('id')).toString()
+
+   var svg = d3
+    .select('#matrix-group g')
+    .append('svg:image')
+    .attr('xlink:href', 'assets/icons/soldier.svg')
+    .attr('width', '40')
+    .attr('height', '40')
+    .attr('x', x.toString())
+    .attr('y', y.toString())
+ }
 
 // generic function to create an xml element
 export function newElement (type, attrs) {
