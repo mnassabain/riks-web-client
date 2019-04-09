@@ -41,7 +41,7 @@ if (bugsnagKey) {
 
 Vue.config.productionTip = false
 
-Vue.use(d3);
+Vue.use(d3)
 Vue.use(Vuetify)
 Vue.use(Raivue)
 Vue.use(VueNativeSock, `ws://192.168.43.17:9002`, {

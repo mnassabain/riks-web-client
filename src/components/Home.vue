@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import {Packet} from "../Packet.js";
+import {Packet} from "../Packet.js"
 
 export default {
   name: 'Home',
@@ -47,39 +47,38 @@ export default {
   },
   methods: {
     verify(data) {
-      var response = JSON.parse(data);
+      var response = JSON.parse(data)
 
       if (response.data.error == true)
       {
-        alert("Error when connecting: " + response.data.response);
+        alert('Error when connecting: ' + response.data.response)
       }
       else
       {
-        delete this.$socket.onmessage;
+        delete this.$socket.onmessage
         /* redirect user */
-        this.$router.push('/MainMenu');
+        this.$router.push('/MainMenu')
+      }
+    },
+
+    loginUser () {
+      if (this.login === '' || this.password === '') {
+        return
       }
 
-
-    },
-
-    loginUser() {
-      if (this.login == "" || this.password == "")
-        return;
-
-      localStorage.login = this.login;
-      localStorage.password = this.password;
+      localStorage.login = this.login
+      localStorage.password = this.password
       var params = {
         userID: this.login,
-        userPassword: this.password,
-      };
+        userPassword: this.password
+      }
 
       /* message listener */
-      this.$socket.onmessage = (data) => this.verify(data.data);
+      this.$socket.onmessage = (data) => this.verify(data.data)
 
       /* send message */
-      this.$socket.send(new Packet("CONNECT", params).getJson());
-    },
+      this.$socket.send(new Packet('CONNECT', params).getJson())
+    }
   }
 }
 </script>

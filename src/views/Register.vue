@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {Packet} from "../Packet.js";
+import {Packet} from '../Packet.js'
 
 export default {
   name: 'Register',
@@ -40,15 +40,15 @@ export default {
     registerUser () {
       if (this.password != this.passwordConfirm)
       {
-        return;
+        return
       }
 
       var params = {
         userID: this.login,
-        userPassword: this.password,
-      };
+        userPassword: this.password
+      }
 
-      this.$socket.send(new Packet("SIGN_UP", params).getJson());
+      this.$socket.send(new Packet('SIGN_UP', params).getJson())
     }
   }
 }

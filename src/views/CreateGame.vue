@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import {Packet} from "../Packet.js";
+import {Packet} from '../Packet.js'
 
 export default {
   name: 'CreateGame',
@@ -41,10 +41,10 @@ export default {
         lobbyName: this.nameOfRoom,
         lobbyPassword: this.passwordOfRoom,
         maxPlayers: 8,
-        mapName: ""
-      };
+        mapName: ''
+      }
 
-      this.$socket.send(new Packet("CREATE_LOBBY", params).getJson());
+      this.$socket.send(new Packet('CREATE_LOBBY', params).getJson())
       this.$router.push({path: '/Lobby'})
     },
     Cancel () {

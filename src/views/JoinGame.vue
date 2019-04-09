@@ -6,9 +6,12 @@
     </div>
     <div class="rooms">
       <ul v-for="(item) in items" :key="item.id">
-        <button v-on:click="JoinGame(item.lobbyID)" tag="button" class="button menu-button room-button" v-bind="item.id">
-          {{ item.lobbyName }} - {{item.nbPlayers}}/{{item.maxPlayers}}
-        </button>
+        <button
+          v-on:click="JoinGame(item.lobbyID)"
+          tag="button"
+          class="button menu-button room-button"
+          v-bind="item.id"
+        >{{ item.lobbyName }} - {{item.nbPlayers}}/{{item.maxPlayers}}</button>
       </ul>
     </div>
     <div class="additional-button-block">
@@ -19,35 +22,29 @@
 </template>
 
 <script>
-
-import {Packet} from "../Packet.js";
+import { Packet } from "../Packet.js";
 
 export default {
-  name: 'JoinGame',
-  data () {
+  name: "JoinGame",
+  data() {
     return {
       items: []
-    }
+    };
   },
   methods: {
     verify(data) {
       var response = JSON.parse(data);
 
-      if (response.data.error == true)
-      {
+      if (response.data.error == true) {
         alert("Error: " + response.data.response);
-      }
-      else
-      {
+      } else {
         delete this.$socket.onmessage;
 
         /* redirect user */
-        this.$router.push({path: "/Lobby"});
+        this.$router.push({ path: "/Lobby" });
       }
-
-      
     },
-    JoinGame (item) {
+    JoinGame(item) {
       var params = {
         lobbyID: item,
         lobbyPassword: ""
@@ -55,21 +52,21 @@ export default {
       this.$socket.send(new Packet("JOIN_LOBBY", params).getJson());
 
       /* message listener */
-      this.$socket.onmessage = (data) => this.verify(data.data);
+      this.$socket.onmessage = data => this.verify(data.data);
     }
   },
-   created(){
-     var vm = this;
-     this.$socket.send(new Packet("LOBBY_LIST").getJson());
-     this.$socket.onmessage = function(d){
-       var msg = JSON.parse(d.data);
-       if(!msg.data.error){
-         vm.items = msg.data.gameList;
-         console.log(msg.data.gameList);
-       }
-     }
-   }
-}
+  created() {
+    var vm = this;
+    this.$socket.send(new Packet("LOBBY_LIST").getJson());
+    this.$socket.onmessage = function(d) {
+      var msg = JSON.parse(d.data);
+      if (!msg.data.error) {
+        vm.items = msg.data.gameList;
+        console.log(msg.data.gameList);
+      }
+    };
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
