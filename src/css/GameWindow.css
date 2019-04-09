@@ -624,18 +624,19 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
 
 /****************************************************************************/
 #timer{
-    width: 60px;
-    height: 25px;
     position: absolute;
+    width: 4rem;
+    height: 1.7rem;
     top: 0;
-    right: 200px;
+    right: 15vw;
     background-color: #27282D;
-    border-bottom: solid 2px #F9CE93;
-    border-left: solid 2px #F9CE93;
-    border-right: solid 2px #F9CE93;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-bottom: solid 0.2rem #F9CE93;
+    border-left: solid 0.2rem #F9CE93;
+    border-right: solid 0.2rem #F9CE93;
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
     color: #FDF6EB;
     text-align: center;
     margin: auto;
+    opacity: 0.9;
 }
