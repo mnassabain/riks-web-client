@@ -455,62 +455,81 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
 }
 
 /* Combat zone on south UI*/
-#combat {
+.combatUI {
     position: absolute;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    color: #FDF6EB;
+    font-size: 1.5em;
     bottom: 0;
-    width: 600px;
-    height: 110px;
-    background-color: #27282D;
-    /*box-shadow: 0px -8px 10px 0px rgba(0,0,0,0.4);*/
+    width: 40vw;
+    height: 9rem;
     left: 0;
     right: 0;
     margin-left: auto;
     margin-right: auto;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
-    border-top: solid 2px #F9CE93;
-    border-right: solid 2px #F9CE93;
-    border-left: solid 2px #F9CE93;
+    background-color: #27282D;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    border-top: solid 0.2rem #F9CE93;
+    border-right: solid 0.2rem #F9CE93;
+    border-left: solid 0.2rem #F9CE93;
+    opacity: 0.9;
 }
 
-.combatContent {
-    color: #FDF6EB;
-    width: 180px;
-    height: 100px;
-    position: relative;
-    float: left;
-    left: 40px;
-    top: 20px;
-    text-align: center;
-    font-size: 1.5em;
-    line-height: normal;
+.combatUILeft {
+    position: absolute;
+    flex-direction: column;
+    left: 1rem;
+    width: 33%;
 }
 
-#combat > div > span {
-    color: rgb(225,103,103);
-    font-size: 1.5em;
-    font-weight: bold;
+.combatUIRight {
+    position: absolute;
+    flex-direction: column;
+    right: 1rem;
+    width: 33%;
 }
+
+.combatUICenter {
+    position: absolute;
+    flex-direction: column;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 33%;
+}
+
 
 .bigBtn {
-    top: 0.6rem;
-    height: 6.8rem;
+    margin-top: 0.8%;
+    height: 8rem;
+    cursor: pointer;
 }
 
-#armiesSelection {
-    top: 0.8rem;
-
+.bigBtn:hover {
+    filter: brightness(120%);
 }
 
 .armiesSelectionBtn {
     height: 3rem;
-    margin: 0.3rem;
-
+    margin-top: 0.1rem;
+    margin-bottom: 0.1rem;
+    margin: 0.2rem;
+    cursor: pointer;
 }
 
-#selectArmyOne {
+.armiesSelectionBtn:hover {
+    filter: brightness(120%);
 }
 
+#combatRed {
+    color: rgb(225,103,103);
+    font-weight: bold;
+    font-size: 1.5em;
+}
 
 /* ------------------------------------------------------------------------*/
 /* Ratio bar on north UI*/
@@ -529,21 +548,21 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
 }
 
 #ratioPlayerOne {
-    width: 16.6%;
+    width: 30%;
     height: 1rem;
     background-color: rgb(225,103,103);
     float: left;
 }
 
 #ratioPlayerTwo {
-    width: 16.6%;
+    width: 20%;
     height: 1rem;
     background-color: rgb(90,170,83);
     float: left;
 }
 
 #ratioPlayerThree {
-    width: 16.6%;
+    width: 20%;
     height: 1rem;
     background-color: #3D76E2;
     float: left;
@@ -551,21 +570,21 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
 
 #ratioPlayerFour {
     background-color: rgb(227,199,92);
-    width: 16.6%;
+    width: 15%;
     height: 1rem;
     float: left;
 }
 
 #ratioPlayerFive {
     background-color: #DF4C4C;
-    width: 16.6%;
+    width: 10%;
     height: 1rem;
     float: left;
 }
 
 #ratioPlayerSix {
     background-color: rgb(147,107,216);
-    width: 16.6%;
+    width: 5%;
     height: 1rem;
     float: left;
 }
@@ -577,7 +596,7 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     right: 0;
     margin-left: auto;
     margin-right: auto;
-    width : 25rem;
+    width : 20vw;
     height: 1.5rem;
     text-align: center;
     background-color: #27282D;
