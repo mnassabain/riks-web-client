@@ -218,6 +218,7 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     border-top-color: #9367DA;
 }
 
+
 [id^="playerSlot"][id$="Info"]{
     right: 170px;
     width: 0px;
@@ -225,6 +226,7 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     -webkit-transition: width 2s ease-out; /* For Safari 3.1 to 6.0 */
     transition: width 0.3s ease-out;
     overflow: hidden;
+    z-index: 2000;
 }
 
 #playerSlotOneInfo {
@@ -232,7 +234,7 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     color: rgb(64,121,221);
 }
 #playerSlotOne:hover ~ #playerSlotOneInfo {
-    width: 260px;
+    width: 330px;
     border: solid 2px #F9CE93;
 }
 
@@ -241,7 +243,7 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     color: rgb(225,103,103);
 }
 #playerSlotTwo:hover ~ #playerSlotTwoInfo {
-    width: 260px;
+    width: 330px;
     border: solid 2px #F9CE93;
 }
 
@@ -250,7 +252,7 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     color: rgb(90,170,83);
 }
 #playerSlotThree:hover ~ #playerSlotThreeInfo {
-    width: 260px;
+    width: 330px;
     border: solid 2px #F9CE93;
 }
 
@@ -259,7 +261,7 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     color: rgb(227,199,92);
 }
 #playerSlotFour:hover ~ #playerSlotFourInfo {
-    width: 260px;
+    width: 330px;
     border: solid 2px #F9CE93;
 }
 
@@ -268,7 +270,7 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     color:  rgb(223,111,73);
 }
 #playerSlotFive:hover ~ #playerSlotFiveInfo {
-     width: 260px;
+     width: 330px;
      border: solid 2px #F9CE93;
 }
 
@@ -277,22 +279,28 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     color: rgb(147,107,216);
 }
 #playerSlotSix:hover ~ #playerSlotSixInfo {
-     width: 260px;
+     width: 330px;
      border: solid 2px #F9CE93;
 }
 
-[id^='player'][id*='TokenType']{
+[id^='player'][id*='TokenType'],
+[id^='player'][id*='Armies'],
+[id^='player'][id*='Territories']{
     float: left;
     margin : 4px 5px 0px 5px;
 }
 
-[id^='player'][id*='TokenType'] > img {
+[id^='player'][id*='TokenType'] > img,
+[id^='player'][id*='Armies'] > img,
+[id^='player'][id*='Territories'] > img {
     width: 25px;
     height: 25px;
     fill: #FBE3C2;
 }
 
-[id^='player'][id*='NbTokenType']{
+[id^='player'][id*='NbTokenType'],
+[id^='player'][id*='NbArmies'],
+[id^='player'][id*='NbTerritories']{
     color: #FDF6EB;
     text-align: center;
 }
@@ -306,7 +314,6 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     text-align: center;
     height: 1.5em;
 }
-
 
 /****************************************************************************/
 

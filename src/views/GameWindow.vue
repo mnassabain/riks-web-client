@@ -104,6 +104,14 @@
             </div>
           </li>
           <li id="playerSlotOneInfo">
+            <div id="playerOneArmies">
+              <img src="../assets/icons/armies.svg">
+              <div id="playerOneNbArmies">1</div>
+            </div>
+            <div id="playerOneTerritories">
+              <img src="../assets/icons/flag.svg">
+              <div id="playerOneNbTerritories">1</div>
+            </div>
             <div id="playerOneTokenTypeOne">
               <img draggable="false" src="../assets/icons/tokenTypeOne.svg">
               <div id="playerOneNbTokenTypeOne">2</div>
@@ -122,6 +130,14 @@
             </div>
           </li>
           <li id="playerSlotTwoInfo">
+            <div id="playerTwoArmies">
+              <img src="../assets/icons/armies.svg">
+              <div id="playerTwoNbArmies">1</div>
+            </div>
+            <div id="playerTwoTerritories">
+              <img src="../assets/icons/flag.svg">
+              <div id="playerTwoNbTerritories">1</div>
+            </div>
             <div id="playerTwoTokenTypeOne">
               <img draggable="false" src="../assets/icons/tokenTypeOne.svg">
               <div id="playerTwoNbTokenTypeOne">2</div>
@@ -140,6 +156,14 @@
             </div>
           </li>
           <li id="playerSlotThreeInfo">
+            <div id="playerThreeArmies">
+              <img src="../assets/icons/armies.svg">
+              <div id="playerThreeNbArmies">1</div>
+            </div>
+            <div id="playerThreeTerritories">
+              <img src="../assets/icons/flag.svg">
+              <div id="playerThreeNbTerritories">1</div>
+            </div>
             <div id="playerThreeTokenTypeOne">
               <img draggable="false" src="../assets/icons/tokenTypeOne.svg">
               <div id="playerThreeNbTokenTypeOne">2</div>
@@ -158,6 +182,14 @@
             </div>
           </li>
           <li id="playerSlotFourInfo">
+            <div id="playerFourArmies">
+              <img src="../assets/icons/armies.svg">
+              <div id="playerFourNbArmies">1</div>
+            </div>
+            <div id="playerFourTerritories">
+              <img src="../assets/icons/flag.svg">
+              <div id="playerFourNbTerritories">1</div>
+            </div>
             <div id="playerFourTokenTypeOne">
               <img draggable="false" src="../assets/icons/tokenTypeOne.svg">
               <div id="playerFourNbTokenTypeOne">2</div>
@@ -176,6 +208,14 @@
             </div>
           </li>
           <li id="playerSlotFiveInfo">
+            <div id="playerFiveArmies">
+              <img src="../assets/icons/armies.svg">
+              <div id="playerFiveNbArmies">1</div>
+            </div>
+            <div id="playerFiveTerritories">
+              <img src="../assets/icons/flag.svg">
+              <div id="playerFiveNbTerritories">1</div>
+            </div>
             <div id="playerFiveTokenTypeOne">
               <img draggable="false" src="../assets/icons/tokenTypeOne.svg">
               <div id="playerFiveNbTokenTypeOne">2</div>
@@ -194,6 +234,14 @@
             </div>
           </li>
           <li id="playerSlotSixInfo">
+            <div id="playerSixArmies">
+              <img src="../assets/icons/armies.svg">
+              <div id="playerSixNbArmies">1</div>
+            </div>
+            <div id="playerSixTerritories">
+              <img src="../assets/icons/flag.svg">
+              <div id="playerSixNbTerritories">1</div>
+            </div>
             <div id="playerSixTokenTypeOne">
               <img draggable="false" src="../assets/icons/tokenTypeOne.svg">
               <div id="playerSixNbTokenTypeOne">2</div>
