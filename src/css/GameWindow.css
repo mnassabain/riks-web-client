@@ -20,7 +20,7 @@ Player purple #9367DA
     src:  url('../assets/fonts/Copperplate.ttf');
 }
 
-html, body{
+html, body {
     width: 100%;
     height: 100%;
     margin: 0;
@@ -388,20 +388,7 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
 }
 
 /************************************************************************/
-.hovered-country{
-    width : 300px;
-    height: 30px;
-    background-color: #27282D;
-    border: solid 2px #F9CE93;
-    border-radius: 3px;
-    position : absolute;
-    left : 0;
-    bottom: 70px;
-    /*box-shadow: 8px -8px 16px -2px rgba(0,0,0,0.4);*/
-    margin-left: 5px;
-    margin-bottom: 5px;
-    color: white;
-}
+
 
 /* Player controls southwest UI*/
 #playerControls {
@@ -529,59 +516,75 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
 /* Ratio bar on north UI*/
 #ratioBar {
     position: absolute;
-    top: 0;
-    width: 600px;
-    height: 10px;
-    border: 2px solid #F9CE93;
-    /*box-shadow: 0px 8px 10px 0px rgba(0,0,0,0.4);*/
+    top: 0.3rem;
+    width: 45vw;
+    height: 0.8rem;
+    border: 0.2rem solid #F9CE93;
     left: 0;
     right: 0;
     margin-left: auto;
     margin-right: auto;
-    border-radius: 10px;
+    border-radius: 2rem;
     overflow: hidden;
 }
 
 #ratioPlayerOne {
-    width: 100px;
-    height: 15px;
+    width: 16.6%;
+    height: 1rem;
     background-color: rgb(225,103,103);
     float: left;
 }
 
 #ratioPlayerTwo {
-    width: 100px;
-    height: 15px;
+    width: 16.6%;
+    height: 1rem;
     background-color: rgb(90,170,83);
     float: left;
 }
 
 #ratioPlayerThree {
-    width: 100px;
-    height: 15px;
+    width: 16.6%;
+    height: 1rem;
     background-color: #3D76E2;
     float: left;
 }
 
 #ratioPlayerFour {
     background-color: rgb(227,199,92);
-    width: 100px;
-    height: 15px;
+    width: 16.6%;
+    height: 1rem;
     float: left;
 }
 
 #ratioPlayerFive {
     background-color: #DF4C4C;
-    width: 100px;
-    height: 15px;
+    width: 16.6%;
+    height: 1rem;
     float: left;
 }
 
 #ratioPlayerSix {
     background-color: rgb(147,107,216);
-    width: 100px;
-    height: 15px;
+    width: 16.6%;
+    height: 1rem;
     float: left;
+}
+
+.hovered-country {
+    position : absolute;
+    top: 2rem;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width : 25rem;
+    height: 1.5rem;
+    text-align: center;
+    background-color: #27282D;
+    color: #FDF6EB;
+    border: solid 0.2rem #F9CE93;
+    border-radius: 2rem;
+    opacity: 0.9;
 }
 
 /****************************************************************************/

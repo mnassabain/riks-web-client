@@ -40,6 +40,7 @@
       <div id="ratioPlayerFive"></div>
       <div id="ratioPlayerSix"></div>
     </div>
+    <div class="hovered-country" id="hovered-country">Hover over a country</div>
 
     <div id="timer">00:00</div>
 
@@ -54,7 +55,6 @@
     </div>
 
     <!-- SouthWest UI-->
-    <div class="hovered-country" id="hovered-country">Hover over a country</div>
     <div id="playerControls">
       <div id="playerControlMessage">
         <span id="phase">Phase 2</span>
@@ -238,7 +238,6 @@
 
     <!-- South UI combat informations are displayed here-->
     <div id="combat">
-
       <!-- <div class="combatContent" id="combatInfo">
         You are
         <br>attacking
@@ -256,11 +255,12 @@
           <img src="../assets/icons/emptyThree.svg" class="armiesSelectionBtn" id="selectArmyThree">
         </div>
         <div>Armies</div>
-      </div> -->
+      </div>-->
 
       <div class="combatContent" id="combatInfo">
-        <span>Player_2</span><br>
-        is attacking<br>you
+        <span>Player_2</span>
+        <br>is attacking
+        <br>you
       </div>
       <div class="combatContent bigBtn">
         <img src="../assets/icons/defend.svg" class="bigBtn">
@@ -283,8 +283,7 @@
       <div class="combatContent">
       </div>
       <div class="combatContent" id="armiesSelection">
-      </div> -->
-
+      </div>-->
     </div>
 
     <!--Map of the game-->
@@ -583,6 +582,12 @@ body {
   overflow: hidden;
   background-color: #2e4267;
   font-family: Copperplate, serif;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #app {
