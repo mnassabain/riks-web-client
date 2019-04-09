@@ -288,12 +288,15 @@ export function chronometer () {
   // Find the distance between now and the starting time
   var distance = Date.now() - startingTime
 
-  // Time calculations in minutes and seconds
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000)
+  var m = minutes + "";
+  var s = seconds + "";
 
-  // Output the result the timer
-  document.getElementById('timer').innerHTML = minutes + ':' + seconds
+  //adding leading zeros under 10th secs and mins
+  while (m.length == 1) {m = "0" + m;}
+  while (s.length == 1) {s = "0" + s;}
+
+  // Output the result in the timer
+  document.getElementById('timer').innerHTML = m + ':' + s
 }
 
 /**********************************************************************************/
