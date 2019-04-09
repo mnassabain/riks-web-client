@@ -2,7 +2,7 @@
 <body>
   <div class="text-center col-lg-6">
     <div class="logo-block">
-      <img src="../assets/logo.svg" class="img-fluid logo">
+      <img draggable="false" src="../assets/logo.svg" class="img-fluid logo">
       <h2>The game of global domination</h2>
     </div>
     <div class="buttons-block">

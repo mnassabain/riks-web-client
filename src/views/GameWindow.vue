@@ -3,27 +3,27 @@
     <!--NorthWest UI -->
     <div id="tokens">
       <div id="playerArmies">
-        <img src="../assets/icons/armies.svg">
+        <img draggable="false" src="../assets/icons/armies.svg">
         <div id="nbTokenTypeOne">1</div>
       </div>
       <div id="playerTerritories">
-        <img src="../assets/icons/flag.svg">
+        <img draggable="false" src="../assets/icons/flag.svg">
         <div id="nbTokenTypeOne">1</div>
       </div>
       <div id="tokenTypeOne">
-        <img src="../assets/icons/tokenTypeOne.svg">
+        <img draggable="false" src="../assets/icons/tokenTypeOne.svg">
         <div id="nbTokenTypeOne">1</div>
       </div>
       <div id="tokenTypeTwo">
-        <img src="../assets/icons/tokenTypeTwo.svg">
+        <img draggable="false" src="../assets/icons/tokenTypeTwo.svg">
         <div id="nbTokenTypeTwo">0</div>
       </div>
       <div id="tokenTypeThree">
-        <img src="../assets/icons/tokenTypeThree.svg">
+        <img draggable="false" src="../assets/icons/tokenTypeThree.svg">
         <div id="nbTokenTypeThree">2</div>
       </div>
       <div id="tokenTypeJoker">
-        <img src="../assets/icons/tokenTypeJoker.svg">
+        <img draggable="false" src="../assets/icons/tokenTypeJoker.svg">
         <div id="nbTokenTypeJoker">1</div>
       </div>
     </div>
@@ -105,109 +105,109 @@
           </li>
           <li id="playerSlotOneInfo">
             <div id="playerOneTokenTypeOne">
-              <img src="../assets/icons/tokenTypeOne.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeOne.svg">
               <div id="playerOneNbTokenTypeOne">2</div>
             </div>
             <div id="playerOneTokenTypeTwo">
-              <img src="../assets/icons/tokenTypeTwo.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeTwo.svg">
               <div id="playerOneNbTokenTypeTwo">0</div>
             </div>
             <div id="playerOneTokenTypeThree">
-              <img src="../assets/icons/tokenTypeThree.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeThree.svg">
               <div id="playerOneNbTokenTypeThree">2</div>
             </div>
             <div id="playerOneTokenTypeJoker">
-              <img src="../assets/icons/tokenTypeJoker.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeJoker.svg">
               <div id="playerOneNbTokenTypeJoker">1</div>
             </div>
           </li>
           <li id="playerSlotTwoInfo">
             <div id="playerTwoTokenTypeOne">
-              <img src="../assets/icons/tokenTypeOne.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeOne.svg">
               <div id="playerTwoNbTokenTypeOne">2</div>
             </div>
             <div id="playerTwoTokenTypeTwo">
-              <img src="../assets/icons/tokenTypeTwo.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeTwo.svg">
               <div id="playerTwoNbTokenTypeTwo">0</div>
             </div>
             <div id="playerTwoTokenTypeThree">
-              <img src="../assets/icons/tokenTypeThree.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeThree.svg">
               <div id="playerTwoNbTokenTypeThree">2</div>
             </div>
             <div id="playerTwoTokenTypeJoker">
-              <img src="../assets/icons/tokenTypeJoker.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeJoker.svg">
               <div id="playerTwoNbTokenTypeJoker">1</div>
             </div>
           </li>
           <li id="playerSlotThreeInfo">
             <div id="playerThreeTokenTypeOne">
-              <img src="../assets/icons/tokenTypeOne.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeOne.svg">
               <div id="playerThreeNbTokenTypeOne">2</div>
             </div>
             <div id="playerThreeTokenTypeTwo">
-              <img src="../assets/icons/tokenTypeTwo.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeTwo.svg">
               <div id="playerThreeNbTokenTypeTwo">0</div>
             </div>
             <div id="playerThreeTokenTypeThree">
-              <img src="../assets/icons/tokenTypeThree.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeThree.svg">
               <div id="playerThreeNbTokenTypeThree">2</div>
             </div>
             <div id="playerThreeTokenTypeJoker">
-              <img src="../assets/icons/tokenTypeJoker.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeJoker.svg">
               <div id="playerThreeNbTokenTypeJoker">1</div>
             </div>
           </li>
           <li id="playerSlotFourInfo">
             <div id="playerFourTokenTypeOne">
-              <img src="../assets/icons/tokenTypeOne.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeOne.svg">
               <div id="playerFourNbTokenTypeOne">2</div>
             </div>
             <div id="playerFourTokenTypeTwo">
-              <img src="../assets/icons/tokenTypeTwo.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeTwo.svg">
               <div id="playerFourNbTokenTypeTwo">0</div>
             </div>
             <div id="playerFourTokenTypeThree">
-              <img src="../assets/icons/tokenTypeThree.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeThree.svg">
               <div id="playerFourNbTokenTypeThree">2</div>
             </div>
             <div id="playerFourTokenTypeJoker">
-              <img src="../assets/icons/tokenTypeJoker.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeJoker.svg">
               <div id="playerFourNbTokenTypeJoker">1</div>
             </div>
           </li>
           <li id="playerSlotFiveInfo">
             <div id="playerFiveTokenTypeOne">
-              <img src="../assets/icons/tokenTypeOne.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeOne.svg">
               <div id="playerFiveNbTokenTypeOne">2</div>
             </div>
             <div id="playerFiveTokenTypeTwo">
-              <img src="../assets/icons/tokenTypeTwo.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeTwo.svg">
               <div id="playerFiveNbTokenTypeTwo">0</div>
             </div>
             <div id="playerFiveTokenTypeThree">
-              <img src="../assets/icons/tokenTypeThree.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeThree.svg">
               <div id="playerFiveNbTokenTypeThree">2</div>
             </div>
             <div id="playerFiveTokenTypeJoker">
-              <img src="../assets/icons/tokenTypeJoker.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeJoker.svg">
               <div id="playerFiveNbTokenTypeJoker">1</div>
             </div>
           </li>
           <li id="playerSlotSixInfo">
             <div id="playerSixTokenTypeOne">
-              <img src="../assets/icons/tokenTypeOne.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeOne.svg">
               <div id="playerSixNbTokenTypeOne">2</div>
             </div>
             <div id="playerSixTokenTypeTwo">
-              <img src="../assets/icons/tokenTypeTwo.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeTwo.svg">
               <div id="playerSixNbTokenTypeTwo">0</div>
             </div>
             <div id="playerSixTokenTypeThree">
-              <img src="../assets/icons/tokenTypeThree.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeThree.svg">
               <div id="playerSixNbTokenTypeThree">2</div>
             </div>
             <div id="playerSixTokenTypeJoker">
-              <img src="../assets/icons/tokenTypeJoker.svg">
+              <img draggable="false" src="../assets/icons/tokenTypeJoker.svg">
               <div id="playerSixNbTokenTypeJoker">1</div>
             </div>
           </li>
@@ -237,39 +237,20 @@
     </div>
 
     <!-- South UI combat informations are displayed here-->
-    <div id="combat">
-      <!-- <div class="combatContent" id="combatInfo">
-        You are
-        <br>attacking
-        <br>
-        <span>Player_2</span>
-      </div>
-      <div class="combatContent bigBtn">
-        <img src="../assets/icons/attack.svg" class="bigBtn">
-      </div>
-      <div class="combatContent" id="armiesSelection">
-        <div>Attack with</div>
-        <div>
-          <img src="../assets/icons/emptyOne.svg" class="armiesSelectionBtn" id="selectArmyOne">
-          <img src="../assets/icons/emptyTwo.svg" class="armiesSelectionBtn" id="selectArmyTwo">
-          <img src="../assets/icons/emptyThree.svg" class="armiesSelectionBtn" id="selectArmyThree">
-        </div>
-        <div>Armies</div>
-      </div>-->
+    <div class="combatUI">
 
-      <div class="combatContent" id="combatInfo">
-        <span>Player_2</span>
-        <br>is attacking
-        <br>you
+      <div class="combatUILeft">
+        <div id="combatRed">Player_2</div>
+        <div>is attacking you</div>
       </div>
-      <div class="combatContent bigBtn">
-        <img src="../assets/icons/defend.svg" class="bigBtn">
+      <div class="combatUICenter" id="defendBtn">
+        <img draggable="false" onclick='test()' src="../assets/icons/defend.svg" class="bigBtn">
       </div>
-      <div class="combatContent" id="armiesSelection">
+      <div class="combatUIRight">
         <div>Defend with</div>
         <div>
-          <img src="../assets/icons/emptyOne.svg" class="armiesSelectionBtn" id="selectArmyOne">
-          <img src="../assets/icons/emptyTwo.svg" class="armiesSelectionBtn" id="selectArmyTwo">
+          <img draggable="false" src="../assets/icons/emptyOne.svg" class="armiesSelectionBtn" id="selectArmyOne">
+          <img draggable="false" src="../assets/icons/emptyTwo.svg" class="armiesSelectionBtn" id="selectArmyTwo">
         </div>
         <div>Armies</div>
       </div>
