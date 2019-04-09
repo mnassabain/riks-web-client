@@ -41,7 +41,7 @@
       <div id="ratioPlayerSix"></div>
     </div>
 
-    <div id="timer">0:0</div>
+    <div id="timer">00:00</div>
 
     <!--Menu button NorthEast UI-->
     <div class="dropdown">
