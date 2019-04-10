@@ -37,9 +37,25 @@ export default {
     }
   },
   methods: {
+      verify(data) {
+      var response = JSON.parse(data)
+
+      if (response.data.error == true)
+      {
+        alert('Error when registring: ' + response.data.response)
+      }
+      else
+      {
+        delete this.$socket.onmessage
+        /* redirect user */
+        this.$router.push('/MainMenu')
+      }
+    },
+
     registerUser () {
       if (this.password != this.passwordConfirm)
       {
+        alert('Password is wrong ! please try again')
         return
       }
 
@@ -47,7 +63,8 @@ export default {
         userID: this.login,
         userPassword: this.password
       }
-
+      this.$socket.onmessage = (data) => this.verify(data.data)
+      
       this.$socket.send(new Packet('SIGN_UP', params).getJson())
     }
   }
