@@ -14,10 +14,10 @@
       >
     </div>
     <div>
-      <button @click="createGame" tag="button" class="button validate-button my-1">Create Room</button>
+      <button @click="createGame" class="button validate-button my-1">Create Room</button>
     </div>
     <div class="additional-button-block">
-      <v-btn class="button second-button my-1" @click="Cancel">Cancel</v-btn>
+      <button class="button second-button my-1" @click="Cancel">Cancel</button>
     </div>
   </div>
 </body>
@@ -36,6 +36,18 @@ export default {
     }
   },
   methods: {
+    verify(data) {
+      var response = JSON.parse(data)
+      if (response.data.error == true) {
+        alert("Error: " + response.data.response)
+        return
+      } else {
+        delete this.$socket.onmessage;
+
+        /* redirect user */
+        this.$router.push({ path: "/Lobby" });
+      }
+    },
     createGame () {
       var params = {
         lobbyName: this.nameOfRoom,
@@ -45,7 +57,10 @@ export default {
       }
 
       this.$socket.send(new Packet('CREATE_LOBBY', params).getJson())
-      this.$router.push({path: '/Lobby'})
+      //this.$router.push({path: '/Lobby'})
+
+       /* message listener */
+      this.$socket.onmessage = data => this.verify(data.data)
     },
     Cancel () {
       return this.$router.push({path: '/MainMenu'})
