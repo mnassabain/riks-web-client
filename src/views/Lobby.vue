@@ -57,7 +57,7 @@ export default {
                 delete vm.$socket.onmessage;
                 vm.$router.push({path: "/MainMenu"})
             }
-        }  
+        }
      }
    }
 }
