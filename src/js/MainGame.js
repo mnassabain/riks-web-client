@@ -15,7 +15,7 @@ const phases = {
  Start game
 
  Create players
- 
+
  Get events from server
 
  Send info to server
@@ -76,5 +76,3 @@ export class MainGame {
             this.synchronize();
         },1000);
     }
-
-}
