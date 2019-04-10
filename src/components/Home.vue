@@ -63,6 +63,7 @@ export default {
 
     loginUser () {
       if (this.login === '' || this.password === '') {
+        alert("please enter your login and password")
         return
       }
 

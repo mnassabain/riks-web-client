@@ -1,8 +1,4 @@
-/* eslint-disable */
-
 import * as d3 from 'd3'
-
-
 
 export function dropdownClick () {
   document.getElementById('myDropdown').classList.toggle('show')
@@ -188,10 +184,11 @@ export function newElement (type, attrs) {
   return result
 }
 
+/* Resets the country name area and deletes the higlight on the last hovered country*/
 export function mouseoverSea (evt) {
   var sea = evt.target
   highlight.setAttribute('d', 'm0 0')
-  text.textContent = sea.getAttribute('id')
+  doc.getElementById('hovered-country').innerHTML =  "Hover a Country";
 }
 
 /* Display country name when mouse hovers it  */
