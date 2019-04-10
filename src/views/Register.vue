@@ -43,12 +43,13 @@ export default {
       if (response.data.error == true)
       {
         alert('Error when registring: ' + response.data.response)
+        return
       }
       else
       {
         delete this.$socket.onmessage
         /* redirect user */
-        this.$router.push('/MainMenu')
+        this.$router.push('/')
       }
     },
 
@@ -64,7 +65,7 @@ export default {
         userPassword: this.password
       }
       this.$socket.onmessage = (data) => this.verify(data.data)
-      
+
       this.$socket.send(new Packet('SIGN_UP', params).getJson())
     }
   }
