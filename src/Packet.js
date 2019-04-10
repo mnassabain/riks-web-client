@@ -59,4 +59,8 @@ export class Packet{
     getJson(){
         return JSON.stringify(this);
     }
+
+    getTypeOf(type) {
+        return types[type];
+    }
 }
