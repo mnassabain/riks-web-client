@@ -29,6 +29,7 @@ export class MainGame {
         this.map = map;
         this.playerList = [];
         this.currentPlayer = undefined;
+        this.activePlayerReinforcement = 0;
         
         this.handleIncommingMessages();
         this.innerLoop();
@@ -52,7 +53,7 @@ export class MainGame {
     
     useSet(player, token1, token2, token3){
 
-        if(0 /* number of tokens is greater than 4 */)
+        if(0 /* check if number of tokens is greater than 4 */)
         {
             var params = {
                 player : player,
@@ -60,9 +61,48 @@ export class MainGame {
                 token2: token2,
                 token3: token3
             } 
-            this.$socket.send(new Packet('USE_TOKENS', params).getJson())
+            this.$socket.send(new Packet('USE_TOKENS', params).getJson());
         }
     }
+
+    /* this function must be triggered  when the active player clicks on a territory
+    to put an unit during the first phase */
+    putUnit(player, territory,unit){
+
+        /* get clicked territory */
+        if(this.currentPhase == 0 && this.activePlayerReinforcement > 0)
+        {
+            var params = {
+                player : player,
+                territory: territory,
+                unit: unit
+            }
+
+            this.$socket.send(new Packet('PUT', params).getJson());
+            this.activePlayerReinforcement --;
+        }
+
+    }
+    /* this function must be triggered  when the active player clicks on a territory
+    to put an unit during the first phase */
+    putUnit(player, territory,unit){
+
+        /* get clicked territory */
+        if(this.currentPhase == 0 && this.activePlayerReinforcement > 0)
+        {
+            var params = {
+                player : player,
+                territory: territory,
+                unit: unit
+            }
+
+            this.$socket.send(new Packet('PUT', params).getJson());
+            this.activePlayerReinforcement --;
+        }
+
+    }
+
+
     handleIncommingMessages(){
         this.$socket.onmessage = function(d){
             var msg = JSON.parse(d.data);
@@ -76,8 +116,14 @@ export class MainGame {
                         break;
 
                     case Packet.getTypeOf('REINFORCEMENT'):
-                        
+                        /*this.activePlayerReinforcement = msg.unit; */
+                        /*after receving reinforcement, the active player must place them on the map */
+
                         break;
+
+                    case Packet.getTypeOf('CURRENT_PHASE'):
+                       /* this.currentPlayer = msg.player */
+                       /*this.currentPhase = msg.nextPhase */;
 
                     default:
                         break;
