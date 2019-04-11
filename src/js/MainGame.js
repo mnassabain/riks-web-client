@@ -49,7 +49,20 @@ export class MainGame {
     synchronize() {
         this.sendToServer(new Packet('GAME_STATUS'));
     }
+    
+    useSet(player, token1, token2, token3){
 
+        if(0 /* number of tokens is greater than 4 */)
+        {
+            var params = {
+                player : player,
+                token1: token1,
+                token2: token2,
+                token3: token3
+            } 
+            this.$socket.send(new Packet('USE_TOKENS', params).getJson())
+        }
+    }
     handleIncommingMessages(){
         this.$socket.onmessage = function(d){
             var msg = JSON.parse(d.data);
@@ -60,6 +73,10 @@ export class MainGame {
                 switch (msg.type) {
                     case Packet.getTypeOf('GAME_STATUS'):
                     
+                        break;
+
+                    case Packet.getTypeOf('REINFORCEMENT'):
+                        
                         break;
 
                     default:
