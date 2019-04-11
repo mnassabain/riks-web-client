@@ -59,7 +59,7 @@ export class MainGame {
             this.btnState = false ;
         }
     }
-    
+
     startGame() {
 
     }
@@ -114,10 +114,25 @@ export class MainGame {
 
     }
 
-    endPhase(player)
+    endPhase()
     {   
-        var params =  {player: player};
+        var params =  {player: this.currentPlayer};
         this.$socket.send(new Packet('END_PHASE',params).getJson());
+    }
+
+    updateReinforcement(player)
+    {
+        if(this.currentPhase == 0)
+        {
+            this.activePlayerReinforcement -- ;
+        }
+        
+        /* if the player has used his reinforcement and he has less than 4 tokens
+        send the END_PHASE message to the server */
+        if(this.activePlayerReinforcement == 0)
+        {
+            this.endPhase();
+        }
     }
     
     handleIncommingMessages(){
@@ -143,7 +158,8 @@ export class MainGame {
                     
                     /* a PUT message implies a PUT message from the  client */
                     case Packet.getTypeOf('PUT'):
-                    /*change the color of a territory */
+                        this.updateReinforcement();
+                    /*change the color of a territory during the pre-phase */
                         break;
 
                     default:
