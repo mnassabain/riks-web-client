@@ -107,7 +107,7 @@ export class MainGame {
         var params =  {player: player};
         this.$socket.send(new Packet('END_PHASE',params).getJson());
     }
-
+    
     handleIncommingMessages(){
         this.$socket.onmessage = function(d){
             var msg = JSON.parse(d.data);
