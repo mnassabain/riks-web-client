@@ -59,7 +59,7 @@ export class MainGame {
             this.btnState = false ;
         }
     }
-
+    
     startGame() {
 
     }
