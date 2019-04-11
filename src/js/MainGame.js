@@ -30,10 +30,23 @@ export class MainGame {
         this.playerList = [];
         this.currentPlayer = undefined;
         this.activePlayerReinforcement = 0;
+        this.btnState = false ; /* for the nextPhase button */
+        this.currentUserName = localStorage.name; 
         
         this.handleIncommingMessages();
         this.innerLoop();
     }
+
+    /* dealing with nextPhase button state
+       after the END_PHASE message is emitted , the server will go to the next phase
+       if everything is correct 
+    */
+    /**
+     * 
+     * @param  player : player from the server after CURRENT_PHASE message
+     * @param  phase : phase  from the server after CURRENT_PHASE message
+     */
+   
 
     startGame() {
 
@@ -51,6 +64,8 @@ export class MainGame {
         this.sendToServer(new Packet('GAME_STATUS'));
     }
     
+    /* this function must be triggered  when the active player clicks on a territory
+    to put an unit during the first phase */
     useSet(player, token1, token2, token3){
 
         if(0 /* check if number of tokens is greater than 4 */)
@@ -67,38 +82,23 @@ export class MainGame {
 
     /* this function must be triggered  when the active player clicks on a territory
     to put an unit during the first phase */
-    putUnit(player, territory,unit){
-
-        /* get clicked territory */
+    useReinforcement(player, territory,unit)
+    {
         if(this.currentPhase == 0 && this.activePlayerReinforcement > 0)
         {
-            var params = {
-                player : player,
-                territory: territory,
-                unit: unit
-            }
-
-            this.$socket.send(new Packet('PUT', params).getJson());
-            this.activePlayerReinforcement --;
+            putUnit(player,territory,unit);
         }
 
     }
-    /* this function must be triggered  when the active player clicks on a territory
-    to put an unit during the first phase */
     putUnit(player, territory,unit){
 
-        /* get clicked territory */
-        if(this.currentPhase == 0 && this.activePlayerReinforcement > 0)
-        {
-            var params = {
-                player : player,
-                territory: territory,
-                unit: unit
-            }
-
-            this.$socket.send(new Packet('PUT', params).getJson());
-            this.activePlayerReinforcement --;
+        var params = {
+            player: player,
+            territory: territory,
+            unit: unit
         }
+
+        this.$socket.send(new Packet('PUT', params).getJson());
 
     }
 
@@ -121,14 +121,18 @@ export class MainGame {
                         break;
 
                     case Packet.getTypeOf('REINFORCEMENT'):
-                        /*this.activePlayerReinforcement = msg.unit; */
-                        /*after receving reinforcement, the active player must place them on the map */
+                        this.activePlayerReinforcement += msg.unit;
 
                         break;
 
                     case Packet.getTypeOf('CURRENT_PHASE'):
-                       /* this.currentPlayer = msg.player */
-                       /*this.currentPhase = msg.nextPhase */;
+                       /* nextPhaseBtnState(msg.player,msg.nextPhase) */
+                       break;
+                    
+                    /* a PUT message implies a PUT message from the  client */
+                    case Packet.getTypeOf('PUT'):
+                    /*change the color of a territory */
+                        break;
 
                     default:
                         break;
