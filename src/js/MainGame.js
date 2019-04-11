@@ -46,7 +46,19 @@ export class MainGame {
      * @param  player : player from the server after CURRENT_PHASE message
      * @param  phase : phase  from the server after CURRENT_PHASE message
      */
-   
+    nextPhaseBtnState(player, phase)
+    {
+        if(player.name == this.currentUserName && this.currentPhase != phase)
+        {
+            this.btnState = true ;
+            this.currentPlayer = player ;
+            this.currentPhase = phase ;
+        }
+        else
+        {
+            this.btnState = false ;
+        }
+    }
 
     startGame() {
 
