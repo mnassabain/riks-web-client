@@ -58,6 +58,11 @@ export class MainGame {
             this.btnState = false ;
         }
     }
+    
+    useTokensResponse (name, units)
+    {
+        return name + "has received " + units + "unit(s)" ;
+    }
 
     startGame() {
 
@@ -135,7 +140,7 @@ export class MainGame {
             this.endPhase();
         }
     }
-    
+
     handleIncommingMessages(){
         this.$socket.onmessage = function(d){
             var msg = JSON.parse(d.data);
