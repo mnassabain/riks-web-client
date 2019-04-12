@@ -64,6 +64,11 @@ export class MainGame {
         return name + "has received " + units + "unit(s)" ;
     }
 
+    putResponse(name,territory, units)
+    {
+        return name + "has putted " + units + "unit(s) on" + territory ; 
+    }
+
     startGame() {
 
     }
