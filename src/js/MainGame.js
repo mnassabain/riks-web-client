@@ -60,13 +60,15 @@ export class MainGame {
     }
     
     useTokensResponse (name, units)
-    {
-        return name + "has received " + units + "unit(s)" ;
+    {   
+        /*return name + "has received " + units + "unit(s)" ;*/
+        console.log(name + "has received " + units + "unit(s)");
     }
 
     putResponse(name,territory, units)
     {
-        return name + "has putted " + units + "unit(s) on" + territory ; 
+        /*return name + "has putted " + units + "unit(s) on" + territory ; */
+        console.log(name + "has putted " + units + "unit(s) on" + territory);
     }
 
     startGame() {
