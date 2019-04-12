@@ -159,7 +159,7 @@ export class MainGame {
                         break;
 
                     case Packet.getTypeOf('REINFORCEMENT'):
-                        this.activePlayerReinforcement += msg.units;
+                        this.activePlayerReinforcement = msg.units;
 
                         break;
 
@@ -170,7 +170,12 @@ export class MainGame {
                     /* a PUT message implies a PUT message from the  client */
                     case Packet.getTypeOf('PUT'):
                         this.updateReinforcement();
-                    /*change the color of a territory during the pre-phase */
+                        /*this.putResponse(msg.player.name,msg.territory,msg.units); */
+                       /*change the color of a territory during the pre-phase */
+                        break;
+
+                    case Packet.getTypeOf('USE_TOKENS'):
+                        /*this.useTokensResponse(msg.player.name,msg.units); */
                         break;
 
                     default:
