@@ -46,17 +46,46 @@ export class MainGame {
      * @param  player : player from the server after CURRENT_PHASE message
      * @param  phase : phase  from the server after CURRENT_PHASE message
      */
-    nextPhaseBtnState(player, phase)
+    nextPhaseBtnState(phase)
     {
-        if(player.name == this.currentUserName && this.currentPhase != phase)
+        if(this.currentPlayer.name == this.currentUserName && this.currentPhase != phase)
         {
             this.btnState = true ;
-            this.currentPlayer = player ;
             this.currentPhase = phase ;
         }
         else
         {
             this.btnState = false ;
+        }
+    }
+    
+    useTokensResponse (name, units)
+    {   
+        /* only the active player does not see this notifcation */
+        if(name != this.currentUserName)
+        {
+             /*return name + "has received " + units + "unit(s)" ;*/
+            console.log(name + "has received " + units + " unit(s)");
+        }
+        else
+        {   
+            /* only the active player sees this notification */
+            console.log("you have has received " + units + " unit(s)");
+        }
+    }
+
+    putResponse(name,territory, units)
+    {
+        if(name != this.currentUserName)
+        {
+
+          /*return name + "has putted " + units + "unit(s) on" + territory ; */
+          console.log(name + "has putted " + units + " unit(s) on " + territory);  
+        }
+        else
+        {
+           /*return name + "has putted " + units + "unit(s) on" + territory ; */
+          console.log("you have putted " + units + " unit(s) on" + territory); 
         }
     }
 
@@ -78,12 +107,11 @@ export class MainGame {
     
     /* this function must be triggered  when the active player clicks on a territory
     to put an unit during the first phase */
-    useSet(player, token1, token2, token3){
+    useSet(token1, token2, token3){
 
         if(0 /* check if number of tokens is greater than 4 */)
         {
             var params = {
-                player : player,
                 token1: token1,
                 token2: token2,
                 token3: token3
@@ -95,29 +123,32 @@ export class MainGame {
     /* this function must be triggered  when the active player clicks on a territory
     to put an unit during the first phase */
     useReinforcement(player, territory,unit)
-    {
-        if(this.currentPhase == 0 && this.activePlayerReinforcement > 0)
+    {   
+        if(this.activePlayerReinforcement > 0)
         {
             putUnit(player,territory,unit);
         }
 
     }
-    putUnit(player, territory,unit){
+    putUnit(territory,units){
 
-        var params = {
-            player: player,
-            territory: territory,
-            unit: unit
+        /* PUT message can only be emitted during phases -1 , 0 */
+        if(this.currentPhase == - 1 || this.currentPhase == 0)
+        {
+            var params = {
+                territory: territory,
+                units: units
+            }
+    
+            this.$socket.send(new Packet('PUT', params).getJson());
+
         }
-
-        this.$socket.send(new Packet('PUT', params).getJson());
 
     }
 
     endPhase()
     {   
-        var params =  {player: this.currentPlayer};
-        this.$socket.send(new Packet('END_PHASE',params).getJson());
+        this.$socket.send(new Packet('END_PHASE').getJson());
     }
 
     updateReinforcement(player)
@@ -134,7 +165,7 @@ export class MainGame {
             this.endPhase();
         }
     }
-    
+
     handleIncommingMessages(){
         this.$socket.onmessage = function(d){
             var msg = JSON.parse(d.data);
@@ -144,22 +175,27 @@ export class MainGame {
             else{
                 switch (msg.type) {
                     case Packet.getTypeOf('GAME_STATUS'):
-                    
+                    /* get player list */
                         break;
 
                     case Packet.getTypeOf('REINFORCEMENT'):
-                        this.activePlayerReinforcement += msg.unit;
+                        this.activePlayerReinforcement = msg.units;
 
                         break;
 
                     case Packet.getTypeOf('CURRENT_PHASE'):
-                       /* nextPhaseBtnState(msg.player,msg.nextPhase) */
+                       this.nextPhaseBtnState(msg.phase);
                        break;
                     
                     /* a PUT message implies a PUT message from the  client */
                     case Packet.getTypeOf('PUT'):
                         this.updateReinforcement();
-                    /*change the color of a territory during the pre-phase */
+                        /*this.putResponse(msg.player.name,msg.territory,msg.units); */
+                       /*change the color of a territory during the pre-phase */
+                        break;
+
+                    case Packet.getTypeOf('USE_TOKENS'):
+                        /*this.useTokensResponse(msg.player.name,msg.units); */
                         break;
 
                     default:
