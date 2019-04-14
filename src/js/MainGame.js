@@ -62,22 +62,31 @@ export class MainGame {
     useTokensResponse (name, units)
     {   
         /* only the active player does not see this notifcation */
-        if(this.currentPlayer.name != this.currentUserName)
+        if(name != this.currentUserName)
         {
              /*return name + "has received " + units + "unit(s)" ;*/
-            console.log(name + "has received " + units + "unit(s)");
+            console.log(name + "has received " + units + " unit(s)");
         }
         else
         {   
             /* only visible by the active player */
-            console.log("you have has received " + units + "unit(s)");
+            console.log("you have has received " + units + " unit(s)");
         }
     }
 
     putResponse(name,territory, units)
     {
-        /*return name + "has putted " + units + "unit(s) on" + territory ; */
-        console.log(name + "has putted " + units + "unit(s) on" + territory);
+        if(name != this.currentUserName)
+        {
+
+          /*return name + "has putted " + units + "unit(s) on" + territory ; */
+          console.log(name + "has putted " + units + " unit(s) on " + territory);  
+        }
+        else
+        {
+           /*return name + "has putted " + units + "unit(s) on" + territory ; */
+          console.log("you have putted " + units + " unit(s) on" + territory); 
+        }
     }
 
     startGame() {
