@@ -69,7 +69,7 @@ export class MainGame {
         }
         else
         {   
-            /* only visible by the active player */
+            /* only the active player sees this notification */
             console.log("you have has received " + units + " unit(s)");
         }
     }
