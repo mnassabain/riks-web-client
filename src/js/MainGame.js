@@ -61,8 +61,17 @@ export class MainGame {
     
     useTokensResponse (name, units)
     {   
-        /*return name + "has received " + units + "unit(s)" ;*/
-        console.log(name + "has received " + units + "unit(s)");
+        /* only the active player does not see this notifcation */
+        if(this.currentPlayer.name != this.currentUserName)
+        {
+             /*return name + "has received " + units + "unit(s)" ;*/
+            console.log(name + "has received " + units + "unit(s)");
+        }
+        else
+        {   
+            /* only visible by the active player */
+            console.log("you have has received " + units + "unit(s)");
+        }
     }
 
     putResponse(name,territory, units)
