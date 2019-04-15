@@ -1,178 +1,182 @@
 
 
 export var map = {
-    africa: {
-        east_africa: {
+    'Africa': {
+        'East Africa': {
             player: false, // Put the id of the player owning this territory
             soldiers: 0
         },
-        egypt: {
+        'Egypt': {
             player: false, 
             soldiers: 0
         },
-        congo: {
+        'Congo': {
             player: false, 
             soldiers: 0
         },
-        madagascar: {
+        'Madagascar': {
             player: false, 
             soldiers: 0
         },
-        south_africa: {
+        'South Africa': {
             player: false, 
             soldiers: 0
         },
-        north_africa: {
+        'North Africa': {
             player: false, 
             soldiers: 0
         }
     },
-    asia: {
-        afghanistan: {
+    'Asia': {
+        'Afghanistan': {
             player: false, 
             soldiers: 0
         },
-        india: {
+        'India': {
             player: false, 
             soldiers: 0
         },
-        irkutsk: {
+        'Irkutsk': {
             player: false, 
             soldiers: 0
         },
-        kamchatka: {
+        'Kamchatka': {
             player: false, 
             soldiers: 0
         },
-        middle_east: {
+        'Middle East': {
             player: false, 
             soldiers: 0 
         },
-        mongolia: {
+        'Mongolia': {
             player: false, 
             soldiers: 0
         },
-        siam: {
+        'Siam': {
             player: false, 
             soldiers: 0
         },
-        china: {
+        'China': {
             player: false, 
             soldiers: 0
         },
-        japan: {
+        'Japan': {
             player: false, 
             soldiers: 0
         },
-        siberia: {
+        'Siberia': {
             player: false, 
             soldiers: 0
         },
-        ural: {
+        'Ural': {
             player: false, 
             soldiers: 0
         },
-        yakutsk: {
+        'Yakutsk': {
             player: false, 
             soldiers: 0
         }
     },
-    australia: {
-        eastern_australia: {
+    'Australia': {
+        'Eastern Australia': {
             player: false, 
             soldiers: 0
         },
-        new_guinea: {
+        'New Guinea': {
             player: false, 
             soldiers: 0
         },
-        western_australia: {
+        'Western Australia': {
             player: false, 
             soldiers: 0
         },
-        indonesia: {
+        'Indonesia': {
             player: false, 
             soldiers: 0
         }
     },
-    europe: {
-        great_britain: {
+    'Europe': {
+        'Great Britain': {
             player: false, 
             soldiers: 0
         },
-        iceland: {
+        'Iceland': {
             player: false, 
             soldiers: 0
         },
-        northern_europe: {
+        'Northern Europe': {
             player: false, 
             soldiers: 0
         },
-        scandinavia: {
+        'Scandinavia': {
             player: false, 
             soldiers: 0
         },
-        southern_europe: {
+        'Southern Europe': {
             player: false, 
             soldiers: 0
         },
-        ukraine: {
+        'Ukraine': {
             player: false, 
             soldiers: 0
         },
-        western_europe: {
+        'Western Europe': {
             player: false, 
             soldiers: 0
         }
     },
-    north_america: {
-        alaska: {
+    'North America': {
+        'Alaska': {
             player: false, 
             soldiers: 0
         },
-        alberta: {
+        'Alberta': {
             player: false, 
             soldiers: 0
         },
-        central_america: {
+        'Central America': {
             player: false, 
             soldiers: 0
         },
-        eastern_united_states: {
+        'Eastern United States': {
             player: false, 
             soldiers: 0
         },
-        greenland: {
+        'Greenland': {
             player: false, 
             soldiers: 0
         }, 
-        northwest_territory: {
+        'Northwest Territory': {
             player: false, 
             soldiers: 0
         },  
-        ontario: {
+        'Ontario': {
             player: false, 
             soldiers: 0
         },
-        Western_united_states: {
+        'Western United States': {
             player: false, 
             soldiers: 0
         },
-        quebec: {
+        'Quebec': {
             player: false, 
             soldiers: 0
         }
     },
-    south_america: {
-        argentina: {
+    'South America': {
+        'Brazil': {
             player: false, 
             soldiers: 0
         },
-        peru: {
+        'Argentina': {
             player: false, 
             soldiers: 0
         },
-        venezuela: {
+        'Peru': {
+            player: false, 
+            soldiers: 0
+        },
+        'Venezuela': {
             player: false, 
             soldiers: 0
         }
