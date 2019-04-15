@@ -227,6 +227,8 @@ export function mouseoverSea (evt) {
 export function mouseoverCountry (evt) {
   var country = evt.target
   var outline = country.getAttribute('d')
+  // for function placeSoldier, to access the country id under the highlight layer
+  hoveredCountryId = country.getAttribute('id')
   highlight.setAttribute('d', outline)
   doc.getElementById('hovered-country').innerHTML = country.getAttribute('id');
 }
