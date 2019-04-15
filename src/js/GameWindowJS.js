@@ -38,6 +38,7 @@ var transformMatrix
 // var svgNS
 var planisphere
 var selectedElement, offset, transform
+var hoveredCountryId
 
 /* Initialize the SVG map on the UI */
 export function init (evt) {
@@ -150,26 +151,57 @@ export function endDrag (evt) {
 }
 
 /* Put a soldier svg element on county when double clicked
- *  issue : fix double soldier placement, ajust soldier position
+ *  TODO : ajust soldier position
  *  on some countries */
 export function placeSoldier (evt) {
    var country = evt.target
 
+   //getting the coordinates of the square center of a country
    var bbox = country.getBBox()
    var x = Math.floor(bbox.x + bbox.width / 2.0) - 20
    var y = Math.floor(bbox.y + bbox.height / 2.0) - 15
 
-   var test = d3.select(country.getAttribute('id')).toString()
-
-   var svg = d3
-    .select('#matrix-group g')
-    .append('svg:image')
-    .attr('xlink:href', 'assets/icons/soldier.svg')
-    .attr('width', '40')
-    .attr('height', '40')
-    .attr('x', x.toString())
-    .attr('y', y.toString())
- }
+   //getting the country id
+   var selectedCountryId = hoveredCountryId
+   //console.log(selectedCountryId)
+   //console.log(map)
+    
+  //looping on the map object to match the dbclicked country
+  Object.keys(map).forEach(key => {
+    var continentName = map[key]
+    for(var countries in continentName){
+      //console.log(countries)
+      //var res = countries.localeCompare(hoveredCountryId)
+      var res =  ( countries == selectedCountryId ) ? 0 : ( ( countries > selectedCountryId ) ? 1 : -1 )
+      if(res == 0){
+        //console.log("match")
+        //limiting the number of appended icons to 1
+        if(continentName[countries].soldiers == 0){
+          //appending icon on map
+          var svg = d3
+            .select('#matrix-group g')
+            .append('svg:image')
+            .attr('xlink:href', require('../assets/icons/soldier.svg'))
+            .attr('width', '40')
+            .attr('height', '40')
+            .attr('x', x.toString())
+            .attr('y', y.toString())
+        }
+        //Updating the selected country data :
+        // TODO : checking if the clicking player is the same as in the recorded data (allow or deny modification)
+        if(continentName[countries].soldiers < 3){// && continentName[countries].player == ){
+          continentName[countries].soldiers += 1;
+          // TODO getting the current user id and updating map data
+          continentName[countries].player = true;
+        }
+        console.log(continentName[countries] + " soldiers " + continentName[countries].soldiers)
+        console.log(continentName[countries] + " player   " + continentName[countries].player)
+      }else{
+        //console.log("no match")
+      }
+    }
+  })  
+}
 
 // generic function to create an xml element
 export function newElement (type, attrs) {
@@ -278,6 +310,9 @@ export function chronometer () {
   // Find the distance between now and the starting time
   var distance = Date.now() - startingTime
 
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000)
+
   var m = minutes + "";
   var s = seconds + "";
 
@@ -287,6 +322,7 @@ export function chronometer () {
 
   // Output the result in the timer
   document.getElementById('timer').innerHTML = m + ':' + s
+  
 }
 
 /**********************************************************************************/
