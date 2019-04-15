@@ -4,43 +4,57 @@
     <div id="tokens">
       <div id="playerArmies">
         <img src="../assets/icons/armies.svg">
-        <div id="nbArmies">{{player.nbArmies}}</div>
+        <div id="nbArmies">{{players[0].nbArmies}}</div>
       </div>
       <div id="playerTerritories">
         <img src="../assets/icons/flag.svg">
-        <div id="nbTerritories">{{player.nbTerritories}}</div>
+        <div id="nbTerritories">{{players[0].nbTerritories}}</div>
       </div>
       <div id="tokenTypeOne">
         <img src="../assets/icons/tokenTypeOne.svg">
-        <div id="nbTokenTypeOne">{{player.nbTokenTypeOne}}</div>
+        <div id="nbTokenTypeOne">{{players[0].nbTokenTypeOne}}</div>
       </div>
       <div id="tokenTypeTwo">
         <img src="../assets/icons/tokenTypeTwo.svg">
-        <div id="nbTokenTypeTwo">{{player.nbTokenTypeTwo}}</div>
+        <div id="nbTokenTypeTwo">{{players[0].nbTokenTypeTwo}}</div>
       </div>
       <div id="tokenTypeThree">
         <img src="../assets/icons/tokenTypeThree.svg">
-        <div id="nbTokenTypeThree">{{player.nbTokenTypeThree}}</div>
+        <div id="nbTokenTypeThree">{{players[0].nbTokenTypeThree}}</div>
       </div>
       <div id="tokenTypeJoker">
         <img src="../assets/icons/tokenTypeJoker.svg">
-        <div id="nbTokenTypeJoker">{{player.nbTokenTypeJoker}}</div>
+        <div id="nbTokenTypeJoker">{{players[0].nbTokenTypeJoker}}</div>
       </div>
+    </div>
+
+    <div id="messageDisplay" class="generalMessageDisplay">
+      <div class="generalMessage">
+        WELCOME PLAYERS !
+      </div>  
     </div>
 
     <!--Under Tokens NorthWest UI hidden by default-->
     <div idTokenSpread></div>
 
     <!--North UI-->
-    <div id="ratioBar" v-for="(player,index) in players" :key="player.id" :index="index">
-      <div :id="'ratioPlayer${index}'"></div>
+    <div id="ratioBar">
+      <div v-for="(player) in players" :key="player.playerId" :id="'ratioPlayer'+player.playerId"></div>
     </div>
 
     <div id="timer">00:00</div>
 
     <!--Menu button NorthEast UI-->
-    <div class="dropdown">
-      <button id="menuBtn" v-on:click="dropdownClick()" class="dropbtn"></button>
+    <div>
+      <div class="menuBtn">
+        <!-- <button id="menuBtn" v-on:click="dropdownClick()" class="dropbtn"></button> -->
+        <img
+          draggable="false"
+          v-on:click="dropdownClick()"
+          src="../assets/icons/menu.svg"
+          class="menuIcon dropbtn"
+        >
+      </div>
       <div id="myDropdown" class="dropdown-content">
         <a href="#">Parameters</a>
         <a href="#">Quit</a>
@@ -48,10 +62,12 @@
       </div>
     </div>
 
-    <!-- SouthWest UI-->
+    
     <div class="hovered-country" id="hovered-country">Hover over a country</div>
+
+    <!-- SouthWest UI-->
     <div id="playerControls">
-      <div id="playerControlMessage">
+      <!-- <div id="playerControlMessage">
         <span id="phase">Phase 2</span>
         <br>
         <span id="action">Attacking</span>
@@ -61,42 +77,42 @@
           Next
           <br>Phase
         </button>
-      </div>
+      </div> -->
     </div>
 
     <!-- SouthEast UI-->
-    <div class="playerListContainer">
+    <div id='playerList' class="playerListContainer">
       <div class="playerList">
-        <ul v-for="(player,index) in players" :key="player.id" :index="index">
-          <li :id="'playerSlot'+index">
-            <div :id="'playerSlot${index}Name'" class="playerListName">
+        <ul v-for="(player) in players" :key="player.id">
+          <li :id="'playerSlot'+player.playerId">
+            <div :id="'playerSlot'+player.playerId+'Name'" class="playerListName">
               <p>{{player.name}}</p>
             </div>
           </li>
-          <li :id="'playerSlot${index}Info'">
-            <div ::id="'player${index}Armies'">
+          <li :id="'playerSlot'+player.playerId+'Info'">
+            <div :id="'player'+player.playerId+'Armies'">
               <img src="../assets/icons/armies.svg">
-              <div :id="'player${index}NbArmies'">{{player.nbArmies}}</div>
+              <div :id="'player'+player.playerId+'NbArmies'">{{player.nbArmies}}</div>
             </div>
-            <div :id="'player${index}Territories'">
+            <div :id="'player'+player.playerId+'Territories'">
               <img src="../assets/icons/flag.svg">
-              <div :id="'player${index}NbTerritories'">{{player.NbTerritories}}</div>
+              <div :id="'player'+player.playerId+'NbTerritories'">{{player.nbTerritories}}</div>
             </div>
-            <div :id="'player${index}TokenTypeOne'">
+            <div :id="'player'+player.playerId+'TokenTypeOne'">
               <img src="../assets/icons/tokenTypeOne.svg">
-              <div :id="'player${index}NbTokenTypeOne'">{{player.nbTokenTypeOne}}</div>
+              <div :id="'player'+player.playerId+'NbTokenTypeOne'">{{player.nbTokenTypeOne}}</div>
             </div>
-            <div :id="'player${index}TokenTypeTwo'">
+            <div :id="'player'+player.playerId+'TokenTypeTwo'">
               <img src="../assets/icons/tokenTypeTwo.svg">
-              <div :id="'player${index}NbTokenTypeTwo'">{{player.nbTokenTypeTwo}}</div>
+              <div :id="'player'+player.playerId+'NbTokenTypeTwo'">{{player.nbTokenTypeTwo}}</div>
             </div>
-            <div :id="'player${index}TokenTypeThree'">
+            <div :id="'player'+player.playerId+'TokenTypeThree'">
               <img src="../assets/icons/tokenTypeThree.svg">
-              <div :id="'player${index}NbTokenTypeThree'">{{player.nbTokenTypeThree}}</div>
+              <div :id="'player'+player.playerId+'NbTokenTypeThree'">{{player.nbTokenTypeThree}}</div>
             </div>
-            <div :id="'player${index}TokenTypeJoker'">
+            <div :id="'player'+player.playerId+'TokenTypeJoker'">
               <img src="../assets/icons/tokenTypeJoker.svg">
-              <div :id="'player${index}NbTokenTypeJoker'">{{player.nbTokenTypeJoker}}</div>
+              <div :id="'player'+player.playerId+'NbTokenTypeJoker'">{{player.nbTokenTypeJoker}}</div>
             </div>
           </li>          
         </ul>         
@@ -125,7 +141,7 @@
     </div>
 
     <!-- South UI combat informations are displayed here-->
-    <div id="combat">
+    <div class="combatUI">
 
       <!-- <div class="combatContent" id="combatInfo">
         You are
@@ -146,21 +162,31 @@
         <div>Armies</div>
       </div> -->
 
-      <div class="combatContent" id="combatInfo">
-        <span>Player_2</span><br>
-        is attacking<br>you
+      <!-- <div class="combatUILeft">
+        <div id="combatRed">Player_2</div>
+        <div>is attacking you</div>
       </div>
-      <div class="combatContent bigBtn">
-        <img src="../assets/icons/defend.svg" class="bigBtn">
+      <div class="combatUICenter" id="defendBtn">
+        <img draggable="false" onclick="test()" src="../assets/icons/defend.svg" class="bigBtn">
       </div>
-      <div class="combatContent" id="armiesSelection">
+      <div class="combatUIRight">
         <div>Defend with</div>
         <div>
-          <img src="../assets/icons/emptyOne.svg" class="armiesSelectionBtn" id="selectArmyOne">
-          <img src="../assets/icons/emptyTwo.svg" class="armiesSelectionBtn" id="selectArmyTwo">
+          <img
+            draggable="false"
+            src="../assets/icons/emptyOne.svg"
+            class="armiesSelectionBtn"
+            id="selectArmyOne"
+          >
+          <img
+            draggable="false"
+            src="../assets/icons/emptyTwo.svg"
+            class="armiesSelectionBtn"
+            id="selectArmyTwo"
+          >
         </div>
         <div>Armies</div>
-      </div>
+      </div> -->
 
       <!-- <div class="combatContent" id="combatInfo">
         You are
@@ -442,23 +468,34 @@
   </div>
 </template>
 <script>
+
 // Import all the functions from GameWindowJS.js
-import * as GameWindow from "../js/GameWindowJS.js";
-import * as MainGame from "../js/MainGame.js"
+import * as GameWindow from "../js/GameWindowJS.js"
+//import * as MainGame from  "../js/MainGame.js"
+import {MainGame} from "../js/MainGame.js"
 
 export default {
   methods: {
     dropdownClick: GameWindow.dropdownClick,
     init: GameWindow.init,
     addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
-    test: function() {
-      console.log(this.$d3);
-    }
+    // test: function() {
+    //   console.log(this.$d3);
+    // }
   },
   mounted() {
-    this.test();
-  }
-};
+    //this.test();
+    
+  },
+  created() {
+    var mg = this;
+    mg = new MainGame()
+    mg.players = mg.getPlayers()
+    console.log(mg.players);
+    this.players = mg.players
+  },
+}
+
 </script>
 
 <style src="../css/GameWindow.css" scoped></style>
