@@ -174,24 +174,86 @@ export class MainGame {
             }
             else{
                 switch (msg.type) {
-                    case Packet.getTypeOf('GAME_STATUS'):
-                    /* get player list */
+                    
+                    case Packet.getTypeOf('ATTACK'):
+
                         break;
 
-                    case Packet.getTypeOf('REINFORCEMENT'):
-                        this.activePlayerReinforcement = msg.units;
+                    case Packet.getTypeOf('ATTACKED'):
+
+                        break;
+
+                    case Packet.getTypeOf('COMBAT_RESULTS'):
 
                         break;
 
                     case Packet.getTypeOf('CURRENT_PHASE'):
-                       this.nextPhaseBtnState(msg.phase);
-                       break;
-                    
+                        this.nextPhaseBtnState(msg.phase);
+
+                        break;
+
+                    case Packet.getTypeOf('DEFEND'):
+
+                        break;
+
+                    case Packet.getTypeOf('ERROR'):
+
+                        break;
+
+                    case Packet.getTypeOf('GAME_OVER'):
+
+                        break;
+
+                    case Packet.getTypeOf('GAME_RESULTS'):
+
+                        break;
+
+                    case Packet.getTypeOf('GAME_STATUS'):
+                        /* get player list */
+                        break;
+
+                    case Packet.getTypeOf('GIVE_TOKENS'):
+
+                        break;
+
+                    case Packet.getTypeOf('KICKED'):
+
+                        break;
+
+                    case Packet.getTypeOf('LEAVE_GAME'):
+
+                        break;
+
+                    case Packet.getTypeOf('LOBBY_STATE'):
+
+                        break;
+
+                    case Packet.getTypeOf('MOVE'):
+
+                        break;
+
+                    case Packet.getTypeOf('PLAYER_ELIMINATION'):
+
+                        break;
+
+                    case Packet.getTypeOf('PLAYER_PROFILE'):
+
+                        break;
+
                     /* a PUT message implies a PUT message from the  client */
                     case Packet.getTypeOf('PUT'):
                         this.updateReinforcement();
                         /*this.putResponse(msg.player.name,msg.territory,msg.units); */
-                       /*change the color of a territory during the pre-phase */
+                        /*change the color of a territory during the pre-phase */
+
+                        break;
+
+                    case Packet.getTypeOf('REINFORCEMENT'):
+                        this.activePlayerReinforcement = msg.units;
+                        break;
+
+                    case Packet.getTypeOf('START_GAME'):
+
                         break;
 
                     case Packet.getTypeOf('USE_TOKENS'):
