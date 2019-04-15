@@ -170,7 +170,8 @@ export class MainGame {
         this.$socket.onmessage = function(d){
             var msg = JSON.parse(d.data);
             if(msg.data.error){
-                // TODO: handle error
+                // print the resonse of the standar server when there is an error 
+                console.log(msg.data.response);
             }
             else{
                 switch (msg.type) {
@@ -193,11 +194,12 @@ export class MainGame {
                         break;
 
                     case Packet.getTypeOf('DEFEND'):
-
+                        
                         break;
 
                     case Packet.getTypeOf('ERROR'):
-
+                        //print the type of the error in the console 
+                        console.log(msg.data.message);
                         break;
 
                     case Packet.getTypeOf('GAME_OVER'):
