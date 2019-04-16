@@ -32,21 +32,23 @@ export default {
   },
   methods: {
    getReady(){
-       // TODO: send ready message to server
+     // msgType READY to add
+       //this.$socket.send(new Packet("READY").getJson())
    },
    leaveLobby(){
-       this.$socket.send(new Packet("LEAVE_GAME").getJson());
+       this.$socket.send(new Packet("LEAVE_GAME").getJson())
    }
   },
   created(){
-     var vm = this;
-     this.$socket.send(new Packet("LOBBY_STATE").getJson());
+     var vm = this
+     this.$socket.send(new Packet("LOBBY_STATE").getJson())
      this.$socket.onmessage = function(d){
         console.log("lobby state");
         console.log(d);
         var msg = JSON.parse(d.data);
         if(msg.data.error){
-            // TODO: handle error
+          alert("Error: " + msg.data.msg)
+          return
         }
         else{
             if(msg.type == new Packet("LOBBY_STATE").type){

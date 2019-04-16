@@ -64,9 +64,10 @@ export default {
         userID: this.login,
         userPassword: this.password
       }
-      this.$socket.onmessage = (data) => this.verify(data.data)
-
       this.$socket.send(new Packet('SIGN_UP', params).getJson())
+      
+      /* message listner */
+      this.$socket.onmessage = (data) => this.verify(data.data)
     }
   }
 }

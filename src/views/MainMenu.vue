@@ -29,9 +29,21 @@ export default {
     //   var sound = new _.Howl({ src: ['../assets/musics/The_Road_Ahead.mp3'] })
     //   sound.play()
     // }
+    verify(data) {
+      var response = JSON.parse(data)
+      if (response.data.error == true) {
+        alert("Error: " + response.data.response)
+        return
+      } else {
+        delete this.$socket.onmessage;
+        /* redirect user */
+        this.$router.push({ path: "/" });
+      }
+    },
     logout() {
       this.$socket.send(new Packet("DISCONNECT").getJson());
-      this.$router.push('/');
+       /* message listener */
+      this.$socket.onmessage = data => this.verify(data.data)
     }
   }
 };
