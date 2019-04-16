@@ -21,12 +21,8 @@ window.onclick = function (event) {
   }
 }
 
-/* SVG map handling */
 var svg
 var doc
-// var map
-var label
-var text
 var highlight
 var countries
 var seas
@@ -35,63 +31,58 @@ var centerX
 var centerY
 var mapTransform
 var transformMatrix
-// var svgNS
 var planisphere
 var selectedElement, offset, transform
 var hoveredCountryId
+var getReady
 
 /* Initialize the SVG map on the UI */
-export function init (evt) {
-  addDistantPlayerMessage()
-  setInterval(chronometer, 1000)
-  /* svgNS = 'http://www.w3.org/2000/svg' */
-  svg = evt.target
-  doc = svg.ownerDocument
-  /* map = doc.getElementById('GameMap') */
-  planisphere = doc.getElementById('matrix-group')
-  label = newElement(
-    'text',
-    'id=label font-size=30 stroke=black fill=white stoke-width=50 text-insert=middle x=20 y=500'
-  )
-  viewbox = svg.getAttributeNS(null, 'viewBox').split(' ')
-  centerX = parseFloat(viewbox[2]) / 2
-  centerY = parseFloat(viewbox[3]) / 2
-  mapTransform = svg.getElementById('matrix-group')
-  transformMatrix = [1, 0, 0, 1, 0, 0]
-  highlight = doc.getElementById('highlight')
-  countries = document.getElementsByClassName('country')
+export function init () {        
+    
+    addDistantPlayerMessage()
+    setInterval(chronometer, 1000)
+    svg = document.getElementById('GameMap')
+    doc = svg.ownerDocument
+    planisphere = doc.getElementById('matrix-group')
+    viewbox = svg.getAttributeNS(null, 'viewBox').split(' ')
+    centerX = parseFloat(viewbox[2]) / 2
+    centerY = parseFloat(viewbox[3]) / 2
+    mapTransform = svg.getElementById('matrix-group')
+    transformMatrix = [1, 0, 0, 1, 0, 0]
+    highlight = doc.getElementById('highlight')
+    countries = document.getElementsByClassName('country')
 
-  for (var i = 0; i < countries.length; i++) {
-    var country = countries[i]
-    country.addEventListener('mouseover', function (evt) {
-      mouseoverCountry(evt)
-    })
-  }
+    for (var i = 0; i < countries.length; i++) {
+      var country = countries[i]
+      country.addEventListener('mouseover', function (evt) {
+        mouseoverCountry(evt)
+      })
+    }
 
-  seas = document.getElementsByClassName('sea')
-  for (i = 0; i < seas.length; i++) {
-    var sea = seas[i]
-    sea.addEventListener('mouseover', function (evt) {
-      mouseoverSea(evt)
+    seas = document.getElementsByClassName('sea')
+    for (i = 0; i < seas.length; i++) {
+      var sea = seas[i]
+      sea.addEventListener('mouseover', function (evt) {
+        mouseoverSea(evt)
+      })
+    } 
+    
+    planisphere.addEventListener('mousedown', function (evt) {
+      startDrag(evt)
     })
-  } 
-  
-  planisphere.addEventListener('mousedown', function (evt) {
-    startDrag(evt)
-  })
-  planisphere.addEventListener('mousemove', function (evt) {
-    drag(evt)
-  })
-  planisphere.addEventListener('mouseup', function (evt) {
-    endDrag(evt)
-  })
-  planisphere.addEventListener('mouseleave', function (evt) {
-    endDrag(evt)
-  })
-  
-  planisphere.addEventListener('dblclick', function (evt) {
-     placeSoldier(evt)
-  })
+    planisphere.addEventListener('mousemove', function (evt) {
+      drag(evt)
+    })
+    planisphere.addEventListener('mouseup', function (evt) {
+      endDrag(evt)
+    })
+    planisphere.addEventListener('mouseleave', function (evt) {
+      endDrag(evt)
+    })
+    
+    planisphere.addEventListener('dblclick', function (evt) {
+      placeSoldier(evt)
+    })
 }
 
 export function getMousePosition (evt) {
@@ -220,6 +211,7 @@ export function newElement (type, attrs) {
 export function mouseoverSea (evt) {
   var sea = evt.target
   highlight.setAttribute('d', 'm0 0')
+  hoveredCountryId = sea.getAttribute('id')
   doc.getElementById('hovered-country').innerHTML =  "Hover a Country";
 }
 
@@ -256,9 +248,6 @@ export function wheel (event) {
     delta = -event.detail / 3
   }
   if (delta) handleWheelEvt(delta)
-
-  if (event.preventDefault) event.preventDefault()
-  event.returnValue = false
 }
 
 export function handleWheelEvt (delta) {
