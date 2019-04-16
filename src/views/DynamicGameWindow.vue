@@ -206,7 +206,6 @@
       id="GameMap"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1024 792"
-      v-on:load="init"
       width="100%"
       height="100%"
     >
@@ -477,7 +476,6 @@ import {MainGame} from "../js/MainGame.js"
 export default {
   methods: {
     dropdownClick: GameWindow.dropdownClick,
-    init: GameWindow.init,
     addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
     // test: function() {
     //   console.log(this.$d3);
@@ -485,7 +483,7 @@ export default {
   },
   mounted() {
     //this.test();
-    
+    GameWindow.init()
   },
   created() {
     var mg = this;
