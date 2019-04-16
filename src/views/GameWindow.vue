@@ -334,7 +334,7 @@
 
     <!--Map of the game-->
     <div class="map">
-      <svg id="GameMap" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 1584" v-on:load="init">
+      <svg id="GameMap" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 1584" >
         <g
           id="matrix-group"
           class="draggable-group"
@@ -604,7 +604,6 @@ import * as GameWindow from "../js/GameWindowJS.js";
 export default {
   methods: {
     dropdownClick: GameWindow.dropdownClick,
-    init: GameWindow.init,
     addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
     test: function() {
       console.log(this.$d3);
@@ -612,6 +611,7 @@ export default {
   },
   mounted() {
     this.test();
+    GameWindow.init()
   }
 };
 </script>
