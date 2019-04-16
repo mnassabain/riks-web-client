@@ -165,13 +165,88 @@ export class MainGame {
             this.endPhase();
         }
     }
-
     handleIncommingMessages(){
         this.$socket.onmessage = function(d){
             var msg = JSON.parse(d.data);
             if(msg.data.error){
-                // print the resonse of the standar server when there is an error 
-                console.log(msg.data.response);
+                // print different responses of the standar server when there is an error 
+                switch(msg.type)
+                {
+                    case Packet.getTypeOf('ATTACK'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+                    
+                    case Packet.getTypeOf('CONNECT'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+                    
+                    case Packet.getTypeOf('CREATE_LOBBY'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+                        
+                    case Packet.getTypeOf('DEFEND'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+                        
+                    case Packet.getTypeOf('DISCONNECT'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+                    
+                    case Packet.getTypeOf('EDIT_LOBBY'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+
+                    case Packet.getTypeOf('END_PHASE'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+
+                    case Packet.getTypeOf('GAME_STATUS'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+
+                    case Packet.getTypeOf('JOIN_LOBBY'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+
+                    case Packet.getTypeOf('KICK_FROM_LOBBY'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+
+                    case Packet.getTypeOf('LEAVE_GAME'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+
+                    case Packet.getTypeOf('LOBBY_LIST'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+
+                    case Packet.getTypeOf('MOVE'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+
+                    case Packet.getTypeOf('PLAYER_PROFILE'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+
+                    case Packet.getTypeOf('PUT'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+
+                    case Packet.getTypeOf('SIGN_UP'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+
+                    case Packet.getTypeOf('START_GAME'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+
+                    case Packet.getTypeOf('USE_TOKENS'):
+                        console.log(msg.type + ":" +msg.data.response);
+                        break;
+                    default:
+                        break;
+                }
+                
             }
             else{
                 switch (msg.type) {
@@ -199,7 +274,7 @@ export class MainGame {
 
                     case Packet.getTypeOf('ERROR'):
                         //print the type of the error in the console 
-                        console.log(msg.data.message);
+                        this.ErrorHandling();
                         break;
 
                     case Packet.getTypeOf('GAME_OVER'):
