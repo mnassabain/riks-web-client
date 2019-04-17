@@ -1,4 +1,4 @@
-var map = {
+export var map = {
     'Africa': {
         'East Africa': {
             player: false, // Put the id of the player owning this territory
@@ -181,53 +181,44 @@ var map = {
     }
 };
 
+/**
+* Returns the continent which contains the territory
+* 
+* @param territoryName: name of the territory
+*/
+export function getContinentOf(territoryName) {
 
-export class Map {
+    /* get all of the continents into an array */
+    var result = Object.keys(map).map(function(key) {
+        return [key, map[key]];
+    });
 
-    constructor() {
-        this.map = map;
-    }
+    var found = '';
 
-    /**
-    * Returns the continent which contains the territory
-    * 
-    * @param territoryName: name of the territory
-    */
-    getContinentOf(territoryName) {
+    /* for each continent ... */
+    result.forEach(function(continent) {
+    
+        if (found != '') {
+            return found;
+        }
 
-        /* get all of the continents into an array */
-        var result = Object.keys(map).map(function(key) {
-            return [key, map[key]];
+        /* ... get array of territories ... */
+        var territories = Object.keys(continent[1]).map(function(key) {
+            return [key, continent[1][key]];
         });
 
-        var found = '';
-
-        /* for each continent ... */
-        result.forEach(function(continent) {
-        
-            if (found != '') {
-                return found;
+        /* ... and for each territory */
+        territories.forEach(function(territory) {
+            
+            /* ... check if it's the one we're looking for */
+            if (territory[0] == territoryName) {
+                found = continent[0];
+                return found;    
             }
 
-            /* ... get array of territories ... */
-            var territories = Object.keys(continent[1]).map(function(key) {
-                return [key, continent[1][key]];
-            });
-
-            /* ... and for each territory */
-            territories.forEach(function(territory) {
-                
-                /* ... check if it's the one we're looking for */
-                if (territory[0] == territoryName) {
-                    found = continent[0];
-                    return found;    
-                }
-
-            });
-
         });
 
-        return found;
-    }
+    });
 
+    return found;
 }

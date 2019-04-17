@@ -1,5 +1,5 @@
 import { Packet } from "../Packet";
-import { Map } from './Map';
+import { map, getContinentOf } from './Map';
 
 const phases = {
     PREPHASE: -1,
@@ -26,7 +26,7 @@ export class MainGame {
 
     constructor() {
         this.currentPhase = phases['PREPHASE'];
-        this.map = Map.map;
+        this.map = map;
         this.playerList = [];
         this.currentPlayer = undefined;
         this.activePlayerReinforcement = 0;
@@ -178,14 +178,14 @@ export class MainGame {
     **/
     fortify(tSource,tDest, nbUnits) {
         /* continent which contains the source territory */
-        var cSource = Map.getContinentOf(tSource);
+        var cSource = getContinentOf(tSource);
         
         /* continent which contains the destination territory */
-        var cDest = Map.getContinentOf(tDest);
+        var cDest = getContinentOf(tDest);
 
         /* move units */
-        this.map.cSource.tSource.soldiers -= nbUnits;
-        this.map.cDest.tDest.soldiers += nbUnits; 
+        this.map[cSource][tSource].soldiers -= nbUnits;
+        this.map[cDest][tDest].soldiers += nbUnits; 
     }
 
 
@@ -198,23 +198,23 @@ export class MainGame {
     **/
     tryFortify(tSource, tDest, nbUnits) {
         /* continent which contains the source territory */
-        var cSource = Map.getContinentOf(tSource);
+        var cSource = getContinentOf(tSource);
         
         /* continent which contains the destination territory */
-        var cDest = Map.getContinentOf(tDest);
+        var cDest = getContinentOf(tDest);
 
         /* check if it's phase 3 */
         if (this.currentPhase != phases['FORTIFICATION']);
 
         /* check if the player controls those territories */
-        if (this.map.cSource.tSource.player != this.map.cDest.tDest.player || 
-            this.map.cSource.tSource.player != this.currentPlayer.id) {
+        if (this.map[cSource][tSource].player != this.map[cDest][tDest].player || 
+            this.map[cSource][tSource].player != this.currentPlayer.id) {
                 console.log('Action not permitted: you do not control the territories');
                 return;
             }
             
         /* check if the number of units is ok */
-        if (this.map.cSource.tSource.soldiers <= nbUnits) {
+        if (this.map[cSource][tSource].soldiers <= nbUnits) {
             console.log('Action not permitted: not enough units');
             return;
         }
