@@ -227,6 +227,8 @@ export class MainGame {
      */
     attack(tSource, tDest, nbUnits) {
         /* display that an attack is happening */
+        console.log('Attack started from ' + tSource + ' onto ' + tDest + 
+            ' with ' + nbUnits + ' units');
     }
 
 
@@ -238,10 +240,11 @@ export class MainGame {
      */
     attacked(nbUnits) {
         /* display that the player is being attacked, let him defend */
+        console.log('You are being attacked with ' + nbUnits);
     }
 
 
-    /**
+    /** Try to defend territory
      * 
      * @param tDest defending territory (maybe not necessary?)
      * @param nbUnits number of units chosen to defend
@@ -274,10 +277,24 @@ export class MainGame {
      */
     defend(defender, nbUnits) {
         /* show that the player is defending */
+        console.log('Player ' + defender + ' is defending with ' + nbUnits + 
+            ' units');
     }
 
+    /** Called when we receive combat results
+     * 
+     * PRIVATE METHOD: DO NOT CALL FROM VIEW
+     * 
+     * @param tSource attacking territory 
+     * @param tDest defending territory
+     * @param attackerLoss unit loss
+     * @param defenderLoss unit loss
+     */
     finishedCombat(tSource, tDest, attackerLoss, defenderLoss) {
-        /* show combat results */
+        /* show combat results ? */
+        console.log('Combat results: attacking territory ' + tSource + 
+            'lost ' + attackerLoss + ' units, defending territory ' + tDest +
+            'lost ' + defenderLoss + ' units.');
 
         var cSource = getContinentOf(tSource);
         var cDest = getContinentOf(tDest);
@@ -288,12 +305,28 @@ export class MainGame {
 
         /* if there are no more units on the territory */
         if (this.map[cDest][tDest].soldiers <= 0) {
+            
             this.map[cDest][tDest].player = this.map[cSource][tSource].player;
             /* TODO: determine the number of soldiers to place */
             this.map[cDest][tDest].soldiers = 1;
+            
+            console.log('Territory ' + tDest + ' is conquered by the attacker');
 
             /* TODO: check if defending player is dead */
         }
+    }
+
+    /** Called when a player gets eliminated
+     * 
+     * PRIVATE METHOD: DO NOT CALL FROM VIEW
+     * 
+     * @param playerName name of the eliminated player 
+     */
+    playerElimination(playerName) {
+        /* show that a player was eliminated */
+        console.log('player ' + playerName + ' eliminated');
+
+        /* TODO: distribute tokens? */
     }
 
 
@@ -524,7 +557,7 @@ export class MainGame {
                         break;
 
                     case Packet.getTypeOf('PLAYER_ELIMINATION'):
-                        /* TODO: phase 3 ? */
+                        playerElimination(msg.data.player);
                         break;
 
                     case Packet.getTypeOf('PLAYER_PROFILE'):
