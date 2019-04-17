@@ -1,5 +1,5 @@
 import { Packet } from "../Packet";
-import { map, getContinentOf } from './Map';
+import { map, getContinentOf, areAdjacent } from './Map';
 
 const phases = {
     PREPHASE: -1,
@@ -219,7 +219,11 @@ export class MainGame {
             return;
         }
 
-        /* TODO: check if the territories are adjacent */
+        /* check if the territories are adjacent */
+        if (!areAdjacent(tSource, tDest)) {
+            console.log('Action not permitted: territories not adjacent');
+            return;
+        }
 
         /* if all tests pass notify server */
         var data = {

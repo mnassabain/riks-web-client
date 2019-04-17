@@ -222,3 +222,8 @@ export function getContinentOf(territoryName) {
 
     return found;
 }
+
+
+export function areAdjacent(territory1, territory2) {
+    return false;
+}
