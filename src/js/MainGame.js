@@ -1,5 +1,5 @@
 import { Packet } from "../Packet";
-import { map } from './Map';
+import { Map } from './Map';
 
 const phases = {
     PREPHASE: -1,
@@ -26,7 +26,7 @@ export class MainGame {
 
     constructor() {
         this.currentPhase = phases['PREPHASE'];
-        this.map = map;
+        this.map = Map.map;
         this.playerList = [];
         this.currentPlayer = undefined;
         this.activePlayerReinforcement = 0;
@@ -207,14 +207,14 @@ export class MainGame {
         if (this.currentPhase != phases['FORTIFICATION']);
 
         /* check if the player controls those territories */
-        if (map.cSource.tSource.player != map.cDest.tDest.player || 
-            map.cSource.tSource.player != this.currentPlayer.id) {
+        if (this.map.cSource.tSource.player != this.map.cDest.tDest.player || 
+            this.map.cSource.tSource.player != this.currentPlayer.id) {
                 console.log('Action not permitted: you do not control the territories');
                 return;
             }
             
         /* check if the number of units is ok */
-        if (map.cSource.tSource.soldiers <= nbUnits) {
+        if (this.map.cSource.tSource.soldiers <= nbUnits) {
             console.log('Action not permitted: not enough units');
             return;
         }
