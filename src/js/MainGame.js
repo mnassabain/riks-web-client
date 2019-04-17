@@ -165,6 +165,73 @@ export class MainGame {
             this.endPhase();
         }
     }
+
+
+    /** Move x units from one territory to another (phase 3)
+     * 
+     * PRIVATE FUNCTION DO NOT USE: View should use tryFortify method!
+     *
+     * @param tSource: source territory; from where the units will be taken
+     * @param tDest: destination territory; where the units will be placed
+     * @param nbUnits: The number of units to move
+     *  
+    **/
+    fortify(tSource,tDest, nbUnits) {
+        /* continent which contains the source territory */
+        var cSource = Map.getContinentOf(tSource);
+        
+        /* continent which contains the destination territory */
+        var cDest = Map.getContinentOf(tDest);
+
+        /* move units */
+        this.map.cSource.tSource.soldiers -= nbUnits;
+        this.map.cDest.tDest.soldiers += nbUnits; 
+    }
+
+
+    /** Try to move x units from one territory to another (phase 3)
+     *
+     * @param tSource: source territory; from where the units will be taken
+     * @param tDest: destination territory; where the units will be placed
+     * @param nbUnits: The number of units to move
+     *  
+    **/
+    tryFortify(tSource, tDest, nbUnits) {
+        /* continent which contains the source territory */
+        var cSource = Map.getContinentOf(tSource);
+        
+        /* continent which contains the destination territory */
+        var cDest = Map.getContinentOf(tDest);
+
+        /* check if it's phase 3 */
+        if (this.currentPhase != phases['FORTIFY']);
+
+        /* check if the player controls those territories */
+        if (map.cSource.tSource.player != map.cDest.tDest.player || 
+            map.cSource.tSource.player != this.currentPlayer.id) {
+                console.log('Action not permitted: you do not control the territories');
+                return;
+            }
+            
+        /* check if the number of units is ok */
+        if (map.cSource.tSource.soldiers <= nbUnits) {
+            console.log('Action not permitted: not enough units');
+            return;
+        }
+
+        /* TODO: check if the territories are adjacent */
+
+        /* if all tests pass notify server */
+        var data = {
+            'source': tSource,
+            'destination': tDest,
+            'units': nbUnits
+        };
+
+        sendToServer(new Packet('MOVE', data));
+    }
+
+
     handleIncommingMessages(){
         this.$socket.onmessage = function(d){
             var msg = JSON.parse(d.data);
@@ -307,6 +374,10 @@ export class MainGame {
 
                     case Packet.getTypeOf('MOVE'):
 
+                        fortify(msg.data.source,
+                            msg.data.destination, 
+                            msg.data.units);
+
                         break;
 
                     case Packet.getTypeOf('PLAYER_ELIMINATION'):
@@ -351,3 +422,4 @@ export class MainGame {
             this.synchronize();
         },1000);
     }
+}
