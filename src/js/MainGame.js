@@ -3,9 +3,9 @@ import { map } from './Map';
 
 const phases = {
     PREPHASE: -1,
-    PREPARING: 0,
-    ATTACK: 1,
-    REINFORCEMENT: 2
+    REINFORCEMENT: 0,
+    OFFENSE: 1,
+    FORTIFICATION: 2
 };
 
 
@@ -204,7 +204,7 @@ export class MainGame {
         var cDest = Map.getContinentOf(tDest);
 
         /* check if it's phase 3 */
-        if (this.currentPhase != phases['FORTIFY']);
+        if (this.currentPhase != phases['FORTIFICATION']);
 
         /* check if the player controls those territories */
         if (map.cSource.tSource.player != map.cDest.tDest.player || 
