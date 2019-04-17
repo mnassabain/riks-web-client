@@ -1,5 +1,5 @@
 const types = {
-     /* general */
+          /* general */
      ERROR: 0,
      UNHANDLED: 1,
 
@@ -26,12 +26,12 @@ const types = {
      MATCHMAKING: 17,
 
      /* gameplay */
-     PUT: 18,
-     MOVE: 19,
-     ATTACK: 20,
-     DEFEND: 21,
-     END_PHASE: 22,
-     USE_TOKENS: 23,
+     END_PHASE: 18,
+     PUT: 19,
+     USE_TOKENS: 20,
+     ATTACK: 21,
+     DEFEND: 22,
+     MOVE: 23,
      REINFORCEMENT: 24,
 
      ATTACKED: 25,
@@ -40,12 +40,12 @@ const types = {
      GIVE_TOKENS: 28,
      CURRENT_PHASE: 29,
      GAME_OVER: 30,
-     GAME_STATUS: 31,
+     CHAT: 31,
 
      SYNC_DEMAND: 32,
-     POKE: 33,
-     CHAT: 34,
+     GAME_STATUS: 33,
 
+     POKE: 34,
      HOVER: 35,
      SELECT_TOKEN: 36,
 }
