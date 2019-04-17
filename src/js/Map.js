@@ -1,5 +1,3 @@
-
-
 export var map = {
     'Africa': {
         'East Africa': {
@@ -182,3 +180,50 @@ export var map = {
         }
     }
 };
+
+/**
+* Returns the continent which contains the territory
+* 
+* @param territoryName: name of the territory
+*/
+export function getContinentOf(territoryName) {
+
+    /* get all of the continents into an array */
+    var result = Object.keys(map).map(function(key) {
+        return [key, map[key]];
+    });
+
+    var found = '';
+
+    /* for each continent ... */
+    result.forEach(function(continent) {
+    
+        if (found != '') {
+            return found;
+        }
+
+        /* ... get array of territories ... */
+        var territories = Object.keys(continent[1]).map(function(key) {
+            return [key, continent[1][key]];
+        });
+
+        /* ... and for each territory */
+        territories.forEach(function(territory) {
+            
+            /* ... check if it's the one we're looking for */
+            if (territory[0] == territoryName) {
+                found = continent[0];
+                return found;    
+            }
+
+        });
+
+    });
+
+    return found;
+}
+
+
+export function areAdjacent(territory1, territory2) {
+    return false;
+}

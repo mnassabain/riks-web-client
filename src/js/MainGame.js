@@ -1,11 +1,11 @@
 import { Packet } from "../Packet";
-import { map } from './Map';
+import { map, getContinentOf, areAdjacent } from './Map';
 
 const phases = {
     PREPHASE: -1,
-    PREPARING: 0,
-    ATTACK: 1,
-    REINFORCEMENT: 2
+    REINFORCEMENT: 0,
+    OFFENSE: 1,
+    FORTIFICATION: 2
 };
 
 
@@ -165,6 +165,243 @@ export class MainGame {
             this.endPhase();
         }
     }
+
+    /** Try to launch an attack
+     * 
+     * @param tSource the attacking territory 
+     * @param tDest the defending territory
+     * @param nbUnits the number of attacking units
+     */
+    tryAttack(tSource, tDest, nbUnits) {
+
+        var cSource = getContinentOf(tSource);
+        var cDest = getContinentOf(tDest);
+
+        /* check phase */
+        if (this.currentPhase != phases['OFFENSE']) {
+            console.log('Action not permitted: incorrect phase');
+            return;
+        }
+
+        /* check if the player controls the attacking territory territories */
+        if (this.map[cSource][tSource].player != this.currentPlayer.id) {
+            console.log('Action not permitted: you do not control the territory');
+            return;
+        }
+
+        /* check if the attacked territory doesn't belong to the attacking player */
+        if (this.map[cDest][tDest].player == this.map[cSource][tSource]) {
+            console.log('Action not permitted: cannot attack own territory');
+            return;
+        }
+
+        /* check if the number of units is ok */
+        if (this.map[cSource][tSource].soldiers <= nbUnits) {
+            console.log('Action not permitted: not enough units');
+            return;
+        }
+
+        /* check if the territories are adjacent */
+        if (!areAdjacent(tSource, tDest)) {
+            console.log('Action not permitted: territories not adjacent');
+            return;
+        }
+
+        /* if all tests pass notify server */
+        var data = {
+            'source': tSource,
+            'destination': tDest,
+            'units': nbUnits
+        };
+
+        sendToServer(new Packet('ATTACK', data));
+    }
+
+    /** Called when an attack is happening
+     * 
+     * PRIVATE METHOD: DO NOT CALL FROM VIEW
+     * 
+     * @param tSource attacking territory 
+     * @param tDest attacked territory
+     * @param nbUnits number of attacking units
+     */
+    attack(tSource, tDest, nbUnits) {
+        /* display that an attack is happening */
+        console.log('Attack started from ' + tSource + ' onto ' + tDest + 
+            ' with ' + nbUnits + ' units');
+    }
+
+
+    /** Called when the player is being attacked
+     * 
+     * PRIVATE METHOD: DO NOT CALL FROM VIEW
+     * 
+     * @param nbUnits number of attacking units 
+     */
+    attacked(nbUnits) {
+        /* display that the player is being attacked, let him defend */
+        console.log('You are being attacked with ' + nbUnits);
+    }
+
+
+    /** Try to defend territory
+     * 
+     * @param tDest defending territory (maybe not necessary?)
+     * @param nbUnits number of units chosen to defend
+     */
+    tryDefend(tDest, nbUnits) {
+        var cDest = getContinentOf(tDest);
+        
+        /* check if the territory has the number of units */
+        if (this.map[cDest][tDest].soldiers < nbUnits) {
+            console.log('Action not permitted: not enough units');
+            return;
+        }
+
+        /* check if the player owns the territory ? */
+
+        /* notify server */
+        var data = {
+            'units': nbUnits
+        };
+
+        this.sendToServer(new Packet('DEFEND', data));
+    }
+
+    /** Called when a player is defending
+     * 
+     * PRIVATE METHOD: DO NOT CALL FROM VIEW
+     * 
+     * @param defender defending player 
+     * @param nbUnits number of defending units
+     */
+    defend(defender, nbUnits) {
+        /* show that the player is defending */
+        console.log('Player ' + defender + ' is defending with ' + nbUnits + 
+            ' units');
+    }
+
+    /** Called when we receive combat results
+     * 
+     * PRIVATE METHOD: DO NOT CALL FROM VIEW
+     * 
+     * @param tSource attacking territory 
+     * @param tDest defending territory
+     * @param attackerLoss unit loss
+     * @param defenderLoss unit loss
+     */
+    finishedCombat(tSource, tDest, attackerLoss, defenderLoss) {
+        /* show combat results ? */
+        console.log('Combat results: attacking territory ' + tSource + 
+            'lost ' + attackerLoss + ' units, defending territory ' + tDest +
+            'lost ' + defenderLoss + ' units.');
+
+        var cSource = getContinentOf(tSource);
+        var cDest = getContinentOf(tDest);
+
+        /* apply losses */
+        this.map[cSource][tSource].soldiers -= attackerLoss;
+        this.map[cDest][tDest].soldiers -= defenderLoss;
+
+        /* if there are no more units on the territory */
+        if (this.map[cDest][tDest].soldiers <= 0) {
+            
+            this.map[cDest][tDest].player = this.map[cSource][tSource].player;
+            /* TODO: determine the number of soldiers to place */
+            this.map[cDest][tDest].soldiers = 1;
+            
+            console.log('Territory ' + tDest + ' is conquered by the attacker');
+
+            /* TODO: check if defending player is dead */
+        }
+    }
+
+    /** Called when a player gets eliminated
+     * 
+     * PRIVATE METHOD: DO NOT CALL FROM VIEW
+     * 
+     * @param playerName name of the eliminated player 
+     */
+    playerElimination(playerName) {
+        /* show that a player was eliminated */
+        console.log('player ' + playerName + ' eliminated');
+
+        /* TODO: distribute tokens? */
+    }
+
+
+    /** Move x units from one territory to another (phase 3)
+     * 
+     * PRIVATE FUNCTION DO NOT USE: View should use tryFortify method!
+     *
+     * @param tSource: source territory; from where the units will be taken
+     * @param tDest: destination territory; where the units will be placed
+     * @param nbUnits: The number of units to move
+     *  
+    **/
+    fortify(tSource,tDest, nbUnits) {
+        /* continent which contains the source territory */
+        var cSource = getContinentOf(tSource);
+        
+        /* continent which contains the destination territory */
+        var cDest = getContinentOf(tDest);
+
+        /* move units */
+        this.map[cSource][tSource].soldiers -= nbUnits;
+        this.map[cDest][tDest].soldiers += nbUnits; 
+    }
+
+
+    /** Try to move x units from one territory to another (phase 3)
+     *
+     * @param tSource: source territory; from where the units will be taken
+     * @param tDest: destination territory; where the units will be placed
+     * @param nbUnits: The number of units to move
+     *  
+    **/
+    tryFortify(tSource, tDest, nbUnits) {
+        /* continent which contains the source territory */
+        var cSource = getContinentOf(tSource);
+        
+        /* continent which contains the destination territory */
+        var cDest = getContinentOf(tDest);
+
+        /* check if it's phase 3 */
+        if (this.currentPhase != phases['FORTIFICATION']) {
+            console.log('Action not permitted: icorrect phase');
+            return;
+        }
+
+        /* check if the player controls those territories */
+        if (this.map[cSource][tSource].player != this.map[cDest][tDest].player || 
+            this.map[cSource][tSource].player != this.currentPlayer.id) {
+                console.log('Action not permitted: you do not control the territories');
+                return;
+        }
+            
+        /* check if the number of units is ok */
+        if (this.map[cSource][tSource].soldiers <= nbUnits) {
+            console.log('Action not permitted: not enough units');
+            return;
+        }
+
+        /* check if the territories are adjacent */
+        if (!areAdjacent(tSource, tDest)) {
+            console.log('Action not permitted: territories not adjacent');
+            return;
+        }
+
+        /* if all tests pass notify server */
+        var data = {
+            'source': tSource,
+            'destination': tDest,
+            'units': nbUnits
+        };
+
+        sendToServer(new Packet('MOVE', data));
+    }
+
+
     handleIncommingMessages(){
         this.$socket.onmessage = function(d){
             var msg = JSON.parse(d.data);
@@ -252,15 +489,20 @@ export class MainGame {
                 switch (msg.type) {
                     
                     case Packet.getTypeOf('ATTACK'):
-
+                        attack(msg.data.source,
+                            msg.data.destination,
+                            msg.data.units);
                         break;
 
                     case Packet.getTypeOf('ATTACKED'):
-
+                        attacked(msg.data.units);
                         break;
 
                     case Packet.getTypeOf('COMBAT_RESULTS'):
-
+                        finishedCombat(msg.data.source,
+                            msg.data.destination,
+                            msg.data.attackerLoss,
+                            msg.data.defenderLoss);
                         break;
 
                     case Packet.getTypeOf('CURRENT_PHASE'):
@@ -269,7 +511,8 @@ export class MainGame {
                         break;
 
                     case Packet.getTypeOf('DEFEND'):
-                        
+                        defend(msg.data.defenderName,
+                            msg.data.units);
                         break;
 
                     case Packet.getTypeOf('ERROR'):
@@ -307,10 +550,14 @@ export class MainGame {
 
                     case Packet.getTypeOf('MOVE'):
 
+                        fortify(msg.data.source,
+                            msg.data.destination, 
+                            msg.data.units);
+
                         break;
 
                     case Packet.getTypeOf('PLAYER_ELIMINATION'):
-
+                        playerElimination(msg.data.player);
                         break;
 
                     case Packet.getTypeOf('PLAYER_PROFILE'):
@@ -351,3 +598,4 @@ export class MainGame {
             this.synchronize();
         },1000);
     }
+}
