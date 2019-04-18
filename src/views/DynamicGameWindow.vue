@@ -510,7 +510,7 @@ export default {
 }
 </script>
 
-<style src="../css/GameWindow.css" scoped></style>
+<style src="../css/DynamicStyles.css" scoped></style>
 <style>
 html,
 body {
