@@ -13,11 +13,11 @@
       </ul>
     </div>
     <div>
-       <button @click="leaveGame" tag="button" class="button second-button my-1">Cancel</button>
-      <!-- <router-link to="/MainMenu" tag="button" class="button second-button my-1">Cancel</router-link> -->
+      <button @click="startGame" tag="button" class="button validate-button my-1">Start the Game <br/>(/!\ clic 2 times)</button>
     </div>
     <div class="additional-button-block">
-      <router-link to="/MainMenu" tag="button" class="button second-button my-1">Cancel</router-link>
+      <button @click="leaveGame" tag="button" class="button second-button my-1">Cancel</button>
+      <!-- <router-link to="/MainMenu" tag="button" class="button second-button my-1">Cancel</router-link> -->
     </div>
   </div>
 </body>
