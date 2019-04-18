@@ -4,42 +4,42 @@
     <div id="tokens">
       <div id="playerArmies">
         <img src="../assets/icons/armies.svg">
-        <div id="nbArmies">{{players[0].nbArmies}}</div>
+        <!-- <div id="nbArmies">{{players[0].nbArmies}}</div> -->
       </div>
       <div id="playerTerritories">
         <img src="../assets/icons/flag.svg">
-        <div id="nbTerritories">{{players[0].nbTerritories}}</div>
+        <!-- <div id="nbTerritories">{{players[0].nbTerritories}}</div> -->
       </div>
       <div id="tokenTypeOne">
         <img src="../assets/icons/tokenTypeOne.svg">
-        <div id="nbTokenTypeOne">{{players[0].nbTokenTypeOne}}</div>
+        <!-- <div id="nbTokenTypeOne">{{players[0].nbTokenTypeOne}}</div> -->
       </div>
       <div id="tokenTypeTwo">
         <img src="../assets/icons/tokenTypeTwo.svg">
-        <div id="nbTokenTypeTwo">{{players[0].nbTokenTypeTwo}}</div>
+        <!-- <div id="nbTokenTypeTwo">{{players[0].nbTokenTypeTwo}}</div> -->
       </div>
       <div id="tokenTypeThree">
         <img src="../assets/icons/tokenTypeThree.svg">
-        <div id="nbTokenTypeThree">{{players[0].nbTokenTypeThree}}</div>
+        <!-- <div id="nbTokenTypeThree">{{players[0].nbTokenTypeThree}}</div> -->
       </div>
       <div id="tokenTypeJoker">
         <img src="../assets/icons/tokenTypeJoker.svg">
-        <div id="nbTokenTypeJoker">{{players[0].nbTokenTypeJoker}}</div>
+        <!-- <div id="nbTokenTypeJoker">{{players[0].nbTokenTypeJoker}}</div> -->
       </div>
     </div>
 
-    <div id="messageDisplay" class="generalMessageDisplay">
+    <!-- <div id="messageDisplay" class="generalMessageDisplay">
       <div class="generalMessage">
         WELCOME PLAYERS !
       </div>  
-    </div>
+    </div> -->
 
     <!--Under Tokens NorthWest UI hidden by default-->
     <div idTokenSpread></div>
 
     <!--North UI-->
     <div id="ratioBar">
-      <div v-for="(player) in players" :key="player.playerId" :id="'ratioPlayer'+player.playerId"></div>
+      <div v-for="(player, index) in players" :key="index" :id="'ratioPlayer'+(index+1)"></div>
     </div>
 
     <div id="timer">00:00</div>
@@ -66,13 +66,14 @@
     <div class="hovered-country" id="hovered-country">Hover over a country</div>
 
     <!-- SouthWest UI-->
-    <div id="playerControls">
-      <!-- <div id="playerControlMessage">
-        <span id="phase">Phase 2</span>
-        <br>
-        <span id="action">Attacking</span>
+    <div id="playerControls" >
+     
+      <div id="playerControlMessage">
+        <!--span id="phase">Phase 2</span>
+        <br-->
+        <span id="action"> {{ localPlayerName }}</span>
       </div>
-      <div id="playerControlButton">
+      <!--div id="playerControlButton">
         <button id="phaseControlBtn">
           Next
           <br>Phase
@@ -83,13 +84,13 @@
     <!-- SouthEast UI-->
     <div id='playerList' class="playerListContainer">
       <div class="playerList">
-        <ul v-for="(player) in players" :key="player.id">
-          <li :id="'playerSlot'+player.playerId">
-            <div :id="'playerSlot'+player.playerId+'Name'" class="playerListName">
+        <ul v-for="(player, index) in players" :key="index">
+          <li :id="'playerSlot'+(index+1)">
+            <div :id="'playerSlot'+(index+1)+'Name'" class="playerListName">
               <p>{{player.name}}</p>
             </div>
           </li>
-          <li :id="'playerSlot'+player.playerId+'Info'">
+          <!-- <li :id="'playerSlot'+player.playerId+'Info'">
             <div :id="'player'+player.playerId+'Armies'">
               <img src="../assets/icons/armies.svg">
               <div :id="'player'+player.playerId+'NbArmies'">{{player.nbArmies}}</div>
@@ -113,8 +114,8 @@
             <div :id="'player'+player.playerId+'TokenTypeJoker'">
               <img src="../assets/icons/tokenTypeJoker.svg">
               <div :id="'player'+player.playerId+'NbTokenTypeJoker'">{{player.nbTokenTypeJoker}}</div>
-            </div>
-          </li>          
+            </div> 
+          </li>    -->      
         </ul>         
       </div>
     </div>
@@ -201,13 +202,14 @@
 
     </div>
 
-    <!--Map of the game-->
+    <!--Map of the game  v-on:load="init"-->
     <svg
       id="GameMap"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1024 792"
       width="100%"
       height="100%"
+      
     >
       <g id="matrix-group" class="draggable-group" transform="matrix(1 0 0 1 0 0) translate(10, 0)">
         <g id="map" visibility="visible" fill="none" stroke-width="2.5">
@@ -470,33 +472,45 @@
 
 // Import all the functions from GameWindowJS.js
 import * as GameWindow from "../js/GameWindowJS.js"
-//import * as MainGame from  "../js/MainGame.js"
 import {MainGame} from "../js/MainGame.js"
+import {Player} from "../js/Player.js"
+import {Packet} from "../Packet.js";
 
 export default {
+  name : 'DynamicGameWindow',
+  data () {
+    return {
+      players : [],
+      localPlayerName : localStorage.login,
+    }
+  },
   methods: {
     dropdownClick: GameWindow.dropdownClick,
     addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
     // test: function() {
-    //   console.log(this.$d3);
-    // }
-  },
-  mounted() {
-    //this.test();
-    GameWindow.init()
+    // //   console.log(this.$d3);
+    //     console.log(document.readyState)
+    // },
   },
   created() {
-    var mg = this;
-    mg = new MainGame()
-    mg.players = mg.getPlayers()
-    console.log(mg.players);
-    this.players = mg.players
+    var vm = this;
+    var mg = new MainGame(vm)
+
+    var me = new Player()
+    
+    me.displayName = localStorage.login
+   
+  },
+  beforeMount(){
+    //this.test()
+  },
+  mounted() {
+    GameWindow.init()
   },
 }
-
 </script>
 
-<style src="../css/GameWindow.css" scoped></style>
+<style src="../css/DynamicStyles.css" scoped></style>
 <style>
 html,
 body {

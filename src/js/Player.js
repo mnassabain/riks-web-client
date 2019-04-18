@@ -1,10 +1,10 @@
 var SupportedColors = {
-  RED: "red", // TODO : replace with the corresponding color code
-  GREEN: "green",
-  YELLOW: "yellow",
-  ORANGE: "orange",
-  BLUE: "blue",
-  PURPLE: "purple"
+  0: "#3D76E2",//blue
+  1: "#DF4C4C",//red
+  2: "#59AD4A",//green
+  3: "#F6D63D",//yellow
+  4: "#F0713C",//orange
+  5: "#9367DA",//purple
 };
 
 export class Player {
@@ -13,4 +13,9 @@ export class Player {
     this.id = id;
     this.color = SupportedColors[color];
   }
+
+  static getSupportedColors(i) {
+    return SupportedColors[i]    
+  } 
+
 }
