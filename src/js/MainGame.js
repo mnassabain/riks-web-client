@@ -1,5 +1,6 @@
 import { Packet } from "../Packet";
 import { map, getContinentOf, areAdjacent } from './Map';
+import { Player } from './Player.js'
 
 const phases = {
     PREPHASE: -1,
@@ -8,6 +9,8 @@ const phases = {
     FORTIFICATION: 2
 };
 
+/* To store the GameWindow view */
+var view
 
 // This function works as a controller
 
@@ -24,17 +27,76 @@ const phases = {
 */
 export class MainGame {
 
-    constructor() {
+    constructor(v) {
         this.currentPhase = phases['PREPHASE'];
         this.map = map;
         this.playerList = [];
         this.currentPlayer = undefined;
         this.activePlayerReinforcement = 0;
         this.btnState = false ; /* for the nextPhase button */
-        this.currentUserName = localStorage.name; 
+        this.currentUserName = localStorage.name;
+        
+        // copy of the object DynamicGameWindow
+        view = vm
+        this.$socket = view.$socket
+        //console.log('view object received')
+        //console.log(view) 
         
         this.handleIncommingMessages();
+        vm.$socket.send(new Packet("GAME_STATUS").getJson());
+        
         this.innerLoop();
+    }
+
+    /** 
+     * Sets game data with informations sent by server via GAME_STATUS message
+     * 
+     * @param data : data sent by server
+     */
+    static setGameData(data){
+        this.gameData = data
+        this.players = this.gameData.players
+        // console.log('gameData')
+        // console.log(this.gameData)
+
+        //Setting the first player according to server data
+        //console.log(this.gameData.activePlayer)
+        this.firstPlayer = this.gameData.activePlayer;
+        this.currentPlayer = this.firstPlayer;
+        //console.log('players') 
+         
+        /* Set the player localstorage */
+        MainGame.setPlayerLocalStorage(data)
+
+        /* Update the view's players array */
+        MainGame.updateViewPlayers(data)
+    }
+
+    /**
+     * Sets the player localStorage with data matching his name in the array
+     * 
+     * @param data : data sent by the server
+     */
+    static setPlayerLocalStorage(data){
+        for(var i = 0; i <data.players.length; i++){
+            if(this.gameData.players[i].name == localStorage.login){
+            //console.log('match')
+            //console.log(this.players[i].name)
+            localStorage.setItem('myId', i)
+            localStorage.setItem('myColor', Player.getSupportedColors(i))
+            }else{
+            //console.log('no match found')
+            }
+        }
+    }
+
+    /**
+     * Update the players list of the DynamicGameWindow view
+     * 
+     * @param data : data sent by the server
+     */
+    static updateViewPlayers(data){
+        view.players = data.players
     }
 
     /* dealing with nextPhase button state
@@ -404,6 +466,10 @@ export class MainGame {
 
     handleIncommingMessages(){
         this.$socket.onmessage = function(d){
+            console.log('incomming message')
+            console.log(d)
+            console.log('msg data')            
+            console.log(d.data)
             var msg = JSON.parse(d.data);
             if(msg.data.error){
                 // print different responses of the standar server when there is an error 
@@ -529,7 +595,8 @@ export class MainGame {
                         break;
 
                     case Packet.getTypeOf('GAME_STATUS'):
-                        /* get player list */
+                        /*Sets and update game data*/
+                        MainGame.setGameData(msg.data)
                         break;
 
                     case Packet.getTypeOf('GIVE_TOKENS'):
