@@ -37,15 +37,15 @@ export class MainGame {
         this.currentUserName = localStorage.name;
         
         // copy of the object DynamicGameWindow
-        view = vm
+        view = v
         this.$socket = view.$socket
         //console.log('view object received')
         //console.log(view) 
         
         this.handleIncommingMessages();
-        vm.$socket.send(new Packet("GAME_STATUS").getJson());
+        v.$socket.send(new Packet("GAME_STATUS").getJson());
         
-        this.innerLoop();
+        //this.innerLoop();
     }
 
     /** 
