@@ -50,8 +50,12 @@ export default {
     },
     JoinGame(item) {
       var params = {
-        lobbyID: this.item.id,
-        lobbyPassword: this.passwordloby
+      // CAUTION : dirty way to test the game flow
+      // TODO : securise this access
+        lobbyID: item,
+        lobbyPassword: ""
+        /*lobbyID: this.item.id,
+        lobbyPassword: this.passwordloby*/
       }
       this.$socket.send(new Packet("JOIN_LOBBY", params).getJson())
 
