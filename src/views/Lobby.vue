@@ -34,6 +34,9 @@ export default {
    getReady(){
      // msgType READY to add
        //this.$socket.send(new Packet("READY").getJson())
+       
+       // TODO : change this behaviour
+       this.$router.push({path: "/Start"})
    },
    leaveLobby(){
        this.$socket.send(new Packet("LEAVE_GAME").getJson())
