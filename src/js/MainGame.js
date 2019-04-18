@@ -171,6 +171,8 @@ export class MainGame {
      * @param tSource the attacking territory 
      * @param tDest the defending territory
      * @param nbUnits the number of attacking units
+     * 
+     * @return 0 if no problem, -1 if there is problem
      */
     tryAttack(tSource, tDest, nbUnits) {
 
@@ -180,31 +182,31 @@ export class MainGame {
         /* check phase */
         if (this.currentPhase != phases['OFFENSE']) {
             console.log('Action not permitted: incorrect phase');
-            return;
+            return -1;
         }
 
         /* check if the player controls the attacking territory territories */
         if (this.map[cSource][tSource].player != this.currentPlayer.id) {
             console.log('Action not permitted: you do not control the territory');
-            return;
+            return -1;
         }
 
         /* check if the attacked territory doesn't belong to the attacking player */
         if (this.map[cDest][tDest].player == this.map[cSource][tSource]) {
             console.log('Action not permitted: cannot attack own territory');
-            return;
+            return -1;
         }
 
         /* check if the number of units is ok */
         if (this.map[cSource][tSource].soldiers <= nbUnits) {
             console.log('Action not permitted: not enough units');
-            return;
+            return -1;
         }
 
         /* check if the territories are adjacent */
         if (!areAdjacent(tSource, tDest)) {
             console.log('Action not permitted: territories not adjacent');
-            return;
+            return -1;
         }
 
         /* if all tests pass notify server */
@@ -215,6 +217,8 @@ export class MainGame {
         };
 
         sendToServer(new Packet('ATTACK', data));
+
+        return 0;
     }
 
     /** Called when an attack is happening
@@ -248,6 +252,8 @@ export class MainGame {
      * 
      * @param tDest defending territory (maybe not necessary?)
      * @param nbUnits number of units chosen to defend
+     * 
+     * @return 0 if no problem, -1 if there is problem
      */
     tryDefend(tDest, nbUnits) {
         var cDest = getContinentOf(tDest);
@@ -255,7 +261,7 @@ export class MainGame {
         /* check if the territory has the number of units */
         if (this.map[cDest][tDest].soldiers < nbUnits) {
             console.log('Action not permitted: not enough units');
-            return;
+            return -1;
         }
 
         /* check if the player owns the territory ? */
@@ -266,6 +272,8 @@ export class MainGame {
         };
 
         this.sendToServer(new Packet('DEFEND', data));
+
+        return 0;
     }
 
     /** Called when a player is defending
@@ -312,7 +320,7 @@ export class MainGame {
             
             console.log('Territory ' + tDest + ' is conquered by the attacker');
 
-            /* TODO: check if defending player is dead */
+            /* TODO: check if defending player is dead, or in playerElimination? */
         }
     }
 
@@ -357,6 +365,8 @@ export class MainGame {
      * @param tSource: source territory; from where the units will be taken
      * @param tDest: destination territory; where the units will be placed
      * @param nbUnits: The number of units to move
+     * 
+     * @return 0 if no problem, -1 if there is problem
      *  
     **/
     tryFortify(tSource, tDest, nbUnits) {
@@ -369,26 +379,26 @@ export class MainGame {
         /* check if it's phase 3 */
         if (this.currentPhase != phases['FORTIFICATION']) {
             console.log('Action not permitted: icorrect phase');
-            return;
+            return -1;
         }
 
         /* check if the player controls those territories */
         if (this.map[cSource][tSource].player != this.map[cDest][tDest].player || 
             this.map[cSource][tSource].player != this.currentPlayer.id) {
                 console.log('Action not permitted: you do not control the territories');
-                return;
+                return -1;
         }
             
         /* check if the number of units is ok */
         if (this.map[cSource][tSource].soldiers <= nbUnits) {
             console.log('Action not permitted: not enough units');
-            return;
+            return -1;
         }
 
         /* check if the territories are adjacent */
         if (!areAdjacent(tSource, tDest)) {
             console.log('Action not permitted: territories not adjacent');
-            return;
+            return -1;
         }
 
         /* if all tests pass notify server */
@@ -399,6 +409,8 @@ export class MainGame {
         };
 
         sendToServer(new Packet('MOVE', data));
+
+        return 0;
     }
 
 
