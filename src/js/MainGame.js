@@ -26,7 +26,6 @@ var view
  Make the "view" display things
 */
 export class MainGame {
-
     constructor(v) {
         this.currentPhase = phases['PREPHASE'];
         this.map = map;
@@ -35,22 +34,22 @@ export class MainGame {
         this.activePlayerReinforcement = 0;
         this.btnState = false ; /* for the nextPhase button */
         this.currentUserName = localStorage.name;
-        
+
         // copy of the object DynamicGameWindow
         view = v
         this.$socket = view.$socket
         //console.log('view object received')
-        //console.log(view) 
-        
+        //console.log(view)
+
         this.handleIncommingMessages();
         v.$socket.send(new Packet("GAME_STATUS").getJson());
-        
+
         //this.innerLoop();
     }
 
-    /** 
+    /**
      * Sets game data with informations sent by server via GAME_STATUS message
-     * 
+     *
      * @param data : data sent by server
      */
     static setGameData(data){
@@ -63,8 +62,8 @@ export class MainGame {
         //console.log(this.gameData.activePlayer)
         this.firstPlayer = this.gameData.activePlayer;
         this.currentPlayer = this.firstPlayer;
-        //console.log('players') 
-         
+        //console.log('players')
+
         /* Set the player localstorage */
         MainGame.setPlayerLocalStorage(data)
 
@@ -74,7 +73,7 @@ export class MainGame {
 
     /**
      * Sets the player localStorage with data matching his name in the array
-     * 
+     *
      * @param data : data sent by the server
      */
     static setPlayerLocalStorage(data){
@@ -92,7 +91,7 @@ export class MainGame {
 
     /**
      * Update the players list of the DynamicGameWindow view
-     * 
+     *
      * @param data : data sent by the server
      */
     static updateViewPlayers(data){
@@ -101,10 +100,10 @@ export class MainGame {
 
     /* dealing with nextPhase button state
        after the END_PHASE message is emitted , the server will go to the next phase
-       if everything is correct 
+       if everything is correct
     */
     /**
-     * 
+     *
      * @param  player : player from the server after CURRENT_PHASE message
      * @param  phase : phase  from the server after CURRENT_PHASE message
      */
@@ -120,9 +119,14 @@ export class MainGame {
             this.btnState = false ;
         }
     }
-    
+
+    /*Response to PUT event*
+     *
+     * @param name  the name of the active player
+     * @param units the quantity of units placed on the map
+     */
     useTokensResponse (name, units)
-    {   
+    {
         /* only the active player does not see this notifcation */
         if(name != this.currentUserName)
         {
@@ -130,7 +134,7 @@ export class MainGame {
             console.log(name + "has received " + units + " unit(s)");
         }
         else
-        {   
+        {
             /* only the active player sees this notification */
             console.log("you have has received " + units + " unit(s)");
         }
@@ -140,21 +144,20 @@ export class MainGame {
     {
         if(name != this.currentUserName)
         {
-
           /*return name + "has putted " + units + "unit(s) on" + territory ; */
-          console.log(name + "has putted " + units + " unit(s) on " + territory);  
+          console.log(name + "has putted " + units + " unit(s) on " + territory);
         }
         else
         {
            /*return name + "has putted " + units + "unit(s) on" + territory ; */
-          console.log("you have putted " + units + " unit(s) on" + territory); 
+          console.log("you have putted " + units + " unit(s) on" + territory);
         }
     }
 
     startGame() {
 
     }
-    
+
     nextPhase() {
         this.currentPhase = (this.currentPhase + 1) % 3;
     }
@@ -166,18 +169,17 @@ export class MainGame {
     synchronize() {
         this.sendToServer(new Packet('GAME_STATUS'));
     }
-    
+
     /* this function must be triggered  when the active player clicks on a territory
     to put an unit during the first phase */
     useSet(token1, token2, token3){
-
         if(0 /* check if number of tokens is greater than 4 */)
         {
             var params = {
                 token1: token1,
                 token2: token2,
                 token3: token3
-            } 
+            }
             this.$socket.send(new Packet('USE_TOKENS', params).getJson());
         }
     }
@@ -185,41 +187,56 @@ export class MainGame {
     /* this function must be triggered  when the active player clicks on a territory
     to put an unit during the first phase */
     useReinforcement(player, territory,unit)
-    {   
+    {
         if(this.activePlayerReinforcement > 0)
         {
             putUnit(player,territory,unit);
         }
-
     }
-    putUnit(territory,units){
 
-        /* PUT message can only be emitted during phases -1 , 0 */
-        if(this.currentPhase == - 1 || this.currentPhase == 0)
+    /**
+     *
+     * @param territory  the targeted territory
+     * @param units  the number of units
+     */
+   putUnit(territory , units) {
+
+
+          /* PUT message can only be emitted during phases -1 , 0 */
+        if(this.currentPhase == 0)
         {
-            var params = {
-                territory: territory,
-                units: units
-            }
-    
-            this.$socket.send(new Packet('PUT', params).getJson());
+          var continent  = getContinentOf(territory);
+          var data = { territory: territory, units: units };
+
+          if(this.map[continent][territory].player !=  this.currentPlayer.id)
+          {
+                console.log("you are not the owner's territrory . you cannot put units here ");
+          }
+          else
+          {
+            this.$socket.send(new Packet('PUT', data).getJson());
+          }
 
         }
-
     }
 
+
     endPhase()
-    {   
+    {
         this.$socket.send(new Packet('END_PHASE').getJson());
     }
 
+    /**
+     *
+     * @param player  the active player
+     */
     updateReinforcement(player)
     {
         if(this.currentPhase == 0)
         {
             this.activePlayerReinforcement -- ;
         }
-        
+
         /* if the player has used his reinforcement and he has less than 4 tokens
         send the END_PHASE message to the server */
         if(this.activePlayerReinforcement == 0)
@@ -229,15 +246,14 @@ export class MainGame {
     }
 
     /** Try to launch an attack
-     * 
-     * @param tSource the attacking territory 
+     *
+     * @param tSource the attacking territory
      * @param tDest the defending territory
      * @param nbUnits the number of attacking units
-     * 
+     *
      * @return 0 if no problem, -1 if there is problem
      */
     tryAttack(tSource, tDest, nbUnits) {
-
         var cSource = getContinentOf(tSource);
         var cDest = getContinentOf(tDest);
 
@@ -284,25 +300,25 @@ export class MainGame {
     }
 
     /** Called when an attack is happening
-     * 
+     *
      * PRIVATE METHOD: DO NOT CALL FROM VIEW
-     * 
-     * @param tSource attacking territory 
+     *
+     * @param tSource attacking territory
      * @param tDest attacked territory
      * @param nbUnits number of attacking units
      */
     attack(tSource, tDest, nbUnits) {
         /* display that an attack is happening */
-        console.log('Attack started from ' + tSource + ' onto ' + tDest + 
+        console.log('Attack started from ' + tSource + ' onto ' + tDest +
             ' with ' + nbUnits + ' units');
     }
 
 
     /** Called when the player is being attacked
-     * 
+     *
      * PRIVATE METHOD: DO NOT CALL FROM VIEW
-     * 
-     * @param nbUnits number of attacking units 
+     *
+     * @param nbUnits number of attacking units
      */
     attacked(nbUnits) {
         /* display that the player is being attacked, let him defend */
@@ -311,15 +327,15 @@ export class MainGame {
 
 
     /** Try to defend territory
-     * 
+     *
      * @param tDest defending territory (maybe not necessary?)
      * @param nbUnits number of units chosen to defend
-     * 
+     *
      * @return 0 if no problem, -1 if there is problem
      */
     tryDefend(tDest, nbUnits) {
         var cDest = getContinentOf(tDest);
-        
+
         /* check if the territory has the number of units */
         if (this.map[cDest][tDest].soldiers < nbUnits) {
             console.log('Action not permitted: not enough units');
@@ -339,30 +355,30 @@ export class MainGame {
     }
 
     /** Called when a player is defending
-     * 
+     *
      * PRIVATE METHOD: DO NOT CALL FROM VIEW
-     * 
-     * @param defender defending player 
+     *
+     * @param defender defending player
      * @param nbUnits number of defending units
      */
     defend(defender, nbUnits) {
         /* show that the player is defending */
-        console.log('Player ' + defender + ' is defending with ' + nbUnits + 
+        console.log('Player ' + defender + ' is defending with ' + nbUnits +
             ' units');
     }
 
     /** Called when we receive combat results
-     * 
+     *
      * PRIVATE METHOD: DO NOT CALL FROM VIEW
-     * 
-     * @param tSource attacking territory 
+     *
+     * @param tSource attacking territory
      * @param tDest defending territory
      * @param attackerLoss unit loss
      * @param defenderLoss unit loss
      */
     finishedCombat(tSource, tDest, attackerLoss, defenderLoss) {
         /* show combat results ? */
-        console.log('Combat results: attacking territory ' + tSource + 
+        console.log('Combat results: attacking territory ' + tSource +
             'lost ' + attackerLoss + ' units, defending territory ' + tDest +
             'lost ' + defenderLoss + ' units.');
 
@@ -375,11 +391,10 @@ export class MainGame {
 
         /* if there are no more units on the territory */
         if (this.map[cDest][tDest].soldiers <= 0) {
-            
             this.map[cDest][tDest].player = this.map[cSource][tSource].player;
             /* TODO: determine the number of soldiers to place */
             this.map[cDest][tDest].soldiers = 1;
-            
+
             console.log('Territory ' + tDest + ' is conquered by the attacker');
 
             /* TODO: check if defending player is dead, or in playerElimination? */
@@ -387,10 +402,10 @@ export class MainGame {
     }
 
     /** Called when a player gets eliminated
-     * 
+     *
      * PRIVATE METHOD: DO NOT CALL FROM VIEW
-     * 
-     * @param playerName name of the eliminated player 
+     *
+     * @param playerName name of the eliminated player
      */
     playerElimination(playerName) {
         /* show that a player was eliminated */
@@ -401,24 +416,24 @@ export class MainGame {
 
 
     /** Move x units from one territory to another (phase 3)
-     * 
+     *
      * PRIVATE FUNCTION DO NOT USE: View should use tryFortify method!
      *
      * @param tSource: source territory; from where the units will be taken
      * @param tDest: destination territory; where the units will be placed
      * @param nbUnits: The number of units to move
-     *  
+     *
     **/
     fortify(tSource,tDest, nbUnits) {
         /* continent which contains the source territory */
         var cSource = getContinentOf(tSource);
-        
+
         /* continent which contains the destination territory */
         var cDest = getContinentOf(tDest);
 
         /* move units */
         this.map[cSource][tSource].soldiers -= nbUnits;
-        this.map[cDest][tDest].soldiers += nbUnits; 
+        this.map[cDest][tDest].soldiers += nbUnits;
     }
 
 
@@ -427,14 +442,14 @@ export class MainGame {
      * @param tSource: source territory; from where the units will be taken
      * @param tDest: destination territory; where the units will be placed
      * @param nbUnits: The number of units to move
-     * 
+     *
      * @return 0 if no problem, -1 if there is problem
-     *  
+     *
     **/
     tryFortify(tSource, tDest, nbUnits) {
         /* continent which contains the source territory */
         var cSource = getContinentOf(tSource);
-        
+
         /* continent which contains the destination territory */
         var cDest = getContinentOf(tDest);
 
@@ -445,12 +460,12 @@ export class MainGame {
         }
 
         /* check if the player controls those territories */
-        if (this.map[cSource][tSource].player != this.map[cDest][tDest].player || 
+        if (this.map[cSource][tSource].player != this.map[cDest][tDest].player ||
             this.map[cSource][tSource].player != this.currentPlayer.id) {
                 console.log('Action not permitted: you do not control the territories');
                 return -1;
         }
-            
+
         /* check if the number of units is ok */
         if (this.map[cSource][tSource].soldiers <= nbUnits) {
             console.log('Action not permitted: not enough units');
@@ -480,33 +495,33 @@ export class MainGame {
         this.$socket.onmessage = function(d){
             console.log('incomming message')
             console.log(d)
-            console.log('msg data')            
+            console.log('msg data')
             console.log(d.data)
             var msg = JSON.parse(d.data);
             if(msg.data.error){
-                // print different responses of the standar server when there is an error 
+                // print different responses of the standar server when there is an error
                 switch(msg.type)
                 {
                     case Packet.getTypeOf('ATTACK'):
                         console.log(msg.type + ":" +msg.data.response);
                         break;
-                    
+
                     case Packet.getTypeOf('CONNECT'):
                         console.log(msg.type + ":" +msg.data.response);
                         break;
-                    
+
                     case Packet.getTypeOf('CREATE_LOBBY'):
                         console.log(msg.type + ":" +msg.data.response);
                         break;
-                        
+
                     case Packet.getTypeOf('DEFEND'):
                         console.log(msg.type + ":" +msg.data.response);
                         break;
-                        
+
                     case Packet.getTypeOf('DISCONNECT'):
                         console.log(msg.type + ":" +msg.data.response);
                         break;
-                    
+
                     case Packet.getTypeOf('EDIT_LOBBY'):
                         console.log(msg.type + ":" +msg.data.response);
                         break;
@@ -561,11 +576,9 @@ export class MainGame {
                     default:
                         break;
                 }
-                
             }
             else{
                 switch (msg.type) {
-                    
                     case Packet.getTypeOf('ATTACK'):
                         attack(msg.data.source,
                             msg.data.destination,
@@ -594,7 +607,7 @@ export class MainGame {
                         break;
 
                     case Packet.getTypeOf('ERROR'):
-                        //print the type of the error in the console 
+                        //print the type of the error in the console
                         this.ErrorHandling();
                         break;
 
@@ -630,7 +643,7 @@ export class MainGame {
                     case Packet.getTypeOf('MOVE'):
 
                         fortify(msg.data.source,
-                            msg.data.destination, 
+                            msg.data.destination,
                             msg.data.units);
 
                         break;
@@ -666,7 +679,7 @@ export class MainGame {
                     default:
                         break;
                 }
-            }  
+            }
          }
     }
 
