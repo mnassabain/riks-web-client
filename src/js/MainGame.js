@@ -172,6 +172,12 @@ export class MainGame {
 
     /* this function must be triggered  when the active player clicks on a territory
     to put an unit during the first phase */
+    /**
+     *
+     * @param token1  first token
+     * @param token2  second token
+     * @param token3  third token
+     */
     useSet(token1, token2, token3){
         if(0 /* check if number of tokens is greater than 4 */)
         {
@@ -186,6 +192,12 @@ export class MainGame {
 
     /* this function must be triggered  when the active player clicks on a territory
     to put an unit during the first phase */
+    /**
+     *
+     * @param player  the player's id
+     * @param territory  the territory to put unit
+     * @param unit  the number of unit
+     */
     useReinforcement(player, territory,unit)
     {
         if(this.activePlayerReinforcement > 0)
@@ -202,7 +214,7 @@ export class MainGame {
    putUnit(territory , units) {
 
 
-          /* PUT message can only be emitted during phases -1 , 0 */
+        /* PUT message can only be emitted during phases -1 , 0 */
         if(this.currentPhase == 0)
         {
           var continent  = getContinentOf(territory);
