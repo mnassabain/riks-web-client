@@ -31,7 +31,7 @@
     <!-- <div id="messageDisplay" class="generalMessageDisplay">
       <div class="generalMessage">
         WELCOME PLAYERS !
-      </div>  
+      </div>
     </div> -->
 
     <!--Under Tokens NorthWest UI hidden by default-->
@@ -62,12 +62,12 @@
       </div>
     </div>
 
-    
+
     <div class="hovered-country" id="hovered-country">Hover over a country</div>
 
     <!-- SouthWest UI-->
     <div id="playerControls" >
-     
+
       <div id="playerControlMessage">
         <!--span id="phase">Phase 2</span>
         <br-->
@@ -114,9 +114,9 @@
             <div :id="'player'+player.playerId+'TokenTypeJoker'">
               <img src="../assets/icons/tokenTypeJoker.svg">
               <div :id="'player'+player.playerId+'NbTokenTypeJoker'">{{player.nbTokenTypeJoker}}</div>
-            </div> 
-          </li>    -->      
-        </ul>         
+            </div>
+          </li>    -->
+        </ul>
       </div>
     </div>
 
@@ -209,7 +209,7 @@
       viewBox="0 0 1024 792"
       width="100%"
       height="100%"
-      
+
     >
       <g id="matrix-group" class="draggable-group" transform="matrix(1 0 0 1 0 0) translate(10, 0)">
         <g id="map" visibility="visible" fill="none" stroke-width="2.5">
@@ -497,15 +497,15 @@ export default {
     var mg = new MainGame(vm)
 
     var me = new Player()
-    
+
     me.displayName = localStorage.login
-   
+
   },
   beforeMount(){
     //this.test()
   },
   mounted() {
-    GameWindow.init()
+    // GameWindow.init()
   },
 }
 </script>

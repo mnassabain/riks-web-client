@@ -20,21 +20,14 @@ Player purple #9367DA
     src:  url('../assets/fonts/Copperplate.ttf');
 }
 
-html, body {
+/* The map */
+.Map {
+    position:fixed;
     width: 100%;
     height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #2E4267;
-    font-family: Copperplate, serif;
-}
-
-/* The map */
-.map {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    top:0px;
+    left:0px;
+    z-index: -1;
 }
 
 /* Tokens display NorthWest UI*/
