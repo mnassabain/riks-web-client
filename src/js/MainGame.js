@@ -35,6 +35,8 @@ export class MainGame {
         this.btnState = false ; /* for the nextPhase button */
         this.currentUserName = localStorage.name;
 
+        this.endPhase();
+
         // copy of the object DynamicGameWindow
         view = v
         this.$socket = view.$socket
@@ -703,3 +705,5 @@ export class MainGame {
         },1000);
     }
 }
+
+
