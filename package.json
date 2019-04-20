@@ -20,6 +20,7 @@
     "howler": "^2.1.1",
     "js-cookie": "^2.2.0",
     "raivue": "^0.1.9",
+    "svg-pan-zoom": "^3.6.0",
     "vue": "^2.5.2",
     "vue-native-websocket": "^2.0.12",
     "vue-router": "^3.0.1",
