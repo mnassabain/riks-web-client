@@ -62,14 +62,27 @@ export class MainGame {
         //console.log(this.gameData.activePlayer)
         this.firstPlayer = this.gameData.activePlayer;
         this.currentPlayer = this.firstPlayer;
-        //console.log('players')
+        
+        
 
         /* Set the player localstorage */
         MainGame.setPlayerLocalStorage(data)
 
         /* Update the view's players array */
         MainGame.updateViewPlayers(data)
+
+        console.log('players')
+        console.log(view.players)
+
+        MainGame.setMapData(data)
+
+        this.startGame()
     }
+
+    static setPlayersData(data){
+
+    }
+
 
     /**
      * Sets the player localStorage with data matching his name in the array
@@ -79,12 +92,20 @@ export class MainGame {
     static setPlayerLocalStorage(data){
         for(var i = 0; i <data.players.length; i++){
             if(this.gameData.players[i].name == localStorage.login){
-            //console.log('match')
-            //console.log(this.players[i].name)
-            localStorage.setItem('myId', i)
-            localStorage.setItem('myColor', Player.getSupportedColors(i))
+                //console.log('match')
+                //console.log(this.players[i].name)
+                localStorage.setItem('myId', i)
+                localStorage.setItem('myColor', Player.getSupportedColors(i))
+                localStorage.setItem('reinforcements', data.players[i].reinforcements)
+                localStorage.setItem('territories', 0)
+                localStorage.setItem('token1', data.players[i].tokens.tok1)
+                localStorage.setItem('token2', data.players[i].tokens.tok2)
+                localStorage.setItem('token3', data.players[i].tokens.tok3)
+                localStorage.setItem('tokenJoker', data.players[i].tokens.tok4)
+                console.log('localstorage')
+                console.log(localStorage)
             }else{
-            //console.log('no match found')
+                //console.log('no match found')
             }
         }
     }
@@ -96,6 +117,24 @@ export class MainGame {
      */
     static updateViewPlayers(data){
         view.players = data.players
+        console.log('players')
+        console.log(view.players)
+    }
+
+    static setMapData(data){
+        console.log('data.board')
+        console.log(data.board)
+        var i = 0;
+        Object.keys(map).forEach(key => {
+            var continentName = map[key]
+            for(var countries in continentName){
+                if(typeof data.board[i] !== 'undefined' && typeof data.board[i].terId !== 'undefined'){
+                    console.log(countries)
+                    console.log(data.board[i].terId)
+                }
+                i++
+            }            
+        })
     }
 
     /* dealing with nextPhase button state
@@ -155,7 +194,8 @@ export class MainGame {
     }
 
     startGame() {
-
+        console.log('startGame function')
+        GameWindow.diplayMessage('Welcome to RiKS World!')
     }
 
     nextPhase() {
