@@ -333,13 +333,15 @@
     </div>
 
     <!--Map of the game-->
-    <div class="map">
-      <svg id="GameMap" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 1584" >
-        <g
-          id="matrix-group"
-          class="draggable-group"
-          transform="matrix(1 0 0 1 0 0) translate(0, 0)"
-        >
+      <SvgPanZoom
+        :zoomEnabled="true"
+        :dblClickZoomEnabled="false"
+        :controlIconsEnabled="false"
+        :fit="true"
+        :center="true"
+        :preventMouseEventsDefault="false"
+      >
+        <svg id="GameMap" class="Map" xmlns="http://www.w3.org/2000/svg">
           <g id="map" visibility="visible" fill="none" stroke-width="2.5">
             <g id="Seas" fill="#2E4267" visibility="visible">
               <path
@@ -592,26 +594,24 @@
             </g>
           </g>
           <path id="highlight" fill="white" stroke-width="5" stroke="black" opacity="0.3"></path>
-        </g>
-      </svg>
-    </div>
+        </svg>
+      </SvgPanZoom>
   </div>
 </template>
+
 <script>
 // Import all the functions from GameWindowJS.js
 import * as GameWindow from "../js/GameWindowJS.js";
+import SvgPanZoom from "vue-svg-pan-zoom";
 
 export default {
+  components: { SvgPanZoom },
   methods: {
     dropdownClick: GameWindow.dropdownClick,
-    addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
-    test: function() {
-      console.log(this.$d3);
-    }
+    addLocalPlayerMessage: GameWindow.addLocalPlayerMessage
   },
   mounted() {
-    this.test();
-    GameWindow.init()
+    GameWindow.init();
   }
 };
 </script>
@@ -620,12 +620,7 @@ export default {
 <style>
 html,
 body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #2e4267;
+  background-color: #2E4267;
   font-family: Copperplate, serif;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -633,13 +628,7 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-
-#app {
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  padding: 0;
+  overflow: hidden;
 }
 
 .container {
@@ -650,12 +639,5 @@ body {
   padding: 0%;
   max-height: 100%;
   max-width: 100%;
-}
-
-#GameMap {
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  background-color: #2e4267;
 }
 </style>

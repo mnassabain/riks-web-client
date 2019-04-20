@@ -37,52 +37,38 @@ var hoveredCountryId
 var getReady
 
 /* Initialize the SVG map on the UI */
-export function init () {        
-    
-    addDistantPlayerMessage()
-    setInterval(chronometer, 1000)
-    svg = document.getElementById('GameMap')
-    doc = svg.ownerDocument
-    planisphere = doc.getElementById('matrix-group')
-    viewbox = svg.getAttributeNS(null, 'viewBox').split(' ')
-    centerX = parseFloat(viewbox[2]) / 2
-    centerY = parseFloat(viewbox[3]) / 2
-    mapTransform = svg.getElementById('matrix-group')
-    transformMatrix = [1, 0, 0, 1, 0, 0]
-    highlight = doc.getElementById('highlight')
-    countries = document.getElementsByClassName('country')
+export function init () {
+  addDistantPlayerMessage()
+  setInterval(chronometer, 1000)
+  svg = document.getElementById("GameMap")
+  doc = svg.ownerDocument
+  planisphere = doc.getElementById('matrix-group')
+  viewbox = svg.getAttributeNS(null, 'viewBox').split(' ')
+  centerX = parseFloat(viewbox[2]) / 2
+  centerY = parseFloat(viewbox[3]) / 2
+  mapTransform = svg.getElementById('matrix-group')
+  transformMatrix = [1, 0, 0, 1, 0, 0]
+  highlight = doc.getElementById('highlight')
+  countries = document.getElementsByClassName('country')
 
-    for (var i = 0; i < countries.length; i++) {
-      var country = countries[i]
-      country.addEventListener('mouseover', function (evt) {
-        mouseoverCountry(evt)
-      })
-    }
+  for (var i = 0; i < countries.length; i++) {
+    var country = countries[i]
+    country.addEventListener('mouseover', function (evt) {
+      mouseoverCountry(evt)
+    })
+  }
 
-    seas = document.getElementsByClassName('sea')
-    for (i = 0; i < seas.length; i++) {
-      var sea = seas[i]
-      sea.addEventListener('mouseover', function (evt) {
-        mouseoverSea(evt)
-      })
-    } 
-    
-    planisphere.addEventListener('mousedown', function (evt) {
-      startDrag(evt)
+  seas = document.getElementsByClassName('sea')
+  for (i = 0; i < seas.length; i++) {
+    var sea = seas[i]
+    sea.addEventListener('mouseover', function (evt) {
+      mouseoverSea(evt)
     })
-    planisphere.addEventListener('mousemove', function (evt) {
-      drag(evt)
-    })
-    planisphere.addEventListener('mouseup', function (evt) {
-      endDrag(evt)
-    })
-    planisphere.addEventListener('mouseleave', function (evt) {
-      endDrag(evt)
-    })
-    
-    planisphere.addEventListener('dblclick', function (evt) {
-      placeSoldier(evt)
-    })
+  }
+
+  planisphere.addEventListener('dblclick', function (evt) {
+    placeSoldier(evt)
+  })
 }
 
 export function getMousePosition (evt) {
@@ -156,7 +142,7 @@ export function placeSoldier (evt) {
    var selectedCountryId = hoveredCountryId
    //console.log(selectedCountryId)
    //console.log(map)
-    
+
   //looping on the map object to match the dbclicked country
   Object.keys(map).forEach(key => {
     var continentName = map[key]
@@ -191,7 +177,7 @@ export function placeSoldier (evt) {
         //console.log("no match")
       }
     }
-  })  
+  })
 }
 
 // generic function to create an xml element
@@ -313,7 +299,7 @@ export function chronometer () {
 
   // Output the result in the timer
   document.getElementById('timer').innerHTML = m + ':' + s
-  
+
 }
 
 /**********************************************************************************/
