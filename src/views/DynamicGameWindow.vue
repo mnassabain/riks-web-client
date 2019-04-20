@@ -2,29 +2,29 @@
   <div>
     <!--NorthWest UI -->
     <div id="tokens">
-      <div id="playerArmies">
+     <div id="playerArmies">
         <img src="../assets/icons/armies.svg">
-        <!-- <div id="nbArmies">{{players[0].nbArmies}}</div> -->
+        <div id="nbArmies">{{ localArmies }}</div>
       </div>
       <div id="playerTerritories">
         <img src="../assets/icons/flag.svg">
-        <!-- <div id="nbTerritories">{{players[0].nbTerritories}}</div> -->
+        <div id="nbTerritories">{{ localTerritories }}</div>
       </div>
       <div id="tokenTypeOne">
         <img src="../assets/icons/tokenTypeOne.svg">
-        <!-- <div id="nbTokenTypeOne">{{players[0].nbTokenTypeOne}}</div> -->
+        <div id="nbTokenTypeOne">{{ localNbTokenTypeOne }}</div>
       </div>
       <div id="tokenTypeTwo">
         <img src="../assets/icons/tokenTypeTwo.svg">
-        <!-- <div id="nbTokenTypeTwo">{{players[0].nbTokenTypeTwo}}</div> -->
+        <div id="nbTokenTypeTwo">{{ localNbTokenTypeTwo }}</div>
       </div>
       <div id="tokenTypeThree">
         <img src="../assets/icons/tokenTypeThree.svg">
-        <!-- <div id="nbTokenTypeThree">{{players[0].nbTokenTypeThree}}</div> -->
+        <div id="nbTokenTypeThree">{{ localNbTokenTypeThree }}</div>
       </div>
       <div id="tokenTypeJoker">
         <img src="../assets/icons/tokenTypeJoker.svg">
-        <!-- <div id="nbTokenTypeJoker">{{players[0].nbTokenTypeJoker}}</div> -->
+        <div id="nbTokenTypeJoker">{{ localNbTokenTypeJoker }}</div>
       </div>
     </div>
 
@@ -90,32 +90,32 @@
               <p>{{player.name}}</p>
             </div>
           </li>
-          <!-- <li :id="'playerSlot'+player.playerId+'Info'">
-            <div :id="'player'+player.playerId+'Armies'">
+          <li :id="'playerSlot'+(index+1)+'Info'">
+            <div :id="'player'+(index+1)+'Armies'">
               <img src="../assets/icons/armies.svg">
-              <div :id="'player'+player.playerId+'NbArmies'">{{player.nbArmies}}</div>
+              <div :id="'player'+(index+1)+'NbArmies'">{{player.reinforcements}}</div>
             </div>
-            <div :id="'player'+player.playerId+'Territories'">
+            <div :id="'player'+(index+1)+'Territories'">
               <img src="../assets/icons/flag.svg">
-              <div :id="'player'+player.playerId+'NbTerritories'">{{player.nbTerritories}}</div>
+              <!-- <div :id="'player'+(index+1)+'NbTerritories'">{{player[index].nbTerritories}}</div> -->
             </div>
-            <div :id="'player'+player.playerId+'TokenTypeOne'">
+            <div :id="'player'+(index+1)+'TokenTypeOne'">
               <img src="../assets/icons/tokenTypeOne.svg">
-              <div :id="'player'+player.playerId+'NbTokenTypeOne'">{{player.nbTokenTypeOne}}</div>
+              <div :id="'player'+(index+1)+'NbTokenTypeOne'">{{player.tokens.tok1}}</div>
             </div>
-            <div :id="'player'+player.playerId+'TokenTypeTwo'">
+            <div :id="'player'+(index+1)+'TokenTypeTwo'">
               <img src="../assets/icons/tokenTypeTwo.svg">
-              <div :id="'player'+player.playerId+'NbTokenTypeTwo'">{{player.nbTokenTypeTwo}}</div>
+              <div :id="'player'+(index+1)+'NbTokenTypeTwo'">{{player.tokens.tok1}}</div>
             </div>
-            <div :id="'player'+player.playerId+'TokenTypeThree'">
+            <div :id="'player'+(index+1)+'TokenTypeThree'">
               <img src="../assets/icons/tokenTypeThree.svg">
-              <div :id="'player'+player.playerId+'NbTokenTypeThree'">{{player.nbTokenTypeThree}}</div>
+              <div :id="'player'+(index+1)+'NbTokenTypeThree'">{{player.tokens.tok1}}</div>
             </div>
-            <div :id="'player'+player.playerId+'TokenTypeJoker'">
+            <div :id="'player'+(index+1)+'TokenTypeJoker'">
               <img src="../assets/icons/tokenTypeJoker.svg">
-              <div :id="'player'+player.playerId+'NbTokenTypeJoker'">{{player.nbTokenTypeJoker}}</div>
-            </div>
-          </li>    -->
+              <div :id="'player'+(index+1)+'NbTokenTypeJoker'">{{player.tokens.tok1}}</div>
+            </div> 
+          </li>
         </ul>
       </div>
     </div>
@@ -481,7 +481,15 @@ export default {
   data () {
     return {
       players : [],
+      map : [],
       localPlayerName : localStorage.login,
+      localArmies : localStorage.reinforcements,
+      localTerritories : localStorage.territories,
+      localNbTokenTypeOne : localStorage.token1,
+      localNbTokenTypeTwo : localStorage.token2,
+      localNbTokenTypeThree : localStorage.token3,
+      localNbTokenTypeJoker : localStorage.tokenJoker,
+      localColor : localStorage.myColor,
     }
   },
   methods: {
