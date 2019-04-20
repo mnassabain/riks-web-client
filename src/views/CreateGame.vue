@@ -52,8 +52,8 @@ export default {
       var params = {
         lobbyName: this.nameOfRoom,
         lobbyPassword: this.passwordOfRoom,
-        maxPlayers: 8,
-        mapName: ''
+        maxPlayers: 6,
+        mapName: 'standard'
       }
 
       this.$socket.send(new Packet('CREATE_LOBBY', params).getJson())
