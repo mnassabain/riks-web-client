@@ -60,7 +60,7 @@ export class Packet{
         return JSON.stringify(this);
     }
 
-    static getTypeOf(type) {
+    getTypeOf(type) {
         return types[type];
     }
 }

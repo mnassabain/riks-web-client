@@ -480,7 +480,10 @@ export default {
   },
   methods: {
     dropdownClick: GameWindow.dropdownClick,
-    addLocalPlayerMessage: GameWindow.addLocalPlayerMessage
+    addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
+    diplayMessage: function(){
+      console.log("WESH")
+    }
     // test: function() {
     // //   console.log(this.$d3);
     //     console.log(document.readyState)

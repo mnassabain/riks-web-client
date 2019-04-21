@@ -1,7 +1,6 @@
-import { Packet } from "../Packet";
-import { map, getContinentOf, areAdjacent } from './Map';
+import { Packet } from "../Packet"
+import { map, getContinentOf, areAdjacent } from './Map'
 import { Player } from './Player.js'
-
 const phases = {
     PREPHASE: -1,
     REINFORCEMENT: 0,
@@ -9,8 +8,6 @@ const phases = {
     FORTIFICATION: 2
 };
 
-/* To store the GameWindow view */
-var view
 
 // This function works as a controller
 
@@ -36,8 +33,8 @@ export class MainGame {
         this.currentUserName = localStorage.name;
 
         // copy of the object DynamicGameWindow
-        view = v
-        this.$socket = view.$socket
+        this.view = v
+        this.$socket = v.$socket
         //console.log('view object received')
         //console.log(view)
 
@@ -52,7 +49,7 @@ export class MainGame {
      *
      * @param data : data sent by server
      */
-    static setGameData(data){
+     setGameData(data){
         this.gameData = data
         this.players = this.gameData.players
         // console.log('gameData')
@@ -66,20 +63,20 @@ export class MainGame {
         
 
         /* Set the player localstorage */
-        MainGame.setPlayerLocalStorage(data)
+        this.setPlayerLocalStorage(data)
 
         /* Update the view's players array */
-        MainGame.updateViewPlayers(data)
+        this.updateViewPlayers(data)
 
         console.log('players')
-        console.log(view.players)
+        console.log(this.view.players)
 
-        MainGame.setMapData(data)
+        this.setMapData(data)
 
         this.startGame()
     }
 
-    static setPlayersData(data){
+     setPlayersData(data){
 
     }
 
@@ -89,7 +86,7 @@ export class MainGame {
      *
      * @param data : data sent by the server
      */
-    static setPlayerLocalStorage(data){
+     setPlayerLocalStorage(data){
         for(var i = 0; i <data.players.length; i++){
             if(this.gameData.players[i].name == localStorage.login){
                 //console.log('match')
@@ -115,13 +112,13 @@ export class MainGame {
      *
      * @param data : data sent by the server
      */
-    static updateViewPlayers(data){
-        view.players = data.players
+     updateViewPlayers(data){
+        this.view.players = data.players
         console.log('players')
-        console.log(view.players)
+        console.log(this.view.players)
     }
 
-    static setMapData(data){
+     setMapData(data){
         console.log('data.board')
         console.log(data.board)
         var i = 0;
@@ -146,7 +143,7 @@ export class MainGame {
      * @param  player : player from the server after CURRENT_PHASE message
      * @param  phase : phase  from the server after CURRENT_PHASE message
      */
-    nextPhaseBtnState(phase)
+     nextPhaseBtnState(phase)
     {
         if(this.currentPlayer.name == this.currentUserName && this.currentPhase != phase)
         {
@@ -164,7 +161,7 @@ export class MainGame {
      * @param name  the name of the active player
      * @param units the quantity of units placed on the map
      */
-    useTokensResponse (name, units)
+     useTokensResponse (name, units)
     {
         /* only the active player does not see this notifcation */
         if(name != this.currentUserName)
@@ -195,7 +192,7 @@ export class MainGame {
 
     startGame() {
         console.log('startGame function')
-        GameWindow.diplayMessage('Welcome to RiKS World!')
+        this.view.diplayMessage('Welcome to RiKS World!')
     }
 
     nextPhase() {
@@ -502,6 +499,7 @@ export class MainGame {
         /* continent which contains the source territory */
         var cSource = getContinentOf(tSource);
 
+    
         /* continent which contains the destination territory */
         var cDest = getContinentOf(tDest);
 
@@ -544,13 +542,14 @@ export class MainGame {
 
 
     handleIncommingMessages(){
+        var THAT_CLASS = this;
         this.$socket.onmessage = function(d){
             console.log('incomming message')
             console.log(d)
             console.log('msg data')
             console.log(d.data)
             var msg = JSON.parse(d.data);
-            if(msg.data.error){
+            if(/*msg.data.error*/false){
                 // print different responses of the standar server when there is an error
                 switch(msg.type)
                 {
@@ -631,100 +630,101 @@ export class MainGame {
             }
             else{
                 switch (msg.type) {
-                    case Packet.getTypeOf('ATTACK'):
-                        attack(msg.data.source,
+                    case Packet.prototype.getTypeOf('ATTACK'):
+                    THAT_CLASS.attack(msg.data.source,
                             msg.data.destination,
                             msg.data.units);
                         break;
 
-                    case Packet.getTypeOf('ATTACKED'):
-                        attacked(msg.data.units);
+                    case Packet.prototype.getTypeOf('ATTACKED'):
+                    THAT_CLASS.attacked(msg.data.units);
                         break;
 
-                    case Packet.getTypeOf('COMBAT_RESULTS'):
-                        finishedCombat(msg.data.source,
+                    case Packet.prototype.getTypeOf('COMBAT_RESULTS'):
+                    THAT_CLASS.finishedCombat(msg.data.source,
                             msg.data.destination,
                             msg.data.attackerLoss,
                             msg.data.defenderLoss);
                         break;
 
-                    case Packet.getTypeOf('CURRENT_PHASE'):
-                        this.nextPhaseBtnState(msg.phase);
+                    case Packet.prototype.getTypeOf('CURRENT_PHASE'):
+                    THAT_CLASS.nextPhaseBtnState(msg.phase);
 
                         break;
 
-                    case Packet.getTypeOf('DEFEND'):
-                        defend(msg.data.defenderName,
+                    case Packet.prototype.getTypeOf('DEFEND'):
+                    THAT_CLASS.defend(msg.data.defenderName,
                             msg.data.units);
                         break;
 
-                    case Packet.getTypeOf('ERROR'):
+                    case Packet.prototype.getTypeOf('ERROR'):
                         //print the type of the error in the console
-                        this.ErrorHandling();
+                        THAT_CLASS.ErrorHandling();
                         break;
 
-                    case Packet.getTypeOf('GAME_OVER'):
-
-                        break;
-
-                    case Packet.getTypeOf('GAME_RESULTS'):
+                    case Packet.prototype.getTypeOf('GAME_OVER'):
 
                         break;
 
-                    case Packet.getTypeOf('GAME_STATUS'):
+                    case Packet.prototype.getTypeOf('GAME_RESULTS'):
+
+                        break;
+
+                    case Packet.prototype.getTypeOf('GAME_STATUS'):
                         /*Sets and update game data*/
-                        MainGame.setGameData(msg.data)
+                        THAT_CLASS.setGameData(msg.data)
+                        
                         break;
 
-                    case Packet.getTypeOf('GIVE_TOKENS'):
-
-                        break;
-
-                    case Packet.getTypeOf('KICKED'):
+                    case Packet.prototype.getTypeOf('GIVE_TOKENS'):
 
                         break;
 
-                    case Packet.getTypeOf('LEAVE_GAME'):
+                    case Packet.prototype.getTypeOf('KICKED'):
 
                         break;
 
-                    case Packet.getTypeOf('LOBBY_STATE'):
+                    case Packet.prototype.getTypeOf('LEAVE_GAME'):
 
                         break;
 
-                    case Packet.getTypeOf('MOVE'):
+                    case Packet.prototype.getTypeOf('LOBBY_STATE'):
 
-                        fortify(msg.data.source,
+                        break;
+
+                    case Packet.prototype.getTypeOf('MOVE'):
+
+                    THAT_CLASS.fortify(msg.data.source,
                             msg.data.destination,
                             msg.data.units);
 
                         break;
 
-                    case Packet.getTypeOf('PLAYER_ELIMINATION'):
-                        playerElimination(msg.data.player);
+                    case Packet.prototype.getTypeOf('PLAYER_ELIMINATION'):
+                    THAT_CLASS.playerElimination(msg.data.player);
                         break;
 
-                    case Packet.getTypeOf('PLAYER_PROFILE'):
+                    case Packet.prototype.getTypeOf('PLAYER_PROFILE'):
 
                         break;
 
                     /* a PUT message implies a PUT message from the  client */
-                    case Packet.getTypeOf('PUT'):
-                        this.updateReinforcement();
+                    case Packet.prototype.getTypeOf('PUT'):
+                    THAT_CLASS.updateReinforcement();
                         /*this.putResponse(msg.player.name,msg.territory,msg.units); */
                         /*change the color of a territory during the pre-phase */
 
                         break;
 
-                    case Packet.getTypeOf('REINFORCEMENT'):
-                        this.activePlayerReinforcement = msg.units;
+                    case Packet.prototype.getTypeOf('REINFORCEMENT'):
+                    THAT_CLASS.activePlayerReinforcement = msg.units;
                         break;
 
-                    case Packet.getTypeOf('START_GAME'):
+                    case Packet.prototype.getTypeOf('START_GAME'):
 
                         break;
 
-                    case Packet.getTypeOf('USE_TOKENS'):
+                    case Packet.prototype.getTypeOf('USE_TOKENS'):
                         /*this.useTokensResponse(msg.player.name,msg.units); */
                         break;
 
