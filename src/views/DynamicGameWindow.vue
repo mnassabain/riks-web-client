@@ -481,8 +481,8 @@ export default {
   methods: {
     dropdownClick: GameWindow.dropdownClick,
     addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
-    diplayMessage: function(){
-      console.log("WESH")
+    diplayMessage: function(message){
+      console.log(message)
     }
     // test: function() {
     // //   console.log(this.$d3);
