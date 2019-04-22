@@ -12,10 +12,13 @@ export class Player {
     this.displayName = name;
     this.id = id;
     this.color = SupportedColors[color];
+    this.reinforcements = 0;
+    this.tokens = []
+    this.nbTerritories = 0;
   }
 
-  static getSupportedColors(i) {
+getSupportedColors(i) {
     return SupportedColors[i]    
-  } 
+  }
 
 }
