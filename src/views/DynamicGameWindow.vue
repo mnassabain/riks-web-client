@@ -80,12 +80,12 @@
     </div>
 
     <!-- SouthEast UI-->
-    <div id="playerList" class="playerListContainer">
+    <div id='playerList' class="playerListContainer">
       <div class="playerList">
         <ul v-for="(player, index) in players" :key="index">
           <li :id="'playerSlot'+(index+1)">
             <div :id="'playerSlot'+(index+1)+'Name'" class="playerListName">
-              <p>{{player.name}}</p>
+              <p>{{player.displayName}}</p>
             </div>
           </li>
           <li :id="'playerSlot'+(index+1)+'Info'">
@@ -95,7 +95,7 @@
             </div>
             <div :id="'player'+(index+1)+'Territories'">
               <img src="../assets/icons/flag.svg">
-              <!-- <div :id="'player'+(index+1)+'NbTerritories'">{{player[index].nbTerritories}}</div> -->
+              <div :id="'player'+(index+1)+'NbTerritories'">{{player.nbTerritories}}</div>
             </div>
             <div :id="'player'+(index+1)+'TokenTypeOne'">
               <img src="../assets/icons/tokenTypeOne.svg">
@@ -103,18 +103,18 @@
             </div>
             <div :id="'player'+(index+1)+'TokenTypeTwo'">
               <img src="../assets/icons/tokenTypeTwo.svg">
-              <div :id="'player'+(index+1)+'NbTokenTypeTwo'">{{player.tokens.tok1}}</div>
+              <div :id="'player'+(index+1)+'NbTokenTypeTwo'">{{player.tokens.tok2}}</div>
             </div>
             <div :id="'player'+(index+1)+'TokenTypeThree'">
               <img src="../assets/icons/tokenTypeThree.svg">
-              <div :id="'player'+(index+1)+'NbTokenTypeThree'">{{player.tokens.tok1}}</div>
+              <div :id="'player'+(index+1)+'NbTokenTypeThree'">{{player.tokens.tok3}}</div>
             </div>
             <div :id="'player'+(index+1)+'TokenTypeJoker'">
               <img src="../assets/icons/tokenTypeJoker.svg">
-              <div :id="'player'+(index+1)+'NbTokenTypeJoker'">{{player.tokens.tok1}}</div>
-            </div>
+              <div :id="'player'+(index+1)+'NbTokenTypeJoker'">{{player.tokens.tok4}}</div>
+            </div> 
           </li>
-        </ul>
+        </ul>         
       </div>
     </div>
 
@@ -140,7 +140,7 @@
     </div>
 
     <!-- South UI combat informations are displayed here-->
-    <div class="combatUI">
+    <div class="combatUI"  id='combatUIDisplay'>
       <!-- <div class="combatContent" id="combatInfo">
         You are
         <br>attacking
@@ -484,26 +484,21 @@ export default {
     diplayMessage: function(message){
       console.log(message)
     }
-    // test: function() {
-    // //   console.log(this.$d3);
-    //     console.log(document.readyState)
-    // },
   },
   created() {
     var vm = this;
     var mg = new MainGame(vm);
-
     var me = new Player();
-
     me.displayName = localStorage.login;
   },
   beforeMount() {
-    //this.test()
+    
   },
   mounted() {
     GameWindow.startTimer();
     GameWindow.mapPanZoom();
     GameWindow.startMouseoverCountry();
+    GameWindow.onDbClick();
   }
 };
 </script>
