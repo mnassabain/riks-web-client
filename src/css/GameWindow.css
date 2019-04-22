@@ -31,28 +31,28 @@ Player purple #9367DA
 }
 
 /* Tokens display NorthWest UI*/
-#tokens {
-    width : 220px;
-    height: 50px;
+.tokens {
+    width : 16.5rem;
+    height: 3.5rem;
     background-color: #27282D;
     position : absolute;
-    border-right: solid 2px #F9CE93;
-    border-bottom: solid 2px #F9CE93;
+    border-right: solid 0.2rem #F9CE93;
+    border-bottom: solid 0.2rem #F9CE93;
     border-top: none;
     left : 0;
     top : 0;
-    border-bottom-right-radius: 30px;
-    /*box-shadow: 8px 8px 10px -1px rgba(0,0,0,0.4);*/
+    border-bottom-right-radius: 2.2rem;
+    opacity: 0.9;
 }
 
 [id^='tokenType'], [id*='tokenType']{
     float: left;
-    margin : 2px 5px 0px 5px;
+    margin : 0.3rem 0.4rem 0rem 0.4rem;
 }
 
 [id^='tokenType'], [id*='tokenType'] > img {
-    width: 25px;
-    height: 25px;
+    width: 1.8rem;
+    height: 1.8rem;
 }
 
 [id^='nbTokenType'], [id*='nbTokenType']{
@@ -62,12 +62,12 @@ Player purple #9367DA
 
 #playerArmies, #playerTerritories {
     float: left;
-    margin : 2px 5px 0 5px;
+    margin : 0.3rem 0.4rem 0rem 0.4rem;
 }
 
 #playerArmies, #playerTerritories > img {
-    width: 25px;
-    height: 25px;
+    width: 1.8rem;
+    height: 1.8rem;
 }
 
 

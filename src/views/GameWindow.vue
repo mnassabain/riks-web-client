@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--NorthWest UI -->
-    <div id="tokens">
+    <div class="tokens">
       <div id="playerArmies">
         <img src="../assets/icons/armies.svg">
         <div id="nbArmies">{{ localArmies }}</div>
