@@ -34,7 +34,7 @@ export default {
    getReady(){
      // msgType READY to add
        this.$socket.send(new Packet("START_GAME").getJson())
-    
+
    },
    leaveLobby(){
        this.$socket.send(new Packet("LEAVE_GAME").getJson())
@@ -63,7 +63,7 @@ export default {
             }
             else if(msg.type == Packet.prototype.getTypeOf("START_GAME")){
                 delete vm.$socket.onmessage;
-                vm.$router.push({path: "/DynamicGameWindow"})
+                vm.$router.push({path: "/GameWindow"})
             }
         }
      }

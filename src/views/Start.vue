@@ -43,7 +43,7 @@ export default {
   methods: {
     startGame () {
       this.$socket.send(new Packet("START_GAME").getJson());
-      console.log('send START_GAME')      
+      console.log('send START_GAME')
     },
 
    leaveGame(){
@@ -57,7 +57,7 @@ export default {
      var vm = this;
      this.$socket.send(new Packet("LOBBY_STATE").getJson());
      console.log("send LOBBY_STATE");
-        
+
      this.$socket.onmessage = function(d){
         console.log(d);
         var msg = JSON.parse(d.data);
@@ -66,7 +66,7 @@ export default {
             console.log("ERROR");
             console.log(msg)
             if(msg.type == 14)
-              vm.$router.push({path: "\DynamicGameWindow"})
+              vm.$router.push({path: "\GameWindow"})
 
             delete vm.$socket.onmessage;
         }
@@ -79,12 +79,12 @@ export default {
                 console.log("recv START_GAME");
                 //vm.players = msg.data.gameData.playerNames
                 console.log(msg.data.gameData)
-                this.$router.push({path: "\DynamicGameWindow"})
+                this.$router.push({path: "\GameWindow"})
             }else if(msg.type == new Packet("GAME_STATUS").type){
                 console.log("recv GAME_STATUS");
                 //vm.players = msg.data.gameData.playerNames
                 console.log(msg.data.gameData)
-                this.$router.push({path: "\DynamicGameWindow"})
+                this.$router.push({path: "\GameWindow"})
             }
         }
      }

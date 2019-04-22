@@ -8,7 +8,6 @@ import JoinGame from '@/views/JoinGame'
 import Lobby from '@/views/Lobby'
 import Start from '@/views/Start'
 import GameWindow from '@/views/GameWindow'
-import DynamicGameWindow from '@/views/DynamicGameWindow'
 
 Vue.use(Router)
 
@@ -23,6 +22,5 @@ export default new Router({
     { path: '/Start', name: 'Start', component: Start },
     { path: '/Lobby', name: 'Lobby', component: Lobby },
     { path: '/GameWindow', name: 'GameWindow', component: GameWindow },
-    { path: '/DynamicGameWindow', name: 'DynamicGameWindow', component: DynamicGameWindow },
   ],
 });
