@@ -1,6 +1,8 @@
 import { Packet } from "../Packet"
 import { map, getContinentOf, areAdjacent } from './Map'
-import { Player } from './Player.js'
+import { Player, SupportedColors } from './Player'
+import * as GameWindow from './GameWindowJS'
+
 const phases = {
     PREPHASE: -1,
     REINFORCEMENT: 0,
@@ -8,7 +10,8 @@ const phases = {
     FORTIFICATION: 2
 };
 
-
+/* To store this class global object */
+var THIS_IS_IT
 // This function works as a controller
 
 /*
@@ -31,12 +34,12 @@ export class MainGame {
         this.activePlayerReinforcement = 0;
         this.btnState = false ; /* for the nextPhase button */
         this.currentUserName = localStorage.name;
+        this.freeTerritories
+        THIS_IS_IT = this
 
         // copy of the object DynamicGameWindow
         this.view = v
         this.$socket = v.$socket
-        //console.log('view object received')
-        //console.log(view)
 
         this.handleIncommingMessages();
         v.$socket.send(new Packet("GAME_STATUS").getJson());
@@ -60,39 +63,63 @@ export class MainGame {
         this.firstPlayer = this.gameData.activePlayer;
         this.currentPlayer = this.firstPlayer;
         
-        
-
         /* Set the player localstorage */
         this.setPlayerLocalStorage(data)
 
         /* Update the view's players array */
-        this.updateViewPlayers(data)
+        //this.updateViewPlayers(data)
 
         console.log('players')
-        console.log(this.view.players)
+        console.log(view.players)
 
+        this.setPlayersData(data)
         this.setMapData(data)
 
         this.startGame()
     }
 
-     setPlayersData(data){
+    /**
+     * Returns the local map object
+     */
+    getLocalMap(){
+        return THIS_IS_IT.map
+    }
 
+    /**
+     * Initializes the local players with data received from
+     * the game server. (data.players)
+     * 
+     * @param data 
+     */
+    setPlayersData(data){
+        var i = 0;
+        var self = this
+        Object.keys(data.players).forEach(key => {  
+            var player = data.players[key]
+            var p = new Player(i, player.name, i)
+            p.reinforcements = data.players[i].reinforcements
+            p.tokens = data.players[i].tokens
+            self.playerList.push(p)
+            i++
+        })
+        // console.log('this playerlist is set')
+        // console.log(self.playerList)
+        
+        // The player list is copyied to the view
+        view.players = self.playerList
     }
 
 
     /**
-     * Sets the player localStorage with data matching his name in the array
+     * Sets the player's localStorage with data matching his name in the array
      *
      * @param data : data sent by the server
      */
      setPlayerLocalStorage(data){
         for(var i = 0; i <data.players.length; i++){
             if(this.gameData.players[i].name == localStorage.login){
-                //console.log('match')
-                //console.log(this.players[i].name)
                 localStorage.setItem('myId', i)
-                localStorage.setItem('myColor', Player.getSupportedColors(i))
+                localStorage.setItem('myColor', SupportedColors[i])
                 localStorage.setItem('reinforcements', data.players[i].reinforcements)
                 localStorage.setItem('territories', 0)
                 localStorage.setItem('token1', data.players[i].tokens.tok1)
@@ -113,27 +140,193 @@ export class MainGame {
      * @param data : data sent by the server
      */
      updateViewPlayers(data){
-        this.view.players = data.players
-        console.log('players')
-        console.log(this.view.players)
+        //view.players = data.players
+        console.log('view.players')
+        console.log(view.players)
+        //console.log(this.playerList)
     }
 
-     setMapData(data){
-        console.log('data.board')
-        console.log(data.board)
+     /**
+     * Sets the local map with data received from the server
+     * 
+     * @param data map data sent by the game server
+     */
+    setMapData(data){
         var i = 0;
-        Object.keys(map).forEach(key => {
-            var continentName = map[key]
+        /* Looping on local map object */
+        Object.keys(THIS_IS_IT.map).forEach(key => {
+            var continentName = THIS_IS_IT.map[key]
             for(var countries in continentName){
-                if(typeof data.board[i] !== 'undefined' && typeof data.board[i].terId !== 'undefined'){
-                    console.log(countries)
-                    console.log(data.board[i].terId)
+                /* copying territories data received from the server */
+                continentName[countries].soldiers = data.board[i].nbUnits
+                continentName[countries].player = data.board[i].ownerId
+                i++
+            }            
+        })
+        // console.log('map is set:')
+        // console.log(THIS_IS_IT.map)
+    }
+
+/**
+     * Updates local map data
+     * 
+     * @param terName territory name of country to update
+     * @param playerId id of the territory owner
+     * @param nbSoldiers number of units to put on this territory
+     */
+    updateMapData(terName, playerId, nbSoldiers){
+        var i = 0;
+        /* Looping on local map object */
+        Object.keys(THIS_IS_IT.map).forEach(key => {
+            var continentName = THIS_IS_IT.map[key]
+            for(var countries in continentName){
+                if(countries === terName){
+                    /* Updating territory data */
+                    continentName[countries].soldiers = nbSoldiers
+                    continentName[countries].player = playerId
                 }
                 i++
             }            
         })
+        // console.log('map data has been updated:')
+        // console.log(this.map)
     }
 
+    /**
+     * Checks if a territory is free 
+     * 
+     * @param terName name of the territory to check
+     * @return res true if territory is free, false if not
+     */
+    checkTerritoryFreedom(terName){
+        var i = 0
+        var res = false
+        /* getting local map */
+        var checkMap = THIS_IS_IT.getLocalMap()
+        /* looping on local map  */
+        Object.keys(checkMap).forEach(key => {
+            var continentName = checkMap[key]
+            for(var countries in continentName){
+                if(countries === terName){
+                    if(continentName[countries].player == -1){
+                        //console.log('free')
+                        res = true
+                    }else{
+                        GameWindow.displayMessage("This territory is occupied !")
+                        res = false
+                    }
+                }
+                i++
+            }            
+        })
+        return res
+    }
+
+    /**
+     * Checks if local player is the game active player
+     * 
+     * @returns true or false
+     */
+    tryPutUnits(){
+        console.log('try put units')
+        console.log(THIS_IS_IT.currentPlayer)
+        if(localStorage.myId == THIS_IS_IT.currentPlayer){
+            return true
+        }else{
+            return false
+        }
+    }
+
+    /**
+     * Returns number of free territories left in the game
+     */
+    getFreeTerritoriesNumber(){
+        return THIS_IS_IT.gameData.freeTerritories
+    }
+
+    /**
+     * Returns the game active player id
+     */
+    getActivePlayerId(){
+        return this.gameData.activePlayer
+    }
+
+    /**
+     * return the active player name string
+     */
+    getActivePlayerName(){
+        var self = THIS_IS_IT
+        return this.gameData.players[self.getActivePlayerId()].name
+    }
+
+    /**
+     * Returns the name matching the given player id
+     * 
+     * @param playerId id to search
+     * @return player name string
+     */
+    getPlayerNameById(playerId){
+        var self = THIS_IS_IT
+        return self.gameData.players[playerId].name
+    }
+
+    /**
+     * Returns the id number matching the given player name
+     * @param playerName
+     * @return id of the corresponding player name
+     */
+    getPlayerIdByName(playerName){
+        var self = THIS_IS_IT
+        for(var i = 0; i< self.gameData.players.length; i++){
+            if(playerName === self.gameData.players[i].name)
+            return i
+        }
+    }
+
+    /**
+     * Returns the id matching the given country name
+     * 
+     * @param countryName name to search
+     * @return country id number
+     */
+    getCountryIdByName(countryName){
+        var i = 0
+        var res = -1
+        Object.keys(map).forEach(key => {
+            var continentName = map[key]
+            for(var countries in continentName){
+                if(countries === countryName){
+                    res = i
+                }
+                i++
+            }
+        })
+        //console.log('returned value = ' + res)
+        return res
+    }
+
+    /**
+     * Returns the name matching the given country id
+     * 
+     * @param countryId id to search
+     * @return country name string
+     */
+     getCountryNameById(countryId){
+        var i = 0
+        var res = ''
+        Object.keys(map).forEach(key => {
+            var continentName = map[key]
+            for(var countries in continentName){
+                if(i == countryId){
+                    res = countries
+                }
+                i++
+            }
+        })
+        //console.log('returned value = ' + res)
+        return res
+    }
+    
     /* dealing with nextPhase button state
        after the END_PHASE message is emitted , the server will go to the next phase
        if everything is correct
@@ -190,9 +383,44 @@ export class MainGame {
         }
     }
 
-    startGame() {
-        console.log('startGame function')
-        this.view.diplayMessage('Welcome to RiKS World!')
+    /**
+     * Initiates the game's PREPHASE
+     * 
+     * @param data received from the game server
+     */
+    startGame(data) {
+        GameWindow.displayMessage('Welcome to RiKS World!')
+        var ms = 2000;
+        var self = THIS_IS_IT
+        setTimeout(function(){
+            console.log('free territories = ' + self.getFreeTerritoriesNumber())                
+                GameWindow.clearDisplayMessage()
+                if(localStorage.myId == self.getActivePlayerId()){
+                    GameWindow.displayMessage('You are playing, choose a territory !')
+                }else{
+                    GameWindow.displayMessage(self.getActivePlayerName() + ' is choosing a territory !')
+                }
+                console.log('free territories = ' + self.getFreeTerritoriesNumber())
+        }, ms);
+        self.prephaseLogic(data)
+    }
+
+    /**
+     * Sends a PUT message to game server to allow a
+     * player to occupy a territory
+     * 
+     * @param territoryId country the calling player tries to occupy
+     */
+    chooseTerritory(territoryId){        
+        var data = {
+            'territory': territoryId,
+            'units': 1
+        };
+        view.$socket.send(new Packet('PUT', data).getJson());
+    }
+
+    prephaseLogic(data){
+        console.log('prephaseLogic')
     }
 
     nextPhase() {
@@ -276,22 +504,28 @@ export class MainGame {
     }
 
     /**
-     *
+     * Updates the units quantity of the local player
+     * 
      * @param player  the active player
      */
     updateReinforcement(player)
     {
-        if(this.currentPhase == 0)
-        {
-            this.activePlayerReinforcement -- ;
-        }
+        var unitsLeft = localStorage.reinforcements
+        unitsLeft = unitsLeft - 1
+        view.localArmies = unitsLeft
+        localStorage.setItem('reinforcements', unitsLeft)
+        
+        // if(this.currentPhase == 0)
+        // {
+        //     this.activePlayerReinforcement -- ;
+        // }
 
-        /* if the player has used his reinforcement and he has less than 4 tokens
-        send the END_PHASE message to the server */
-        if(this.activePlayerReinforcement == 0)
-        {
-            this.endPhase();
-        }
+        // /* if the player has used his reinforcement and he has less than 4 tokens
+        // send the END_PHASE message to the server */
+        // if(this.activePlayerReinforcement == 0)
+        // {
+        //     this.endPhase();
+        // }
     }
 
     /** Try to launch an attack
@@ -659,7 +893,11 @@ export class MainGame {
 
                     case Packet.prototype.getTypeOf('ERROR'):
                         //print the type of the error in the console
-                        THAT_CLASS.ErrorHandling();
+                        //THAT_CLASS.ErrorHandling();
+                        GameWindow.clearDisplayMessage()
+                        var str = msg.data.message 
+                        GameWindow.displayMessage(str.substr(str.indexOf(':') + 1 ))
+                        THAT_CLASS.updateViewPlayers(THAT_CLASS.gameData)
                         break;
 
                     case Packet.prototype.getTypeOf('GAME_OVER'):
@@ -671,7 +909,7 @@ export class MainGame {
                         break;
 
                     case Packet.prototype.getTypeOf('GAME_STATUS'):
-                        /*Sets and update game data*/
+                        /*Sets and updates game data*/
                         THAT_CLASS.setGameData(msg.data)
                         
                         break;
@@ -710,10 +948,28 @@ export class MainGame {
 
                     /* a PUT message implies a PUT message from the  client */
                     case Packet.prototype.getTypeOf('PUT'):
-                    THAT_CLASS.updateReinforcement();
+                        var currentPlayerBefore = THAT_CLASS.currentPlayer
+                        /* updating current player turn */
+                        THAT_CLASS.currentPlayer = (THAT_CLASS.currentPlayer + 1) % THAT_CLASS.gameData.nbPlayers
+                        
+                        /* updating the local map data */
+                        THAT_CLASS.updateMapData(THAT_CLASS.getCountryNameById(msg.data.territory), msg.data.player, msg.data.units)
+                        
+                        /* updating the number of free territories */
+                        THAT_CLASS.gameData.freeTerritories--
+                        
+                        /* change the color of a territory during the pre-phase */
+                        GameWindow.setCountryColor(SupportedColors[msg.data.player], msg.data.territory)
+                        GameWindow.clearDisplayMessage()
+                        
+                        /* displaying different message according to current player*/
+                        if(msg.data.player == localStorage.myId){
+                            GameWindow.displayMessage('You choosed to put ' + msg.data.units + ' unit(s) on ' + THAT_CLASS.getCountryNameById(msg.data.territory))
+                            THAT_CLASS.updateReinforcement(currentPlayerBefore);
+                        }else{
+                            GameWindow.displayMessage( THAT_CLASS.getPlayerNameById(msg.data.player) + ' choosed to put ' + msg.data.units + ' unit(s) on ' + THAT_CLASS.getCountryNameById(msg.data.territory))
+                        }
                         /*this.putResponse(msg.player.name,msg.territory,msg.units); */
-                        /*change the color of a territory during the pre-phase */
-
                         break;
 
                     case Packet.prototype.getTypeOf('REINFORCEMENT'):
