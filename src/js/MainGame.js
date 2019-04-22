@@ -70,7 +70,7 @@ export class MainGame {
         //this.updateViewPlayers(data)
 
         console.log('players')
-        console.log(view.players)
+        console.log(THIS_IS_IT.view.players)
 
         this.setPlayersData(data)
         this.setMapData(data)
@@ -106,7 +106,7 @@ export class MainGame {
         // console.log(self.playerList)
         
         // The player list is copyied to the view
-        view.players = self.playerList
+        self.view.players = self.playerList
     }
 
 
@@ -142,7 +142,7 @@ export class MainGame {
      updateViewPlayers(data){
         //view.players = data.players
         console.log('view.players')
-        console.log(view.players)
+        console.log(THIS_IS_IT.view.players)
         //console.log(this.playerList)
     }
 
@@ -416,7 +416,7 @@ export class MainGame {
             'territory': territoryId,
             'units': 1
         };
-        view.$socket.send(new Packet('PUT', data).getJson());
+        THIS_IS_IT.view.$socket.send(new Packet('PUT', data).getJson());
     }
 
     prephaseLogic(data){
@@ -512,7 +512,7 @@ export class MainGame {
     {
         var unitsLeft = localStorage.reinforcements
         unitsLeft = unitsLeft - 1
-        view.localArmies = unitsLeft
+        THIS_IS_IT.view.localArmies = unitsLeft
         localStorage.setItem('reinforcements', unitsLeft)
         
         // if(this.currentPhase == 0)
