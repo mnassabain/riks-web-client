@@ -217,8 +217,9 @@ export function addLocalPlayerMessage () {
   /* to do chat messages sending to server */
 }
 
-/* add messages from others players into the chat
-* this function generates random values for the moment */
+/** add messages from others players into the chat
+ * this function generates random values for the moment 
+ */
 export function addDistantPlayerMessage () {
   console.log('add random message')
   var min = 5
