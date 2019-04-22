@@ -1,4 +1,5 @@
 <template>
+<body>
   <div>
     <!--NorthWest UI -->
     <div class="tokens">
@@ -80,7 +81,7 @@
     </div>
 
     <!-- SouthEast UI-->
-    <div id='playerList' class="playerListContainer">
+    <div id="playerList" class="playerListContainer">
       <div class="playerList">
         <ul v-for="(player, index) in players" :key="index">
           <li :id="'playerSlot'+(index+1)">
@@ -140,7 +141,7 @@
     </div>
 
     <!-- South UI combat informations are displayed here-->
-    <div class="combatUI"  id='combatUIDisplay'>
+    <div class="combatUI" id="combatUIDisplay">
       <!-- <div class="combatContent" id="combatInfo">
         You are
         <br>attacking
@@ -198,7 +199,7 @@
       </div>-->
     </div>
 
-    <!--Map of the game  v-on:load="init"-->
+    <!--Map of the game-->
     <svg id="GameMap" class="Map" xmlns="http://www.w3.org/2000/svg">
       <g id="map" visibility="visible" fill="none" stroke-width="2.5">
         <g id="Seas" fill="#2E4267" visibility="visible">
@@ -454,7 +455,9 @@
       <path id="highlight" fill="white" stroke-width="5" stroke="black" opacity="0.3"></path>
     </svg>
   </div>
+</body>
 </template>
+
 <script>
 // Import all the functions from GameWindowJS.js
 import * as GameWindow from "../js/GameWindowJS.js";
@@ -481,8 +484,8 @@ export default {
   methods: {
     dropdownClick: GameWindow.dropdownClick,
     addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
-    diplayMessage: function(message){
-      console.log(message)
+    diplayMessage: function(message) {
+      console.log(message);
     }
   },
   created() {
@@ -491,9 +494,7 @@ export default {
     var me = new Player();
     me.displayName = localStorage.login;
   },
-  beforeMount() {
-
-  },
+  beforeMount() {},
   mounted() {
     GameWindow.startTimer();
     GameWindow.mapPanZoom();
