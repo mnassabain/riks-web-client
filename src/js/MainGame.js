@@ -26,119 +26,59 @@ var THIS_IS_IT
  Make the "view" display things
 */
 export class MainGame {
-  constructor (v) {
-    this.currentPhase = phases['PREPHASE']
-    this.map = map
-    this.playerList = []
-    this.currentPlayer = undefined
-    this.activePlayerReinforcement = 0
-    this.btnState = false /* for the nextPhase button */
-    this.currentUserName = localStorage.name
-    this.freeTerritories
-    THIS_IS_IT = this
 
-    // copy of the object GameWindow
-    this.view = v
-    this.$socket = v.$socket
+    constructor(v) {
+        this.currentPhase = phases['PREPHASE'];
+        this.map = map;
+        this.playerList = [];
+        this.currentPlayer = undefined;
+        this.activePlayerReinforcement = 0;
+        this.btnState = false ; /* for the nextPhase button */
+        this.currentUserName = localStorage.name ;
 
-    this.handleIncommingMessages()
-    v.$socket.send(new Packet('GAME_STATUS').getJson())
+        // copy of the object DynamicGameWindow
+        view = v
+        this.$socket = view.$socket
+        //console.log('view object received')
+        //console.log(view)
 
-    // this.innerLoop();
-  }
+        this.handleIncommingMessages();
+        v.$socket.send(new Packet("GAME_STATUS").getJson());
 
-  /**
-   * Sets game data with informations sent by server via GAME_STATUS message
-   *
-   * @param data : data sent by server
-   */
-  setGameData (data) {
-    this.gameData = data
-    this.players = this.gameData.players
-    // console.log('gameData')
-    // console.log(this.gameData)
-
-    // Setting the first player according to server data
-    // console.log(this.gameData.activePlayer)
-    this.firstPlayer = this.gameData.activePlayer
-    this.currentPlayer = this.firstPlayer
-
-    /* Set the player localstorage */
-    this.setPlayerLocalStorage(data)
-
-    /* Update the view's players array */
-    // this.updateViewPlayers(data)
-
-    console.log('players')
-    console.log(THIS_IS_IT.view.players)
-
-    this.setPlayersData(data)
-    this.setMapData(data)
-
-    this.startGame()
-  }
-
-  /**
-   * Returns the local map object
-   */
-  getLocalMap () {
-    return THIS_IS_IT.map
-  }
-
-  /**
-   * Initializes the local players with data received from
-   * the game server. (data.players)
-   *
-   * @param data
-   */
-  setPlayersData (data) {
-    var i = 0
-    var self = this
-    Object.keys(data.players).forEach(key => {
-      var player = data.players[key]
-      var p = new Player(i, player.name, i)
-      p.reinforcements = data.players[i].reinforcements
-      p.tokens = data.players[i].tokens
-      self.playerList.push(p)
-      i++
-    })
-    // console.log('this playerlist is set')
-    // console.log(self.playerList)
-
-    // The player list is copyied to the view
-    self.view.players = self.playerList
-  }
-
-  /**
-   * Sets the player's localStorage with data matching his name in the array
-   *
-   * @param data : data sent by the server
-   */
-  setPlayerLocalStorage (data) {
-    for (var i = 0; i < data.players.length; i++) {
-      if (this.gameData.players[i].name == localStorage.login) {
-        localStorage.setItem('myId', i)
-        localStorage.setItem('myColor', SupportedColors[i])
-        localStorage.setItem('reinforcements', data.players[i].reinforcements)
-        localStorage.setItem('territories', 0)
-        localStorage.setItem('token1', data.players[i].tokens.tok1)
-        localStorage.setItem('token2', data.players[i].tokens.tok2)
-        localStorage.setItem('token3', data.players[i].tokens.tok3)
-        localStorage.setItem('tokenJoker', data.players[i].tokens.tok4)
-        console.log('localstorage')
-        console.log(localStorage)
-      } else {
-        // console.log('no match found')
-      }
+        //this.innerLoop();
     }
-  }
+
+    /**
+     * Sets game data with informations sent by server via GAME_STATUS message
+     *
+     * @param data : data sent by server
+     */
+    static setGameData(data){
+        this.gameData = data
+        this.players = this.gameData.players
+        // console.log('gameData')
+        // console.log(this.gameData)
+
+        //Setting the first player according to server data
+        //console.log(this.gameData.activePlayer)
+        this.firstPlayer = this.gameData.activePlayer;
+        this.currentPlayer = this.firstPlayer;
+        //console.log('players')
+
+        /* Set the player localstorage */
+        MainGame.setPlayerLocalStorage(data)
+
+        /* Update the view's players array */
+        MainGame.updateViewPlayers(data)
+    }
+
 
   /**
    * Update the players list of the GameWindow view
    *
    * @param data : data sent by the server
    */
-  updateViewPlayers (data) {
+  updateViewPlayers(data) {
     // view.players = data.players
     console.log('view.players')
     console.log(THIS_IS_IT.view.players)
@@ -1004,3 +944,5 @@ export class MainGame {
     }, 1000)
   }
 }
+
+
