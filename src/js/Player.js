@@ -1,4 +1,4 @@
-var SupportedColors = {
+export var SupportedColors = {
   0: "#3D76E2",//blue
   1: "#DF4C4C",//red
   2: "#59AD4A",//green
