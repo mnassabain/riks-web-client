@@ -407,7 +407,7 @@ export class MainGame {
    */
   useReinforcement (player, territory, unit) {
     if (this.activePlayerReinforcement > 0) {
-      putUnit(player, territory, unit)
+      this.putUnit(player, territory, unit)
     }
   }
 
