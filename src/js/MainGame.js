@@ -387,7 +387,7 @@ export class MainGame {
    */
 
   useSet (token1, token2, token3) {
-    if (this.getPlayerNumberOfTokens(this.currentPlayer) > 4) {
+    if (this.getPlayerNumberOfTokens(this.currentPlayer) > 4 && this.currentPlayer.name == this.activePlayer.name) {
       var params = {
         token1: token1,
         token2: token2,
