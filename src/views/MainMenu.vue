@@ -44,6 +44,7 @@ export default {
       this.$socket.send(new Packet("DISCONNECT").getJson());
        /* message listener */
       this.$socket.onmessage = data => this.verify(data.data)
+      this.$router.push({path: "/"})
     }
   }
 };

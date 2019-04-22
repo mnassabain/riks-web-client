@@ -20,21 +20,14 @@ Player purple #9367DA
     src:  url('../assets/fonts/Copperplate.ttf');
 }
 
-html, body {
+/* The map */
+.Map {
+    position:fixed;
     width: 100%;
     height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #2E4267;
-    font-family: Copperplate, serif;
-}
-
-/* The map */
-.map {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    top:0px;
+    left:0px;
+    z-index: -1;
 }
 
 /* Tokens display NorthWest UI*/
@@ -162,32 +155,32 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
 
 }
 
-#playerSlotOne {
+#playerSlot1 {
     bottom: 0px;
     border: solid 4px #F9CE93;
     color: rgb(64,121,221);
 }
 
-#playerSlotTwo {
+#playerSlot2 {
     bottom: 45px;
     color: rgb(225,103,103);
 }
 
-#playerSlotThree {
+#playerSlot3 {
     bottom: 90px;
     color: rgb(90,170,83);
 }
 
-#playerSlotFour {
+#playerSlot4 {
     bottom: 135px;
     color: rgb(227,199,92);
 }
 
-#playerSlotFive {
+#playerSlot5 {
     bottom: 180px;
     color:  rgb(223,111,73);
 }
-#playerSlotSix {
+#playerSlot6 {
     bottom: 225px;
     color: rgb(147,107,216);
 }
@@ -202,27 +195,27 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     border-width: 10px;
 }
 
-#playerSlotOne::after {
+#playerSlot1::after {
     border-left-color: #3D76E2;
     border-top-color: #3D76E2;
 }
-#playerSlotTwo::after {
+#playerSlot2::after {
     border-left-color: #DF4C4C;
     border-top-color: #DF4C4C;
 }
-#playerSlotThree::after {
+#playerSlot3::after {
     border-left-color: #59AD4A;
     border-top-color: #59AD4A;
 }
-#playerSlotFour::after {
+#playerSlot4::after {
     border-left-color: #F6D63D;
     border-top-color: #F6D63D;
 }
-#playerSlotFive::after {
+#playerSlot5::after {
     border-left-color: #F0713C;
     border-top-color: #F0713C;
 }
-#playerSlotSix::after {
+#playerSlot6::after {
     border-left-color: #9367DA;
     border-top-color: #9367DA;
 }
@@ -238,56 +231,56 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     z-index: 2000;
 }
 
-#playerSlotOneInfo {
+#playerSlot1Info {
     bottom: 0px;
     color: rgb(64,121,221);
 }
-#playerSlotOne:hover ~ #playerSlotOneInfo {
+#playerSlot1:hover ~ #playerSlot1Info {
     width: 330px;
     border: solid 2px #F9CE93;
 }
 
-#playerSlotTwoInfo {
+#playerSlot2Info {
     bottom: 45px;
     color: rgb(225,103,103);
 }
-#playerSlotTwo:hover ~ #playerSlotTwoInfo {
+#playerSlot2:hover ~ #playerSlot2Info {
     width: 330px;
     border: solid 2px #F9CE93;
 }
 
-#playerSlotThreeInfo {
+#playerSlot3Info {
     bottom: 90px;
     color: rgb(90,170,83);
 }
-#playerSlotThree:hover ~ #playerSlotThreeInfo {
+#playerSlot3:hover ~ #playerSlot3Info {
     width: 330px;
     border: solid 2px #F9CE93;
 }
 
-#playerSlotFourInfo {
+#playerSlot4Info {
     bottom: 135px;
     color: rgb(227,199,92);
 }
-#playerSlotFour:hover ~ #playerSlotFourInfo {
+#playerSlot4:hover ~ #playerSlot4Info {
     width: 330px;
     border: solid 2px #F9CE93;
 }
 
-#playerSlotFiveInfo {
+#playerSlot5Info {
     bottom: 180px;
     color:  rgb(223,111,73);
 }
-#playerSlotFive:hover ~ #playerSlotFiveInfo {
+#playerSlot5:hover ~ #playerSlot5Info {
      width: 330px;
      border: solid 2px #F9CE93;
 }
 
-#playerSlotSixInfo {
+#playerSlot6Info {
     bottom: 225px;
     color: rgb(147,107,216);
 }
-#playerSlotSix:hover ~ #playerSlotSixInfo {
+#playerSlot6:hover ~ #playerSlot6Info {
      width: 330px;
      border: solid 2px #F9CE93;
 }
@@ -297,6 +290,7 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
 [id^='player'][id*='Territories']{
     float: left;
     margin : 4px 5px 0px 5px;
+    color: #FDF6EB;
 }
 
 [id^='player'][id*='TokenType'] > img,
@@ -563,44 +557,44 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     overflow: hidden;
 }
 
-#ratioPlayerOne {
-    width: 30%;
-    height: 1rem;
-    background-color: rgb(225,103,103);
-    float: left;
-}
-
-#ratioPlayerTwo {
+#ratioPlayer1 {
     width: 20%;
     height: 1rem;
-    background-color: rgb(90,170,83);
+    background-color: #3D76E2  ;
     float: left;
 }
 
-#ratioPlayerThree {
+#ratioPlayer2 {
     width: 20%;
     height: 1rem;
-    background-color: #3D76E2;
-    float: left;
-}
-
-#ratioPlayerFour {
-    background-color: rgb(227,199,92);
-    width: 15%;
-    height: 1rem;
-    float: left;
-}
-
-#ratioPlayerFive {
     background-color: #DF4C4C;
+    float: left;
+}
+
+#ratioPlayer3 {
+    width: 20%;
+    height: 1rem;
+    background-color: #59AD4A;
+    float: left;
+}
+
+#ratioPlayer4 {
+    background-color: #F6D63D;
+    width: 20%;
+    height: 1rem;
+    float: left;
+}
+
+#ratioPlayer5 {
+    background-color: #F0713C;
     width: 10%;
     height: 1rem;
     float: left;
 }
 
-#ratioPlayerSix {
-    background-color: rgb(147,107,216);
-    width: 5%;
+#ratioPlayer6 {
+    background-color: #9367DA;
+    width: 10%;
     height: 1rem;
     float: left;
 }
@@ -639,4 +633,22 @@ li[id^='playerSlot'], li[id*='playerSlot'] {
     text-align: center;
     margin: auto;
     opacity: 0.9;
+}
+
+.generalMessageDisplay {
+    position: absolute;
+    width : 100rem;
+    height: 40rem;
+    background-color: #27282D;
+    border: 0.2rem solid #F9CE93;
+    border-radius: 1rem;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    color: #FDF6EB;
+    font-size: 3rem;
+    opacity: 0.9;
+    visibility: visible;
 }

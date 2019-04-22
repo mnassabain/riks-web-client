@@ -1,0 +1,246 @@
+{
+    "type": 33,
+    "data": {
+      "name": "qsdqsds",
+      "nbPlayers": 2,
+      "players": [
+        {
+          "name": "a",
+          "reinforcements": 40,
+          "tokens": {
+            "tok1": 0,
+            "tok2": 0,
+            "tok3": 0,
+            "tok4": 0
+          }
+        },
+        {
+          "name": "f",
+          "reinforcements": 40,
+          "tokens": {
+            "tok1": 0,
+            "tok2": 0,
+            "tok3": 0,
+            "tok4": 0
+          }
+        }
+      ]
+    },
+    "mapName": "standard",
+    "board": [
+      {
+        "terId": 0,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 1,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 2,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 3,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 4,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 5,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 6,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 7,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 8,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 9,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 10,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 11,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 12,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 13,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 14,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 15,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 16,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 17,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 18,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 19,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 20,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 21,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 22,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 23,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 24,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 25,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 26,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 27,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 28,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 29,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 30,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 31,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 32,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 33,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 34,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 35,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 36,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 37,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 38,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 39,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 40,
+        "ownerId": -1,
+        "nbUnits": 0
+      },
+      {
+        "terId": 41,
+        "ownerId": -1,
+        "nbUnits": 0
+      }
+    ],
+    "freeTerritories": 42,
+    "phase": -1,
+    "activePlayer": 1,
+    "totalExchangedSets": 0
+  }

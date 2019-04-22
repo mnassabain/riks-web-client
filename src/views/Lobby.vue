@@ -33,13 +33,12 @@ export default {
   methods: {
    getReady(){
      // msgType READY to add
-       //this.$socket.send(new Packet("READY").getJson())
-       
-       // TODO : change this behaviour
-       this.$router.push({path: "/Start"})
+       this.$socket.send(new Packet("START_GAME").getJson())
+
    },
    leaveLobby(){
        this.$socket.send(new Packet("LEAVE_GAME").getJson())
+        vm.$router.push({path: "/MainMenu"})
    }
   },
   created(){
@@ -49,18 +48,22 @@ export default {
         console.log("lobby state");
         console.log(d);
         var msg = JSON.parse(d.data);
-        if(msg.data.error){
+        if(msg.data && msg.data.error){
           alert("Error: " + msg.data.msg)
           return
         }
         else{
-            if(msg.type == new Packet("LOBBY_STATE").type){
+            if(msg.type == Packet.prototype.getTypeOf("LOBBY_STATE")){
                 vm.players = msg.data.gameData.playerNames
                 console.log(msg.data.gameData)
             }
-            else if(msg.type == new Packet("LEAVE_GAME").type){
+            else if(msg.type == Packet.prototype.getTypeOf("LEAVE_GAME")){
                 delete vm.$socket.onmessage;
                 vm.$router.push({path: "/MainMenu"})
+            }
+            else if(msg.type == Packet.prototype.getTypeOf("START_GAME")){
+                delete vm.$socket.onmessage;
+                vm.$router.push({path: "/GameWindow"})
             }
         }
      }

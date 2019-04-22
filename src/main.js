@@ -44,7 +44,6 @@ Vue.config.productionTip = false
 Vue.use(d3)
 Vue.use(Vuetify)
 Vue.use(Raivue)
-//Vue.use(VueNativeSock, `ws://192.168.43.17:9002`, {
 Vue.use(VueNativeSock, `ws://127.0.0.1:9002`, {
   reconnection: true,
   format: 'json',
@@ -65,6 +64,3 @@ new Vue({
     sync(store, router) // done. Returns an unsync callback fn
   }
 }).$mount('#app')
-
-Vue.use(d3)
-// Vue.use(howler)

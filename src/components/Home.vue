@@ -24,64 +24,56 @@
         tag="button"
         class="button second-button my-1"
       >Register</router-link>
-            <router-link
-        :to="{ path: '/GameWindow' }"
-        tag="button"
-        class="button second-button my-1"
-      >debug</router-link>
     </div>
   </div>
 </body>
 </template>
 
 <script>
-import {Packet} from "../Packet.js"
+import { Packet } from "../Packet.js";
 
 export default {
-  name: 'Home',
-  data () {
+  name: "Home",
+  data() {
     return {
-      login: '',
-      password: ''
-    }
+      login: "",
+      password: ""
+    };
   },
   methods: {
     verify(data) {
-      var response = JSON.parse(data)
+      var response = JSON.parse(data);
 
-      if (response.data.error == true)
-      {
-        alert('Error when connecting: ' + response.data.response)
-      }
-      else
-      {
-        delete this.$socket.onmessage
+      if (response.data.error == true) {
+        alert("Error when connecting: " + response.data.response);
+      } else {
+        delete this.$socket.onmessage;
         /* redirect user */
-        this.$router.push('/MainMenu')
+        this.$router.push("/MainMenu");
       }
     },
 
-    loginUser () {
-      if (this.login === '' || this.password === '') {
-        alert("please enter your login and password")
-        return
+    loginUser() {
+      if (this.login === "" || this.password === "") {
+        alert("please enter your login and password");
+        return;
       }
 
-      localStorage.login = this.login
-      localStorage.password = this.password
+      localStorage.login = this.login;
+      localStorage.password = this.password;
       var params = {
         userID: this.login,
         userPassword: this.password
-      }
+      };
 
       /* message listener */
-      this.$socket.onmessage = (data) => this.verify(data.data)
+      this.$socket.onmessage = data => this.verify(data.data);
 
       /* send message */
-      this.$socket.send(new Packet('CONNECT', params).getJson())
+      this.$socket.send(new Packet("CONNECT", params).getJson());
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
