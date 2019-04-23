@@ -142,8 +142,7 @@
 
     <!-- South UI combat informations are displayed here-->
     <div class="combatUI" id="combatUIDisplay">
-
-      <div id="DefendUI" style="visibility:hiden">
+      <div id="DefendUI">
         <div class="combatUILeft">
           <div id="combatRed">Player_2</div>
           <div>is attacking you</div>
@@ -171,6 +170,40 @@
         </div>
       </div>
 
+      <div id="AttackUI">
+        <div class="combatUILeft">
+          <div>You are attacking</div>
+          <div id="combatRed">Player_2</div>
+        </div>
+        <div class="combatUICenter" id="defendBtn">
+          <img draggable="false" onclick="test()" src="../assets/icons/attack.svg" class="bigBtn">
+        </div>
+        <div class="combatUIRight">
+          <div>Attack with</div>
+          <div>
+            <img
+              draggable="false"
+              src="../assets/icons/emptyOne.svg"
+              class="armiesSelectionBtn"
+              id="selectArmyOne"
+            >
+            <img
+              draggable="false"
+              src="../assets/icons/emptyTwo.svg"
+              class="armiesSelectionBtn"
+              id="selectArmyTwo"
+            >
+            <img
+              draggable="false"
+              src="../assets/icons/emptyThree.svg"
+              class="armiesSelectionBtn"
+              id="selectArmyThree"
+            >
+
+          </div>
+          <div>Armies</div>
+        </div>
+      </div>
     </div>
 
     <!--Map of the game-->

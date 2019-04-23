@@ -540,6 +540,10 @@ p {
   visibility: hidden;
 }
 
+#AttackUI {
+  visibility: hidden;
+}
+
 #combatRed {
   color: rgb(225, 103, 103);
   font-weight: bold;
