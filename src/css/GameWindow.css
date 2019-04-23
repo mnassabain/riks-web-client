@@ -537,10 +537,12 @@ p {
 }
 
 #DefendUI {
+  display: none;
   visibility: hidden;
 }
 
 #AttackUI {
+  display: none;
   visibility: hidden;
 }
 
