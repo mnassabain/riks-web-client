@@ -77,6 +77,12 @@ Player purple #9367DA
   height: 1.8rem;
 }
 
+#nbArmies,
+#nbTerritories {
+  color: #fdf6eb;
+  text-align: center;
+}
+
 /* Menu Button NorthEast UI */
 .menuBtn {
   background-color: #27282d;
@@ -117,6 +123,7 @@ Player purple #9367DA
   background-color: #27282d;
   display: flex;
   justify-content: center;
+  text-align: center;
   flex-direction: column;
   text-decoration: none;
   border: solid 0.2rem #f9ce93;
@@ -617,7 +624,7 @@ p {
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  width: 20vw;
+  width: 25vw;
   height: 1.5rem;
   text-align: center;
   background-color: #27282d;
@@ -628,7 +635,7 @@ p {
 }
 
 /****************************************************************************/
-#timer {
+.timer {
   position: absolute;
   width: 4rem;
   height: 1.7rem;
