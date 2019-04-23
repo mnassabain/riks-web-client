@@ -142,61 +142,68 @@
 
     <!-- South UI combat informations are displayed here-->
     <div class="combatUI" id="combatUIDisplay">
-      <!-- <div class="combatContent" id="combatInfo">
-        You are
-        <br>attacking
-        <br>
-        <span>Player_2</span>
-      </div>
-      <div class="combatContent bigBtn">
-        <img src="../assets/icons/attack.svg" class="bigBtn">
-      </div>
-      <div class="combatContent" id="armiesSelection">
-        <div>Attack with</div>
-        <div>
-          <img src="../assets/icons/emptyOne.svg" class="armiesSelectionBtn" id="selectArmyOne">
-          <img src="../assets/icons/emptyTwo.svg" class="armiesSelectionBtn" id="selectArmyTwo">
-          <img src="../assets/icons/emptyThree.svg" class="armiesSelectionBtn" id="selectArmyThree">
+      <div id="DefendUI">
+        <div class="combatUILeft">
+          <div id="combatRed">Player_2</div>
+          <div>is attacking you</div>
         </div>
-        <div>Armies</div>
-      </div>-->
-
-      <!-- <div class="combatUILeft">
-        <div id="combatRed">Player_2</div>
-        <div>is attacking you</div>
-      </div>
-      <div class="combatUICenter" id="defendBtn">
-        <img draggable="false" onclick="test()" src="../assets/icons/defend.svg" class="bigBtn">
-      </div>
-      <div class="combatUIRight">
-        <div>Defend with</div>
-        <div>
-          <img
-            draggable="false"
-            src="../assets/icons/emptyOne.svg"
-            class="armiesSelectionBtn"
-            id="selectArmyOne"
-          >
-          <img
-            draggable="false"
-            src="../assets/icons/emptyTwo.svg"
-            class="armiesSelectionBtn"
-            id="selectArmyTwo"
-          >
+        <div class="combatUICenter" id="defendBtn">
+          <img draggable="false" onclick="test()" src="../assets/icons/defend.svg" class="bigBtn">
         </div>
-        <div>Armies</div>
-      </div>-->
+        <div class="combatUIRight">
+          <div>Defend with</div>
+          <div>
+            <img
+              draggable="false"
+              src="../assets/icons/emptyOne.svg"
+              class="armiesSelectionBtn"
+              id="selectArmyOne"
+            >
+            <img
+              draggable="false"
+              src="../assets/icons/emptyTwo.svg"
+              class="armiesSelectionBtn"
+              id="selectArmyTwo"
+            >
+          </div>
+          <div>Armies</div>
+        </div>
+      </div>
 
-      <!-- <div class="combatContent" id="combatInfo">
-        You are
-        <br>attacking
-        <br>
-        <span>Player_2</span>
+      <div id="AttackUI">
+        <div class="combatUILeft">
+          <div>You are attacking</div>
+          <div id="combatRed">Player_2</div>
+        </div>
+        <div class="combatUICenter" id="defendBtn">
+          <img draggable="false" onclick="test()" src="../assets/icons/attack.svg" class="bigBtn">
+        </div>
+        <div class="combatUIRight">
+          <div>Attack with</div>
+          <div>
+            <img
+              draggable="false"
+              src="../assets/icons/emptyOne.svg"
+              class="armiesSelectionBtn"
+              id="selectArmyOne"
+            >
+            <img
+              draggable="false"
+              src="../assets/icons/emptyTwo.svg"
+              class="armiesSelectionBtn"
+              id="selectArmyTwo"
+            >
+            <img
+              draggable="false"
+              src="../assets/icons/emptyThree.svg"
+              class="armiesSelectionBtn"
+              id="selectArmyThree"
+            >
+
+          </div>
+          <div>Armies</div>
+        </div>
       </div>
-      <div class="combatContent">
-      </div>
-      <div class="combatContent" id="armiesSelection">
-      </div>-->
     </div>
 
     <!--Map of the game-->

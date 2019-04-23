@@ -163,7 +163,7 @@ export class MainGame {
       }
     })
     // console.log('map is set:')
-    // console.log(THIS_IS_IT.map)
+  // console.log(THIS_IS_IT.map)
   }
 
   /**
@@ -427,6 +427,16 @@ export class MainGame {
     this.sendToServer(new Packet('GAME_STATUS'))
   }
 
+
+
+  /**
+   *
+   * @param player player
+   */
+  getPlayerNumberOfTokens(player)
+  {
+     return player.tokens[0] + player.tokens[1] + player.tokens[2] + player.tokens[3] ;
+  }
   /* this function must be triggered  when the active player clicks on a territory
     to put an unit during the first phase */
   /**
@@ -435,8 +445,9 @@ export class MainGame {
    * @param token2  second token
    * @param token3  third token
    */
+
   useSet (token1, token2, token3) {
-    if (0 /* check if number of tokens is greater than 4 */) {
+    if (this.getPlayerNumberOfTokens(this.currentPlayer) > 4 && this.currentPlayer.name == this.activePlayer.name) {
       var params = {
         token1: token1,
         token2: token2,
@@ -456,7 +467,7 @@ export class MainGame {
    */
   useReinforcement (player, territory, unit) {
     if (this.activePlayerReinforcement > 0) {
-      putUnit(player, territory, unit)
+      this.putUnit(player, territory, unit)
     }
   }
 
