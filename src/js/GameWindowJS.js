@@ -1,7 +1,7 @@
 import * as d3 from 'd3'
 import * as svgPanZoom from 'svg-pan-zoom'
 
-import { map } from './Map'
+import { map, getContinentOf } from './Map'
 import { MainGame } from './MainGame'
 
 /*********************************************************************************************************************/
@@ -149,7 +149,10 @@ export function placeSoldier (evt) {
     }
   } else {
     clearDisplayMessage()
-    displayMessage('No more free territories left !')
+    MainGame.prototype.chooseTerritory(
+      MainGame.prototype.getCountryIdByName(selectedCountryId)
+    )
+    //displayMessage('No more free territories left !')
   }
 }
 
@@ -181,7 +184,9 @@ export function mouseoverCountry (evt) {
   // for function placeSoldier, to access the country id under the highlight layer
   hoveredCountryId = country.getAttribute('id')
   highlight.setAttribute('d', outline)
-  doc.getElementById('hovered-country').innerHTML = country.getAttribute('id')
+  
+  var countryElement = map[getContinentOf(country.getAttribute('id'))][country.getAttribute('id')]
+  doc.getElementById('hovered-country').innerHTML = country.getAttribute('id') + " - " + countryElement.soldiers + " soldiers"
 }
 
 /*****************************************************************************************************/

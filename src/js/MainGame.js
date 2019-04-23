@@ -181,7 +181,7 @@ export class MainGame {
       for (var countries in continentName) {
         if (countries === terName) {
           /* Updating territory data */
-          continentName[countries].soldiers = nbSoldiers
+          continentName[countries].soldiers += nbSoldiers
           continentName[countries].player = playerId
         }
         i++
@@ -403,6 +403,7 @@ export class MainGame {
    * @param territoryId country the calling player tries to occupy
    */
   chooseTerritory (territoryId) {
+    
     var data = {
       territory: territoryId,
       units: 1
@@ -490,11 +491,16 @@ export class MainGame {
    * @param player  the active player
    */
   updateReinforcement (player) {
-    var unitsLeft = localStorage.reinforcements
+    var unitsLeft = localStorage.getItem('reinforcements')
+    
+    /*******************************************************************************************/
+    console.log('update reinforcement: ' + unitsLeft + ' to ' + (unitsLeft - 1))
+
+    
     unitsLeft = unitsLeft - 1
     THIS_IS_IT.view.localArmies = unitsLeft
     localStorage.setItem('reinforcements', unitsLeft)
-
+    
     // if(this.currentPhase == 0)
     // {
     //     this.activePlayerReinforcement -- ;
@@ -876,6 +882,7 @@ export class MainGame {
             break
 
           case Packet.prototype.getTypeOf('CURRENT_PHASE'):
+            console.log("CURRENT_PHASE: "+msg.data.phase);
             THAT_CLASS.nextPhaseBtnState(msg.phase)
 
             break
@@ -894,30 +901,38 @@ export class MainGame {
             break
 
           case Packet.prototype.getTypeOf('GAME_OVER'):
+            console.log("GAME_OVER"+msg);
             break
 
           case Packet.prototype.getTypeOf('GAME_RESULTS'):
+          console.log("GAME_RESULTS"+msg);
             break
 
           case Packet.prototype.getTypeOf('GAME_STATUS'):
+          console.log("GAME_STATUS"+msg);
             /* Sets and updates game data */
             THAT_CLASS.setGameData(msg.data)
 
             break
 
           case Packet.prototype.getTypeOf('GIVE_TOKENS'):
+          console.log("GIVE_TOKENS"+msg);
             break
 
           case Packet.prototype.getTypeOf('KICKED'):
+          console.log("KICKED"+msg);
             break
 
           case Packet.prototype.getTypeOf('LEAVE_GAME'):
+          console.log("LEAVE_GAME"+msg);
             break
 
           case Packet.prototype.getTypeOf('LOBBY_STATE'):
+          console.log("LOBBY_STATE"+msg);
             break
 
           case Packet.prototype.getTypeOf('MOVE'):
+          console.log("MOVE"+msg);
             THAT_CLASS.fortify(
               msg.data.source,
               msg.data.destination,
@@ -927,18 +942,23 @@ export class MainGame {
             break
 
           case Packet.prototype.getTypeOf('PLAYER_ELIMINATION'):
+          console.log("PLAYER_ELIMINATION"+msg);
             THAT_CLASS.playerElimination(msg.data.player)
             break
 
           case Packet.prototype.getTypeOf('PLAYER_PROFILE'):
+          console.log("PLAYER_PROFILE"+msg);
             break
 
           /* a PUT message implies a PUT message from the  client */
           case Packet.prototype.getTypeOf('PUT'):
-            var currentPlayerBefore = THAT_CLASS.currentPlayer
-            /* updating current player turn */
-            THAT_CLASS.currentPlayer =
-              (THAT_CLASS.currentPlayer + 1) % THAT_CLASS.gameData.nbPlayers
+            console.log("PUT"+msg);
+            if(THAT_CLASS.currentPhase == phases['PREPHASE']){
+              /* updating current player turn */
+              THAT_CLASS.currentPlayer =
+                (THAT_CLASS.currentPlayer + 1) % THAT_CLASS.gameData.nbPlayers
+            }
+
 
             /* updating the local map data */
             THAT_CLASS.updateMapData(
@@ -948,7 +968,8 @@ export class MainGame {
             )
 
             /* updating the number of free territories */
-            THAT_CLASS.gameData.freeTerritories--
+            if(THAT_CLASS.gameData.freeTerritories > 0)
+              THAT_CLASS.gameData.freeTerritories--
 
             /* change the color of a territory during the pre-phase */
             GameWindow.setCountryColor(
@@ -965,7 +986,7 @@ export class MainGame {
                   ' unit(s) on ' +
                   THAT_CLASS.getCountryNameById(msg.data.territory)
               )
-              THAT_CLASS.updateReinforcement(currentPlayerBefore)
+              THAT_CLASS.updateReinforcement(THAT_CLASS.currentPlayer)
             } else {
               GameWindow.displayMessage(
                 THAT_CLASS.getPlayerNameById(msg.data.player) +
@@ -979,13 +1000,17 @@ export class MainGame {
             break
 
           case Packet.prototype.getTypeOf('REINFORCEMENT'):
-            THAT_CLASS.activePlayerReinforcement = msg.units
+          console.log("REINFORCEMENT"+msg);
+            THAT_CLASS.activePlayerReinforcement += msg.data.units
+            localStorage.setItem('reinforcements', THAT_CLASS.activePlayerReinforcement)
             break
 
           case Packet.prototype.getTypeOf('START_GAME'):
+          console.log("START_GAME"+msg);
             break
 
           case Packet.prototype.getTypeOf('USE_TOKENS'):
+          console.log("USE_TOKENS"+msg);
             /* this.useTokensResponse(msg.player.name,msg.units); */
             break
 
