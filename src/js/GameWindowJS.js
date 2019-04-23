@@ -124,7 +124,7 @@ export function placeSoldier (evt) {
                   .attr('x', x.toString())
                   .attr('y', y.toString())
                   .style('fill', localStorage.myColor)
-                  .style('stroke', 'black')
+                  .style('stroke', '#27282D')
                   .style('stroke-width', '15')
                   .attr('id', 'soldierOn' + selectedCountryId)
                 // change the country color to the own player color
