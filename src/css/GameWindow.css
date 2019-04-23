@@ -404,18 +404,18 @@ p {
 /************************************************************************/
 
 /* Player controls southwest UI*/
-#playerControls {
-  width: 300px;
-  height: 60px;
+.playerControls {
+  width: 20vw;
+  height: 5rem;
   background-color: #27282d;
-  border: solid 2px #f9ce93;
-  border-radius: 3px;
+  border: solid 0.2rem #f9ce93;
+  opacity: 0.9;
+  border-radius: 0.5rem;
   position: absolute;
   left: 0;
   bottom: 0;
-  /*box-shadow: 8px -8px 16px -2px rgba(0,0,0,0.4);*/
-  margin-left: 5px;
-  margin-bottom: 5px;
+  margin-left: 0.7rem;
+  margin-bottom: 0.7rem;
   line-height: normal;
 }
 
@@ -433,7 +433,7 @@ p {
   font-weight: bold;
 }
 
-#playerControls::after {
+.playerControls::after {
   content: "";
   position: absolute;
   display: inline-block;

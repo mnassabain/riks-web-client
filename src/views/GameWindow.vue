@@ -66,7 +66,7 @@
     <div class="hovered-country" id="hovered-country">Hover over a country</div>
 
     <!-- SouthWest UI-->
-    <div id="playerControls">
+    <div class="playerControls">
       <div id="playerControlMessage">
         <!--span id="phase">Phase 2</span>
         <br-->
