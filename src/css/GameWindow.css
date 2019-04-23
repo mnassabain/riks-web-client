@@ -340,34 +340,17 @@ li[id*="playerSlot"] {
 
 /****************************************************************************/
 
-#chat {
+.chat {
   position: absolute;
-  left: 20px;
-  bottom: 130px;
-  width: 350px;
-  height: 305px;
-  border: solid 2px #fbe3c2;
-  border-radius: 4px;
-  opacity: 0.1;
+  left: 1rem;
+  bottom: 8rem;
+  width: 20vw;
+  height: 45vh;
+  opacity: 0.5;
 }
 
-#chat:hover {
+.chat:hover {
   opacity: 1;
-}
-
-#chatHeader {
-  padding: 5px 10px;
-  color: #fdf6eb;
-}
-
-#chatTitle {
-  float: left;
-  margin: 0;
-  padding: 0;
-}
-
-.hideBtn {
-  float: right;
 }
 
 #chat ~ form,
@@ -379,43 +362,48 @@ p {
 #chatWindow {
   text-align: left;
   margin: 0 auto;
-  height: 240px;
-  width: 330px;
-  border: 1px solid #fdf6eb;
+  height: 38vh;
+  width: 20vw;
   color: #fdf6eb;
   overflow: auto;
   box-sizing: border-box;
-  padding: 5px 10px;
 }
 
 #chatForm {
-  margin: 5px 5px;
-  padding: 0px;
+  margin-top: 1rem;
 }
 
 #playerMsgInput {
-  width: 250px;
-  height: 20px;
-  font-size: 12px;
+  width: 14vw;
+  height: 1.5rem;
+  font-size: 1rem;
   font-family: Copperplate, serif;
-  border: 1px solid #fdf6eb;
-  border-radius: 2px;
+  border: 0.1rem solid #FBE3C2;
+  padding: 0.1rem 0.2rem;
+  border-radius: 0.2rem;
+  outline: none;
   opacity: 0.9;
-  background-color: #fdf6eb;
-  color: #27282d;
-  padding-top: 4px;
+  background-color: #48484d;
+  color: #FDF6EB;
 }
 
 #submitMsgBtn {
-  width: 70px;
-  height: 25px;
+  width: 4vw;
+  height: 1.7rem;
   color: #fdf6eb;
-  font-size: 12px;
+  font-size: 0.9rem;
+  text-align: center;
   font-family: Copperplate, serif;
   background-color: transparent;
-  border: solid 1px #fdf6eb;
-  border-radius: 5px;
+  border: solid 0.1rem #FBE3C2;
+  border-radius: 0.2rem;
   opacity: 0.9;
+}
+
+#submitMsgBtn:hover {
+  color: #27282D;
+  border: solid 0.1rem #FBE3C2;
+  background-color: #FBE3C2;
 }
 
 /************************************************************************/

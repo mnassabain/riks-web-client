@@ -119,12 +119,7 @@
       </div>
     </div>
 
-    <div id="chat">
-      <div id="chatHeader">
-        <p id="chatTitle">Chat</p>
-        <p class="hideBtn">Hide</p>
-      </div>
-
+    <div class="chat">
       <div id="chatWindow"></div>
       <div id="chatForm">
         <form name="message" onsubmit="return false;">
