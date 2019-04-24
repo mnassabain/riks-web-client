@@ -48,6 +48,7 @@ export class MainGame {
     this.handleIncommingMessages()
     //v.$socket.send(new Packet('GAME_STATUS').getJson())
 
+    this.synchronize();
     // this.innerLoop();
   }
 
@@ -109,6 +110,7 @@ export class MainGame {
     console.log('')
     var i = 0
     var self = this
+    self.playerList = []
     Object.keys(data.players).forEach(key => {
       var player = data.players[key]
       console.log(' i = ' + i)
@@ -288,7 +290,7 @@ export class MainGame {
    */
   getPlayerNameById (playerId) {
     var self = THIS_IS_IT
-    return self.gameData.players[playerId].displayName
+    return self.playerList[playerId].displayName
   }
 
   /**
@@ -1149,7 +1151,7 @@ export class MainGame {
                     THAT_CLASS.playerList[currentPlayerBefore].reinforcements--
                 } else {
                     GameWindow.displayMessage(
-                        THAT_CLASS.getPlayerNameById(msg.data.player) +
+                      THAT_CLASS.getPlayerNameById(msg.data.player) +
                         ' choosed to put ' +
                         msg.data.units +
                         ' unit(s) on ' +
