@@ -206,7 +206,7 @@ export var _addReinforcement = function (evt){
   } else {
     clearDisplayMessage()
     displayMessage('You\'ve got no more units left !')
-    //MainGame.prototype.nextPlayerTurn()
+    MainGame.prototype.nextPlayerTurn()
   }
 }
 

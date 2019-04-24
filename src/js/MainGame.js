@@ -641,7 +641,7 @@ export class MainGame {
     console.log(territoriesNum)
 
     localStorage.setItem('reinforcements', unitsLeft)
-    localStorage.set
+    localStorage.setItem('territories', territoriesNum)
     
     // if(this.currentPhase == 0)
     // {
@@ -1029,6 +1029,10 @@ export class MainGame {
                 THAT_CLASS.currentPhase = msg.phase
                 THAT_CLASS.currentPlayer = THAT_CLASS.firstPlayer
             }
+            else if (msg.phase == phases['REINFORCEMENT']) {
+                THAT_CLASS.currentPhase = msg.phase
+                readyToNextPhase()
+            }
             //THAT_CLASS.nextPhaseBtnState(msg.phase)
 
             break
@@ -1162,7 +1166,7 @@ export class MainGame {
                 if(THAT_CLASS.totalUnits == 0) {
                     /* removing double click listener on addreinforcement */
                     var gmap = document.getElementById('GameMap')
-                    gmap.removeEventListener('dblclick', GameWindow._addReinforcement, true)
+                    // gmap.removeEventListener('dblclick', GameWindow._addReinforcement, true)
                     GameWindow.clearDisplayMessage()
                     GameWindow.displayMessage('All units are in place now !')  
                 }                
