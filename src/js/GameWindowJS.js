@@ -95,7 +95,9 @@ export var _placeSoldier = function (evt) {
   )
   if (MainGame.prototype.getFreeTerritoriesNumber() > 0) {
     if (MainGame.prototype.tryPutUnits() == true) {
-      if (MainGame.prototype.checkTerritoryFreedom(selectedCountryName) == true) {
+      if (
+        MainGame.prototype.checkTerritoryFreedom(selectedCountryName) == true
+      ) {
         // console.log('it s free');
         // getting the coordinates of the square center of a country
         var bbox = country.getBBox()
@@ -144,7 +146,7 @@ export var _placeSoldier = function (evt) {
           MainGame.prototype.getCountryIdByName(selectedCountryName)
         )
       } else {
-        if(evt.target.className.baseVal !== 'sea'){
+        if (evt.target.className.baseVal !== 'sea') {
           clearDisplayMessage()
           displayMessage('This territory is occupied !')
         }
@@ -158,11 +160,11 @@ export var _placeSoldier = function (evt) {
     MainGame.prototype.claimTerritory(
       MainGame.prototype.getCountryIdByName(selectedCountryName)
     )
-    //displayMessage('No more free territories left !')
+    // displayMessage('No more free territories left !')
   }
 }
 
-export var _addReinforcement = function (evt){
+export var _addReinforcement = function (evt) {
   var country = evt.target
 
   // getting the country id
@@ -173,8 +175,9 @@ export var _addReinforcement = function (evt){
   // )
   if (MainGame.prototype.getMyReinforcementNum() > 0) {
     if (MainGame.prototype.tryPutUnits() === true) {
-      if (MainGame.prototype.checkTerritoryIsMine(selectedCountryName) === true) {
-
+      if (
+        MainGame.prototype.checkTerritoryIsMine(selectedCountryName) === true
+      ) {
         // looping on the map object to match the dbclicked country
         Object.keys(map).forEach(key => {
           var continentName = map[key]
@@ -192,9 +195,8 @@ export var _addReinforcement = function (evt){
             }
           }
         })
-
       } else {
-        if(evt.target.className.baseVal !== 'sea'){
+        if (evt.target.className.baseVal !== 'sea') {
           clearDisplayMessage()
           displayMessage(selectedCountryName + ' is not Yours !')
         }
@@ -205,7 +207,7 @@ export var _addReinforcement = function (evt){
     }
   } else {
     clearDisplayMessage()
-    displayMessage('You\'ve got no more units left !')
+    displayMessage("You've got no more units left !")
     MainGame.prototype.nextPlayerTurn()
   }
 }
@@ -238,9 +240,11 @@ export function mouseoverCountry (evt) {
   // for function placeSoldier, to access the country id under the highlight layer
   hoveredCountryName = country.getAttribute('id')
   highlight.setAttribute('d', outline)
-  
-  var countryElement = map[getContinentOf(country.getAttribute('id'))][country.getAttribute('id')]
-  doc.getElementById('hovered-country').innerHTML = country.getAttribute('id') + " - " + countryElement.soldiers + " soldiers"
+
+  var countryElement =
+    map[getContinentOf(country.getAttribute('id'))][country.getAttribute('id')]
+  doc.getElementById('hovered-country').innerHTML =
+    country.getAttribute('id') + ' - ' + countryElement.soldiers + ' soldiers'
 }
 
 /*****************************************************************************************************/
@@ -347,12 +351,17 @@ export function setMyColor (id, color) {
   document.getElementById(id).style.color = color
 }
 
+export function displayMyColor (color) {
+  document.getElementById('yourPlayerColor').style.borderLeftColor = color
+  document.getElementById('yourPlayerColor').style.borderTopColor = color
+}
+
 export function setCountryColor (color, countryId) {
   var cName = MainGame.prototype.getCountryNameById(countryId)
   document.getElementById(cName).style.fill = color
 }
 
-export function displayPhase1(){
+export function displayPhase1 () {
   clearDisplayMessage()
   var msgParagraph = document.createElement('P')
   msgParagraph.style.lineHeight = '2em'

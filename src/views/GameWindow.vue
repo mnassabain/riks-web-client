@@ -67,6 +67,7 @@
 
     <!-- SouthWest UI-->
     <div class="playerControls">
+      <div id="yourPlayerColor"></div>
       <div id="playerControlMessage">
         <!--span id="phase">Phase 2</span>
         <br-->
@@ -194,7 +195,6 @@
               class="armiesSelectionBtn"
               id="selectArmyThree"
             >
-
           </div>
           <div>Armies</div>
         </div>
@@ -491,10 +491,10 @@ export default {
     },
 
     verify(data) {
-      var response = JSON.parse(data)
+      var response = JSON.parse(data);
       if (response.data.error == true) {
-        alert("Error: " + response.data.response)
-        return
+        alert("Error: " + response.data.response);
+        return;
       } else {
         delete this.$socket.onmessage;
         /* redirect user */
@@ -503,16 +503,14 @@ export default {
     },
     logout() {
       this.$socket.send(new Packet("DISCONNECT").getJson());
-       /* message listener */
-      this.$socket.onmessage = data => this.verify(data.data)
-      this.$router.push({path: "/"})
+      /* message listener */
+      this.$socket.onmessage = data => this.verify(data.data);
+      this.$router.push({ path: "/" });
     },
     leaveLobby() {
       this.$socket.send(new Packet("LEAVE_GAME").getJson());
       this.$router.push({ path: "/MainMenu" });
     }
-
-
   },
   created() {
     var vm = this;
@@ -526,6 +524,7 @@ export default {
     GameWindow.mapPanZoom();
     GameWindow.startMouseoverCountry();
     GameWindow.onDbClick();
+    GameWindow.displayMyColor(this.localColor);
   }
 };
 </script>

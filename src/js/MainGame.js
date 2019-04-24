@@ -40,15 +40,15 @@ export class MainGame {
     this.totalPlayers = 0
     this.prephaseLogic = false
     this.firstPlayer
-    
+
     // copy of the object GameWindow
     this.view = v
     this.$socket = v.$socket
 
     this.handleIncommingMessages()
-    //v.$socket.send(new Packet('GAME_STATUS').getJson())
+    // v.$socket.send(new Packet('GAME_STATUS').getJson())
 
-    this.synchronize();
+    this.synchronize()
     // this.innerLoop();
   }
 
@@ -71,11 +71,11 @@ export class MainGame {
     this.totalPlayers = data.nbPlayers
     console.log('totalPlayers ' + this.totalPlayers)
 
-    for(var i = 0; i < data.players.length; i++) {
-        this.totalUnits += data.players[i].reinforcements
+    for (var i = 0; i < data.players.length; i++) {
+      this.totalUnits += data.players[i].reinforcements
     }
     console.log('totalReinforcements ' + this.totalUnits)
-    
+
     /* sets view's players array */
     this.setPlayersData(data)
     console.log('view.players after update')
@@ -187,7 +187,7 @@ export class MainGame {
       }
     })
     // console.log('map is set:')
-  // console.log(THIS_IS_IT.map)
+    // console.log(THIS_IS_IT.map)
   }
 
   /**
@@ -428,7 +428,7 @@ export class MainGame {
    *
    * @param territoryId country the calling player tries to occupy
    */
-    claimTerritory (territoryId) {
+  claimTerritory (territoryId) {
     var data = {
       territory: territoryId,
       units: 1
@@ -440,7 +440,7 @@ export class MainGame {
    * Sends a PUT message to game server to ask if the
    * player can add one unit on this territory
    *
-   * @param territoryId country the calling player tries to 
+   * @param territoryId country the calling player tries to
    */
   addUnits (territoryId) {
     var data = {
@@ -454,12 +454,12 @@ export class MainGame {
     console.log('prephaseLogic')
 
     /* Modificates addeventlistener on dblclick */
-    GameWindow.disableDbClick()   
+    GameWindow.disableDbClick()
 
-    /*The new event listener for using units left */
+    /* The new event listener for using units left */
     var map = document.getElementById('GameMap')
     map.addEventListener('dblclick', GameWindow._addReinforcement, true)
-    
+
     // var map = document.getElementById('GameMap')
     // map.addEventListener('dblclick', function (evt) {
     //     GameWindow.addReinforcement(evt)
@@ -467,26 +467,28 @@ export class MainGame {
 
     var ms = 3000
     var self = THIS_IS_IT
-    setTimeout(function () {        
-        GameWindow.clearDisplayMessage()
-        if (localStorage.myId == self.getActivePlayerId()) {
-            GameWindow.displayMessage('You are playing, put reinforcement units on your territories !')
-        } else {
-            GameWindow.displayMessage(
-            self.getActivePlayerName() + ' is reinforcing his/her territories !'
-            )
-        }
+    setTimeout(function () {
+      GameWindow.clearDisplayMessage()
+      if (localStorage.myId == self.getActivePlayerId()) {
+        GameWindow.displayMessage(
+          'You are playing, put reinforcement units on your territories !'
+        )
+      } else {
+        GameWindow.displayMessage(
+          self.getActivePlayerName() + ' is reinforcing his/her territories !'
+        )
+      }
     }, ms)
   }
 
-  getMyReinforcementNum(){
-      console.log('my reinforcements : ' + localStorage.reinforcements)
-      return localStorage.reinforcements
+  getMyReinforcementNum () {
+    console.log('my reinforcements : ' + localStorage.reinforcements)
+    return localStorage.reinforcements
   }
 
-  nextPlayerTurn(){
-      THIS_IS_IT.currentPlayer =
-              (THIS_IS_IT.currentPlayer + 1) % THIS_IS_IT.gameData.nbPlayers
+  nextPlayerTurn () {
+    THIS_IS_IT.currentPlayer =
+      (THIS_IS_IT.currentPlayer + 1) % THIS_IS_IT.gameData.nbPlayers
   }
 
   /**
@@ -535,9 +537,10 @@ export class MainGame {
    *
    * @param player player
    */
-  getPlayerNumberOfTokens(player)
-  {
-     return player.tokens[0] + player.tokens[1] + player.tokens[2] + player.tokens[3] ;
+  getPlayerNumberOfTokens (player) {
+    return (
+      player.tokens[0] + player.tokens[1] + player.tokens[2] + player.tokens[3]
+    )
   }
   /* this function must be triggered  when the active player clicks on a territory
     to put an unit during the first phase */
@@ -549,7 +552,10 @@ export class MainGame {
    */
 
   useSet (token1, token2, token3) {
-    if (this.getPlayerNumberOfTokens(this.currentPlayer) > 4 && this.currentPlayer.name == this.activePlayer.name) {
+    if (
+      this.getPlayerNumberOfTokens(this.currentPlayer) > 4 &&
+      this.currentPlayer.name == this.activePlayer.name
+    ) {
       var params = {
         token1: token1,
         token2: token2,
@@ -578,15 +584,15 @@ export class MainGame {
    * @param territory  the targeted territory
    * @param units  the number of units
    */
- putUnit (territory, units) {
+  putUnit (territory, units) {
     /* PUT message can only be emitted during phases -1 , 0 */
     console.log('in put units func')
     console.log('current phase ' + THIS_IS_IT.currentPhase)
     if (THIS_IS_IT.currentPhase == -1) {
       var continent = getContinentOf(territory)
-      var data = { 
-          territory: THIS_IS_IT.getCountryIdByName(territory),
-          units: units
+      var data = {
+        territory: THIS_IS_IT.getCountryIdByName(territory),
+        units: units
       }
       console.log(THIS_IS_IT.map[continent][territory].player)
       if (THIS_IS_IT.map[continent][territory].player != localStorage.myId) {
@@ -598,18 +604,20 @@ export class MainGame {
         THIS_IS_IT.$socket.send(new Packet('PUT', data).getJson())
       }
     } else {
-        console.log('put unit failed')
+      console.log('put unit failed')
     }
   }
 
   checkAllPlayersReinforcements () {
     console.log('players reinforcements :')
-    for(var i = 0; i < THIS_IS_IT.playerList.length; i++){
-        console.log('player' + i + ' : ' + THIS_IS_IT.playerList[i].reinforcements)
+    for (var i = 0; i < THIS_IS_IT.playerList.length; i++) {
+      console.log(
+        'player' + i + ' : ' + THIS_IS_IT.playerList[i].reinforcements
+      )
     }
   }
 
-  readyToNextPhase(){
+  readyToNextPhase () {
     console.log('Ready to phase 1')
     GameWindow.clearDisplayMessage()
     GameWindow.displayPhase1()
@@ -626,23 +634,22 @@ export class MainGame {
    */
   updateReinforcement (player) {
     var unitsLeft = localStorage.getItem('reinforcements')
-    
+
     /*******************************************************************************************/
     console.log('update reinforcement: ' + unitsLeft + ' to ' + (unitsLeft - 1))
 
-    
     unitsLeft = unitsLeft - 1
     var territoriesNum
     territoriesNum = parseInt(localStorage.getItem('territories')) + 1
 
     THIS_IS_IT.view.localArmies = unitsLeft
     THIS_IS_IT.view.localTerritories = territoriesNum
-    
+
     console.log(territoriesNum)
 
     localStorage.setItem('reinforcements', unitsLeft)
     localStorage.setItem('territories', territoriesNum)
-    
+
     // if(this.currentPhase == 0)
     // {
     //     this.activePlayerReinforcement -- ;
@@ -1024,16 +1031,15 @@ export class MainGame {
             break
 
           case Packet.prototype.getTypeOf('CURRENT_PHASE'):
-            console.log("CURRENT_PHASE: "+msg.data.phase);
-            if(msg.phase == phases['PREPHASE']){
-                THAT_CLASS.currentPhase = msg.phase
-                THAT_CLASS.currentPlayer = THAT_CLASS.firstPlayer
+            console.log('CURRENT_PHASE: ' + msg.data.phase)
+            if (msg.phase == phases['PREPHASE']) {
+              THAT_CLASS.currentPhase = msg.phase
+              THAT_CLASS.currentPlayer = THAT_CLASS.firstPlayer
+            } else if (msg.phase == phases['REINFORCEMENT']) {
+              THAT_CLASS.currentPhase = msg.phase
+              readyToNextPhase()
             }
-            else if (msg.phase == phases['REINFORCEMENT']) {
-                THAT_CLASS.currentPhase = msg.phase
-                readyToNextPhase()
-            }
-            //THAT_CLASS.nextPhaseBtnState(msg.phase)
+            // THAT_CLASS.nextPhaseBtnState(msg.phase)
 
             break
 
@@ -1051,38 +1057,38 @@ export class MainGame {
             break
 
           case Packet.prototype.getTypeOf('GAME_OVER'):
-            console.log("GAME_OVER"+msg);
+            console.log('GAME_OVER' + msg)
             break
 
           case Packet.prototype.getTypeOf('GAME_RESULTS'):
-          console.log("GAME_RESULTS"+msg);
+            console.log('GAME_RESULTS' + msg)
             break
 
           case Packet.prototype.getTypeOf('GAME_STATUS'):
-          console.log("GAME_STATUS"+msg);
+            console.log('GAME_STATUS' + msg)
             /* Sets and updates game data */
             THAT_CLASS.setGameData(msg.data)
 
             break
 
           case Packet.prototype.getTypeOf('GIVE_TOKENS'):
-          console.log("GIVE_TOKENS"+msg);
+            console.log('GIVE_TOKENS' + msg)
             break
 
           case Packet.prototype.getTypeOf('KICKED'):
-          console.log("KICKED"+msg);
+            console.log('KICKED' + msg)
             break
 
           case Packet.prototype.getTypeOf('LEAVE_GAME'):
-          console.log("LEAVE_GAME"+msg);
+            console.log('LEAVE_GAME' + msg)
             break
 
           case Packet.prototype.getTypeOf('LOBBY_STATE'):
-          console.log("LOBBY_STATE"+msg);
+            console.log('LOBBY_STATE' + msg)
             break
 
           case Packet.prototype.getTypeOf('MOVE'):
-          console.log("MOVE"+msg);
+            console.log('MOVE' + msg)
             THAT_CLASS.fortify(
               msg.data.source,
               msg.data.destination,
@@ -1092,101 +1098,109 @@ export class MainGame {
             break
 
           case Packet.prototype.getTypeOf('PLAYER_ELIMINATION'):
-          console.log("PLAYER_ELIMINATION"+msg);
+            console.log('PLAYER_ELIMINATION' + msg)
             THAT_CLASS.playerElimination(msg.data.player)
             break
 
           case Packet.prototype.getTypeOf('PLAYER_PROFILE'):
-          console.log("PLAYER_PROFILE"+msg);
+            console.log('PLAYER_PROFILE' + msg)
             break
 
           /* a PUT message implies a PUT message from the  client */
           case Packet.prototype.getTypeOf('PUT'):
-            console.log("PUT"+msg);
-            if(THAT_CLASS.currentPhase == phases['PREPHASE']){
+            console.log('PUT' + msg)
+            if (THAT_CLASS.currentPhase == phases['PREPHASE']) {
               /* updating current player turn */
-              //THAT_CLASS.currentPlayer =
+              // THAT_CLASS.currentPlayer =
               //    (THAT_CLASS.currentPlayer + 1) % THAT_CLASS.totalPlayers
-              
-              /* updating total amount of units left*/
-                THIS_IS_IT.totalUnits -= 1
-                console.log('Total units left ' + THIS_IS_IT.totalUnits)
-                /* saving last player who put for display purposes */
-                var currentPlayerBefore = THAT_CLASS.currentPlayer
-                /* updating current player turn */
-                THAT_CLASS.nextPlayerTurn()
 
-                /* updating the local map data */
-                THAT_CLASS.updateMapData(
-                    THAT_CLASS.getCountryNameById(msg.data.territory),    
-                    msg.data.player,
-                    msg.data.units
-                )           
+              /* updating total amount of units left */
+              THIS_IS_IT.totalUnits -= 1
+              console.log('Total units left ' + THIS_IS_IT.totalUnits)
+              /* saving last player who put for display purposes */
+              var currentPlayerBefore = THAT_CLASS.currentPlayer
+              /* updating current player turn */
+              THAT_CLASS.nextPlayerTurn()
 
-                /* updating the number of free territories */
-                if(THAT_CLASS.prephaseLogic === false){
-                    THAT_CLASS.freeTerritories--
-                    /* change the color of a territory during the pre-phase */
-                    GameWindow.setCountryColor(
-                        SupportedColors[msg.data.player],
-                        msg.data.territory
-                    )
-                }
-                
-                /* if no more territories we go to the second part of prephase */
-                if(THAT_CLASS.freeTerritories > 0 && THAT_CLASS.prephaseLogic === false) {                    
-                    console.log('Total free territories left ' + THAT_CLASS.freeTerritories)    
-                } else {
-                    THAT_CLASS.prephaseLogic = true
-                    MainGame.prototype.prephaseLogic()
-                }
-                
+              /* updating the local map data */
+              THAT_CLASS.updateMapData(
+                THAT_CLASS.getCountryNameById(msg.data.territory),
+                msg.data.player,
+                msg.data.units
+              )
+
+              /* updating the number of free territories */
+              if (THAT_CLASS.prephaseLogic === false) {
+                THAT_CLASS.freeTerritories--
+                /* change the color of a territory during the pre-phase */
+                GameWindow.setCountryColor(
+                  SupportedColors[msg.data.player],
+                  msg.data.territory
+                )
+              }
+
+              /* if no more territories we go to the second part of prephase */
+              if (
+                THAT_CLASS.freeTerritories > 0 &&
+                THAT_CLASS.prephaseLogic === false
+              ) {
+                console.log(
+                  'Total free territories left ' + THAT_CLASS.freeTerritories
+                )
+              } else {
+                THAT_CLASS.prephaseLogic = true
+                MainGame.prototype.prephaseLogic()
+              }
+
+              GameWindow.clearDisplayMessage()
+
+              /* displaying different put message according to current player */
+              if (msg.data.player == localStorage.myId) {
+                GameWindow.displayMessage(
+                  'You choosed to put ' +
+                    msg.data.units +
+                    ' unit(s) on ' +
+                    THAT_CLASS.getCountryNameById(msg.data.territory)
+                )
+                THAT_CLASS.updateReinforcement(currentPlayerBefore)
+                THAT_CLASS.playerList[currentPlayerBefore].reinforcements--
+              } else {
+                GameWindow.displayMessage(
+                  THAT_CLASS.getPlayerNameById(msg.data.player) +
+                    ' choosed to put ' +
+                    msg.data.units +
+                    ' unit(s) on ' +
+                    THAT_CLASS.getCountryNameById(msg.data.territory)
+                )
+              }
+              /* if all players have spent their units */
+              if (THAT_CLASS.totalUnits == 0) {
+                /* removing double click listener on addreinforcement */
+                var gmap = document.getElementById('GameMap')
+                // gmap.removeEventListener('dblclick', GameWindow._addReinforcement, true)
                 GameWindow.clearDisplayMessage()
-
-                /* displaying different put message according to current player */
-                if (msg.data.player == localStorage.myId) {
-                    GameWindow.displayMessage(
-                        'You choosed to put ' +
-                        msg.data.units +
-                        ' unit(s) on ' +
-                        THAT_CLASS.getCountryNameById(msg.data.territory)
-                    )
-                    THAT_CLASS.updateReinforcement(currentPlayerBefore)
-                    THAT_CLASS.playerList[currentPlayerBefore].reinforcements--
-                } else {
-                    GameWindow.displayMessage(
-                      THAT_CLASS.getPlayerNameById(msg.data.player) +
-                        ' choosed to put ' +
-                        msg.data.units +
-                        ' unit(s) on ' +
-                        THAT_CLASS.getCountryNameById(msg.data.territory)
-                    )
-                }
-                /* if all players have spent their units */
-                if(THAT_CLASS.totalUnits == 0) {
-                    /* removing double click listener on addreinforcement */
-                    var gmap = document.getElementById('GameMap')
-                    // gmap.removeEventListener('dblclick', GameWindow._addReinforcement, true)
-                    GameWindow.clearDisplayMessage()
-                    GameWindow.displayMessage('All units are in place now !')  
-                }                
-                /* this.putResponse(msg.player.name,msg.territory,msg.units); */
+                GameWindow.displayMessage('All units are in place now !')
+              }
+              /* this.putResponse(msg.player.name,msg.territory,msg.units); */
             }
             /* this.putResponse(msg.player.name,msg.territory,msg.units); */
             break
 
           case Packet.prototype.getTypeOf('REINFORCEMENT'):
-          console.log("REINFORCEMENT"+msg);
+            console.log('REINFORCEMENT' + msg)
             THAT_CLASS.activePlayerReinforcement += msg.data.units
-            localStorage.setItem('reinforcements', THAT_CLASS.activePlayerReinforcement)
+            localStorage.setItem(
+              'reinforcements',
+              THAT_CLASS.activePlayerReinforcement
+            )
             break
 
           case Packet.prototype.getTypeOf('START_GAME'):
-          console.log("START_GAME"+msg);
+            console.log('START_GAME' + msg)
             break
 
           case Packet.prototype.getTypeOf('USE_TOKENS'):
-          console.log("USE_TOKENS"+msg);
+            console.log('USE_TOKENS' + msg)
             /* this.useTokensResponse(msg.player.name,msg.units); */
             break
 
