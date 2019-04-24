@@ -43,7 +43,7 @@
       <div v-for="(player, index) in players" :key="index" :id="'ratioPlayer'+(index+1)"></div>
     </div>
 
-    <div class="timer">00:00</div>
+    <div id="timer">00:00</div>
 
     <!--Menu button NorthEast UI-->
     <div>

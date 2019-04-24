@@ -277,7 +277,7 @@ export class MainGame {
    */
   getActivePlayerName () {
     var self = THIS_IS_IT
-    return this.playerList[self.getActivePlayerId()].name
+    return this.playerList[self.getActivePlayerId()].displayName
   }
 
   /**
@@ -288,7 +288,7 @@ export class MainGame {
    */
   getPlayerNameById (playerId) {
     var self = THIS_IS_IT
-    return self.gameData.players[playerId].name
+    return self.gameData.players[playerId].displayName
   }
 
   /**

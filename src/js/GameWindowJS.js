@@ -155,8 +155,8 @@ export var _placeSoldier = function (evt) {
     }
   } else {
     clearDisplayMessage()
-    MainGame.prototype.chooseTerritory(
-      MainGame.prototype.getCountryIdByName(selectedCountryId)
+    MainGame.prototype.claimTerritory(
+      MainGame.prototype.getCountryIdByName(selectedCountryName)
     )
     //displayMessage('No more free territories left !')
   }
