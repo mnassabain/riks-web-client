@@ -36,7 +36,7 @@ export default {
     },
     leaveLobby() {
       this.$socket.send(new Packet("LEAVE_GAME").getJson());
-      vm.$router.push({ path: "/MainMenu" });
+      this.$router.push({ path: "/MainMenu" });
     }
   },
   created() {
