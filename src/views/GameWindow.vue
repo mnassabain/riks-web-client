@@ -43,7 +43,7 @@
       <div v-for="(player, index) in players" :key="index" :id="'ratioPlayer'+(index+1)"></div>
     </div>
 
-    <div class="timer">00:00</div>
+    <div id="timer">00:00</div>
 
     <!--Menu button NorthEast UI-->
     <div>
@@ -57,9 +57,9 @@
         >
       </div>
       <div id="myDropdown" class="dropdown-content">
-        <a href="#">Parameters</a>
-        <a href="#">Quit</a>
-        <a href="#">Go back !</a>
+        <a>Parameters</a>
+        <a @click="leaveLobby">Main menu</a>
+        <a @click="logout">Log out</a>
       </div>
     </div>
 
@@ -488,7 +488,31 @@ export default {
     addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
     diplayMessage: function(message) {
       console.log(message);
+    },
+
+    verify(data) {
+      var response = JSON.parse(data)
+      if (response.data.error == true) {
+        alert("Error: " + response.data.response)
+        return
+      } else {
+        delete this.$socket.onmessage;
+        /* redirect user */
+        this.$router.push({ path: "/" });
+      }
+    },
+    logout() {
+      this.$socket.send(new Packet("DISCONNECT").getJson());
+       /* message listener */
+      this.$socket.onmessage = data => this.verify(data.data)
+      this.$router.push({path: "/"})
+    },
+    leaveLobby() {
+      this.$socket.send(new Packet("LEAVE_GAME").getJson());
+      this.$router.push({ path: "/MainMenu" });
     }
+
+
   },
   created() {
     var vm = this;
