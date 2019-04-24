@@ -11,7 +11,7 @@ var doc
 var highlight
 var countries
 var seas
-var hoveredCountryId
+var hoveredCountryName
 
 /*********************************************************************************************************************/
 /* Menu handling */
@@ -45,10 +45,14 @@ export function mapPanZoom () {
 }
 
 /* Handling the double click event on map */
-export function onDbClick () {
-  svg.addEventListener('dblclick', function (evt) {
-    placeSoldier(evt)
-  })
+export var onDbClick = function () {
+  var gmap = document.getElementById('GameMap')
+  gmap.addEventListener('dblclick', _placeSoldier, true)
+}
+
+export var disableDbClick = function () {
+  var gmap = document.getElementById('GameMap')
+  gmap.removeEventListener('dblclick', _placeSoldier, true)
 }
 /*********************************************************************************************************************/
 /* Starting the timer */
@@ -80,18 +84,18 @@ export function startMouseoverCountry () {
   }
 }
 
-export function placeSoldier (evt) {
+export var _placeSoldier = function (evt) {
   var country = evt.target
 
   // getting the country id
-  var selectedCountryId = hoveredCountryId
+  var selectedCountryName = hoveredCountryName
 
   console.log(
     'free territories left : ' + MainGame.prototype.getFreeTerritoriesNumber()
   )
   if (MainGame.prototype.getFreeTerritoriesNumber() > 0) {
     if (MainGame.prototype.tryPutUnits() == true) {
-      if (MainGame.prototype.checkTerritoryFreedom(selectedCountryId) == true) {
+      if (MainGame.prototype.checkTerritoryFreedom(selectedCountryName) == true) {
         // console.log('it s free');
         // getting the coordinates of the square center of a country
         var bbox = country.getBBox()
@@ -103,9 +107,9 @@ export function placeSoldier (evt) {
           var continentName = map[key]
           for (var countries in continentName) {
             var res =
-              countries == selectedCountryId
+              countries == selectedCountryName
                 ? 0
-                : countries > selectedCountryId
+                : countries > selectedCountryName
                   ? 1
                   : -1
             if (res == 0) {
@@ -126,9 +130,9 @@ export function placeSoldier (evt) {
                   .style('fill', localStorage.myColor)
                   .style('stroke', '#27282D')
                   .style('stroke-width', '15')
-                  .attr('id', 'soldierOn' + selectedCountryId)
+                  .attr('id', 'soldierOn' + selectedCountryName)
                 // change the country color to the own player color
-                document.getElementById(selectedCountryId).style.fill =
+                document.getElementById(selectedCountryName).style.fill =
                   localStorage.myColor
               }
             } else {
@@ -136,12 +140,14 @@ export function placeSoldier (evt) {
             }
           }
         })
-        MainGame.prototype.chooseTerritory(
-          MainGame.prototype.getCountryIdByName(selectedCountryId)
+        MainGame.prototype.claimTerritory(
+          MainGame.prototype.getCountryIdByName(selectedCountryName)
         )
       } else {
-        clearDisplayMessage()
-        displayMessage('This territory is occupied !')
+        if(evt.target.className.baseVal !== 'sea'){
+          clearDisplayMessage()
+          displayMessage('This territory is occupied !')
+        }
       }
     } else {
       clearDisplayMessage()
@@ -153,6 +159,54 @@ export function placeSoldier (evt) {
       MainGame.prototype.getCountryIdByName(selectedCountryId)
     )
     //displayMessage('No more free territories left !')
+  }
+}
+
+export var _addReinforcement = function (evt){
+  var country = evt.target
+
+  // getting the country id
+  var selectedCountryName = hoveredCountryName
+  // console.log('Target country : ' + selectedCountryName)
+  // console.log(
+  //   'Units left : ' + MainGame.prototype.getMyReinforcementNum()
+  // )
+  if (MainGame.prototype.getMyReinforcementNum() > 0) {
+    if (MainGame.prototype.tryPutUnits() === true) {
+      if (MainGame.prototype.checkTerritoryIsMine(selectedCountryName) === true) {
+
+        // looping on the map object to match the dbclicked country
+        Object.keys(map).forEach(key => {
+          var continentName = map[key]
+          for (var countries in continentName) {
+            var res =
+              countries == selectedCountryName
+                ? 0
+                : countries > selectedCountryName
+                  ? 1
+                  : -1
+            if (res == 0) {
+              /* asks server to put units */
+              console.log('try to add units on ' + selectedCountryName)
+              MainGame.prototype.putUnit(selectedCountryName, 1)
+            }
+          }
+        })
+
+      } else {
+        if(evt.target.className.baseVal !== 'sea'){
+          clearDisplayMessage()
+          displayMessage(selectedCountryName + ' is not Yours !')
+        }
+      }
+    } else {
+      clearDisplayMessage()
+      displayMessage('Wait for your turn please')
+    }
+  } else {
+    clearDisplayMessage()
+    displayMessage('You\'ve got no more units left !')
+    //MainGame.prototype.nextPlayerTurn()
   }
 }
 
@@ -173,7 +227,7 @@ export function newElement (type, attrs) {
 export function mouseoverSea (evt) {
   var sea = evt.target
   highlight.setAttribute('d', 'm0 0')
-  hoveredCountryId = sea.getAttribute('id')
+  hoveredCountryName = sea.getAttribute('id')
   doc.getElementById('hovered-country').innerHTML = 'Hover a Country'
 }
 
@@ -182,7 +236,7 @@ export function mouseoverCountry (evt) {
   var country = evt.target
   var outline = country.getAttribute('d')
   // for function placeSoldier, to access the country id under the highlight layer
-  hoveredCountryId = country.getAttribute('id')
+  hoveredCountryName = country.getAttribute('id')
   highlight.setAttribute('d', outline)
   
   var countryElement = map[getContinentOf(country.getAttribute('id'))][country.getAttribute('id')]
@@ -283,7 +337,6 @@ export function displayMessage (message) {
   msgParagraph.style.lineHeight = '1em'
   msgParagraph.innerHTML = message
   document.getElementById('combatUIDisplay').appendChild(msgParagraph)
-  // updateMsg.innerHTML = message
 }
 
 export function clearDisplayMessage () {
@@ -297,4 +350,13 @@ export function setMyColor (id, color) {
 export function setCountryColor (color, countryId) {
   var cName = MainGame.prototype.getCountryNameById(countryId)
   document.getElementById(cName).style.fill = color
+}
+
+export function displayPhase1(){
+  clearDisplayMessage()
+  var msgParagraph = document.createElement('P')
+  msgParagraph.style.lineHeight = '2em'
+  var msgStr = 'Phase 1'
+  msgParagraph.innerHTML = msgStr
+  document.getElementById('combatUIDisplay').appendChild(msgParagraph)
 }
