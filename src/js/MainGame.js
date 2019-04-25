@@ -64,6 +64,7 @@ export class MainGame {
     this.freeTerritories = data.freeTerritories
     console.log('this.freeTerritories ' + this.freeTerritories)
     this.currentPhase = data.phase
+    GameWindow.displayCurrentPhase(this.currentPhase)
     console.log('currentPhase ' + this.currentPhase)
     this.currentPlayer = data.activePlayer
     this.firstPlayer = data.activePlayer
@@ -137,7 +138,7 @@ export class MainGame {
    */
   setPlayerLocalStorage (data) {
     for (var i = 0; i < data.players.length; i++) {
-      if (this.gameData.players[i].name == localStorage.login) {
+      if (this.playerList[i].name == localStorage.login) {
         localStorage.setItem('myId', i)
         localStorage.setItem('myColor', SupportedColors[i])
         localStorage.setItem('reinforcements', data.players[i].reinforcements)
@@ -300,8 +301,8 @@ export class MainGame {
    */
   getPlayerIdByName (playerName) {
     var self = THIS_IS_IT
-    for (var i = 0; i < self.gameData.players.length; i++) {
-      if (playerName === self.gameData.players[i].name) return i
+    for (var i = 0; i < self.playerList.length; i++) {
+      if (playerName === self.playerList[i].name) return i
     }
   }
 
@@ -488,7 +489,7 @@ export class MainGame {
 
   nextPlayerTurn () {
     THIS_IS_IT.currentPlayer =
-      (THIS_IS_IT.currentPlayer + 1) % THIS_IS_IT.gameData.nbPlayers
+      (THIS_IS_IT.currentPlayer + 1) % THIS_IS_IT.totalPlayers
   }
 
   /**
@@ -620,7 +621,6 @@ export class MainGame {
   readyToNextPhase () {
     console.log('Ready to phase 1')
     GameWindow.clearDisplayMessage()
-    GameWindow.displayPhase1()
   }
 
   endPhase () {
@@ -1032,12 +1032,14 @@ export class MainGame {
 
           case Packet.prototype.getTypeOf('CURRENT_PHASE'):
             console.log('CURRENT_PHASE: ' + msg.data.phase)
+            /* updates the current phase in players controls area*/
+            GameWindow.displayCurrentPhase(msg.data.phase)
             if (msg.phase == phases['PREPHASE']) {
               THAT_CLASS.currentPhase = msg.phase
               THAT_CLASS.currentPlayer = THAT_CLASS.firstPlayer
             } else if (msg.phase == phases['REINFORCEMENT']) {
               THAT_CLASS.currentPhase = msg.phase
-              readyToNextPhase()
+              //readyToNextPhase()
             }
             // THAT_CLASS.nextPhaseBtnState(msg.phase)
 
@@ -1053,7 +1055,7 @@ export class MainGame {
             GameWindow.clearDisplayMessage()
             var str = msg.data.message
             GameWindow.displayMessage(str.substr(str.indexOf(':') + 1))
-            THAT_CLASS.updateViewPlayers(THAT_CLASS.gameData)
+            THAT_CLASS.updateViewPlayers(THAT_CLASS.playerList)
             break
 
           case Packet.prototype.getTypeOf('GAME_OVER'):
