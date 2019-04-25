@@ -1117,6 +1117,7 @@ export class MainGame {
             
             /* remove reinforcements from player */
             THAT_CLASS.view.players[msg.data.player].reinforcements -= msg.data.units
+            THAT_CLASS.playerList[msg.data.player].reinforcements -= msg.data.units
 
             if (THAT_CLASS.currentPhase == phases['PREPHASE']) {
               /* updating current player turn */
