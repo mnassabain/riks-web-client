@@ -1048,7 +1048,7 @@ export class MainGame {
               THAT_CLASS.currentPlayer = THAT_CLASS.firstPlayer
             } else if (msg.phase == phases['REINFORCEMENT']) {
               THAT_CLASS.currentPhase = msg.phase
-              //readyToNextPhase()
+              //THAT_CLASS.currentPlayer = THAT_CLASS.msg.player
             }
             // THAT_CLASS.nextPhaseBtnState(msg.phase)
 
@@ -1159,8 +1159,15 @@ export class MainGame {
                   SupportedColors[msg.data.player],
                   msg.data.territory
                 )
+                /* puts the soldier icon with the number area */
+                GameWindow.drawSoldier (
+                  SupportedColors[msg.data.player],
+                  THAT_CLASS.getCountryNameById(msg.data.territory)
+                )
+                
                 THAT_CLASS.view.players[msg.data.player].nbTerritories++
               }
+              GameWindow.updateCountrySoldiersNumber(msg.data.territory)
 
               /* if no more territories we go to the second part of prephase */
               if (
@@ -1207,7 +1214,6 @@ export class MainGame {
                 GameWindow.clearDisplayMessage()
                 GameWindow.displayMessage('All units are in place now !')
               }
-              /* this.putResponse(msg.player.name,msg.territory,msg.units); */
             }
             /* this.putResponse(msg.player.name,msg.territory,msg.units); */
             break
