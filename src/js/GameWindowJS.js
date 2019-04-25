@@ -361,11 +361,33 @@ export function setCountryColor (color, countryId) {
   document.getElementById(cName).style.fill = color
 }
 
-export function displayPhase1 () {
-  clearDisplayMessage()
-  var msgParagraph = document.createElement('P')
-  msgParagraph.style.lineHeight = '2em'
-  var msgStr = 'Phase 1'
-  msgParagraph.innerHTML = msgStr
-  document.getElementById('combatUIDisplay').appendChild(msgParagraph)
+/**
+ * Displays the current phase name in the player controls area
+ * 
+ * @param phase : current phase number
+ */
+export function displayCurrentPhase (phase) {
+  // console.log('phaseReceived')
+  // console.log(phase)
+  var phaseStr = ''
+  switch(phase){
+    case -1 :
+      phaseStr = 'Prephase (-1)'
+    break;
+    case 0 :
+      phaseStr = 'Phase 1 (0)' // REINFORCEMENTS
+    break;
+    case 1 :
+      phaseStr = 'Phase 2 (1)' // OFFENSE
+    break;
+    case 2 :
+      phaseStr = 'Phase 3 (2)' // FORTIFICATION
+    break;
+    default :
+      phaseStr = 'N/C'
+    break
+  }
+  var phaseIndicator = document.getElementById('phase')
+  phaseIndicator.innerHTML = ''
+  phaseIndicator.innerHTML = phaseStr
 }
