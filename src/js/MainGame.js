@@ -1078,6 +1078,12 @@ export class MainGame {
 
           case Packet.prototype.getTypeOf('GIVE_TOKENS'):
             console.log('GIVE_TOKENS' + msg)
+
+            THAT_CLASS.view.players[msg.data.player].tokens.tok1 += msg.data.token1
+            THAT_CLASS.view.players[msg.data.player].tokens.tok2 += msg.data.token2
+            THAT_CLASS.view.players[msg.data.player].tokens.tok3 += msg.data.token3
+            THAT_CLASS.view.players[msg.data.player].tokens.tok4 += msg.data.token4
+
             break
 
           case Packet.prototype.getTypeOf('KICKED'):
@@ -1117,7 +1123,7 @@ export class MainGame {
             
             /* remove reinforcements from player */
             THAT_CLASS.view.players[msg.data.player].reinforcements -= msg.data.units
-            THAT_CLASS.playerList[msg.data.player].reinforcements -= msg.data.units
+            // THAT_CLASS.playerList[msg.data.player].reinforcements -= msg.data.units
 
             if (THAT_CLASS.currentPhase == phases['PREPHASE']) {
               /* updating current player turn */
@@ -1147,6 +1153,7 @@ export class MainGame {
                   SupportedColors[msg.data.player],
                   msg.data.territory
                 )
+                THAT_CLASS.view.players[msg.data.player].nbTerritories++
               }
 
               /* if no more territories we go to the second part of prephase */
