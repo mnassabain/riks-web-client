@@ -81,6 +81,7 @@
     </div>
 
     <!-- SouthEast UI-->
+    <!-- TODO: add dynamic data -->
     <div id="playerList" class="playerListContainer">
       <div class="playerList">
         <ul v-for="(player, index) in players" :key="index">
