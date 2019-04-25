@@ -13,7 +13,7 @@ export class Player {
     this.id = id;
     this.color = SupportedColors[color];
     this.reinforcements = 0;
-    this.tokens = []
+    this.tokens = {}
     this.nbTerritories = 0;
   }
 

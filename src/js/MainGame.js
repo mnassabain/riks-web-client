@@ -118,7 +118,10 @@ export class MainGame {
       var p = new Player(parseInt(i), player.name, i)
       p.id = i
       p.reinforcements = data.players[i].reinforcements
-      p.tokens = data.players[i].tokens
+      p.tokens.tok1 = data.players[i].tokens.tok1
+      p.tokens.tok2 = data.players[i].tokens.tok2
+      p.tokens.tok3 = data.players[i].tokens.tok3
+      p.tokens.tok4 = data.players[i].tokens.tok4
       console.log('player is set :')
       console.log(p)
       self.playerList.push(p)
@@ -1075,6 +1078,12 @@ export class MainGame {
 
           case Packet.prototype.getTypeOf('GIVE_TOKENS'):
             console.log('GIVE_TOKENS' + msg)
+
+            THAT_CLASS.view.players[msg.data.player].tokens.tok1 += msg.data.token1
+            THAT_CLASS.view.players[msg.data.player].tokens.tok2 += msg.data.token2
+            THAT_CLASS.view.players[msg.data.player].tokens.tok3 += msg.data.token3
+            THAT_CLASS.view.players[msg.data.player].tokens.tok4 += msg.data.token4
+
             break
 
           case Packet.prototype.getTypeOf('KICKED'):
@@ -1111,6 +1120,11 @@ export class MainGame {
           /* a PUT message implies a PUT message from the  client */
           case Packet.prototype.getTypeOf('PUT'):
             console.log('PUT' + msg)
+            
+            /* remove reinforcements from player */
+            THAT_CLASS.view.players[msg.data.player].reinforcements -= msg.data.units
+            // THAT_CLASS.playerList[msg.data.player].reinforcements -= msg.data.units
+
             if (THAT_CLASS.currentPhase == phases['PREPHASE']) {
               /* updating current player turn */
               // THAT_CLASS.currentPlayer =
@@ -1139,6 +1153,7 @@ export class MainGame {
                   SupportedColors[msg.data.player],
                   msg.data.territory
                 )
+                THAT_CLASS.view.players[msg.data.player].nbTerritories++
               }
 
               /* if no more territories we go to the second part of prephase */
@@ -1165,7 +1180,8 @@ export class MainGame {
                     THAT_CLASS.getCountryNameById(msg.data.territory)
                 )
                 THAT_CLASS.updateReinforcement(currentPlayerBefore)
-                THAT_CLASS.playerList[currentPlayerBefore].reinforcements--
+                // THAT_CLASS.playerList[currentPlayerBefore].reinforcements--
+                // THAT_CLASS.view.players[currentPlayerBefore].reinforcements--
               } else {
                 GameWindow.displayMessage(
                   THAT_CLASS.getPlayerNameById(msg.data.player) +
@@ -1173,7 +1189,9 @@ export class MainGame {
                     msg.data.units +
                     ' unit(s) on ' +
                     THAT_CLASS.getCountryNameById(msg.data.territory)
-                )
+                    )
+
+                    // THAT_CLASS.playerList[msg.data.player].reinforcements--
               }
               /* if all players have spent their units */
               if (THAT_CLASS.totalUnits == 0) {
