@@ -62,12 +62,11 @@ export default {
         console.log(d);
         var msg = JSON.parse(d.data);
         if(msg.data.error){
-            // TODO: handle error
+            alert(msg.data.response)
             console.log("ERROR");
             console.log(msg)
-            if(msg.type == 14)
-              vm.$router.push({path: "\GameWindow"})
-
+        if(msg.type == 14)
+            vm.$router.push({path: "\GameWindow"})
             delete vm.$socket.onmessage;
         }
         else{

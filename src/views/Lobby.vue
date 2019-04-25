@@ -46,9 +46,9 @@ export default {
       console.log("lobby state");
       console.log(d);
       var msg = JSON.parse(d.data);
-      if (msg.data && msg.data.error) {
-        alert("Error: " + msg.data.msg);
-        return;
+      if (msg.data.error == true) {
+        alert(msg.data.response)
+        return
       } else {
         if (msg.type == Packet.prototype.getTypeOf("LOBBY_STATE")) {
           vm.players = msg.data.gameData.playerNames;

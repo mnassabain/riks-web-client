@@ -1,5 +1,5 @@
 <template>
-<body>
+ <body>
   <div>
     <!--NorthWest UI -->
     <div class="tokens">
@@ -491,21 +491,21 @@ export default {
     },
 
     verify(data) {
-      var response = JSON.parse(data);
+      var response = JSON.parse(data)
       if (response.data.error == true) {
-        alert("Error: " + response.data.response);
-        return;
+        alert("Error: " + response.data.response)
+        return
       } else {
         delete this.$socket.onmessage;
         /* redirect user */
-        this.$router.push({ path: "/" });
+        this.$router.push({ path: "/" })
       }
     },
     logout() {
-      this.$socket.send(new Packet("DISCONNECT").getJson());
+      this.$socket.send(new Packet("DISCONNECT").getJson())
       /* message listener */
-      this.$socket.onmessage = data => this.verify(data.data);
-      this.$router.push({ path: "/" });
+      this.$socket.onmessage = data => this.verify(data.data)
+      this.$router.push({ path: "/" })
     },
     leaveLobby() {
       this.$socket.send(new Packet("LEAVE_GAME").getJson());

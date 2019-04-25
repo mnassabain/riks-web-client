@@ -643,8 +643,14 @@ export class MainGame {
 
     unitsLeft = unitsLeft - 1
     var territoriesNum
-    territoriesNum = parseInt(localStorage.getItem('territories')) + 1
-
+    if (this.getFreeTerritoriesNumber() > 0)
+    {
+      territoriesNum = parseInt(localStorage.getItem('territories')) + 1
+    }
+    else 
+    {
+      territoriesNum = parseInt(localStorage.getItem('territories'))
+    }
     THIS_IS_IT.view.localArmies = unitsLeft
     THIS_IS_IT.view.localTerritories = territoriesNum
 
