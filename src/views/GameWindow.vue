@@ -69,16 +69,15 @@
     <div class="playerControls">
       <div id="yourPlayerColor"></div>
       <div id="playerControlMessage">
-        <!--span id="phase">Phase 2</span>
-        <br-->
+        <span id="phase"></span>
+        <br>
         <span id="action">{{ localPlayerName }}</span>
       </div>
-      <!--div id="playerControlButton">
+      <div id="playerControlButton">
         <button id="phaseControlBtn">
-          Next
-          <br>Phase
-        </button>
-      </div>-->
+          <img src="../assets/icons/nextPhase.svg">
+        </button> 
+      </div>
     </div>
 
     <!-- SouthEast UI-->
