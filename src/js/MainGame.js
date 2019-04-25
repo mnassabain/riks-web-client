@@ -138,7 +138,7 @@ export class MainGame {
    */
   setPlayerLocalStorage (data) {
     for (var i = 0; i < data.players.length; i++) {
-      if (this.playerList[i].name == localStorage.login) {
+      if (this.gameData.players[i].name == localStorage.login) {
         localStorage.setItem('myId', i)
         localStorage.setItem('myColor', SupportedColors[i])
         localStorage.setItem('reinforcements', data.players[i].reinforcements)
