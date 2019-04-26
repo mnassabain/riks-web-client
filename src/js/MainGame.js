@@ -493,6 +493,9 @@ export class MainGame {
   nextPlayerTurn () {
     THIS_IS_IT.currentPlayer =
       (THIS_IS_IT.currentPlayer + 1) % THIS_IS_IT.totalPlayers
+    THIS_IS_IT.view.currentPlayer = THIS_IS_IT.currentPlayer
+    console.log('current player = ' + THIS_IS_IT.currentPlayer + ', id =' +
+      THIS_IS_IT.playerList[THIS_IS_IT.currentPlayer].displayName)
   }
 
   /**

@@ -85,7 +85,7 @@
     <div id="playerList" class="playerListContainer">
       <div class="playerList">
         <ul v-for="(player, index) in players" :key="index">
-          <li :id="'playerSlot'+(index+1)">
+          <li :id="'playerSlot'+(index+1)" :class="{current: (currentPlayer === index)}">
             <div :id="'playerSlot'+(index+1)+'Name'" class="playerListName">
               <p>{{player.displayName}}</p>
             </div>
@@ -473,6 +473,7 @@ export default {
     return {
       players: [],
       map: [],
+      currentPlayer: 0,
       localPlayerName: localStorage.login,
       localArmies: localStorage.reinforcements,
       localTerritories: localStorage.territories,

@@ -166,6 +166,11 @@ li[id*="playerSlot"] {
   border-radius: 0.5rem;
 }
 
+.current {
+  border: solid 0.4rem #f9ce93;
+  
+}
+
 #playerSlot1 {
   bottom: 0.7rem;
   color: rgb(64, 121, 221);
