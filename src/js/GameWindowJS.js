@@ -2,7 +2,7 @@ import * as d3 from 'd3'
 import * as svgPanZoom from 'svg-pan-zoom'
 
 import { map, getContinentOf } from './Map'
-import { MainGame } from './MainGame'
+import { MainGame, phases } from './MainGame'
 
 /*********************************************************************************************************************/
 /* Variables */
@@ -87,61 +87,70 @@ export function startMouseoverCountry () {
 export var _placeSoldier = function (evt) {
   var country = evt.target
 
+  // if (evt.target.className.baseVal !== 'sea') {
+  //   clearDisplayMessage()
+  //   displayMessage('This territory is occupied !')
+  //   return
+  // }
+
   // getting the country id
   var selectedCountryName = hoveredCountryName
 
-  console.log(
-    'free territories left : ' + MainGame.prototype.getFreeTerritoriesNumber()
-  )
-  if (MainGame.prototype.getFreeTerritoriesNumber() > 0) {
-    if (MainGame.prototype.tryPutUnits() == true) {
-      if (
-        MainGame.prototype.checkTerritoryFreedom(selectedCountryName) == true
-      ) {
-        // looping on the map object to match the dbclicked country
-        Object.keys(map).forEach(key => {
-          var continentName = map[key]
-          for (var countries in continentName) {
-            var res =
-              countries == selectedCountryName
-                ? 0
-                : countries > selectedCountryName
-                  ? 1
-                  : -1
-            if (res == 0) {
-              // limiting the number of appended icons to 1
-              if (continentName[countries].soldiers == 0) {
-                // puts a soldier icon on the country
-                drawSoldier(localStorage.myColor, selectedCountryName)
-                // changes the country color to the own player color
-                document.getElementById(selectedCountryName).style.fill =
-                  localStorage.myColor
-              }
-            } else {
-              // console.log("no match")
-            }
-          }
-        })
-        MainGame.prototype.claimTerritory(
-          MainGame.prototype.getCountryIdByName(selectedCountryName)
-        )
-      } else {
-        if (evt.target.className.baseVal !== 'sea') {
-          clearDisplayMessage()
-          displayMessage('This territory is occupied !')
-        }
-      }
-    } else {
-      clearDisplayMessage()
-      displayMessage('Wait for your turn please')
-    }
-  } else {
-    clearDisplayMessage()
-    MainGame.prototype.claimTerritory(
-      MainGame.prototype.getCountryIdByName(selectedCountryName)
-    )
-    // displayMessage('No more free territories left !')
-  }
+  MainGame.prototype.tryPutUnits(localStorage.getItem('myId'), 
+    selectedCountryName, 1)
+
+  // console.log(
+  //   'free territories left : ' + MainGame.prototype.getFreeTerritoriesNumber()
+  // )
+  // if (MainGame.prototype.getFreeTerritoriesNumber() > 0) {
+  //   if (MainGame.prototype.tryPutUnits() == true) {
+  //     if (
+  //       MainGame.prototype.checkTerritoryFreedom(selectedCountryName) == true
+  //     ) {
+  //       // looping on the map object to match the dbclicked country
+  //       Object.keys(map).forEach(key => {
+  //         var continentName = map[key]
+  //         for (var countries in continentName) {
+  //           var res =
+  //             countries == selectedCountryName
+  //               ? 0
+  //               : countries > selectedCountryName
+  //                 ? 1
+  //                 : -1
+  //           if (res == 0) {
+  //             // limiting the number of appended icons to 1
+  //             if (continentName[countries].soldiers == 0) {
+  //               // puts a soldier icon on the country
+  //               // drawSoldier(localStorage.myColor, selectedCountryName)
+  //               // // changes the country color to the own player color
+  //               // document.getElementById(selectedCountryName).style.fill =
+  //               //   localStorage.myColor
+  //             }
+  //           } else {
+  //             // console.log("no match")
+  //           }
+  //         }
+  //       })
+  //       MainGame.prototype.claimTerritory(
+  //         MainGame.prototype.getCountryIdByName(selectedCountryName)
+  //       )
+  //     } else {
+  //       if (evt.target.className.baseVal !== 'sea') {
+  //         clearDisplayMessage()
+  //         displayMessage('This territory is occupied !')
+  //       }
+  //     }
+  //   } else {
+  //     clearDisplayMessage()
+  //     displayMessage('Wait for your turn please')
+  //   }
+  // } else {
+  //   clearDisplayMessage()
+  //   MainGame.prototype.claimTerritory(
+  //     MainGame.prototype.getCountryIdByName(selectedCountryName)
+  //   )
+  //   // displayMessage('No more free territories left !')
+  // }
 }
 
 /** Draws a svg soldier icon on the country passed, and add the number
@@ -199,43 +208,67 @@ export var _addReinforcement = function (evt) {
   // console.log(
   //   'Units left : ' + MainGame.prototype.getMyReinforcementNum()
   // )
-  if (MainGame.prototype.getMyReinforcementNum() > 0) {
-    if (MainGame.prototype.tryPutUnits() === true) {
-      if (
-        MainGame.prototype.checkTerritoryIsMine(selectedCountryName) === true
-      ) {
-        // looping on the map object to match the dbclicked country
-        Object.keys(map).forEach(key => {
-          var continentName = map[key]
-          for (var countries in continentName) {
-            var res =
-              countries == selectedCountryName
-                ? 0
-                : countries > selectedCountryName
-                  ? 1
-                  : -1
-            if (res == 0) {
-              /* asks server to put units */
-              console.log('try to add units on ' + selectedCountryName)
-              MainGame.prototype.putUnit(selectedCountryName, 1)
-            }
-          }
-        })
-      } else {
-        if (evt.target.className.baseVal !== 'sea') {
-          clearDisplayMessage()
-          displayMessage(selectedCountryName + ' is not Yours !')
-        }
-      }
-    } else {
-      clearDisplayMessage()
-      displayMessage('Wait for your turn please')
-    }
-  } else {
-    clearDisplayMessage()
-    displayMessage("You've got no more units left !")
-    MainGame.prototype.nextPlayerTurn()
+
+  // if (evt.target.className.baseVal !== 'sea') {
+  //     clearDisplayMessage()
+  //     displayMessage(selectedCountryName + ' is not Yours !')
+  //     return
+  //   }
+
+  var nbUnits = 1
+
+  if (MainGame.prototype.getCurrentPhase() == phases['REINFORCEMENT']) {
+
+    alert('choose units')
+    // nbUnits = valeur_saisie
+
   }
+
+  console.log('Try to add units on ' + selectedCountryName)
+
+  
+
+  MainGame.prototype.tryPutUnits(localStorage.getItem('myId'), 
+    selectedCountryName, nbUnits)
+
+
+  // if (MainGame.prototype.getMyReinforcementNum() > 0) {
+  //   if (MainGame.prototype.tryPutUnits() === true) {
+  //     if (
+  //       MainGame.prototype.checkTerritoryIsMine(selectedCountryName) === true
+  //     ) {
+  //       // looping on the map object to match the dbclicked country
+  //       Object.keys(map).forEach(key => {
+  //         var continentName = map[key]
+  //         for (var countries in continentName) {
+  //           var res =
+  //             countries == selectedCountryName
+  //               ? 0
+  //               : countries > selectedCountryName
+  //                 ? 1
+  //                 : -1
+  //           if (res == 0) {
+  //             /* asks server to put units */
+  //             console.log('try to add units on ' + selectedCountryName)
+  //             MainGame.prototype.putUnit(selectedCountryName, 1)
+  //           }
+  //         }
+  //       })
+  //     } else {
+  //       if (evt.target.className.baseVal !== 'sea') {
+  //         clearDisplayMessage()
+  //         displayMessage(selectedCountryName + ' is not Yours !')
+  //       }
+  //     }
+  //   } else {
+  //     clearDisplayMessage()
+  //     displayMessage('Wait for your turn please')
+  //   }
+  // } else {
+  //   clearDisplayMessage()
+  //   displayMessage("You've got no more units left !")
+  //   // MainGame.prototype.nextPlayerTurn()
+  // }
 }
 
 // generic function to create an xml element

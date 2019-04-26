@@ -3,7 +3,7 @@ import { map, getContinentOf, areAdjacent } from './Map'
 import { Player, SupportedColors } from './Player'
 import * as GameWindow from './GameWindowJS'
 
-const phases = {
+export const phases = {
   PREPHASE: -1,
   REINFORCEMENT: 0,
   OFFENSE: 1,
@@ -39,7 +39,7 @@ export class MainGame {
     this.totalUnits = 0
     this.totalPlayers = 0
     this.prephaseLogic = false
-    this.firstPlayer
+    // this.firstPlayer
 
     // copy of the object GameWindow
     this.view = v
@@ -50,6 +50,11 @@ export class MainGame {
 
     this.synchronize()
     // this.innerLoop();
+  }
+
+
+  getCurrentPhase() {
+    return this.currentPhase
   }
 
   /**
@@ -67,7 +72,8 @@ export class MainGame {
     GameWindow.displayCurrentPhase(this.currentPhase)
     console.log('currentPhase ' + this.currentPhase)
     this.currentPlayer = data.activePlayer
-    this.firstPlayer = data.activePlayer
+    this.view.currentPlayer = data.activePlayer
+    // this.firstPlayer = data.activePlayer
     console.log('currentPlayer ' + this.currentPlayer)
     this.totalPlayers = data.nbPlayers
     console.log('totalPlayers ' + this.totalPlayers)
@@ -254,14 +260,52 @@ export class MainGame {
    *
    * @returns true or false
    */
-  tryPutUnits () {
-    console.log('try put units')
-    console.log(THIS_IS_IT.currentPlayer)
-    if (localStorage.myId == THIS_IS_IT.currentPlayer) {
-      return true
-    } else {
-      return false
+  tryPutUnits (player, territory, units) {
+    // console.log('try put units')
+    // console.log(THIS_IS_IT.currentPlayer)
+    // if (localStorage.myId == THIS_IS_IT.currentPlayer) {
+    //   return true
+    // } else {
+    //   return false
+    // }
+
+    /* tester nombre d'unités */
+    if (MainGame.prototype.getMyReinforcementNum() <= 0) {
+      console.log('not enough units')
+      GameWindow.clearDisplayMessage()
+      GameWindow.displayMessage("You've got no more units left !")
+      return
     }
+
+    // var playerName = THIS_IS_IT.getPlayerNameById(player)
+
+    // test if my territory
+    var continent = getContinentOf(territory)
+    console.log('player on territory = ' + THIS_IS_IT.map[continent][territory].player)
+    console.log('player trying to place unit = '+ player + ', id = ' + THIS_IS_IT.view.players[player].displayName)
+
+    if (THIS_IS_IT.map[continent][territory].player != player && 
+      THIS_IS_IT.map[continent][territory].player !== -1) {
+      console.log('not your territory')
+      GameWindow.clearDisplayMessage()
+      GameWindow.displayMessage(territory + ' is not Yours !')
+      return
+    }
+
+    if (player != THIS_IS_IT.view.currentPlayer) {
+      console.log('not your turn, player = ' + player + ', currentPlayer = ' + THIS_IS_IT.view.currentPlayer)
+      GameWindow.clearDisplayMessage()
+      GameWindow.displayMessage('Not your turn')
+      return
+    }
+
+    var data = {
+      territory: THIS_IS_IT.getCountryIdByName(territory),
+      units: units,
+    }
+
+    THIS_IS_IT.sendToServer(new Packet('PUT', data))
+    
   }
 
   /**
@@ -275,7 +319,7 @@ export class MainGame {
    * Returns the game active player id
    */
   getActivePlayerId () {
-    return THIS_IS_IT.currentPlayer
+    return THIS_IS_IT.view.currentPlayer
   }
 
   /**
@@ -411,6 +455,7 @@ export class MainGame {
     var self = THIS_IS_IT
     setTimeout(function () {
       GameWindow.clearDisplayMessage()
+      console.log('localstorage id = ' + localStorage.myId + ', activeplayerid = ' + self.getActivePlayerId())
       if (localStorage.myId == self.getActivePlayerId()) {
         GameWindow.displayMessage('You are playing, choose a territory !')
       } else {
@@ -486,8 +531,8 @@ export class MainGame {
   }
 
   getMyReinforcementNum () {
-    console.log('my reinforcements : ' + localStorage.reinforcements)
-    return localStorage.reinforcements
+    console.log('my reinforcements : ' + THIS_IS_IT.view.players[localStorage.getItem('myId')])
+    return THIS_IS_IT.view.players[localStorage.getItem('myId')]
   }
 
   nextPlayerTurn () {
@@ -1048,7 +1093,7 @@ export class MainGame {
             GameWindow.displayCurrentPhase(msg.data.phase)
             if (msg.phase == phases['PREPHASE']) {
               THAT_CLASS.currentPhase = msg.phase
-              THAT_CLASS.currentPlayer = THAT_CLASS.firstPlayer
+              // THAT_CLASS.currentPlayer = THAT_CLASS.firstPlayer
             } else if (msg.phase == phases['REINFORCEMENT']) {
               THAT_CLASS.currentPhase = msg.phase
               //THAT_CLASS.currentPlayer = THAT_CLASS.msg.player
@@ -1223,11 +1268,13 @@ export class MainGame {
 
           case Packet.prototype.getTypeOf('REINFORCEMENT'):
             console.log('REINFORCEMENT' + msg)
-            THAT_CLASS.activePlayerReinforcement += msg.data.units
-            localStorage.setItem(
-              'reinforcements',
-              THAT_CLASS.activePlayerReinforcement
-            )
+            // THAT_CLASS.activePlayerReinforcement += msg.data.units
+            // localStorage.setItem(
+            //   'reinforcements',
+            //   THAT_CLASS.activePlayerReinforcement
+            // )
+
+            THAT_CLASS.view.players[msg.data.player].reinforcements += msg.data.units
             break
 
           case Packet.prototype.getTypeOf('START_GAME'):
