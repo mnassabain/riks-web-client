@@ -46,7 +46,7 @@ export default {
       console.log("lobby state");
       console.log(d);
       var msg = JSON.parse(d.data);
-      if (msg.data.error == true) {
+      if (msg.data && msg.data.error === true) {
         alert(msg.data.response)
         return
       } else {
