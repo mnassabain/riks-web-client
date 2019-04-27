@@ -12,6 +12,7 @@ var highlight
 var countries
 var seas
 var hoveredCountryName
+var selectedCountryName
 
 /*********************************************************************************************************************/
 /* Menu handling */
@@ -54,6 +55,16 @@ export var disableDbClick = function () {
   var gmap = document.getElementById('GameMap')
   gmap.removeEventListener('dblclick', _placeSoldier, true)
 }
+
+export var onDbClickReinUI = function () {
+  var gmap = document.getElementById('GameMap')
+  gmap.addEventListener('dblclick', _displayReinforcementUI, true)
+}
+
+export var disableDbClickReinUi = function () {
+  var gmap = document.getElementById('GameMap')
+  gmap.removeEventListener('dblclick', _displayReinforcementUI, true)
+}
 /*********************************************************************************************************************/
 /* Starting the timer */
 export function startTimer () {
@@ -94,7 +105,7 @@ export var _placeSoldier = function (evt) {
   // }
 
   // getting the country id
-  var selectedCountryName = hoveredCountryName
+  selectedCountryName = hoveredCountryName
 
   MainGame.prototype.tryPutUnits(localStorage.getItem('myId'), 
     selectedCountryName, 1)
@@ -200,10 +211,10 @@ export function drawSoldier (color, countryName) {
 }
 
 export var _addReinforcement = function (evt) {
-  var country = evt.target
+  //var country = evt.target
 
   // getting the country id
-  var selectedCountryName = hoveredCountryName
+  selectedCountryName = hoveredCountryName
   // console.log('Target country : ' + selectedCountryName)
   // console.log(
   //   'Units left : ' + MainGame.prototype.getMyReinforcementNum()
@@ -468,6 +479,7 @@ export function displayCurrentPlayer () {
     document.getElementById('messageUITop').innerHTML = MainGame.prototype.getActivePlayerName() + ' is playing.'
   }
   highlightCurrentPlayer()
+  //_displayReinforcementUI()
 }
 
 export function highlightCurrentPlayer () {
@@ -482,4 +494,35 @@ export function highlightCurrentPlayer () {
       document.getElementById('playerSlot' + (i + 1)).style.border = 'solid 0.1rem #f9ce93'
     }
   }
+}
+
+export var _displayReinforcementUI = function  () {
+  selectedCountryName = hoveredCountryName
+
+  document.getElementById('messageDisplay').style.display = 'block'
+  document.getElementById('messageDisplay').style.visibility = 'visible'
+  document.getElementById('reinforcementUI').style.visibility = 'visible'
+  document.getElementById('reinforcementTerritory').innerHTML = selectedCountryName
+
+}
+
+export function clearReinUI () {
+  console.log('clear reinUI')
+  document.getElementById('messageDisplay').style.display = 'none'
+  document.getElementById('messageDisplay').style.visibility = 'hidden'
+  document.getElementById('reinforcementUI').style.visibility = 'hidden'
+}
+
+/**
+ * Calls tryPutUnits and clears the reinforcement interface
+ * 
+ * @param value number of units to add on territory
+ */
+export function addReinUnit (value) {
+  clearReinUI()
+  console.log('added value rein unit = ' + value)
+  console.log('on ' + selectedCountryName)
+  /* here we handle the put unit during phase 1 (reinforcements) */
+  MainGame.prototype.tryPutUnits(localStorage.getItem('myId'), 
+    selectedCountryName, value)
 }
