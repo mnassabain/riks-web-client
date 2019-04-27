@@ -29,11 +29,48 @@
       </div>
     </div>
 
-    <!-- <div id="messageDisplay" class="generalMessageDisplay">
-      <div class="generalMessage">
-        WELCOME PLAYERS !
-      </div>
-    </div>-->
+    <div id="messageDisplay" class="generalMessageDisplay">
+
+      <div id="reinforcementUI">
+        <div class="reinforcementUILeft">
+          <div class="innerReinUILeft">Add units on</div>
+          <div class="innerReinUILeft" id="reinforcementTerritory"></div>
+        </div>
+        
+        <div class="reinforcementUIcenter">
+          <div class="innerReinUIcenter">Reinforce with</div>
+          <div class="innerReinUIcenter">
+            <img
+              draggable="false"
+              src="../assets/icons/emptyOne.svg"
+              class="armiesSelectionBtn"
+              id="selectArmyOne"
+              v-on:click="addReinUnit(1)"
+            >
+            <img
+              draggable="false"
+              src="../assets/icons/emptyTwo.svg"
+              class="armiesSelectionBtn"
+              id="selectArmyTwo"
+               v-on:click="addReinUnit(2)"
+            >
+            <img
+              draggable="false"
+              src="../assets/icons/emptyThree.svg"
+              class="armiesSelectionBtn"
+              id="selectArmyThree"
+               v-on:click="addReinUnit(3)"
+            >
+          </div>
+          <div class="innerReinUIcenter">Units</div>
+        </div>
+
+        <div class="reinforcementUIRight" v-on:click="clearReinUI">
+          Abort
+        </div>
+
+      </div>      
+    </div>
 
     <!--Under Tokens NorthWest UI hidden by default-->
     <div idTokenSpread></div>
@@ -85,7 +122,8 @@
     <div id="playerList" class="playerListContainer">
       <div class="playerList">
         <ul v-for="(player, index) in players" :key="index">
-          <li :id="'playerSlot'+(index+1)" :class="{current: (currentPlayer === index)}">
+          <!--li :id="'playerSlot'+(index+1)" :class="{current: (currentPlayer === index)}"-->
+          <li :id="'playerSlot'+(index+1)">
             <div :id="'playerSlot'+(index+1)+'Name'" class="playerListName">
               <p>{{player.displayName}}</p>
             </div>
@@ -482,6 +520,7 @@ export default {
       players: [],
       map: [],
       currentPlayer: 0,
+      localPlayerId: localStorage.myId,
       localPlayerName: localStorage.login,
       localArmies: localStorage.reinforcements,
       localTerritories: localStorage.territories,
@@ -495,6 +534,8 @@ export default {
   methods: {
     dropdownClick: GameWindow.dropdownClick,
     addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
+    clearReinUI: GameWindow.clearReinUI,
+    addReinUnit: GameWindow.addReinUnit,
     diplayMessage: function(message) {
       console.log(message);
     },
@@ -532,7 +573,7 @@ export default {
     GameWindow.startTimer();
     GameWindow.mapPanZoom();
     GameWindow.startMouseoverCountry();
-    GameWindow.onDbClick();
+    //GameWindow.onDbClick();
     GameWindow.displayMyColor(this.localColor);
   }
 };
