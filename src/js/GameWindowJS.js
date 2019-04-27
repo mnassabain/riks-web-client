@@ -406,11 +406,11 @@ export function displayMessage (message) {
   msgParagraph.className = 'infoMessage'
   msgParagraph.style.lineHeight = '1em'
   msgParagraph.innerHTML = message
-  document.getElementById('combatUIDisplay').appendChild(msgParagraph)
+  document.getElementById('messageUIBottom').appendChild(msgParagraph)
 }
 
 export function clearDisplayMessage () {
-  document.getElementById('combatUIDisplay').innerHTML = ''
+  document.getElementById('messageUIBottom').innerHTML = ''
 }
 
 export function setMyColor (id, color) {
@@ -456,4 +456,16 @@ export function displayCurrentPhase (phase) {
   var phaseIndicator = document.getElementById('phase')
   phaseIndicator.innerHTML = ''
   phaseIndicator.innerHTML = phaseStr
+}
+
+export function displayCurrentPlayer () {
+  var currentPlayer = MainGame.prototype.getActivePlayerId()
+  document.getElementById('messageUITop').innerHTML = ''
+  if (currentPlayer == localStorage.myId){
+    document.getElementById('messageUITop').innerHTML = 'Your turn'
+    
+  } else {
+    document.getElementById('messageUITop').innerHTML = MainGame.prototype.getActivePlayerName() + ' is playing.'
+  }
+  highlightCurrentPlayer()
 }
