@@ -573,7 +573,8 @@ export default {
     GameWindow.startTimer();
     GameWindow.mapPanZoom();
     GameWindow.startMouseoverCountry();
-    //GameWindow.onDbClick();
+    // GameWindow.onDbClick();
+    GameWindow.onDbClickReinUI();
     GameWindow.displayMyColor(this.localColor);
   }
 };
