@@ -168,7 +168,7 @@ li[id*="playerSlot"] {
 
 .current {
   border: solid 0.4rem #f9ce93;
-  
+
 }
 
 #playerSlot1 {
@@ -682,7 +682,7 @@ p {
   bottom: 70px;
 }
 
-#messageUIBottom { 
+#messageUIBottom {
   padding-bottom: 0.5rem;
   text-align: center;
   width: 40vw;
@@ -693,7 +693,7 @@ p {
 #reinforcementUI {
   visibility: hidden;
   font-size: 0.5em;
-  margin-top: 1rem; 
+  margin-top: 1rem;
   /* display: flex; */
   display: grid;
   grid-template-columns: 3fr 4fr 1fr;
