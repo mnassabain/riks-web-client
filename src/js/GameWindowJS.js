@@ -2,6 +2,7 @@ import * as d3 from 'd3'
 import * as svgPanZoom from 'svg-pan-zoom'
 
 import { map, getContinentOf } from './Map'
+import { Player } from './Player'
 import { MainGame, phases } from './MainGame'
 
 /*********************************************************************************************************************/
@@ -497,6 +498,13 @@ export function highlightCurrentPlayer () {
         'solid 0.2rem #f9ce93'
     }
   }
+}
+
+export function updateRatioBar (player, nbTerritories) {
+  document.getElementById('ratioPlayer' + (player + 1)).style.width =
+    ((nbTerritories / 42) * 100) + '%'
+  // console.log('ratio : ' + ((nbTerritories / 42) * 100) + '%')
+  // console.log('nbTerritories : ' + nbTerritories)
 }
 
 export var _displayReinforcementUI = function () {

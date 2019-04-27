@@ -567,6 +567,7 @@ p {
   width: 45vw;
   height: 0.8rem;
   border: 0.2rem solid #f9ce93;
+  background-color: #f9ce93;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -576,21 +577,18 @@ p {
 }
 
 #ratioPlayer1 {
-  width: 20%;
   height: 1rem;
   background-color: #3d76e2;
   float: left;
 }
 
 #ratioPlayer2 {
-  width: 20%;
   height: 1rem;
   background-color: #df4c4c;
   float: left;
 }
 
 #ratioPlayer3 {
-  width: 20%;
   height: 1rem;
   background-color: #59ad4a;
   float: left;
@@ -598,21 +596,18 @@ p {
 
 #ratioPlayer4 {
   background-color: #f6d63d;
-  width: 20%;
   height: 1rem;
   float: left;
 }
 
 #ratioPlayer5 {
   background-color: #f0713c;
-  width: 10%;
   height: 1rem;
   float: left;
 }
 
 #ratioPlayer6 {
   background-color: #9367da;
-  width: 10%;
   height: 1rem;
   float: left;
 }
