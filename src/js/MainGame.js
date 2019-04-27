@@ -40,7 +40,8 @@ export class MainGame {
     this.totalPlayers = 0
     this.prephaseLogic = false
     // this.firstPlayer
-
+    this.gameIsSet = false
+    
     // copy of the object GameWindow
     this.view = v
     this.$socket = v.$socket
@@ -97,9 +98,12 @@ export class MainGame {
     console.log('player localstorage')
     console.log(localStorage)
     console.log('')
-    this.startGame()
+    if(this.gameIsSet === false){
+      this.gameIsSet = true
+      this.startGame()
+    }
   }
-
+  
   /**
    * Returns the local map object
    */
@@ -463,7 +467,7 @@ export class MainGame {
       console.log('localstorage id = ' + localStorage.myId + ', activeplayerid = ' + self.getActivePlayerId())
       if (localStorage.myId == self.getActivePlayerId()) {
         GameWindow.displayCurrentPlayer()
-        GameWindow.displayMessage('Choose a territory !')
+        GameWindow.displayMessage('Double click on a territory to claim it !')
       } else {
         GameWindow.displayCurrentPlayer()
         GameWindow.displayMessage(
