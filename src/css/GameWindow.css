@@ -655,8 +655,9 @@ p {
 
 .generalMessageDisplay {
   position: absolute;
-  width: 100rem;
-  height: 40rem;
+  width: 50vw;
+  height: 10rem;
+  max-width: 10em;
   background-color: #27282d;
   border: 0.2rem solid #f9ce93;
   border-radius: 1rem;
@@ -668,7 +669,8 @@ p {
   color: #fdf6eb;
   font-size: 3rem;
   opacity: 0.9;
-  visibility: visible;
+  visibility: hidden;
+  display: none;
 }
 
 #messageUITop {border-bottom: solid #f9ce93 1px;
@@ -686,4 +688,38 @@ p {
   width: 40vw;
   position: absolute;
   bottom: 10px;
+}
+
+#reinforcementUI {
+  visibility: hidden;
+  font-size: 0.5em;
+  margin-top: 1rem; 
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 3fr 4fr 1fr;
+}
+
+.reinforcementUILeft{
+  text-align: center;
+  padding: 0.1rem;
+}
+
+.innerReinUIcenter, .innerReinUILeft {
+  text-align: center;
+}
+
+.reinforcementUIRight{
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.reinforcementUIRight:hover {
+  color: red
+
+}
+
+#reinforcementTerritory {
+  color: #fdf6eb;
+  font-weight: bold;
+  font-size: 0.8em;
 }
