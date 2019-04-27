@@ -381,7 +381,7 @@ export class MainGame {
   }
   
   getNbPlayers () {
-    return THIS_IS_IT.nbTotalPlayers
+    return THIS_IS_IT.totalPlayers
   }
 
   /**
