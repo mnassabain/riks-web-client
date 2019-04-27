@@ -670,3 +670,20 @@ p {
   opacity: 0.9;
   visibility: visible;
 }
+
+#messageUITop {border-bottom: solid #f9ce93 1px;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  text-align: center;
+  width: 40vw;
+  position: absolute;
+  bottom: 70px;
+}
+
+#messageUIBottom { 
+  padding-bottom: 0.5rem;
+  text-align: center;
+  width: 40vw;
+  position: absolute;
+  bottom: 10px;
+}
