@@ -78,6 +78,7 @@ export class MainGame {
     this.totalPlayers = data.nbPlayers
     console.log('totalPlayers ' + this.totalPlayers)
 
+    this.totalUnits = 0
     for (var i = 0; i < data.players.length; i++) {
       this.totalUnits += data.players[i].reinforcements
     }
@@ -327,7 +328,7 @@ export class MainGame {
    */
   getActivePlayerName () {
     var self = THIS_IS_IT
-    return this.playerList[self.getActivePlayerId()].displayName
+    return self.playerList[self.getActivePlayerId()].displayName
   }
 
   /**
@@ -373,6 +374,10 @@ export class MainGame {
     })
     // console.log('returned value = ' + res)
     return res
+  }
+  
+  getNbPlayers () {
+    return THIS_IS_IT.nbPlayers
   }
 
   /**
@@ -457,8 +462,10 @@ export class MainGame {
       GameWindow.clearDisplayMessage()
       console.log('localstorage id = ' + localStorage.myId + ', activeplayerid = ' + self.getActivePlayerId())
       if (localStorage.myId == self.getActivePlayerId()) {
-        GameWindow.displayMessage('You are playing, choose a territory !')
+        GameWindow.displayCurrentPlayer()
+        GameWindow.displayMessage('Choose a territory !')
       } else {
+        GameWindow.displayCurrentPlayer()
         GameWindow.displayMessage(
           self.getActivePlayerName() + ' is choosing a territory !'
         )
@@ -1191,6 +1198,7 @@ export class MainGame {
               var currentPlayerBefore = THAT_CLASS.currentPlayer
               /* updating current player turn */
               THAT_CLASS.nextPlayerTurn()
+              GameWindow.displayCurrentPlayer()
 
               /* updating the local map data */
               THAT_CLASS.updateMapData(
