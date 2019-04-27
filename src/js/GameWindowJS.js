@@ -469,3 +469,17 @@ export function displayCurrentPlayer () {
   }
   highlightCurrentPlayer()
 }
+
+export function highlightCurrentPlayer () {
+  //console.log("highlight current player")
+  var currentPlayer = MainGame.prototype.getActivePlayerId()
+  var totalPlayers = MainGame.prototype.getNbPlayers()
+  for(var i = 0; i < totalPlayers; i++) {
+    if(i === currentPlayer){
+      console.log('')
+      document.getElementById('playerSlot' + (currentPlayer + 1)).style.border = 'solid 0.4rem #f9ce93'
+    } else  {
+      document.getElementById('playerSlot' + (i + 1)).style.border = 'solid 0.1rem #f9ce93'
+    }
+  }
+}
