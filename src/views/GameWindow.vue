@@ -137,7 +137,15 @@
     </div>
 
     <!-- South UI combat informations are displayed here-->
-    <div class="combatUI" id="combatUIDisplay">
+    <div class="combatUI" id="combatUIArea">
+      
+      <div id="messageUI">
+        <div id="messageUITop">
+        </div>
+        <div id="messageUIBottom">
+        </div>
+      </div>
+      
       <div id="DefendUI">
         <div class="combatUILeft">
           <div id="combatRed">Player_2</div>
