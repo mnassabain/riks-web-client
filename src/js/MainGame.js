@@ -532,6 +532,7 @@ export class MainGame {
 
     /* Modificates addeventlistener on dblclick */
     GameWindow.disableDbClick()
+    GameWindow.disableDbClickReinUi()
 
     /* The new event listener for using units left */
     var map = document.getElementById('GameMap')
