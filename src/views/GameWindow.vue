@@ -39,34 +39,21 @@
         
         <div class="reinforcementUIcenter">
           <div class="innerReinUIcenter">Reinforce with</div>
-          <div class="innerReinUIcenter">
-            <img
-              draggable="false"
-              src="../assets/icons/emptyOne.svg"
-              class="armiesSelectionBtn"
-              id="selectArmyOne"
-              v-on:click="addReinUnit(1)"
-            >
-            <img
-              draggable="false"
-              src="../assets/icons/emptyTwo.svg"
-              class="armiesSelectionBtn"
-              id="selectArmyTwo"
-               v-on:click="addReinUnit(2)"
-            >
-            <img
-              draggable="false"
-              src="../assets/icons/emptyThree.svg"
-              class="armiesSelectionBtn"
-              id="selectArmyThree"
-               v-on:click="addReinUnit(3)"
-            >
+         <div class="innerReinUIcenter">
+            
+            <input v-model.number="units" type="number" id="unitsToPut">
+
           </div>
           <div class="innerReinUIcenter">Units</div>
         </div>
 
-        <div class="reinforcementUIRight" v-on:click="clearReinUI">
-          Abort
+        <div class="reinforcementUIRight" >
+          <div id="reinUIRightAbort" v-on:click="clearReinUI">
+            Abort
+          </div>
+          <div id="reinUIRightOK" v-on:click="addReinUnit(units)">
+            OK
+          </div>
         </div>
 
       </div>      
@@ -111,7 +98,7 @@
         <span id="action">{{ localPlayerName }}</span>
       </div>
       <div id="playerControlButton">
-        <button id="phaseControlBtn">
+        <button id="nextPhaseBtn">
           <img src="../assets/icons/nextPhase.svg">
         </button> 
       </div>
