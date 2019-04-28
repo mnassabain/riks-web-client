@@ -168,7 +168,7 @@ li[id*="playerSlot"] {
 
 .current {
   border: solid 0.4rem #f9ce93;
-  
+
 }
 
 #playerSlot1 {
@@ -454,7 +454,7 @@ p {
 }
 
 /* Play button on player control*/
-#phaseControlBtn {
+#nextPhaseBtn {
   float: right;
   background-color: lightgray; /*"none" or "transparent" when enabled*/
   height: 44px;
@@ -567,6 +567,7 @@ p {
   width: 45vw;
   height: 0.8rem;
   border: 0.2rem solid #f9ce93;
+  background-color: #f9ce93;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -576,21 +577,18 @@ p {
 }
 
 #ratioPlayer1 {
-  width: 20%;
   height: 1rem;
   background-color: #3d76e2;
   float: left;
 }
 
 #ratioPlayer2 {
-  width: 20%;
   height: 1rem;
   background-color: #df4c4c;
   float: left;
 }
 
 #ratioPlayer3 {
-  width: 20%;
   height: 1rem;
   background-color: #59ad4a;
   float: left;
@@ -598,21 +596,18 @@ p {
 
 #ratioPlayer4 {
   background-color: #f6d63d;
-  width: 20%;
   height: 1rem;
   float: left;
 }
 
 #ratioPlayer5 {
   background-color: #f0713c;
-  width: 10%;
   height: 1rem;
   float: left;
 }
 
 #ratioPlayer6 {
   background-color: #9367da;
-  width: 10%;
   height: 1rem;
   float: left;
 }
@@ -682,7 +677,7 @@ p {
   bottom: 70px;
 }
 
-#messageUIBottom { 
+#messageUIBottom {
   padding-bottom: 0.5rem;
   text-align: center;
   width: 40vw;
@@ -693,7 +688,7 @@ p {
 #reinforcementUI {
   visibility: hidden;
   font-size: 0.5em;
-  margin-top: 1rem; 
+  margin-top: 1rem;
   /* display: flex; */
   display: grid;
   grid-template-columns: 3fr 4fr 1fr;
@@ -713,13 +708,27 @@ p {
   padding: 0.5rem;
 }
 
-.reinforcementUIRight:hover {
-  color: red
+#reinUIRightAbort {
+  margin-bottom: 1rem;
+}
 
+#reinUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
+}
+
+#reinUIRightOK:hover {
+  margin-bottom: 1rem;
+  color: green
 }
 
 #reinforcementTerritory {
   color: #fdf6eb;
   font-weight: bold;
   font-size: 0.8em;
+}
+
+#unitsToPut {
+  width: 2em;
+
 }
