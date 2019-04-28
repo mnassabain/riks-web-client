@@ -51,7 +51,7 @@
           <div id="reinUIRightAbort" v-on:click="clearReinUI">
             Abort
           </div>
-          <div id="reinUIRightOK" v-on:click="addReinUnit(units)">
+          <div id="reinUIRightOK" v-on:click="addReinUnit(unitsToPut)">
             OK
           </div>
         </div>
@@ -507,6 +507,7 @@ export default {
       players: [],
       map: [],
       currentPlayer: 0,
+      units: 0,
       localPlayerId: localStorage.myId,
       localPlayerName: localStorage.login,
       localArmies: localStorage.reinforcements,

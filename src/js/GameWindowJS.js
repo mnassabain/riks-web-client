@@ -474,7 +474,9 @@ export function displayCurrentPhase (phase) {
 export function displayCurrentPlayer () {
   var currentPlayer = MainGame.prototype.getActivePlayerId()
   document.getElementById('messageUITop').innerHTML = ''
-  if (currentPlayer == localStorage.myId) {
+  console.log('******************  GAMEWINDOW  ********************')
+      console.log('localstorage id = ' + localStorage.getItem('myId') + ', view.current = ' + currentPlayer)
+  if (currentPlayer == localStorage.getItem('myId')) {
     document.getElementById('messageUITop').innerHTML = 'Your turn'
   } else {
     document.getElementById('messageUITop').innerHTML =

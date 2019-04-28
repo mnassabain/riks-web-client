@@ -41,6 +41,7 @@ export class MainGame {
     this.prephaseLogic = false
     // this.firstPlayer
     this.gameIsSet = false
+    this.prephaseIsDone = false
 
     // copy of the object GameWindow
     this.view = v
@@ -281,6 +282,10 @@ export class MainGame {
       GameWindow.displayMessage("You've got no more units left !")
       return
     }
+
+    // if (MainGame.prototype.getMyReinforcementNum() == 1 && THAT_CLASS.currentPhase == phases['PREPHASE']) {
+    //   THIS_IS_IT.prephaseIsDone = true
+    // }
 
     // var playerName = THIS_IS_IT.getPlayerNameById(player)
 
@@ -539,16 +544,13 @@ export class MainGame {
     var map = document.getElementById('GameMap')
     map.addEventListener('dblclick', GameWindow._addReinforcement, true)
 
-    // var map = document.getElementById('GameMap')
-    // map.addEventListener('dblclick', function (evt) {
-    //     GameWindow.addReinforcement(evt)
-    // })
-
     var ms = 3000
     var self = THIS_IS_IT
     setTimeout(function () {
       GameWindow.clearDisplayMessage()
-      if (localStorage.myId == self.getActivePlayerId()) {
+      console.log('******************  MAINGAME  **********************')
+      console.log('localstorage id = ' + localStorage.getItem('myId') + ', view.current = ' + self.getActivePlayerId())
+      if (localStorage.getItem('myId') == self.getActivePlayerId()) {
         GameWindow.displayMessage(
           'You are playing, put reinforcement units on your territories !'
         )
@@ -572,12 +574,12 @@ export class MainGame {
     THIS_IS_IT.currentPlayer =
       (THIS_IS_IT.currentPlayer + 1) % THIS_IS_IT.totalPlayers
     THIS_IS_IT.view.currentPlayer = THIS_IS_IT.currentPlayer
-    console.log(
-      'current player = ' +
-        THIS_IS_IT.currentPlayer +
-        ', id =' +
-        THIS_IS_IT.playerList[THIS_IS_IT.currentPlayer].displayName
-    )
+    // console.log(
+    //   'current player = ' +
+    //     THIS_IS_IT.currentPlayer +
+    //     ', id =' +
+    //     THIS_IS_IT.playerList[THIS_IS_IT.currentPlayer].displayName
+    // )
   }
 
   /**
@@ -1122,7 +1124,7 @@ export class MainGame {
             break
 
           case Packet.prototype.getTypeOf('CURRENT_PHASE'):
-            console.log('CURRENT_PHASE: ' + msg.data.phase)
+            console.log('CURRENT_PHASE: ' + msg.data.phase + ', now ' + THIS_IS_IT.playerList[THIS_IS_IT.currentPlayer].displayName + ' is playing')
             /* updates the current phase in players controls area */
             GameWindow.displayCurrentPhase(msg.data.phase)
 
@@ -1222,10 +1224,7 @@ export class MainGame {
             // THAT_CLASS.playerList[msg.data.player].reinforcements -= msg.data.units
 
             if (THAT_CLASS.currentPhase == phases['PREPHASE']) {
-              /* updating current player turn */
-              // THAT_CLASS.currentPlayer =
-              //    (THAT_CLASS.currentPlayer + 1) % THAT_CLASS.totalPlayers
-
+              
               /* updating total amount of units left */
               THIS_IS_IT.totalUnits -= 1
               console.log('Total units left ' + THIS_IS_IT.totalUnits)
@@ -1289,8 +1288,6 @@ export class MainGame {
                     THAT_CLASS.getCountryNameById(msg.data.territory)
                 )
                 THAT_CLASS.updateReinforcement(currentPlayerBefore)
-                // THAT_CLASS.playerList[currentPlayerBefore].reinforcements--
-                // THAT_CLASS.view.players[currentPlayerBefore].reinforcements--
               } else {
                 GameWindow.displayMessage(
                   THAT_CLASS.getPlayerNameById(msg.data.player) +
@@ -1305,10 +1302,80 @@ export class MainGame {
               /* if all players have spent their units */
               if (THAT_CLASS.totalUnits == 0) {
                 /* removing double click listener on addreinforcement */
-                var gmap = document.getElementById('GameMap')
-                // gmap.removeEventListener('dblclick', GameWindow._addReinforcement, true)
                 GameWindow.clearDisplayMessage()
                 GameWindow.displayMessage('All units are in place now !')
+              }
+            }
+            else if (THAT_CLASS.currentPhase == phases['REINFORCEMENT']){
+              /* updating total amount of units left */
+              THIS_IS_IT.totalUnits -= 1
+              console.log('Total units left ' + THIS_IS_IT.totalUnits)
+              /* saving last player who put for display purposes */
+              var currentPlayerBefore = THAT_CLASS.currentPlayer
+
+              GameWindow.displayCurrentPlayer()
+
+              // updating the ratio bar
+              for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
+                GameWindow.updateRatioBar(i, THAT_CLASS.playerList[i].nbTerritories)
+              }
+
+              THAT_CLASS.updateMapData(
+                THAT_CLASS.getCountryNameById(msg.data.territory),
+                msg.data.player,
+                msg.data.units
+              )
+
+              /* updating the number of free territories */
+              if (THAT_CLASS.prephaseLogic === false) {
+                THAT_CLASS.freeTerritories--
+                /* change the color of a territory during the pre-phase */
+                GameWindow.setCountryColor(
+                  SupportedColors[msg.data.player],
+                  msg.data.territory
+                )
+                /* puts the soldier icon with the number area */
+                GameWindow.drawSoldier(
+                  SupportedColors[msg.data.player],
+                  THAT_CLASS.getCountryNameById(msg.data.territory)
+                )
+
+                THAT_CLASS.view.players[msg.data.player].nbTerritories++
+              }
+              GameWindow.updateCountrySoldiersNumber(msg.data.territory)
+
+              /* if no more territories we go to the second part of prephase */
+              if (
+                THAT_CLASS.freeTerritories > 0 &&
+                THAT_CLASS.prephaseLogic === false
+              ) {
+                console.log(
+                  'Total free territories left ' + THAT_CLASS.freeTerritories
+                )
+              } else {
+                THAT_CLASS.prephaseLogic = true
+                MainGame.prototype.prephaseLogic()
+              }
+
+              GameWindow.clearDisplayMessage()
+
+              /* displaying different put message according to current player */
+              if (msg.data.player == localStorage.myId) {
+                GameWindow.displayMessage(
+                  'You choosed to put ' +
+                    msg.data.units +
+                    ' unit(s) on ' +
+                    THAT_CLASS.getCountryNameById(msg.data.territory)
+                )
+                THAT_CLASS.updateReinforcement(currentPlayerBefore)
+              } else {
+                GameWindow.displayMessage(
+                  THAT_CLASS.getPlayerNameById(msg.data.player) +
+                    ' choosed to put ' +
+                    msg.data.units +
+                    ' unit(s) on ' +
+                    THAT_CLASS.getCountryNameById(msg.data.territory)
+                )
               }
             }
             /* this.putResponse(msg.player.name,msg.territory,msg.units); */
@@ -1324,6 +1391,8 @@ export class MainGame {
 
             THAT_CLASS.view.players[msg.data.player].reinforcements +=
               msg.data.units
+            THAT_CLASS.currentPlayer = msg.data.player
+            THAT_CLASS.view.currentPlayer = msg.data.player
             break
 
           case Packet.prototype.getTypeOf('START_GAME'):
