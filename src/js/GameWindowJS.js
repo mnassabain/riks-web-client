@@ -58,12 +58,12 @@ export var disableDbClick = function () {
 
 export var onDbClickReinUI = function () {
   var gmap = document.getElementById('GameMap')
-  gmap.addEventListener('dblclick', _displayReinforcementUI, true)
+  gmap.addEventListener('dblclick', dblClickTerritory, true)
 }
 
 export var disableDbClickReinUi = function () {
   var gmap = document.getElementById('GameMap')
-  gmap.removeEventListener('dblclick', _displayReinforcementUI, true)
+  gmap.removeEventListener('dblclick', dblClickTerritory, true)
 }
 /*********************************************************************************************************************/
 /* Starting the timer */
@@ -525,4 +525,21 @@ export function addReinUnit (value) {
   /* here we handle the put unit during phase 1 (reinforcements) */
   MainGame.prototype.tryPutUnits(localStorage.getItem('myId'), 
     selectedCountryName, value)
+}
+
+
+/*********************************************************************/
+/**
+ * Function called when user double clicks on territory
+ * if prephase places 1 soldier
+ * if reinforcement select reinforcement ui
+ */
+export function dblClickTerritory(evt) {
+  console.log('current phase = ' + MainGame.prototype.getCurrentPhase() + ', prephase = ' + phases['PREPHASE'])
+  if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
+    _placeSoldier(evt)
+  }
+  else {
+    _displayReinforcementUI()
+  }
 }

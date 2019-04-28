@@ -55,7 +55,7 @@ export class MainGame {
 
 
   getCurrentPhase() {
-    return this.currentPhase
+    return THIS_IS_IT.currentPhase
   }
 
   /**
@@ -1102,13 +1102,16 @@ export class MainGame {
             console.log('CURRENT_PHASE: ' + msg.data.phase)
             /* updates the current phase in players controls area*/
             GameWindow.displayCurrentPhase(msg.data.phase)
-            if (msg.phase == phases['PREPHASE']) {
-              THAT_CLASS.currentPhase = msg.phase
-              // THAT_CLASS.currentPlayer = THAT_CLASS.firstPlayer
-            } else if (msg.phase == phases['REINFORCEMENT']) {
-              THAT_CLASS.currentPhase = msg.phase
-              //THAT_CLASS.currentPlayer = THAT_CLASS.msg.player
-            }
+
+            THAT_CLASS.currentPhase = msg.data.phase
+            
+            // if (msg.data.phase == phases['PREPHASE']) {
+              // THAT_CLASS.currentPhase = msg.phase
+              // // THAT_CLASS.currentPlayer = THAT_CLASS.firstPlayer
+            // } else if (msg.phase == phases['REINFORCEMENT']) {
+              // THAT_CLASS.currentPhase = msg.phase
+              // //THAT_CLASS.currentPlayer = THAT_CLASS.msg.player
+            // }
             // THAT_CLASS.nextPhaseBtnState(msg.phase)
 
             break
