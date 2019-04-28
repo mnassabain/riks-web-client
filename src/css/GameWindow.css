@@ -454,7 +454,7 @@ p {
 }
 
 /* Play button on player control*/
-#phaseControlBtn {
+#nextPhaseBtn {
   float: right;
   background-color: lightgray; /*"none" or "transparent" when enabled*/
   height: 44px;
@@ -708,13 +708,27 @@ p {
   padding: 0.5rem;
 }
 
-.reinforcementUIRight:hover {
-  color: red
+#reinUIRightAbort {
+  margin-bottom: 1rem;
+}
 
+#reinUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
+}
+
+#reinUIRightOK:hover {
+  margin-bottom: 1rem;
+  color: green
 }
 
 #reinforcementTerritory {
   color: #fdf6eb;
   font-weight: bold;
   font-size: 0.8em;
+}
+
+#unitsToPut {
+  width: 2em;
+
 }
