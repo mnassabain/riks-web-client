@@ -51,7 +51,7 @@
           <div id="reinUIRightAbort" v-on:click="clearReinUI">
             Abort
           </div>
-          <div id="reinUIRightOK" v-on:click="addReinUnit(unitsToPut)">
+          <div id="reinUIRightOK" v-on:click="addReinUnit(units)">
             OK
           </div>
         </div>

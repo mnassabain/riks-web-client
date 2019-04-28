@@ -233,17 +233,20 @@ export var _addReinforcement = function (evt) {
   var nbUnits = 1
 
   if (MainGame.prototype.getCurrentPhase() == phases['REINFORCEMENT']) {
-    alert('choose units')
+    // alert('choose units')
     // nbUnits = valeur_saisie
+    console.log('PHASE 0 -------------------------- DISPLAYING REIN UI')
+    disableDbClick()
+    onDbClickReinUI()
+  } else if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
+     MainGame.prototype.tryPutUnits(
+      localStorage.getItem('myId'),
+      selectedCountryName,
+      nbUnits
+    )
   }
 
   console.log('Try to add units on ' + selectedCountryName)
-
-  MainGame.prototype.tryPutUnits(
-    localStorage.getItem('myId'),
-    selectedCountryName,
-    nbUnits
-  )
 
   // if (MainGame.prototype.getMyReinforcementNum() > 0) {
   //   if (MainGame.prototype.tryPutUnits() === true) {
