@@ -614,15 +614,16 @@ export class MainGame {
 
   nextPhase () {
     console.log('Next phase is called in MAINGAME')
-    this.currentPhase = (this.currentPhase + 1) % 3
+    THIS_IS_IT.currentPhase = (THIS_IS_IT.currentPhase + 1) % 3
+    THIS_IS_IT.sendToServer(new Packet('END_PHASE'))
   }
 
   sendToServer (packet) {
-    this.$socket.send(packet.getJson())
+    THIS_IS_IT.$socket.send(packet.getJson())
   }
 
   synchronize () {
-    this.sendToServer(new Packet('GAME_STATUS'))
+    THIS_IS_IT.sendToServer(new Packet('GAME_STATUS'))
   }
 
   /**
@@ -1130,6 +1131,14 @@ export class MainGame {
             GameWindow.displayCurrentPhase(msg.data.phase)
 
             THAT_CLASS.currentPhase = msg.data.phase
+            
+            if (msg.data.phase == phases['OFFENSE']) {
+              console.log('Server is now on phase offense')
+            }
+
+            if (msg.data.phase == phases['FORTIFICATION']) {
+              console.log('Server is now on phase fortification')
+            }
             
             // if (msg.data.phase == phases['PREPHASE']) {
               // THAT_CLASS.currentPhase = msg.phase
