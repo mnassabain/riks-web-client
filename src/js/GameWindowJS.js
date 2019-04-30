@@ -710,3 +710,31 @@ export function clearFortificationUI () {
   document.getElementById('messageDisplay').style.visibility = 'hidden'
   document.getElementById('fortificationUI').style.visibility = 'hidden'
 }
+
+
+export var _enableAttackFromTerritory = function () {
+  var gmap = document.getElementById('GameMap')
+  gmap.addEventListener('click', attackFromTerritory, true)
+}
+
+export var _disableAttackFromTerritory = function () {
+  var gmap = document.getElementById('GameMap')
+  gmap.removeEventListener('click', attackFromTerritory, true)
+}
+
+export var _enableChooseTerroryToAttack = function () {
+  var gmap = document.getElementById('GameMap')
+  gmap.addEventListener('click', attackTerritory, true)
+}
+
+export var _disableChooseTerroryToAttack = function () {
+  var gmap = document.getElementById('GameMap')
+  gmap.removeEventListener('click', attackTerritory, true)
+}
+
+export function attackFromTerritory(){
+  selectedCountryName = hoveredCountryName
+  console.log('user clicked to attack from ' + selectedCountryName)
+  document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
+}
+
