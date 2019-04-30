@@ -238,6 +238,10 @@ export var _addReinforcement = function (evt) {
     console.log('PHASE 0 -------------------------- DISPLAYING REIN UI')
     disableDbClick()
     onDbClickReinUI()
+    /*allows the current player to use next phase button*/
+    if(localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()){
+      enableNextPhaseBtn()
+    }
   } else if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
      MainGame.prototype.tryPutUnits(
       localStorage.getItem('myId'),
@@ -527,7 +531,10 @@ export function clearReinUI () {
   console.log('clear reinUI')
   document.getElementById('messageDisplay').style.display = 'none'
   document.getElementById('messageDisplay').style.visibility = 'hidden'
-  document.getElementById('reinforcementUI').style.visibility = 'hidden'
+  var reinUI = document.getElementById('reinforcementUI')
+  reinUI.style.visibility = 'hidden'
+  reinUI.style.height = '0'
+  reinUI.style.marginTop = '0'
 }
 
 /**
@@ -585,4 +592,121 @@ export function disableNextPhaseBtn () {
 export function nextPhase () {
   console.log('NEXT PHASE IS CALLED in GAIMWINDOW')
   MainGame.prototype.nextPhase()
+}
+
+/***********************************  TOKENS  ************************************************ */
+export function displayTokenUI () {
+  document.getElementById('messageDisplay').style.display = 'block'
+  document.getElementById('messageDisplay').style.visibility = 'visible'
+  var tokenUI = document.getElementById('tokenUI')
+  tokenkUI.style.visibility = 'visible'
+  tokenUI.style.height = '10rem'
+  tokenUI.style.marginTop = '1rem'
+}
+
+export function clearTokenUI () {
+  console.log('clear tokenkUI')
+  document.getElementById('messageDisplay').style.display = 'none'
+  document.getElementById('messageDisplay').style.visibility = 'hidden'
+  var tokenUI = document.getElementById('tokenUI')
+  tokenUI.style.visibility = 'hidden'
+  tokenUI.style.height = '0'
+  tokenUI.style.margin = '0'
+}
+
+/***********************************  ASK TO ATTACK  ************************************************ */
+export function displayAskAttackUI () {
+  document.getElementById('messageDisplay').style.display = 'block'
+  document.getElementById('messageDisplay').style.visibility = 'visible'
+  var askAttackUI = document.getElementById('askAttackUI')  
+  askAttackUI.style.visibility = 'visible'
+  askAttackUI.style.height = '10rem'
+  askAttackUI.style.marginTop = '1rem'
+}
+
+export function clearAskAttackUI () {
+  console.log('clear askAttackUI')
+  document.getElementById('messageDisplay').style.display = 'none'
+  document.getElementById('messageDisplay').style.visibility = 'hidden'
+  var askAttackUI = document.getElementById('askAttackUI')
+  askAttackUI.style.visibility = 'hidden'
+  askAttackUI.style.height = '0'
+  askAttackUI.style.margin = '0'
+
+}
+
+/***********************************  ATTACK UI ************************************************ */
+
+export function displayAttackUI () {
+  document.getElementById('messageDisplay').style.display = 'block'
+  document.getElementById('messageDisplay').style.visibility = 'visible'
+  var attackUI = document.getElementById('attackUI')
+  attackUI.style.visibility = 'visible'
+  attackUI.style.height = '10rem'
+  attackUI.style.marginTop = '1rem'
+}
+
+export function clearAttackUI () {
+  console.log('clear attackUI')
+  document.getElementById('messageDisplay').style.display = 'none'
+  document.getElementById('messageDisplay').style.visibility = 'hidden'
+  var attackUI = document.getElementById('attackUI')
+  attackUI.style.visibility = 'hidden'
+  attackUI.style.height = '0'
+  attackUI.style.margin = '0'
+}
+
+/***********************************  DEFEND UI  ************************************************ */
+
+export function displayDefendUId () {
+  document.getElementById('messageDisplay').style.display = 'block'
+  document.getElementById('messageDisplay').style.visibility = 'visible'
+  var defendUI = document.getElementById('defendUI')
+  defendUI.style.visibility = 'visible'
+  defendUI.style.height = '0'
+  defendUI.style.marginTop = '0'
+}
+
+export function clearDefendUI () {
+  console.log('clear defendUI')
+  document.getElementById('messageDisplay').style.display = 'none'
+  document.getElementById('messageDisplay').style.visibility = 'hidden'
+  document.getElementById('defendUI').style.visibility = 'hidden'
+}
+
+/***********************************  ASK FORTIFICATION UI  ************************************************ */
+
+export function displayAskFortificationUI () {
+  document.getElementById('messageDisplay').style.display = 'block'
+  document.getElementById('messageDisplay').style.visibility = 'visible'
+  var fortificationUI = document.getElementById('askFortificationUI')  
+  fortificationUI.style.visibility = 'visible'
+  fortificationUI.style.height = '10rem'
+  fortificationUI.style.marginTop = '1rem'
+}
+
+export function clearAskFortificationUI () {
+  console.log('clear askfortificationUI')
+  document.getElementById('messageDisplay').style.display = 'none'
+  document.getElementById('messageDisplay').style.visibility = 'hidden'
+  var askfortificationUI = document.getElementById('askFortificationUI')
+  askfortificationUI.style.visibility = 'hidden'
+  askfortificationUI.style.height = '0'
+  askfortificationUI.style.marginTop = '0'
+}
+
+/***********************************  FORTIFICATION UI ************************************************ */
+
+export function displayFortificationUI () {
+  document.getElementById('messageDisplay').style.display = 'block'
+  document.getElementById('messageDisplay').style.visibility = 'visible'
+  var fortificationUI = document.getElementById('fortificationUI')  
+  fortificationUI.style.visibility = 'visible'
+}
+
+export function clearFortificationUI () {
+  console.log('clear fortificationUI')
+  document.getElementById('messageDisplay').style.display = 'none'
+  document.getElementById('messageDisplay').style.visibility = 'hidden'
+  document.getElementById('fortificationUI').style.visibility = 'hidden'
 }
