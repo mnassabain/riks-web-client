@@ -98,7 +98,7 @@
         <span id="action">{{ localPlayerName }}</span>
       </div>
       <div id="playerControlButton">
-        <button id="nextPhaseBtn">
+        <button id="nextPhaseBtn" v-on:click="nextPhase()">
           <img src="../assets/icons/nextPhase.svg">
         </button> 
       </div>
@@ -524,6 +524,7 @@ export default {
     addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
     clearReinUI: GameWindow.clearReinUI,
     addReinUnit: GameWindow.addReinUnit,
+    nextPhase: GameWindow.nextPhase,
     diplayMessage: function(message) {
       console.log(message);
     },
@@ -564,6 +565,8 @@ export default {
     // GameWindow.onDbClick();
     GameWindow.onDbClickReinUI();
     GameWindow.displayMyColor(this.localColor);
+    GameWindow.enableNextPhaseBtn();
+    //GameWindow.disableNextPhaseBtn();
   }
 };
 </script>
