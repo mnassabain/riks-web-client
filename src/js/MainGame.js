@@ -353,6 +353,15 @@ export class MainGame {
     return self.playerList[self.getActivePlayerId()].displayName
   }
 
+   /**
+   * return the active player
+   */
+  getActivePlayer(){
+    var self = THIS_IS_IT
+    console.log(self.playerList[self.getActivePlayerId()])
+    return self.playerList[self.getActivePlayerId()]
+  }
+
   /**
    * Returns the name matching the given player id
    *
@@ -737,7 +746,7 @@ export class MainGame {
     } else {
       territoriesNum = parseInt(localStorage.getItem('territories'))
     }
-    THIS_IS_IT.view.localArmies = unitsLeft
+    THIS_IS_IT.view.localArmies = THIS_IS_IT.getActivePlayer().reinforcements
     THIS_IS_IT.view.localTerritories = territoriesNum
 
     console.log(territoriesNum)
