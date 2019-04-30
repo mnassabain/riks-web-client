@@ -560,3 +560,29 @@ export function dblClickTerritory(evt) {
     _displayReinforcementUI()
   }
 }
+
+/**
+ * Enables the next phase button usage
+ */
+export function enableNextPhaseBtn () {
+  var nextPhaseBtn = document.getElementById('nextPhaseBtn')
+  nextPhaseBtn.disabled = false
+  nextPhaseBtn.style.backgroundColor = 'transparent'
+}
+
+/**
+ * Disable the next phase button usage
+ */
+export function disableNextPhaseBtn () {
+  var nextPhaseBtn = document.getElementById('nextPhaseBtn')
+  nextPhaseBtn.disabled = true
+  nextPhaseBtn.style.backgroundColor = 'gray'
+}
+
+/**
+ * Calls the nextPhase function in MainGame controller
+ */
+export function nextPhase () {
+  console.log('NEXT PHASE IS CALLED in GAIMWINDOW')
+  MainGame.prototype.nextPhase()
+}
