@@ -840,6 +840,14 @@ export class MainGame {
         nbUnits +
         ' units'
     )
+
+    var data = {
+      source: tSource,
+      destination: tDest,
+      units: nbUnits
+    }
+
+    THIS_IS_IT.sendToServer(new Packet('ATTACK', data))
   }
 
   /** Called when the player is being attacked
@@ -1114,11 +1122,14 @@ export class MainGame {
       } else {
         switch (msg.type) {
           case Packet.prototype.getTypeOf('ATTACK'):
-            THAT_CLASS.attack(
+            /*THAT_CLASS.attack(
               msg.data.source,
               msg.data.destination,
               msg.data.units
-            )
+            )*/
+
+            console.log("ATTACK")
+            console.log(msg.data)
             break
 
           case Packet.prototype.getTypeOf('ATTACKED'):
@@ -1143,6 +1154,18 @@ export class MainGame {
             
             if (msg.data.phase == phases['OFFENSE']) {
               console.log('Server is now on phase offense')
+
+              // Display message to select 
+              GameWindow.displayMessage("You are attacking, select start territory")
+
+              // Enable click
+              GameWindow._enableAttackFromTerritory()
+
+              // 1. Select territory from which to attack
+
+              // 2. Select territory to attack (no restrain)
+
+              // 3. Send info to server
             }
 
             if (msg.data.phase == phases['FORTIFICATION']) {

@@ -420,6 +420,7 @@ export function addDistantPlayerMessage () {
 }
 
 export function displayMessage (message) {
+  clearDisplayMessage()
   console.log('displayMessage func')
   console.log(message)
   var msgParagraph = document.createElement('P')
@@ -656,6 +657,26 @@ export function clearAttackUI () {
   attackUI.style.margin = '0'
 }
 
+
+export function displayAttackChooseUnits () {
+  document.getElementById('AttackUI').style.display = 'block'
+  document.getElementById('AttackUI').style.visibility = 'visible'
+  var attackUI = document.getElementById('attackUI')
+  attackUI.style.visibility = 'visible'
+  attackUI.style.height = '10rem'
+  attackUI.style.marginTop = '1rem'
+}
+
+export function clearAttackChooseUnits () {
+  console.log('clear attackUI')
+  document.getElementById('AttackUI').style.display = 'none'
+  document.getElementById('AttackUI').style.visibility = 'hidden'
+  var attackUI = document.getElementById('attackUI')
+  attackUI.style.visibility = 'hidden'
+  attackUI.style.height = '0'
+  attackUI.style.margin = '0'
+}
+
 /***********************************  DEFEND UI  ************************************************ */
 
 export function displayDefendUId () {
@@ -712,9 +733,11 @@ export function clearFortificationUI () {
 }
 
 
+var attackFrom = ""
 export var _enableAttackFromTerritory = function () {
   var gmap = document.getElementById('GameMap')
   gmap.addEventListener('click', attackFromTerritory, true)
+  attackFrom = ""
 }
 
 export var _disableAttackFromTerritory = function () {
@@ -722,9 +745,11 @@ export var _disableAttackFromTerritory = function () {
   gmap.removeEventListener('click', attackFromTerritory, true)
 }
 
+var attackTo = ""
 export var _enableChooseTerroryToAttack = function () {
   var gmap = document.getElementById('GameMap')
   gmap.addEventListener('click', attackTerritory, true)
+  attackTo = ""
 }
 
 export var _disableChooseTerroryToAttack = function () {
@@ -736,5 +761,24 @@ export function attackFromTerritory(){
   selectedCountryName = hoveredCountryName
   console.log('user clicked to attack from ' + selectedCountryName)
   document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
+
+  attackFrom = selectedCountryName
+  _disableAttackFromTerritory()
+  displayMessage("Choose territory to attack")
+  _enableChooseTerroryToAttack()
 }
 
+export function attackWith(nb){
+  clearAttackChooseUnits()
+  MainGame.prototype.attack(attackFrom, selectedCountryName, nb)
+}
+
+export function attackTerritory(){
+  selectedCountryName = hoveredCountryName
+  console.log('user clicked to attack from ' + selectedCountryName)
+  document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
+
+  attackTo = selectedCountryName
+  _disableChooseTerroryToAttack()
+  displayAttackChooseUnits()
+}

@@ -279,7 +279,7 @@
           <div id="combatRed">Player_2</div>
         </div>
         <div class="combatUICenter" id="defendBtn">
-          <img draggable="false" onclick="test()" src="../assets/icons/attack.svg" class="bigBtn">
+          <img draggable="false" onclick="tes()" src="../assets/icons/attack.svg" class="bigBtn">
         </div>
         <div class="combatUIRight">
           <div>Attack with</div>
@@ -289,18 +289,21 @@
               src="../assets/icons/emptyOne.svg"
               class="armiesSelectionBtn"
               id="selectArmyOne"
+              v-on:click="attackWith(1)"
             >
             <img
               draggable="false"
               src="../assets/icons/emptyTwo.svg"
               class="armiesSelectionBtn"
               id="selectArmyTwo"
+              v-on:click="attackWith(2)"
             >
             <img
               draggable="false"
               src="../assets/icons/emptyThree.svg"
               class="armiesSelectionBtn"
               id="selectArmyThree"
+              v-on:click="attackWith(3)"
             >
           </div>
           <div>Armies</div>
@@ -599,6 +602,7 @@ export default {
     clearReinUI: GameWindow.clearReinUI,
     addReinUnit: GameWindow.addReinUnit,
     nextPhase: GameWindow.nextPhase,
+    attackWith: GameWindow.attackWith,
 
     displayAskAttackUI: GameWindow.displayAskAttackUI,
     clearAskAttackUI: GameWindow.clearAskAttackUI,
