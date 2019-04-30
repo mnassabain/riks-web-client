@@ -613,6 +613,7 @@ export class MainGame {
   }
 
   nextPhase () {
+    console.log('Next phase is called in MAINGAME')
     this.currentPhase = (this.currentPhase + 1) % 3
   }
 
