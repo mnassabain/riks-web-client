@@ -686,6 +686,7 @@ p {
 }
 
 #reinforcementUI {
+  display: none;
   visibility: hidden;
   font-size: 0.5em;
   margin-top: 1rem;
@@ -731,4 +732,175 @@ p {
 #unitsToPut {
   width: 2em;
 
+}
+
+/*********** TOKENS UI ********************/
+#tokenUI {
+  display: none;
+  visibility: hidden;
+  font-size: 0.5em;
+  margin-top: 1rem;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 3fr 4fr 1fr;
+}
+
+.tokenUILeft{
+  text-align: center;
+  padding: 0.1rem;
+}
+
+.innertokenUIcenter, .innertokenUILeft {
+  text-align: center;
+}
+
+.tokenUIRight{
+  text-align: center;
+  padding: 0.5rem;
+}
+
+#tokenUIRightAbort {
+  margin-bottom: 1rem;
+}
+
+#tokenUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
+}
+
+#tokenUIRightOK:hover {
+  margin-bottom: 1rem;
+  color: green
+}
+/*********** ASK ATTACK UI ********************/
+#askAttackUI {
+  display: none;
+  visibility: hidden;
+  font-size: 0.5em;
+  margin-top: 1rem;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.askAttackUILeft{
+  text-align: center;
+  padding: 0.1rem;
+}
+
+
+.askAttackUIRight{
+  text-align: center;
+}
+
+#askAttackUIRightAbort {
+}
+
+#askAttackUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
+}
+
+#askAttackUIRightOK:hover {
+  color: green
+}
+
+/*********** ATTACK UI ********************/
+#attackUI {
+  display: none;
+  visibility: hidden;
+  font-size: 0.5em;
+  margin-top: 1rem;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 3fr 4fr 1fr;
+}
+
+.attackUILeft{
+  text-align: center;
+  padding: 0.1rem;
+}
+
+.innerattackUIcenter, .innerattackUILeft {
+  text-align: center;
+}
+
+.attackUIRight{
+  text-align: center;
+}
+
+#attackUIRightAbort {
+}
+
+#attackUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
+}
+
+#attackUIRightOK:hover {
+  color: green
+}
+
+/*********** ASK FORTIFICATION UI ********************/
+#askFortificationUI {
+  display: none;
+  visibility: hidden;
+  font-size: 0.5em;
+  margin-top: 1rem;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 3fr 4fr 1fr;
+}
+
+.askFortificationUILeft{
+  text-align: center;
+  padding: 0.1rem;
+}
+
+.askFortificationUIRight{
+  text-align: center;
+}
+
+#askFortificationUIRightAbort {
+}
+
+#askFortificationUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
+}
+
+#askFortificationUIRightOK:hover {
+  color: green
+}
+
+/*********** FORTIFICATION UI ********************/
+#fortificationUI {
+  display: none;
+  visibility: hidden;
+  font-size: 0.5em;
+  margin-top: 1rem;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 3fr 4fr 1fr;
+}
+
+.fortificationUILeft{
+  text-align: center;
+  padding: 0.1rem;
+}
+
+.fortificationUIRight{
+  text-align: center;
+}
+
+#fortificationUIRightAbort {
+}
+
+#fortificationUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
+}
+
+#fortificationUIRightOK:hover {
+  color: green
 }
