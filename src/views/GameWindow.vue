@@ -91,8 +91,10 @@
       </div>
 
       <div id="attackUI">
-        <div class="attackUILeft">ATTACK</div>
-
+        <div class="attackUILeft">
+          <div class="innerAttackUILeft">Attack from</div>
+          <div class="innerAttackUILeft" id="attackFromTerritory"></div>
+        </div>
         <div class="attackUIRight" >          
           <div id="attackUIRightOK">
             GO
