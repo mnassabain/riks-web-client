@@ -970,8 +970,8 @@ export class MainGame {
 
       /* change the color of a territory during the pre-phase */
       GameWindow.setCountryColor(
-        SupportedColors[msg.data.player],
-        msg.data.territory
+        SupportedColors[THIS.map[cSource][tSource].player],
+        tmpDest
       )
       /* puts the soldier icon with the number area */
       GameWindow.drawSoldier(
@@ -1434,7 +1434,7 @@ export class MainGame {
         break
       
       case Packet.prototype.getTypeOf('DEFEND'):
-        this.beginAttackPhase()
+        this.attacked()
         break
       
       default:
