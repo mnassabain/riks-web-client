@@ -43,6 +43,10 @@ export class MainGame {
     this.gameIsSet = false
     this.prephaseIsDone = false
     this.attackUnits = 0
+    
+    this.autoInit = true
+    this.autoRein = false
+    this.cpt = 0
 
     // copy of the object GameWindow
     this.view = v
@@ -515,6 +519,42 @@ export class MainGame {
      */
   }
 
+autoInit (id) {
+    console.log('cpt = ' + THIS.cpt)
+    var cId = THIS.cpt + id 
+    var tName = THIS.getCountryNameById(cId)
+    if(THIS.autoInit === true && THIS.cpt < 42){
+      THIS.tryPutUnits(
+        id,
+        tName,
+        1
+      )
+      THIS.cpt += THIS.getNbPlayers()
+    }
+  }
+
+  autoReinforce (id) {
+    console.log('cpt = ' + THIS.cpt)
+    var tName = THIS.getCountryNameById(parseInt(id))
+    if(THIS.autoRein === true && THIS.cpt < 38){
+      THIS.tryPutUnits(
+        id,
+        tName,
+        1
+      )
+      THIS.cpt += 1
+    }
+  }
+
+  getAutoInit () {
+    return THIS.autoInit
+  }
+
+  getAutoRein () {
+    return THIS.autoRein
+  }
+
+
   /**
    * Sends a PUT message to game server to allow a
    * player to occupy a territory
@@ -549,6 +589,10 @@ export class MainGame {
     /* Modificates addeventlistener on dblclick */
     GameWindow.disableDbClick()
     GameWindow.disableDbClickReinUi()
+    
+    THIS.cpt = 0
+    THIS.autoInit = false
+    THIS.autoRein = true
 
     /* The new event listener for using units left */
     var map = document.getElementById('GameMap')
@@ -1133,6 +1177,11 @@ export class MainGame {
 
         case Packet.prototype.getTypeOf('CURRENT_PHASE'):
           console.log('CURRENT_PHASE: ' + msg.data.phase + ', now ' + THIS.playerList[THIS.currentPlayer].displayName + ' is playing')
+          
+          if(msg.data.phase == phases['REINFORCEMENT']){
+            THIS.autoRein = false
+          }
+          
           /* updates the current phase in players controls area */
           GameWindow.displayCurrentPhase(msg.data.phase)
 
