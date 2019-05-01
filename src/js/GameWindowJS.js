@@ -702,7 +702,8 @@ export function displayDefendUIdChooseUnits (nbUnits, targetedTerritory) {
   defendUI.style.visibility = 'visible'
   defendUI.style.height = '8rem'
   defendUI.style.marginTop = '0'
-  document.getElementById('combatRed').innerHTML = MainGame.prototype.getCountryNameById(targetedTerritory)
+  if(targetedTerritory !== undefined)
+    document.getElementById('combatRed').innerHTML = MainGame.prototype.getCountryNameById(targetedTerritory)
 }
 
 export function clearDefendUIChooseUnits () {

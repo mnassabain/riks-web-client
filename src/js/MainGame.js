@@ -1047,6 +1047,24 @@ export class MainGame {
     return 0
   }
 
+  beginAttackPhase(){
+    console.log('Server is now on phase offense')
+    if(localStorage.getItem('myId') == THIS.currentPlayer){
+      // Display message to select 
+      GameWindow.displayMessage("You are attacking, select start territory")
+        // Enable click
+      GameWindow._enableAttackFromTerritory()
+      // 1. Select territory from which to attack
+
+      // 2. Select territory to attack (no restrain)
+
+      // 3. Send info to server
+    } else {
+      GameWindow.clearDisplayMessage()
+      GameWindow.displayMessage(THIS.getPlayerNameById(THIS.currentPlayer) + ' is attacking')
+    }
+  }
+
   handleIncommingMessages () {
     var THAT_CLASS = this
     THIS.$socket.onmessage = function (d) {
@@ -1054,414 +1072,345 @@ export class MainGame {
       console.log(d)
       console.log('msg data')
       console.log(d.data)
-      var msg = JSON.parse(d.data)
-      if (/* msg.data.error */ false) {
-        // print different responses of the standar server when there is an error
-        switch (msg.type) {
-          case Packet.getTypeOf('ATTACK'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+      var msg = JSON.parse(d.data) 
+      switch (msg.type) {
+        case Packet.prototype.getTypeOf('ATTACK'):
+          THAT_CLASS.attack(
+            msg.data.source,
+            msg.data.destination,
+            msg.data.units
+          )
+          console.log("ATTACK response")
+          console.log(msg.data)
+          break
 
-          case Packet.getTypeOf('CONNECT'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+        case Packet.prototype.getTypeOf('ATTACKED'):
+          console.log('A player is attacked : ')
+          THAT_CLASS.attacked(msg.data.units, msg.data.targetedTerritory)
+          console.log(msg.data)
+          break
 
-          case Packet.getTypeOf('CREATE_LOBBY'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+        case Packet.prototype.getTypeOf('COMBAT_RESULTS'):
+          console.log('combat results')
+          console.log(msg.data)
+          THAT_CLASS.finishedCombat(
+            msg.data.source,
+            msg.data.destination,
+            msg.data.attackerLoss,
+            msg.data.defenderLoss
+          )
+          break
 
-          case Packet.getTypeOf('DEFEND'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+        case Packet.prototype.getTypeOf('CURRENT_PHASE'):
+          console.log('CURRENT_PHASE: ' + msg.data.phase + ', now ' + THIS.playerList[THIS.currentPlayer].displayName + ' is playing')
+          /* updates the current phase in players controls area */
+          GameWindow.displayCurrentPhase(msg.data.phase)
 
-          case Packet.getTypeOf('DISCONNECT'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+          THAT_CLASS.currentPhase = msg.data.phase
+          
+          if (msg.data.phase == phases['OFFENSE']) {
+            THIS.beginAttackPhase()
+          }
 
-          case Packet.getTypeOf('EDIT_LOBBY'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+          if (msg.data.phase == phases['FORTIFICATION']) {
+            console.log('Server is now on phase fortification')
+          }
+          break
 
-          case Packet.getTypeOf('END_PHASE'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+        case Packet.prototype.getTypeOf('DEFEND'):
+          console.log('defend response')
+          console.log(msg.data)
+          THAT_CLASS.defend(msg.data.defenderName, msg.data.units)
+          break
 
-          case Packet.getTypeOf('GAME_STATUS'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+        case Packet.prototype.getTypeOf('ERROR'):
+          // print the type of the error in the console
+          THIS.ErrorHandling(msg.data);
+          break
 
-          case Packet.getTypeOf('JOIN_LOBBY'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+        case Packet.prototype.getTypeOf('GAME_OVER'):
+          console.log('GAME_OVER' + msg)
+          break
 
-          case Packet.getTypeOf('KICK_FROM_LOBBY'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+        case Packet.prototype.getTypeOf('GAME_RESULTS'):
+          console.log('GAME_RESULTS' + msg)
+          break
 
-          case Packet.getTypeOf('LEAVE_GAME'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+        case Packet.prototype.getTypeOf('GAME_STATUS'):
+          console.log('GAME_STATUS' + msg)
+          /* Sets and updates game data */
+          THAT_CLASS.setGameData(msg.data)
 
-          case Packet.getTypeOf('LOBBY_LIST'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+          break
 
-          case Packet.getTypeOf('MOVE'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+        case Packet.prototype.getTypeOf('GIVE_TOKENS'):
+          console.log('GIVE_TOKENS' + msg)
 
-          case Packet.getTypeOf('PLAYER_PROFILE'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+          THAT_CLASS.view.players[msg.data.player].tokens.tok1 +=
+            msg.data.token1
+          THAT_CLASS.view.players[msg.data.player].tokens.tok2 +=
+            msg.data.token2
+          THAT_CLASS.view.players[msg.data.player].tokens.tok3 +=
+            msg.data.token3
+          THAT_CLASS.view.players[msg.data.player].tokens.tok4 +=
+            msg.data.token4
 
-          case Packet.getTypeOf('PUT'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+          THAT_CLASS.view.localNbTokenTypeOne += msg.data.token1
+          THAT_CLASS.view.localNbTokenTypeTwo += msg.data.token2
+          THAT_CLASS.view.localNbTokenTypeThree += msg.data.token3
+          THAT_CLASS.view.localNbTokenTypeJoker += msg.data.token4
 
-          case Packet.getTypeOf('SIGN_UP'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+          break
 
-          case Packet.getTypeOf('START_GAME'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
+        case Packet.prototype.getTypeOf('KICKED'):
+          console.log('KICKED' + msg)
+          break
 
-          case Packet.getTypeOf('USE_TOKENS'):
-            console.log(msg.type + ':' + msg.data.response)
-            break
-          default:
-            break
-        }
-      } else {
-        switch (msg.type) {
-          case Packet.prototype.getTypeOf('ATTACK'):
-            THAT_CLASS.attack(
-              msg.data.source,
-              msg.data.destination,
-              msg.data.units
-            )
-            console.log("ATTACK response")
-            console.log(msg.data)
-            break
+        case Packet.prototype.getTypeOf('LEAVE_GAME'):
+          console.log('LEAVE_GAME' + msg)
+          break
 
-          case Packet.prototype.getTypeOf('ATTACKED'):
-            console.log('A player is attacked : ')
-            THAT_CLASS.attacked(msg.data.units, msg.data.targetedTerritory)
-            console.log(msg.data)
-            break
+        case Packet.prototype.getTypeOf('LOBBY_STATE'):
+          console.log('LOBBY_STATE' + msg)
+          break
 
-          case Packet.prototype.getTypeOf('COMBAT_RESULTS'):
-            console.log('combat results')
-            console.log(msg.data)
-            THAT_CLASS.finishedCombat(
-              msg.data.source,
-              msg.data.destination,
-              msg.data.attackerLoss,
-              msg.data.defenderLoss
-            )
-            break
+        case Packet.prototype.getTypeOf('MOVE'):
+          console.log('MOVE' + msg)
+          THAT_CLASS.fortify(
+            msg.data.source,
+            msg.data.destination,
+            msg.data.units
+          )
 
-          case Packet.prototype.getTypeOf('CURRENT_PHASE'):
-            console.log('CURRENT_PHASE: ' + msg.data.phase + ', now ' + THIS.playerList[THIS.currentPlayer].displayName + ' is playing')
-            /* updates the current phase in players controls area */
-            GameWindow.displayCurrentPhase(msg.data.phase)
+          break
 
-            THAT_CLASS.currentPhase = msg.data.phase
+        case Packet.prototype.getTypeOf('PLAYER_ELIMINATION'):
+          console.log('PLAYER_ELIMINATION' + msg)
+          THAT_CLASS.playerElimination(msg.data.player)
+          break
+
+        case Packet.prototype.getTypeOf('PLAYER_PROFILE'):
+          console.log('PLAYER_PROFILE' + msg)
+          break
+
+        /* a PUT message implies a PUT message from the  client */
+        case Packet.prototype.getTypeOf('PUT'):
+          console.log('PUT' + msg)
+
+          /* remove reinforcements from player */
+          THAT_CLASS.view.players[msg.data.player].reinforcements -=
+            msg.data.units
+          // THAT_CLASS.playerList[msg.data.player].reinforcements -= msg.data.units
+
+          if (THAT_CLASS.currentPhase == phases['PREPHASE']) {
             
-            if (msg.data.phase == phases['OFFENSE']) {
-              console.log('Server is now on phase offense')
-              if(localStorage.getItem('myId') == THIS.currentPlayer){
-                // Display message to select 
-                GameWindow.displayMessage("You are attacking, select start territory")
-                 // Enable click
-                GameWindow._enableAttackFromTerritory()
-                // 1. Select territory from which to attack
+            /* updating total amount of units left */
+            THIS.totalUnits -= 1
+            console.log('Total units left ' + THIS.totalUnits)
+            /* saving last player who put for display purposes */
+            var currentPlayerBefore = THAT_CLASS.currentPlayer
+            /* updating current player turn */
+            THAT_CLASS.nextPlayerTurn()
+            GameWindow.displayCurrentPlayer()
 
-                // 2. Select territory to attack (no restrain)
-
-                // 3. Send info to server
-              } else {
-                GameWindow.clearDisplayMessage()
-                GameWindow.displayMessage(THIS.getPlayerNameById(THIS.currentPlayer) + ' is attacking')
-              }
+            // updating the ratio bar
+            for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
+              GameWindow.updateRatioBar(i, THAT_CLASS.playerList[i].nbTerritories)
             }
 
-            if (msg.data.phase == phases['FORTIFICATION']) {
-              console.log('Server is now on phase fortification')
-            }
-            break
-
-          case Packet.prototype.getTypeOf('DEFEND'):
-            console.log('defend response')
-            console.log(msg.data)
-            THAT_CLASS.defend(msg.data.defenderName, msg.data.units)
-            break
-
-          case Packet.prototype.getTypeOf('ERROR'):
-            // print the type of the error in the console
-            // THAT_CLASS.ErrorHandling();
-            GameWindow.clearDisplayMessage()
-            var str = msg.data.message
-            GameWindow.displayMessage(str.substr(str.indexOf(':') + 1))
-            THAT_CLASS.updateViewPlayers(THAT_CLASS.playerList)
-            break
-
-          case Packet.prototype.getTypeOf('GAME_OVER'):
-            console.log('GAME_OVER' + msg)
-            break
-
-          case Packet.prototype.getTypeOf('GAME_RESULTS'):
-            console.log('GAME_RESULTS' + msg)
-            break
-
-          case Packet.prototype.getTypeOf('GAME_STATUS'):
-            console.log('GAME_STATUS' + msg)
-            /* Sets and updates game data */
-            THAT_CLASS.setGameData(msg.data)
-
-            break
-
-          case Packet.prototype.getTypeOf('GIVE_TOKENS'):
-            console.log('GIVE_TOKENS' + msg)
-
-            THAT_CLASS.view.players[msg.data.player].tokens.tok1 +=
-              msg.data.token1
-            THAT_CLASS.view.players[msg.data.player].tokens.tok2 +=
-              msg.data.token2
-            THAT_CLASS.view.players[msg.data.player].tokens.tok3 +=
-              msg.data.token3
-            THAT_CLASS.view.players[msg.data.player].tokens.tok4 +=
-              msg.data.token4
-
-            break
-
-          case Packet.prototype.getTypeOf('KICKED'):
-            console.log('KICKED' + msg)
-            break
-
-          case Packet.prototype.getTypeOf('LEAVE_GAME'):
-            console.log('LEAVE_GAME' + msg)
-            break
-
-          case Packet.prototype.getTypeOf('LOBBY_STATE'):
-            console.log('LOBBY_STATE' + msg)
-            break
-
-          case Packet.prototype.getTypeOf('MOVE'):
-            console.log('MOVE' + msg)
-            THAT_CLASS.fortify(
-              msg.data.source,
-              msg.data.destination,
+            /* updating the local map data */
+            THAT_CLASS.updateMapData(
+              THAT_CLASS.getCountryNameById(msg.data.territory),
+              msg.data.player,
               msg.data.units
             )
 
-            break
-
-          case Packet.prototype.getTypeOf('PLAYER_ELIMINATION'):
-            console.log('PLAYER_ELIMINATION' + msg)
-            THAT_CLASS.playerElimination(msg.data.player)
-            break
-
-          case Packet.prototype.getTypeOf('PLAYER_PROFILE'):
-            console.log('PLAYER_PROFILE' + msg)
-            break
-
-          /* a PUT message implies a PUT message from the  client */
-          case Packet.prototype.getTypeOf('PUT'):
-            console.log('PUT' + msg)
-
-            /* remove reinforcements from player */
-            THAT_CLASS.view.players[msg.data.player].reinforcements -=
-              msg.data.units
-            // THAT_CLASS.playerList[msg.data.player].reinforcements -= msg.data.units
-
-            if (THAT_CLASS.currentPhase == phases['PREPHASE']) {
-              
-              /* updating total amount of units left */
-              THIS.totalUnits -= 1
-              console.log('Total units left ' + THIS.totalUnits)
-              /* saving last player who put for display purposes */
-              var currentPlayerBefore = THAT_CLASS.currentPlayer
-              /* updating current player turn */
-              THAT_CLASS.nextPlayerTurn()
-              GameWindow.displayCurrentPlayer()
-
-              // updating the ratio bar
-              for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
-                GameWindow.updateRatioBar(i, THAT_CLASS.playerList[i].nbTerritories)
-              }
-
-              /* updating the local map data */
-              THAT_CLASS.updateMapData(
-                THAT_CLASS.getCountryNameById(msg.data.territory),
-                msg.data.player,
-                msg.data.units
+            /* updating the number of free territories */
+            if (THAT_CLASS.prephaseLogic === false) {
+              THAT_CLASS.freeTerritories--
+              /* change the color of a territory during the pre-phase */
+              GameWindow.setCountryColor(
+                SupportedColors[msg.data.player],
+                msg.data.territory
+              )
+              /* puts the soldier icon with the number area */
+              GameWindow.drawSoldier(
+                SupportedColors[msg.data.player],
+                THAT_CLASS.getCountryNameById(msg.data.territory)
               )
 
-              /* updating the number of free territories */
-              if (THAT_CLASS.prephaseLogic === false) {
-                THAT_CLASS.freeTerritories--
-                /* change the color of a territory during the pre-phase */
-                GameWindow.setCountryColor(
-                  SupportedColors[msg.data.player],
-                  msg.data.territory
-                )
-                /* puts the soldier icon with the number area */
-                GameWindow.drawSoldier(
-                  SupportedColors[msg.data.player],
-                  THAT_CLASS.getCountryNameById(msg.data.territory)
-                )
-
-                THAT_CLASS.view.players[msg.data.player].nbTerritories++
-              }
-              GameWindow.updateCountrySoldiersNumber(msg.data.territory)
-
-              /* if no more territories we go to the second part of prephase */
-              if (
-                THAT_CLASS.freeTerritories > 0 &&
-                THAT_CLASS.prephaseLogic === false
-              ) {
-                console.log(
-                  'Total free territories left ' + THAT_CLASS.freeTerritories
-                )
-              } else {
-                THAT_CLASS.prephaseLogic = true
-                MainGame.prototype.prephaseLogic()
-              }
-
-              GameWindow.clearDisplayMessage()
-
-              /* displaying different put message according to current player */
-              if (msg.data.player == localStorage.myId) {
-                GameWindow.displayMessage(
-                  'You choosed to put ' +
-                    msg.data.units +
-                    ' unit(s) on ' +
-                    THAT_CLASS.getCountryNameById(msg.data.territory)
-                )
-                THAT_CLASS.updateReinforcement(currentPlayerBefore)
-              } else {
-                GameWindow.displayMessage(
-                  THAT_CLASS.getPlayerNameById(msg.data.player) +
-                    ' choosed to put ' +
-                    msg.data.units +
-                    ' unit(s) on ' +
-                    THAT_CLASS.getCountryNameById(msg.data.territory)
-                )
-
-                // THAT_CLASS.playerList[msg.data.player].reinforcements--
-              }
-              /* if all players have spent their units */
-              if (THAT_CLASS.totalUnits == 0) {
-                /* removing double click listener on addreinforcement */
-                GameWindow.clearDisplayMessage()
-                GameWindow.displayMessage('All units are in place now !')
-              }
+              THAT_CLASS.view.players[msg.data.player].nbTerritories++
             }
-            else if (THAT_CLASS.currentPhase == phases['REINFORCEMENT']){
-              /* updating total amount of units left */
-              THIS.totalUnits -= 1
-              console.log('Total units left ' + THIS.totalUnits)
-              /* saving last player who put for display purposes */
-              var currentPlayerBefore = THAT_CLASS.currentPlayer
+            GameWindow.updateCountrySoldiersNumber(msg.data.territory)
 
-              GameWindow.displayCurrentPlayer()
+            /* if no more territories we go to the second part of prephase */
+            if (
+              THAT_CLASS.freeTerritories > 0 &&
+              THAT_CLASS.prephaseLogic === false
+            ) {
+              console.log(
+                'Total free territories left ' + THAT_CLASS.freeTerritories
+              )
+            } else {
+              THAT_CLASS.prephaseLogic = true
+              MainGame.prototype.prephaseLogic()
+            }
 
-              // updating the ratio bar
-              for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
-                GameWindow.updateRatioBar(i, THAT_CLASS.playerList[i].nbTerritories)
-              }
+            GameWindow.clearDisplayMessage()
 
-              THAT_CLASS.updateMapData(
-                THAT_CLASS.getCountryNameById(msg.data.territory),
-                msg.data.player,
-                msg.data.units
+            /* displaying different put message according to current player */
+            if (msg.data.player == localStorage.myId) {
+              GameWindow.displayMessage(
+                'You choosed to put ' +
+                  msg.data.units +
+                  ' unit(s) on ' +
+                  THAT_CLASS.getCountryNameById(msg.data.territory)
+              )
+              THAT_CLASS.updateReinforcement(currentPlayerBefore)
+            } else {
+              GameWindow.displayMessage(
+                THAT_CLASS.getPlayerNameById(msg.data.player) +
+                  ' choosed to put ' +
+                  msg.data.units +
+                  ' unit(s) on ' +
+                  THAT_CLASS.getCountryNameById(msg.data.territory)
               )
 
-              /* updating the number of free territories */
-              if (THAT_CLASS.prephaseLogic === false) {
-                THAT_CLASS.freeTerritories--
-                /* change the color of a territory during the pre-phase */
-                GameWindow.setCountryColor(
-                  SupportedColors[msg.data.player],
-                  msg.data.territory
-                )
-                /* puts the soldier icon with the number area */
-                GameWindow.drawSoldier(
-                  SupportedColors[msg.data.player],
-                  THAT_CLASS.getCountryNameById(msg.data.territory)
-                )
-
-                THAT_CLASS.view.players[msg.data.player].nbTerritories++
-              }
-              GameWindow.updateCountrySoldiersNumber(msg.data.territory)
-
-              /* if no more territories we go to the second part of prephase */
-              if (
-                THAT_CLASS.freeTerritories > 0 &&
-                THAT_CLASS.prephaseLogic === false
-              ) {
-                console.log(
-                  'Total free territories left ' + THAT_CLASS.freeTerritories
-                )
-              } else {
-                THAT_CLASS.prephaseLogic = true
-                MainGame.prototype.prephaseLogic()
-              }
-
-              GameWindow.clearDisplayMessage()
-
-              /* displaying different put message according to current player */
-              if (msg.data.player == localStorage.myId) {
-                GameWindow.displayMessage(
-                  'You choosed to put ' +
-                    msg.data.units +
-                    ' unit(s) on ' +
-                    THAT_CLASS.getCountryNameById(msg.data.territory)
-                )
-                THAT_CLASS.updateReinforcement(currentPlayerBefore)
-              } else {
-                GameWindow.displayMessage(
-                  THAT_CLASS.getPlayerNameById(msg.data.player) +
-                    ' choosed to put ' +
-                    msg.data.units +
-                    ' unit(s) on ' +
-                    THAT_CLASS.getCountryNameById(msg.data.territory)
-                )
-              }
+              // THAT_CLASS.playerList[msg.data.player].reinforcements--
             }
-            /* THIS.putResponse(msg.player.name,msg.territory,msg.units); */
-            break
+            /* if all players have spent their units */
+            if (THAT_CLASS.totalUnits == 0) {
+              /* removing double click listener on addreinforcement */
+              GameWindow.clearDisplayMessage()
+              GameWindow.displayMessage('All units are in place now !')
+            }
+          }
+          else if (THAT_CLASS.currentPhase == phases['REINFORCEMENT']){
+            /* updating total amount of units left */
+            THIS.totalUnits -= 1
+            console.log('Total units left ' + THIS.totalUnits)
+            /* saving last player who put for display purposes */
+            var currentPlayerBefore = THAT_CLASS.currentPlayer
 
-          case Packet.prototype.getTypeOf('REINFORCEMENT'):
-            console.log('REINFORCEMENT' + msg)
-            // THAT_CLASS.activePlayerReinforcement += msg.data.units
-            // localStorage.setItem(
-            //   'reinforcements',
-            //   THAT_CLASS.activePlayerReinforcement
-            // )
+            GameWindow.displayCurrentPlayer()
 
-            THAT_CLASS.view.players[msg.data.player].reinforcements +=
+            // updating the ratio bar
+            for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
+              GameWindow.updateRatioBar(i, THAT_CLASS.playerList[i].nbTerritories)
+            }
+
+            THAT_CLASS.updateMapData(
+              THAT_CLASS.getCountryNameById(msg.data.territory),
+              msg.data.player,
               msg.data.units
-            THAT_CLASS.currentPlayer = msg.data.player
-            THAT_CLASS.view.currentPlayer = msg.data.player
-            break
+            )
 
-          case Packet.prototype.getTypeOf('START_GAME'):
-            console.log('START_GAME' + msg)
-            break
+            /* updating the number of free territories */
+            if (THAT_CLASS.prephaseLogic === false) {
+              THAT_CLASS.freeTerritories--
+              /* change the color of a territory during the pre-phase */
+              GameWindow.setCountryColor(
+                SupportedColors[msg.data.player],
+                msg.data.territory
+              )
+              /* puts the soldier icon with the number area */
+              GameWindow.drawSoldier(
+                SupportedColors[msg.data.player],
+                THAT_CLASS.getCountryNameById(msg.data.territory)
+              )
 
-          case Packet.prototype.getTypeOf('USE_TOKENS'):
-            console.log('USE_TOKENS' + msg)
-            /* THIS.useTokensResponse(msg.player.name,msg.units); */
-            break
+              THAT_CLASS.view.players[msg.data.player].nbTerritories++
+            }
+            GameWindow.updateCountrySoldiersNumber(msg.data.territory)
 
-          default:
-            break
-        }
+            /* if no more territories we go to the second part of prephase */
+            if (
+              THAT_CLASS.freeTerritories > 0 &&
+              THAT_CLASS.prephaseLogic === false
+            ) {
+              console.log(
+                'Total free territories left ' + THAT_CLASS.freeTerritories
+              )
+            } else {
+              THAT_CLASS.prephaseLogic = true
+              MainGame.prototype.prephaseLogic()
+            }
+
+            GameWindow.clearDisplayMessage()
+
+            /* displaying different put message according to current player */
+            if (msg.data.player == localStorage.myId) {
+              GameWindow.displayMessage(
+                'You choosed to put ' +
+                  msg.data.units +
+                  ' unit(s) on ' +
+                  THAT_CLASS.getCountryNameById(msg.data.territory)
+              )
+              THAT_CLASS.updateReinforcement(currentPlayerBefore)
+            } else {
+              GameWindow.displayMessage(
+                THAT_CLASS.getPlayerNameById(msg.data.player) +
+                  ' choosed to put ' +
+                  msg.data.units +
+                  ' unit(s) on ' +
+                  THAT_CLASS.getCountryNameById(msg.data.territory)
+              )
+            }
+          }
+          /* THIS.putResponse(msg.player.name,msg.territory,msg.units); */
+          break
+
+        case Packet.prototype.getTypeOf('REINFORCEMENT'):
+          console.log('REINFORCEMENT' + msg)
+          // THAT_CLASS.activePlayerReinforcement += msg.data.units
+          // localStorage.setItem(
+          //   'reinforcements',
+          //   THAT_CLASS.activePlayerReinforcement
+          // )
+
+          THAT_CLASS.view.players[msg.data.player].reinforcements +=
+            msg.data.units
+          THAT_CLASS.currentPlayer = msg.data.player
+          THAT_CLASS.view.currentPlayer = msg.data.player
+
+          if (msg.data.player == localStorage.getItem('myId'))
+            THIS.view.localArmies += msg.data.units
+          break
+
+        case Packet.prototype.getTypeOf('START_GAME'):
+          console.log('START_GAME' + msg)
+          break
+
+        case Packet.prototype.getTypeOf('USE_TOKENS'):
+          console.log('USE_TOKENS' + msg)
+          /* THIS.useTokensResponse(msg.player.name,msg.units); */
+          break
+
+        default:
+          break
       }
     }
   }
+
+  ErrorHandling(data){
+    var str = data.message
+    GameWindow.displayMessage(str.substr(str.indexOf(':') + 1))
+    THAT_CLASS.updateViewPlayers(THAT_CLASS.playerList)
+    
+    switch(data.type){
+      case Packet.prototype.getTypeOf('ATTACK'):
+        this.beginAttackPhase()
+        break
+      
+      case Packet.prototype.getTypeOf('DEFEND'):
+        this.attacked(msg.data.units, msg.data.targetedTerritory)
+        break
+      
+      default:
+        break
+    }
+  }
+
 
   innerLoop () {
     THIS.synchronize()
