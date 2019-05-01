@@ -976,7 +976,7 @@ export class MainGame {
       /* puts the soldier icon with the number area */
       GameWindow.drawSoldier(
         SupportedColors[THIS.map[cSource][tSource].player],
-        THIS.getCountryNameById(tDest)
+        tDest
       )
       THIS.view.players[THIS.map[cSource][tSource].player].nbTerritories++
       GameWindow.updateCountrySoldiersNumber(tmpDest)
