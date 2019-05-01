@@ -42,6 +42,7 @@ export class MainGame {
     // this.firstPlayer
     this.gameIsSet = false
     this.prephaseIsDone = false
+    this.attackUnits = 0
 
     // copy of the object GameWindow
     this.view = v
@@ -946,15 +947,34 @@ export class MainGame {
     THIS.map[cSource][tSource].soldiers -= attackerLoss
     THIS.map[cDest][tDest].soldiers -= defenderLoss
 
+    // Rest
+    var restAttack = this.attackUnits - attackerLoss
+
     /* if there are no more units on the territory */
-    if (THIS.map[cDest][tDest].soldiers <= 0) {
+    if (THIS.map[cDest][tDest].soldiers <= 0) { // is dead : replace dest soldiers by attackers soldiers
+
+      THAT_CLASS.view.players[THIS.map[cDest][tDest].player].nbTerritories--
       THIS.map[cDest][tDest].player = THIS.map[cSource][tSource].player
-      /* TODO: determine the number of soldiers to place */
-      THIS.map[cDest][tDest].soldiers = 1
+      THIS.map[cDest][tDest].soldiers = restAttack
 
       console.log('Territory ' + tDest + ' is conquered by the attacker')
 
-      /* TODO: check if defending player is dead, or in playerElimination? */
+
+      /* change the color of a territory during the pre-phase */
+      GameWindow.setCountryColor(
+        SupportedColors[msg.data.player],
+        msg.data.territory
+      )
+      /* puts the soldier icon with the number area */
+      GameWindow.drawSoldier(
+        SupportedColors[THIS.map[cSource][tSource].player],
+        THAT_CLASS.getCountryNameById(tDest)
+      )
+      THAT_CLASS.view.players[THIS.map[cSource][tSource].player].nbTerritories++
+      GameWindow.updateCountrySoldiersNumber(tDest)
+    }
+    else{
+      GameWindow.updateCountrySoldiersNumber(tDest)
     }
   }
 
@@ -1082,6 +1102,7 @@ export class MainGame {
           )
           console.log("ATTACK response")
           console.log(msg.data)
+          THAT_CLASS.attackUnits = msg.data.units
           break
 
         case Packet.prototype.getTypeOf('ATTACKED'):
@@ -1396,6 +1417,7 @@ export class MainGame {
     var str = data.message
     GameWindow.displayMessage(str.substr(str.indexOf(':') + 1))
     THAT_CLASS.updateViewPlayers(THAT_CLASS.playerList)
+    console.log(str)
     
     switch(data.type){
       case Packet.prototype.getTypeOf('ATTACK'):
