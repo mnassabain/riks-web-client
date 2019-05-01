@@ -247,8 +247,8 @@
       
       <div id="DefendUI">
         <div class="combatUILeft">
-          <div id="combatRed">Player_2</div>
-          <div>is attacking you</div>
+          <div id="combatRed"></div>
+          <div>is attacked !</div>
         </div>
         <div class="combatUICenter" id="defendBtn">
           <img draggable="false" onclick="test()" src="../assets/icons/defend.svg" class="bigBtn">
@@ -261,12 +261,14 @@
               src="../assets/icons/emptyOne.svg"
               class="armiesSelectionBtn"
               id="selectArmyOne"
+              v-on:click="defendWith(1)"
             >
             <img
               draggable="false"
               src="../assets/icons/emptyTwo.svg"
               class="armiesSelectionBtn"
               id="selectArmyTwo"
+              v-on:click="defendWith(2)"
             >
           </div>
           <div>Armies</div>
@@ -603,6 +605,7 @@ export default {
     addReinUnit: GameWindow.addReinUnit,
     nextPhase: GameWindow.nextPhase,
     attackWith: GameWindow.attackWith,
+    defendWith: GameWindow.defendWith,
 
     displayAskAttackUI: GameWindow.displayAskAttackUI,
     clearAskAttackUI: GameWindow.clearAskAttackUI,
@@ -655,16 +658,16 @@ export default {
     GameWindow.displayMyColor(this.localColor);
     // GameWindow.enableNextPhaseBtn();
     GameWindow.disableNextPhaseBtn();
-    GameWindow.clearReinUI();
+    /*GameWindow.clearReinUI();
     GameWindow.clearTokenUI();
     GameWindow.clearAskAttackUI();
     GameWindow.clearAttackUI();
     GameWindow.clearAskAttackUI();
     GameWindow.clearAskFortificationUI(); 
-    GameWindow.clearFortificationUI();
+    GameWindow.clearFortificationUI();*/
     
     // GameWindow.clearDefendUI();
-     GameWindow.displayAskAttackUI();
+    // GameWindow.displayAskAttackUI();
     // GameWindow.displayAttackUI();
     // GameWindow.displayAskFortificationUI();
     // GameWindow.displayFortificationUI();
