@@ -863,7 +863,7 @@ export class MainGame {
     GameWindow.displayMessage('You are being attacked on' + targetedTerritory + ' by ' + nbUnits + ' unit(s)')
     // TODO add some timeout here
     GameWindow.clearDisplayMessage()
-    GameWindow.defendTerritoryNotification(targetedTerritory, nbUnits)
+    GameWindow.defendTerritoryNotification(nbUnits, targetedTerritory)
   }
 
   /** Try to defend territory
