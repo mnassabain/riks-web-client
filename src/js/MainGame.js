@@ -958,7 +958,7 @@ export class MainGame {
     /* if there are no more units on the territory */
     if (THIS.map[cDest][tDest].soldiers <= 0) { // is dead : replace dest soldiers by attackers soldiers
 
-      THAT_CLASS.view.players[THIS.map[cDest][tDest].player].nbTerritories--
+      THIS.view.players[THIS.map[cDest][tDest].player].nbTerritories--
       THIS.map[cDest][tDest].player = THIS.map[cSource][tSource].player
       THIS.map[cDest][tDest].soldiers = restAttack
 
@@ -973,9 +973,9 @@ export class MainGame {
       /* puts the soldier icon with the number area */
       GameWindow.drawSoldier(
         SupportedColors[THIS.map[cSource][tSource].player],
-        THAT_CLASS.getCountryNameById(tDest)
+        THIS.getCountryNameById(tDest)
       )
-      THAT_CLASS.view.players[THIS.map[cSource][tSource].player].nbTerritories++
+      THIS.view.players[THIS.map[cSource][tSource].player].nbTerritories++
       GameWindow.updateCountrySoldiersNumber(tDest)
     }
     else{
