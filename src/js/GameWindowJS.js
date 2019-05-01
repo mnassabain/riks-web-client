@@ -704,6 +704,8 @@ export function displayDefendUIdChooseUnits (nbUnits, targetedTerritory) {
   defendUI.style.marginTop = '0'
   if(targetedTerritory !== undefined)
     document.getElementById('combatRed').innerHTML = MainGame.prototype.getCountryNameById(targetedTerritory)
+  else
+  document.getElementById('combatRed').innerHTML = "Territory"
 }
 
 export function clearDefendUIChooseUnits () {
@@ -815,7 +817,13 @@ export function attackTerritory(){
 
 export function defendTerritoryNotification (nbUnits, targetedTerritory) {
   clearDisplayMessage()
-  displayDefendUIdChooseUnits(nbUnits, targetedTerritory)
+  if(nbUnits !== undefined && targetedTerritory !== undefined){
+    displayDefendUIdChooseUnits(nbUnits, targetedTerritory)
+  }
+  else{
+    displayDefendUIdChooseUnits()
+  }
+  
 }
 
 export function defendWith (nbUnits) {

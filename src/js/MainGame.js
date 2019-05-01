@@ -858,13 +858,18 @@ export class MainGame {
    * @param nbUnits number of attacking units
    */
   attacked (nbUnits, targetedTerritory) {
-    /* display that the player is being attacked, let him defend */
-    console.log('You are being attacked with ' + nbUnits)
-    GameWindow.clearDisplayMessage()
-    GameWindow.displayMessage('You are being attacked on' + targetedTerritory + ' by ' + nbUnits + ' unit(s)')
-    // TODO add some timeout here
-    GameWindow.clearDisplayMessage()
-    GameWindow.defendTerritoryNotification(nbUnits, targetedTerritory)
+    if(nbUnits !== undefined && targetedTerritory !== undefined){
+      /* display that the player is being attacked, let him defend */
+      console.log('You are being attacked with ' + nbUnits)
+      GameWindow.clearDisplayMessage()
+      GameWindow.displayMessage('You are being attacked on' + targetedTerritory + ' by ' + nbUnits + ' unit(s)')
+      // TODO add some timeout here
+      GameWindow.clearDisplayMessage()
+      GameWindow.defendTerritoryNotification(nbUnits, targetedTerritory)
+    }
+    else{
+      GameWindow.defendTerritoryNotification()
+    }
   }
 
   /** Try to defend territory
@@ -1416,7 +1421,7 @@ export class MainGame {
   ErrorHandling(data){
     var str = data.message
     GameWindow.displayMessage(str.substr(str.indexOf(':') + 1))
-    THAT_CLASS.updateViewPlayers(THAT_CLASS.playerList)
+    THIS.updateViewPlayers(THIS.playerList)
     console.log(str)
     
     switch(data.type){
@@ -1425,7 +1430,7 @@ export class MainGame {
         break
       
       case Packet.prototype.getTypeOf('DEFEND'):
-        this.attacked(msg.data.units, msg.data.targetedTerritory)
+        this.attacked()
         break
       
       default:
