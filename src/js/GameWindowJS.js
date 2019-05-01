@@ -485,6 +485,14 @@ export function displayCurrentPlayer () {
       console.log('localstorage id = ' + localStorage.getItem('myId') + ', view.current = ' + currentPlayer)
   if (currentPlayer == localStorage.getItem('myId')) {
     document.getElementById('messageUITop').innerHTML = 'Your turn'
+    if(MainGame.prototype.getAutoInit() === true){
+      var idToSend = parseInt(localStorage.getItem('myId'))
+      MainGame.prototype.autoInit(idToSend)
+    }
+    if(MainGame.prototype.getAutoRein() === true){
+      var idToSend = parseInt(localStorage.getItem('myId'))
+      MainGame.prototype.autoReinforce(idToSend)
+    }
   } else {
     document.getElementById('messageUITop').innerHTML =
       MainGame.prototype.getActivePlayerName() + ' is playing.'
