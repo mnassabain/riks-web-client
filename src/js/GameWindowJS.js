@@ -328,10 +328,9 @@ export function mouseoverCountry (evt) {
 
 export function updateCountrySoldiersNumber (countryId) {
   var cName = MainGame.prototype.getCountryNameById(countryId)
+  console.log(cName+" attacked")
   var countryElement = map[getContinentOf(cName)][cName]
-  doc.getElementById('soldierNumberOn' + cName).innerHTML = ''
-  doc.getElementById('soldierNumberOn' + cName).innerHTML =
-    countryElement.soldiers
+  doc.getElementById('soldierNumberOn' + cName).innerHTML = countryElement.soldiers
 }
 /*****************************************************************************************************/
 

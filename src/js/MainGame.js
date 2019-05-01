@@ -941,6 +941,9 @@ export class MainGame {
         ' units.'
     )
 
+    var tmpSource = tSource
+    var tmpDest = tDest
+
     /* were are getting IDs from server, getting name strings of countries */
     tSource = THIS.getCountryNameById(tSource)
     tDest = THIS.getCountryNameById(tDest)
@@ -976,10 +979,10 @@ export class MainGame {
         THIS.getCountryNameById(tDest)
       )
       THIS.view.players[THIS.map[cSource][tSource].player].nbTerritories++
-      GameWindow.updateCountrySoldiersNumber(tDest)
+      GameWindow.updateCountrySoldiersNumber(tmpDest)
     }
     else{
-      GameWindow.updateCountrySoldiersNumber(tDest)
+      GameWindow.updateCountrySoldiersNumber(tmpDest)
     }
   }
 
@@ -1125,6 +1128,7 @@ export class MainGame {
             msg.data.attackerLoss,
             msg.data.defenderLoss
           )
+          THAT_CLASS.beginAttackPhase()
           break
 
         case Packet.prototype.getTypeOf('CURRENT_PHASE'):
@@ -1430,7 +1434,7 @@ export class MainGame {
         break
       
       case Packet.prototype.getTypeOf('DEFEND'):
-        this.attacked()
+        this.beginAttackPhase()
         break
       
       default:
