@@ -49,22 +49,22 @@ export function mapPanZoom () {
 /* Handling the double click event on map */
 export var onDbClick = function () {
   var gmap = document.getElementById('GameMap')
-  gmap.addEventListener('dblclick', _placeSoldier, true)
+  gmap.addEventListener('click', _placeSoldier, true)
 }
 
 export var disableDbClick = function () {
   var gmap = document.getElementById('GameMap')
-  gmap.removeEventListener('dblclick', _placeSoldier, true)
+  gmap.removeEventListener('click', _placeSoldier, true)
 }
 
 export var onDbClickReinUI = function () {
   var gmap = document.getElementById('GameMap')
-  gmap.addEventListener('dblclick', dblClickTerritory, true)
+  gmap.addEventListener('click', dblClickTerritory, true)
 }
 
 export var disableDbClickReinUi = function () {
   var gmap = document.getElementById('GameMap')
-  gmap.removeEventListener('dblclick', dblClickTerritory, true)
+  gmap.removeEventListener('click', dblClickTerritory, true)
 }
 /*********************************************************************************************************************/
 /* Starting the timer */
@@ -695,6 +695,24 @@ export function clearDefendUI () {
   document.getElementById('defendUI').style.visibility = 'hidden'
 }
 
+export function displayDefendUIdChooseUnits (nbUnits, targetedTerritory) {
+  var defendUI = document.getElementById('DefendUI')
+
+  defendUI.style.display = 'block'
+  defendUI.style.visibility = 'visible'
+  defendUI.style.height = '8rem'
+  defendUI.style.marginTop = '0'
+  document.getElementById('combatRed').innerHTML = MainGame.prototype.getCountryNameById(targetedTerritory)
+}
+
+export function clearDefendUIChooseUnits () {
+  console.log('clear DefendUI')
+  var defendUI = document.getElementById('DefendUI')
+  defendUI.style.display = 'none'
+  defendUI.style.visibility = 'hidden'
+  attackUI.style.height = '0'
+  attackUI.style.marginTop = '0'
+}
 /***********************************  ASK FORTIFICATION UI  ************************************************ */
 
 export function displayAskFortificationUI () {
@@ -764,21 +782,46 @@ export function attackFromTerritory(){
 
   attackFrom = selectedCountryName
   _disableAttackFromTerritory()
+    clearDisplayMessage()
+  
   displayMessage("Choose territory to attack")
   _enableChooseTerroryToAttack()
 }
 
 export function attackWith(nb){
   clearAttackChooseUnits()
-  MainGame.prototype.attack(attackFrom, selectedCountryName, nb)
+  console.log('func attack with')
+  console.log('attack from ' + attackFrom)
+  console.log('attack from ' + attackTo)
+  console.log('nb ' + nb)
+  MainGame.prototype.tryAttack(attackFrom, attackTo,nb)
+  // MainGame.prototype.attack(
+  //   MainGame.prototype.getCountryIdByName(attackFrom),
+  //   MainGame.prototype.getCountryIdByName(attackTo),
+  //   nb
+  // )
 }
 
 export function attackTerritory(){
   selectedCountryName = hoveredCountryName
-  console.log('user clicked to attack from ' + selectedCountryName)
+  console.log('user clicked to attack ' + selectedCountryName)
   document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
 
   attackTo = selectedCountryName
   _disableChooseTerroryToAttack()
   displayAttackChooseUnits()
+}
+
+export function defendTerritoryNotification (nbUnits, targetedTerritory) {
+  clearDisplayMessage()
+  displayDefendUIdChooseUnits(nbUnits, targetedTerritory)
+}
+
+export function defendWith (nbUnits) {
+  console.log('func defend with')
+  console.log('nbUnits ' + nbUnits)
+  var targetedTerritory = document.getElementById('combatRed').innerHTML
+  clearDefendUIChooseUnits()
+  clearDisplayMessage()
+  MainGame.prototype.tryDefend(targetedTerritory, nbUnits)
 }
