@@ -256,20 +256,22 @@
         <div class="combatUIRight">
           <div>Defend with</div>
           <div>
-            <img
-              draggable="false"
-              src="../assets/icons/emptyOne.svg"
-              class="armiesSelectionBtn"
-              id="selectArmyOne"
-              v-on:click="defendWith(1)"
-            >
-            <img
-              draggable="false"
-              src="../assets/icons/emptyTwo.svg"
-              class="armiesSelectionBtn"
-              id="selectArmyTwo"
-              v-on:click="defendWith(2)"
-            >
+            <button id="selectArmyOneDefend" v-on:click="defendWith(1)">
+              <img
+                id="defendOneImg"
+                draggable="false"
+                src="../assets/icons/emptyOne.svg"
+                class="armiesSelectionBtn"
+              >
+            </button>
+            <button id="selectArmyTwoDefend" v-on:click="defendWith(2)">
+              <img
+                id="defendTwoImg"
+                draggable="false"
+                src="../assets/icons/emptyTwo.svg"
+                class="armiesSelectionBtn"
+              >
+            </button >
           </div>
           <div>Armies</div>
         </div>
@@ -286,27 +288,30 @@
         <div class="combatUIRight">
           <div>Attack with</div>
           <div>
-            <img
-              draggable="false"
-              src="../assets/icons/emptyOne.svg"
-              class="armiesSelectionBtn"
-              id="selectArmyOne"
-              v-on:click="attackWith(1)"
-            >
-            <img
-              draggable="false"
-              src="../assets/icons/emptyTwo.svg"
-              class="armiesSelectionBtn"
-              id="selectArmyTwo"
-              v-on:click="attackWith(2)"
-            >
-            <img
-              draggable="false"
-              src="../assets/icons/emptyThree.svg"
-              class="armiesSelectionBtn"
-              id="selectArmyThree"
-              v-on:click="attackWith(3)"
-            >
+            <button id="selectArmyOneAttack" v-on:click="attackWith(1)">
+              <img
+                id="attackOneImg"
+                draggable="false"
+                src="../assets/icons/emptyOne.svg"
+                class="armiesSelectionBtn"
+              >
+            </button>
+            <button id="selectArmyTwoAttack" v-on:click="attackWith(2)">
+              <img
+                id="attackTwoImg"
+                draggable="false"
+                src="../assets/icons/emptyTwo.svg"
+                class="armiesSelectionBtn"
+              >
+            </button>
+            <button id="selectArmyThreeAttack" v-on:click="attackWith(3)">
+              <img
+                id="attackThreeImg"
+                draggable="false"
+                src="../assets/icons/emptyThree.svg"
+                class="armiesSelectionBtn"
+              >
+            </button>
           </div>
           <div>Armies</div>
         </div>
