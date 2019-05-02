@@ -927,9 +927,9 @@ export class MainGame {
     /* apply losses */
     THIS.map[cSource][tSource].soldiers -= attackerLoss
     THIS.map[cDest][tDest].soldiers -= defenderLoss
-    /* displaying loss(es) on map */
-    GameWindow.updateCountrySoldiersNumber(tSource)
-    GameWindow.updateCountrySoldiersNumber(tDest)
+    /* displaying loss(es) on map (using country IDs)*/
+    GameWindow.updateCountrySoldiersNumber(tmpSource)
+    GameWindow.updateCountrySoldiersNumber(tmpDest)
     // Rest
     var restAttack = this.attackUnits - attackerLoss
 
@@ -1052,7 +1052,8 @@ export class MainGame {
   beginAttackPhase(){
     console.log('Server is now on phase offense')
     if(localStorage.getItem('myId') == THIS.currentPlayer){
-      // Display message to select 
+      // Display message to select
+      GameWindow.displayCurrentPlayer()
       GameWindow.displayMessage("You are attacking, select start territory")
         // Enable click
       GameWindow._enableAttackFromTerritory()
@@ -1109,9 +1110,9 @@ export class MainGame {
           console.log('CURRENT_PHASE: ' + msg.data.phase + ', now ' + THIS.playerList[THIS.currentPlayer].displayName + ' is playing')
           
           if(msg.data.phase == phases['REINFORCEMENT']){
-            THIS.autoRein = false
+            
           }
-          
+          THIS.autoRein = false
           /* updates the current phase in players controls area */
           GameWindow.displayCurrentPhase(msg.data.phase)
 
