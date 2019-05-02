@@ -481,8 +481,9 @@ export function displayCurrentPhase (phase) {
 export function displayCurrentPlayer () {
   var currentPlayer = MainGame.prototype.getActivePlayerId()
   document.getElementById('messageUITop').innerHTML = ''
+  console.log('auto rein is ' + MainGame.prototype.getAutoRein())
   console.log('******************  GAMEWINDOW  ********************')
-      console.log('localstorage id = ' + localStorage.getItem('myId') + ', view.current = ' + currentPlayer)
+  console.log('localstorage id = ' + localStorage.getItem('myId') + ', view.current = ' + currentPlayer)
   if (currentPlayer == localStorage.getItem('myId')) {
     document.getElementById('messageUITop').innerHTML = 'Your turn'
     if(MainGame.prototype.getAutoInit() === true){
@@ -665,13 +666,12 @@ export function clearAttackUI () {
 }
 
 
-export function displayAttackChooseUnits () {
-  document.getElementById('AttackUI').style.display = 'block'
-  document.getElementById('AttackUI').style.visibility = 'visible'
-  var attackUI = document.getElementById('attackUI')
+export function displayAttackChooseUnits (attackTerritory) {
+  var attackUI = document.getElementById('AttackUI')
+  attackUI.style.display = 'block'
   attackUI.style.visibility = 'visible'
-  attackUI.style.height = '10rem'
-  attackUI.style.marginTop = '1rem'
+  attackUI.style.height = '8rem'
+  document.getElementById('attackCombatRed').innerHTML = attackTerritory
 }
 
 export function clearAttackChooseUnits () {
@@ -704,15 +704,16 @@ export function clearDefendUI () {
 
 export function displayDefendUIdChooseUnits (nbUnits, targetedTerritory) {
   var defendUI = document.getElementById('DefendUI')
-
   defendUI.style.display = 'block'
   defendUI.style.visibility = 'visible'
   defendUI.style.height = '8rem'
   defendUI.style.marginTop = '0'
-  if(targetedTerritory !== undefined)
-    document.getElementById('combatRed').innerHTML = MainGame.prototype.getCountryNameById(targetedTerritory)
-  else
-  document.getElementById('combatRed').innerHTML = "Territory"
+  if(targetedTerritory !== undefined){
+    document.getElementById('defendCombatRed').innerHTML = MainGame.prototype.getCountryNameById(targetedTerritory)
+    document.getElementById('attackingUnits').innerHTML = nbUnits
+  } else {
+    document.getElementById('defendCombatRed').innerHTML = "Territory"
+  }
 }
 
 export function clearDefendUIChooseUnits () {
@@ -774,13 +775,13 @@ export var _disableAttackFromTerritory = function () {
 }
 
 var attackTo = ""
-export var _enableChooseTerroryToAttack = function () {
+export var _enableChooseTerritoryToAttack = function () {
   var gmap = document.getElementById('GameMap')
   gmap.addEventListener('click', attackTerritory, true)
   attackTo = ""
 }
 
-export var _disableChooseTerroryToAttack = function () {
+export var _disableChooseTerritoryToAttack = function () {
   var gmap = document.getElementById('GameMap')
   gmap.removeEventListener('click', attackTerritory, true)
 }
@@ -792,14 +793,16 @@ export function attackFromTerritory(){
 
   attackFrom = selectedCountryName
   _disableAttackFromTerritory()
-    clearDisplayMessage()
+  clearDisplayMessage()
   
   displayMessage("Choose territory to attack")
-  _enableChooseTerroryToAttack()
+  _enableChooseTerritoryToAttack()
 }
 
 export function attackWith(nb){
   clearAttackChooseUnits()
+  displayUITop()
+  displayMessage('You launched an attack on ' + attackTo + ' from ' + attackFrom + ' with ' + nb + 'unit(s)')
   console.log('func attack with')
   console.log('attack from ' + attackFrom)
   console.log('attack from ' + attackTo)
@@ -818,12 +821,15 @@ export function attackTerritory(){
   document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
 
   attackTo = selectedCountryName
-  _disableChooseTerroryToAttack()
-  displayAttackChooseUnits()
+  _disableChooseTerritoryToAttack()
+  clearMessageUITop()
+  clearDisplayMessage()
+  displayAttackChooseUnits(attackTo)
 }
 
 export function defendTerritoryNotification (nbUnits, targetedTerritory) {
   clearDisplayMessage()
+  clearMessageUITop()
   if(nbUnits !== undefined && targetedTerritory !== undefined){
     displayDefendUIdChooseUnits(nbUnits, targetedTerritory)
   }
@@ -836,8 +842,35 @@ export function defendTerritoryNotification (nbUnits, targetedTerritory) {
 export function defendWith (nbUnits) {
   console.log('func defend with')
   console.log('nbUnits ' + nbUnits)
-  var targetedTerritory = document.getElementById('combatRed').innerHTML
+  displayUITop()
+  
+  var targetedTerritory = document.getElementById('defendCombatRed').innerHTML
+  displayMessage('You defended attack on ' + targetedTerritory + ' with ' + nbUnits + ' unit(s)')
   clearDefendUIChooseUnits()
   clearDisplayMessage()
   MainGame.prototype.tryDefend(targetedTerritory, nbUnits)
+}
+
+export function clearMessageUITop () {
+  var messageUITop = document.getElementById('messageUITop')
+  messageUITop.innerHTML = ''
+  messageUITop.style.display = 'none'
+  messageUITop.style.visibility = 'hidden'
+  messageUITop.style.height = '0'
+  messageUITop.style.margin = '0'
+  messageUITop.style.padding = '0'
+}
+
+export function displayUITop () {
+  var messageUITop = document.getElementById('messageUITop')
+  messageUITop.style.display = 'block'
+  messageUITop.style.visibility = 'visible'
+  messageUITop.style.height = '2rem'
+  messageUITop.style.borderBottom = 'solid #f9ce93 1px'
+  messageUITop.style.marginBottom = '1rem'
+  messageUITop.style.paddingBottom = '0.5rem'
+  messageUITop.style.textAlign = 'center'
+  messageUITop.style.width = '40vw'
+  messageUITop.style.position = 'absolute'
+  messageUITop.style.bottom = '70px'
 }
