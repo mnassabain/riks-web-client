@@ -181,8 +181,9 @@ export var _addReinforcement = function (evt) {
       selectedCountryName,
       nbUnits
     )
+    console.log('Try to add units on ' + selectedCountryName)  
   }
-  console.log('Try to add units on ' + selectedCountryName)  
+  
 }
 
 // generic function to create an xml element
@@ -422,12 +423,16 @@ export function updateRatioBar (player, nbTerritories) {
 export var _displayReinforcementUI = function () {
   selectedCountryName = hoveredCountryName
 
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  document.getElementById('reinforcementUI').style.visibility = 'visible'
-  document.getElementById(
-    'reinforcementTerritory'
-  ).innerHTML = selectedCountryName
+  console.log("selected country name class" + selectedCountryName + ' class :' )
+  console.log(document.getElementById(selectedCountryName).className)
+  if(document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
+    document.getElementById('messageDisplay').style.display = 'block'
+    document.getElementById('messageDisplay').style.visibility = 'visible'
+    document.getElementById('reinforcementUI').style.visibility = 'visible'
+    document.getElementById(
+      'reinforcementTerritory'
+    ).innerHTML = selectedCountryName
+  }
 }
 
 export function clearReinUI () {
@@ -447,11 +452,15 @@ export function clearReinUI () {
  */
 export function addReinUnit (value) {
   clearReinUI()
-  console.log('added value rein unit = ' + value)
-  console.log('on ' + selectedCountryName)
-  /* here we handle the put unit during phase 1 (reinforcements) */
-  MainGame.prototype.tryPutUnits(localStorage.getItem('myId'), 
-    selectedCountryName, value)
+  if(value < 1){
+    displayMessage('You have to add at least 1 unit')
+  } else  {
+    console.log('added value rein unit = ' + value)
+    console.log('on ' + selectedCountryName)
+    /* here we handle the put unit during phase 1 (reinforcements) */
+    MainGame.prototype.tryPutUnits(localStorage.getItem('myId'), 
+      selectedCountryName, value)
+  }
 }
 
 
@@ -717,11 +726,12 @@ export function attackFromTerritory(){
   document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
 
   attackFrom = selectedCountryName
-  _disableAttackFromTerritory()
-  clearDisplayMessage()
-  
-  displayMessage("Choose territory to attack")
-  _enableChooseTerritoryToAttack()
+  if(document.getElementById(attackFrom).className.baseVal !== 'sea') {
+    _disableAttackFromTerritory()
+    clearDisplayMessage()
+    displayMessage("Choose territory to attack")
+    _enableChooseTerritoryToAttack()
+  }
 }
 
 export function attackWith(nb){
@@ -730,7 +740,7 @@ export function attackWith(nb){
   displayMessage('You launched an attack on ' + attackTo + ' from ' + attackFrom + ' with ' + nb + 'unit(s)')
   console.log('func attack with')
   console.log('attack from ' + attackFrom)
-  console.log('attack from ' + attackTo)
+  console.log('attack to ' + attackTo)
   console.log('nb ' + nb)
   MainGame.prototype.tryAttack(attackFrom, attackTo,nb)
   // MainGame.prototype.attack(
@@ -746,10 +756,15 @@ export function attackTerritory(){
   document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
 
   attackTo = selectedCountryName
-  _disableChooseTerritoryToAttack()
-  clearMessageUITop()
-  clearDisplayMessage()
-  displayAttackChooseUnits()
+
+  console.log(document.getElementById(attackTo).className)
+
+  if(document.getElementById(attackTo).className.baseVal !== 'sea') {
+    _disableChooseTerritoryToAttack()
+    clearMessageUITop()
+    clearDisplayMessage()
+    displayAttackChooseUnits()
+  }
 }
 
 export function defendTerritoryNotification (nbUnits, targetedTerritory) {
@@ -761,7 +776,6 @@ export function defendTerritoryNotification (nbUnits, targetedTerritory) {
   else{
     displayDefendUIdChooseUnits()
   }
-  
 }
 
 export function defendWith (nbUnits) {

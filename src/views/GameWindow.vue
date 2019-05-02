@@ -41,7 +41,7 @@
           <div class="innerReinUIcenter">Reinforce with</div>
          <div class="innerReinUIcenter">
             
-            <input v-model.number="units" type="number" id="unitsToPut">
+            <input v-model.number="units" type="number" id="unitsToPut" min="0" pattern="\d+">
 
           </div>
           <div class="innerReinUIcenter">Units</div>

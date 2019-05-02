@@ -762,22 +762,22 @@ export class MainGame {
     }
 
     /* check if the player controls the attacking territory territories */
-    if (THIS.map[cSource][tSource].player != THIS.currentPlayer) {
-      console.log('Action not permitted: you do not control the territory')
-      return -1
-    }
+    // if (THIS.map[cSource][tSource].player != THIS.currentPlayer) {
+    //   console.log('Action not permitted: you do not control the territory')
+    //   return -1
+    // }
 
     /* check if the attacked territory doesn't belong to the attacking player */
-    if (THIS.map[cDest][tDest].player == THIS.map[cSource][tSource]) {
-      console.log('Action not permitted: cannot attack own territory')
-      return -1
-    }
+    // if (THIS.map[cDest][tDest].player == THIS.map[cSource][tSource]) {
+    //   console.log('Action not permitted: cannot attack own territory')
+    //   return -1
+    // }
 
     /* check if the number of units is ok */
-    if (THIS.map[cSource][tSource].soldiers <= nbUnits) {
-      console.log('Action not permitted: not enough units')
-      return -1
-    }
+    // if (THIS.map[cSource][tSource].soldiers <= nbUnits) {
+    //   console.log('Action not permitted: not enough units')
+    //   return -1
+    // }
 
     /* check if the territories are adjacent */
     // if (!areAdjacent(tSource, tDest)) {
@@ -1049,12 +1049,17 @@ export class MainGame {
     return 0
   }
 
-  beginAttackPhase(){
+  beginAttackPhase(message){
+    var secondStr = ""
+    if(message !== undefined){
+      secondStr = message + '<br/>'
+    }
+
     console.log('Server is now on phase offense')
     if(localStorage.getItem('myId') == THIS.currentPlayer){
       // Display message to select
       GameWindow.displayCurrentPlayer()
-      GameWindow.displayMessage("You are attacking, select start territory")
+      GameWindow.displayMessage( secondStr + "You are attacking, select start territory")
         // Enable click
       GameWindow._enableAttackFromTerritory()
       // 1. Select territory from which to attack
@@ -1395,15 +1400,19 @@ export class MainGame {
     }
   }
 
+  //{"data":{"errType":21,"message":"ATTACK: You cannot attack one of your terrirories"},"type":0}
+
   ErrorHandling(data){
     var str = data.message
     GameWindow.displayMessage(str.substr(str.indexOf(':') + 1))
-    THIS.updateViewPlayers(THIS.playerList)
+    //THIS.updateViewPlayers(THIS.playerList)
     console.log(str)
     
-    switch(data.type){
+    switch(data.errType){
       case Packet.prototype.getTypeOf('ATTACK'):
-        this.beginAttackPhase()
+        console.log('error attack')
+        console.log(data.errType)
+        THIS.beginAttackPhase(str.substr(str.indexOf(':') + 1))
         break
       
       case Packet.prototype.getTypeOf('DEFEND'):
