@@ -1063,11 +1063,24 @@ export class MainGame {
 
       // 3. Send info to server
     } else {
-      GameWindow.clearDisplayMessage()
-      GameWindow.displayMessage(THIS.getPlayerNameById(THIS.currentPlayer) + ' is attacking')
+      //GameWindow.clearDisplayMessage()
+      GameWindow.displayMessageUITop(THIS.getPlayerNameById(THIS.currentPlayer) + ' is attacking')
     }
   }
 
+  getUnitsOnTerritory (territoryName) {
+    var cName = getContinentOf(territoryName)
+    var units = THIS.map[cName][territoryName].soldiers
+    return units
+  }
+
+  getTerritoryOwnerName (territoryName) {
+    var cName = getContinentOf(territoryName)
+    var owner = THIS.map[cName][territoryName].player
+    var ownerName = THIS.getPlayerNameById(owner)
+    return ownerName
+  }
+  
   handleIncommingMessages () {
     var THAT_CLASS = this
     THIS.$socket.onmessage = function (d) {
