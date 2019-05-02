@@ -97,15 +97,6 @@ export function startMouseoverCountry () {
 }
 
 export var _placeSoldier = function (evt) {
-  var country = evt.target
-
-  // if (evt.target.className.baseVal !== 'sea') {
-  //   clearDisplayMessage()
-  //   displayMessage('This territory is occupied !')
-  //   return
-  // }
-
-  // getting the country id
   selectedCountryName = hoveredCountryName
 
   MainGame.prototype.tryPutUnits(
@@ -113,59 +104,6 @@ export var _placeSoldier = function (evt) {
     selectedCountryName,
     1
   )
-
-  // console.log(
-  //   'free territories left : ' + MainGame.prototype.getFreeTerritoriesNumber()
-  // )
-  // if (MainGame.prototype.getFreeTerritoriesNumber() > 0) {
-  //   if (MainGame.prototype.tryPutUnits() == true) {
-  //     if (
-  //       MainGame.prototype.checkTerritoryFreedom(selectedCountryName) == true
-  //     ) {
-  //       // looping on the map object to match the dbclicked country
-  //       Object.keys(map).forEach(key => {
-  //         var continentName = map[key]
-  //         for (var countries in continentName) {
-  //           var res =
-  //             countries == selectedCountryName
-  //               ? 0
-  //               : countries > selectedCountryName
-  //                 ? 1
-  //                 : -1
-  //           if (res == 0) {
-  //             // limiting the number of appended icons to 1
-  //             if (continentName[countries].soldiers == 0) {
-  //               // puts a soldier icon on the country
-  //               // drawSoldier(localStorage.myColor, selectedCountryName)
-  //               // // changes the country color to the own player color
-  //               // document.getElementById(selectedCountryName).style.fill =
-  //               //   localStorage.myColor
-  //             }
-  //           } else {
-  //             // console.log("no match")
-  //           }
-  //         }
-  //       })
-  //       MainGame.prototype.claimTerritory(
-  //         MainGame.prototype.getCountryIdByName(selectedCountryName)
-  //       )
-  //     } else {
-  //       if (evt.target.className.baseVal !== 'sea') {
-  //         clearDisplayMessage()
-  //         displayMessage('This territory is occupied !')
-  //       }
-  //     }
-  //   } else {
-  //     clearDisplayMessage()
-  //     displayMessage('Wait for your turn please')
-  //   }
-  // } else {
-  //   clearDisplayMessage()
-  //   MainGame.prototype.claimTerritory(
-  //     MainGame.prototype.getCountryIdByName(selectedCountryName)
-  //   )
-  //   // displayMessage('No more free territories left !')
-  // }
 }
 
 /** Draws a svg soldier icon on the country passed, and add the number
@@ -215,14 +153,8 @@ export function drawSoldier (color, countryName) {
 }
 
 export var _addReinforcement = function (evt) {
-  // var country = evt.target
-
   // getting the country id
   selectedCountryName = hoveredCountryName
-  // console.log('Target country : ' + selectedCountryName)
-  // console.log(
-  //   'Units left : ' + MainGame.prototype.getMyReinforcementNum()
-  // )
 
   // if (evt.target.className.baseVal !== 'sea') {
   //     clearDisplayMessage()
@@ -237,7 +169,8 @@ export var _addReinforcement = function (evt) {
     // nbUnits = valeur_saisie
     console.log('PHASE 0 -------------------------- DISPLAYING REIN UI')
     disableDbClick()
-    onDbClickReinUI()
+    disableDbClickReinUi()
+    dblClickTerritory()
     /*allows the current player to use next phase button*/
     if(localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()){
       enableNextPhaseBtn()
@@ -249,46 +182,7 @@ export var _addReinforcement = function (evt) {
       nbUnits
     )
   }
-
-  console.log('Try to add units on ' + selectedCountryName)
-
-  // if (MainGame.prototype.getMyReinforcementNum() > 0) {
-  //   if (MainGame.prototype.tryPutUnits() === true) {
-  //     if (
-  //       MainGame.prototype.checkTerritoryIsMine(selectedCountryName) === true
-  //     ) {
-  //       // looping on the map object to match the dbclicked country
-  //       Object.keys(map).forEach(key => {
-  //         var continentName = map[key]
-  //         for (var countries in continentName) {
-  //           var res =
-  //             countries == selectedCountryName
-  //               ? 0
-  //               : countries > selectedCountryName
-  //                 ? 1
-  //                 : -1
-  //           if (res == 0) {
-  //             /* asks server to put units */
-  //             console.log('try to add units on ' + selectedCountryName)
-  //             MainGame.prototype.putUnit(selectedCountryName, 1)
-  //           }
-  //         }
-  //       })
-  //     } else {
-  //       if (evt.target.className.baseVal !== 'sea') {
-  //         clearDisplayMessage()
-  //         displayMessage(selectedCountryName + ' is not Yours !')
-  //       }
-  //     }
-  //   } else {
-  //     clearDisplayMessage()
-  //     displayMessage('Wait for your turn please')
-  //   }
-  // } else {
-  //   clearDisplayMessage()
-  //   displayMessage("You've got no more units left !")
-  //   // MainGame.prototype.nextPlayerTurn()
-  // }
+  console.log('Try to add units on ' + selectedCountryName)  
 }
 
 // generic function to create an xml element
@@ -572,7 +466,7 @@ export function dblClickTerritory(evt) {
   if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
     _placeSoldier(evt)
   }
-  else {
+  else if (MainGame.prototype.getCurrentPhase() == phases['REINFORCEMENT']) {
     _displayReinforcementUI()
   }
 }
@@ -666,12 +560,32 @@ export function clearAttackUI () {
 }
 
 
-export function displayAttackChooseUnits (attackTerritory) {
+export function displayAttackChooseUnits () {
+  var unitsAvailable = MainGame.prototype.getUnitsOnTerritory(attackFrom)
+  console.log('units available on ' + attackFrom + ' : ' + unitsAvailable)
+
   var attackUI = document.getElementById('AttackUI')
   attackUI.style.display = 'block'
   attackUI.style.visibility = 'visible'
   attackUI.style.height = '8rem'
-  document.getElementById('attackCombatRed').innerHTML = attackTerritory
+  document.getElementById('attackCombatRed').innerHTML = attackTo
+
+  if(unitsAvailable < 4){
+    document.getElementById('selectArmyThreeAttack').disabled = true
+    document.getElementById('attackThreeImg').style.cursor = 'not-allowed'
+  }  else {
+    document.getElementById('selectArmyThreeAttack').disabled = false
+    document.getElementById('attackThreeImg').style.cursor = 'pointer'
+  }
+  
+  if(unitsAvailable < 3) {
+    document.getElementById('selectArmyTwoAttack').disabled = true
+    document.getElementById('attackTwoImg').style.cursor = 'not-allowed'
+  } else {
+    document.getElementById('selectArmyTwoAttack').disabled = false
+    document.getElementById('attackTwoImg').style.cursor = 'pointer'
+  }
+
 }
 
 export function clearAttackChooseUnits () {
@@ -702,17 +616,28 @@ export function clearDefendUI () {
   document.getElementById('defendUI').style.visibility = 'hidden'
 }
 
-export function displayDefendUIdChooseUnits (nbUnits, targetedTerritory) {
+export function displayDefendUIdChooseUnits (nbUnits, targetedTerritoryId) {
+  var tName = MainGame.prototype.getCountryNameById(targetedTerritoryId)
+  var unitsAvailable = MainGame.prototype.getUnitsOnTerritory(tName)
+  console.log('units available on ' + tName + ' : ' + unitsAvailable)
+  
   var defendUI = document.getElementById('DefendUI')
   defendUI.style.display = 'block'
   defendUI.style.visibility = 'visible'
   defendUI.style.height = '8rem'
   defendUI.style.marginTop = '0'
-  if(targetedTerritory !== undefined){
-    document.getElementById('defendCombatRed').innerHTML = MainGame.prototype.getCountryNameById(targetedTerritory)
+  if(tName !== undefined){
+    document.getElementById('defendCombatRed').innerHTML = tName
     document.getElementById('attackingUnits').innerHTML = nbUnits
   } else {
     document.getElementById('defendCombatRed').innerHTML = "Territory"
+  }
+  if(unitsAvailable < 2){
+    document.getElementById('selectArmyTwoDefend').disabled = true
+    document.getElementById('defendTwoImg').style.cursor = 'not-allowed'
+  } else {
+    document.getElementById('selectArmyTwoDefend').disabled = false
+    document.getElementById('defendTwoImg').style.cursor = 'pointer'
   }
 }
 
@@ -824,7 +749,7 @@ export function attackTerritory(){
   _disableChooseTerritoryToAttack()
   clearMessageUITop()
   clearDisplayMessage()
-  displayAttackChooseUnits(attackTo)
+  displayAttackChooseUnits()
 }
 
 export function defendTerritoryNotification (nbUnits, targetedTerritory) {
@@ -847,7 +772,7 @@ export function defendWith (nbUnits) {
   var targetedTerritory = document.getElementById('defendCombatRed').innerHTML
   displayMessage('You defended attack on ' + targetedTerritory + ' with ' + nbUnits + ' unit(s)')
   clearDefendUIChooseUnits()
-  clearDisplayMessage()
+  //clearDisplayMessage()
   MainGame.prototype.tryDefend(targetedTerritory, nbUnits)
 }
 
@@ -873,4 +798,9 @@ export function displayUITop () {
   messageUITop.style.width = '40vw'
   messageUITop.style.position = 'absolute'
   messageUITop.style.bottom = '70px'
+}
+
+export function displayMessageUITop (message) {
+  var messageUITop = document.getElementById('messageUITop')
+  messageUITop.innerHTML = message
 }
