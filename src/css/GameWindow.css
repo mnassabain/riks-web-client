@@ -553,10 +553,10 @@ p {
   visibility: hidden;
 }
 
-#combatRed {
+#attackCombatRed, #defendCombatRed {
   color: rgb(225, 103, 103);
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 
 /* ------------------------------------------------------------------------*/
@@ -668,7 +668,8 @@ p {
   display: none;
 }
 
-#messageUITop {border-bottom: solid #f9ce93 1px;
+#messageUITop {
+  border-bottom: solid #f9ce93 1px;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
   text-align: center;
