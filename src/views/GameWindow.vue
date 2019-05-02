@@ -247,7 +247,7 @@
       
       <div id="DefendUI">
         <div class="combatUILeft">
-          div id="defendCombatRed"></div>
+          <div id="defendCombatRed"></div>
           <div>is attacked by <span id="attackingUnits"></span> unit(s)</div>
         </div>
         <div class="combatUICenter" id="defendBtn">
