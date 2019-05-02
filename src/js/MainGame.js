@@ -36,10 +36,8 @@ export class MainGame {
     this.currentUserName = localStorage.name
     this.freeTerritories = 42
     THIS = this
-    this.totalUnits = 0
     this.totalPlayers = 0
     this.prephaseLogic = false
-    // this.firstPlayer
     this.gameIsSet = false
     this.prephaseIsDone = false
     this.attackUnits = 0
@@ -84,12 +82,6 @@ export class MainGame {
     console.log('currentPlayer ' + this.currentPlayer)
     this.totalPlayers = data.nbPlayers
     console.log('totalPlayers ' + this.totalPlayers)
-
-    this.totalUnits = 0
-    for (var i = 0; i < data.players.length; i++) {
-      this.totalUnits += data.players[i].reinforcements
-    }
-    console.log('totalReinforcements ' + this.totalUnits)
 
     /* sets view's players array */
     this.setPlayersData(data)
@@ -142,10 +134,11 @@ export class MainGame {
       console.log('player is set :')
       console.log(p)
       self.playerList.push(p)
+      THIS.view.localArmies = data.players[i].reinforcements
       i++
     })
     console.log('this playerlist is set')
-    console.log(self.playerList)
+    console.log(self.playerList)    
 
     // The player list is copyied to the view
     self.view.players = self.playerList
@@ -207,8 +200,6 @@ export class MainGame {
         i++
       }
     })
-    // console.log('map is set:')
-    // console.log(THIS.map)
   }
 
   /**
@@ -232,8 +223,6 @@ export class MainGame {
         i++
       }
     })
-    // console.log('map data has been updated:')
-    // console.log(THIS.map)
   }
 
   /**
@@ -267,32 +256,19 @@ export class MainGame {
   }
 
   /**
-   * Checks if local player is the game active player
+   * Checks if player cat call server for putting units on given territory
    *
    * @returns true or false
    */
   tryPutUnits (player, territory, units) {
-    // console.log('try put units')
-    // console.log(THIS.currentPlayer)
-    // if (localStorage.myId == THIS.currentPlayer) {
-    //   return true
-    // } else {
-    //   return false
-    // }
 
-    /* tester nombre d'unités */
+    /* test if enough units left */
     if (MainGame.prototype.getMyReinforcementNum() <= 0) {
       console.log('not enough units')
       GameWindow.clearDisplayMessage()
       GameWindow.displayMessage("You've got no more units left !")
       return
     }
-
-    // if (MainGame.prototype.getMyReinforcementNum() == 1 && THAT_CLASS.currentPhase == phases['PREPHASE']) {
-    //   THIS.prephaseIsDone = true
-    // }
-
-    // var playerName = THIS.getPlayerNameById(player)
 
     // test if my territory
     var continent = getContinentOf(territory)
@@ -519,7 +495,7 @@ export class MainGame {
      */
   }
 
-autoInit (id) {
+  autoInit (id) {
     console.log('cpt = ' + THIS.cpt)
     var cId = THIS.cpt + id 
     var tName = THIS.getCountryNameById(cId)
@@ -628,12 +604,6 @@ autoInit (id) {
     THIS.currentPlayer =
       (THIS.currentPlayer + 1) % THIS.totalPlayers
     THIS.view.currentPlayer = THIS.currentPlayer
-    // console.log(
-    //   'current player = ' +
-    //     THIS.currentPlayer +
-    //     ', id =' +
-    //     THIS.playerList[THIS.currentPlayer].displayName
-    // )
   }
 
   /**
@@ -773,45 +743,6 @@ autoInit (id) {
     THIS.$socket.send(new Packet('END_PHASE').getJson())
   }
 
-  /**
-   * Updates the units quantity of the local player
-   *
-   * @param player  the active player
-   */
-  updateReinforcement (player) {
-    var unitsLeft = localStorage.getItem('reinforcements')
-
-    /*******************************************************************************************/
-    console.log('update reinforcement: ' + unitsLeft + ' to ' + (unitsLeft - 1))
-
-    unitsLeft = unitsLeft - 1
-    var territoriesNum
-    if (THIS.getFreeTerritoriesNumber() > 0) {
-      territoriesNum = parseInt(localStorage.getItem('territories')) + 1
-    } else {
-      territoriesNum = parseInt(localStorage.getItem('territories'))
-    }
-    THIS.view.localArmies = THIS.getActivePlayer().reinforcements
-    THIS.view.localTerritories = territoriesNum
-
-    console.log(territoriesNum)
-
-    localStorage.setItem('reinforcements', unitsLeft)
-    localStorage.setItem('territories', territoriesNum)
-
-    // if(THIS.currentPhase == 0)
-    // {
-    //     THIS.activePlayerReinforcement -- ;
-    // }
-
-    // /* if the player has used his reinforcement and he has less than 4 tokens
-    // send the END_PHASE message to the server */
-    // if(THIS.activePlayerReinforcement == 0)
-    // {
-    //     THIS.endPhase();
-    // }
-  }
-
   /** Try to launch an attack
    *
    * @param tSource the attacking territory
@@ -891,8 +822,6 @@ autoInit (id) {
       destination: tDest,
       units: nbUnits
     }
-    
-    //THIS.sendToServer(new Packet('ATTACK', data))
   }
 
   /** Called when the player is being attacked
@@ -998,7 +927,9 @@ autoInit (id) {
     /* apply losses */
     THIS.map[cSource][tSource].soldiers -= attackerLoss
     THIS.map[cDest][tDest].soldiers -= defenderLoss
-
+    /* displaying loss(es) on map */
+    GameWindow.updateCountrySoldiersNumber(tSource)
+    GameWindow.updateCountrySoldiersNumber(tDest)
     // Rest
     var restAttack = this.attackUnits - attackerLoss
 
@@ -1010,7 +941,6 @@ autoInit (id) {
       THIS.map[cDest][tDest].soldiers = restAttack
 
       console.log('Territory ' + tDest + ' is conquered by the attacker')
-
 
       /* change the color of a territory during the pre-phase */
       GameWindow.setCountryColor(
@@ -1279,15 +1209,13 @@ autoInit (id) {
           /* remove reinforcements from player */
           THAT_CLASS.view.players[msg.data.player].reinforcements -=
             msg.data.units
-          // THAT_CLASS.playerList[msg.data.player].reinforcements -= msg.data.units
+          /* local player informations */
+          if(localStorage.getItem('myId')  == msg.data.player) {
+            THAT_CLASS.view.localArmies -= msg.data.units
+          }
 
           if (THAT_CLASS.currentPhase == phases['PREPHASE']) {
-            
-            /* updating total amount of units left */
-            THIS.totalUnits -= 1
-            console.log('Total units left ' + THIS.totalUnits)
-            /* saving last player who put for display purposes */
-            var currentPlayerBefore = THAT_CLASS.currentPlayer
+
             /* updating current player turn */
             THAT_CLASS.nextPlayerTurn()
             GameWindow.displayCurrentPlayer()
@@ -1319,6 +1247,9 @@ autoInit (id) {
               )
 
               THAT_CLASS.view.players[msg.data.player].nbTerritories++
+              if(localStorage.getItem('myId') == msg.data.player) {
+                THAT_CLASS.view.localTerritories++
+              }
             }
             GameWindow.updateCountrySoldiersNumber(msg.data.territory)
 
@@ -1345,7 +1276,6 @@ autoInit (id) {
                   ' unit(s) on ' +
                   THAT_CLASS.getCountryNameById(msg.data.territory)
               )
-              THAT_CLASS.updateReinforcement(currentPlayerBefore)
             } else {
               GameWindow.displayMessage(
                 THAT_CLASS.getPlayerNameById(msg.data.player) +
@@ -1354,22 +1284,9 @@ autoInit (id) {
                   ' unit(s) on ' +
                   THAT_CLASS.getCountryNameById(msg.data.territory)
               )
-
-              // THAT_CLASS.playerList[msg.data.player].reinforcements--
-            }
-            /* if all players have spent their units */
-            if (THAT_CLASS.totalUnits == 0) {
-              /* removing double click listener on addreinforcement */
-              GameWindow.clearDisplayMessage()
-              GameWindow.displayMessage('All units are in place now !')
             }
           }
           else if (THAT_CLASS.currentPhase == phases['REINFORCEMENT']){
-            /* updating total amount of units left */
-            THIS.totalUnits -= 1
-            console.log('Total units left ' + THIS.totalUnits)
-            /* saving last player who put for display purposes */
-            var currentPlayerBefore = THAT_CLASS.currentPlayer
 
             GameWindow.displayCurrentPlayer()
 
@@ -1425,7 +1342,6 @@ autoInit (id) {
                   ' unit(s) on ' +
                   THAT_CLASS.getCountryNameById(msg.data.territory)
               )
-              THAT_CLASS.updateReinforcement(currentPlayerBefore)
             } else {
               GameWindow.displayMessage(
                 THAT_CLASS.getPlayerNameById(msg.data.player) +
@@ -1436,16 +1352,10 @@ autoInit (id) {
               )
             }
           }
-          /* THIS.putResponse(msg.player.name,msg.territory,msg.units); */
           break
 
         case Packet.prototype.getTypeOf('REINFORCEMENT'):
           console.log('REINFORCEMENT' + msg)
-          // THAT_CLASS.activePlayerReinforcement += msg.data.units
-          // localStorage.setItem(
-          //   'reinforcements',
-          //   THAT_CLASS.activePlayerReinforcement
-          // )
 
           THAT_CLASS.view.players[msg.data.player].reinforcements +=
             msg.data.units
@@ -1490,7 +1400,6 @@ autoInit (id) {
         break
     }
   }
-
 
   innerLoop () {
     THIS.synchronize()
