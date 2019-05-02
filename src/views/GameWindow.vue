@@ -247,8 +247,8 @@
       
       <div id="DefendUI">
         <div class="combatUILeft">
-          <div id="combatRed"></div>
-          <div>is attacked !</div>
+          div id="defendCombatRed"></div>
+          <div>is attacked by <span id="attackingUnits"></span> unit(s)</div>
         </div>
         <div class="combatUICenter" id="defendBtn">
           <img draggable="false" onclick="test()" src="../assets/icons/defend.svg" class="bigBtn">
@@ -278,7 +278,7 @@
       <div id="AttackUI">
         <div class="combatUILeft">
           <div>You are attacking</div>
-          <div id="combatRed">Player_2</div>
+          <div id="attackCombatRed"></div>
         </div>
         <div class="combatUICenter" id="defendBtn">
           <img draggable="false" onclick="tes()" src="../assets/icons/attack.svg" class="bigBtn">
