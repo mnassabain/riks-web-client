@@ -1,877 +1,907 @@
-import * as d3 from 'd3'
-import * as svgPanZoom from 'svg-pan-zoom'
+/*
+Colors palette:
 
-import { map, getContinentOf } from './Map'
-import { Player } from './Player'
-import { MainGame, phases } from './MainGame'
+Text #FDF6EB
+Icons in the interface #FBE3C2
+Interface accent color #F9CE93
+Interface background #27282D
+Interface grey contrast element #5D5D61
+Water #2E4267
+Player red #DF4C4C
+Player blue #3D76E2
+Player green #59AD4A
+Player orange #F0713C
+Player yellow #F6D63D
+Player purple #9367DA
+*/
 
-/*********************************************************************************************************************/
-/* Variables */
-var svg
-var doc
-var highlight
-var countries
-var seas
-var hoveredCountryName
-var selectedCountryName
-
-/*********************************************************************************************************************/
-/* Menu handling */
-
-/* When the user clicks on the button, toggle between hiding and showing the dropdown content */
-export function dropdownClick () {
-  document.getElementById('myDropdown').classList.toggle('show')
+@font-face {
+  font-family: "Copperplate";
+  src: url("../assets/fonts/Copperplate.ttf");
 }
 
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function (event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName('dropdown-content')
-    var i
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i]
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show')
-      }
-    }
-  }
+/* The map */
+.Map {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
-/*********************************************************************************************************************/
-/* Handling the pan and zoom of the map with the svg-pan-zoom library */
-export function mapPanZoom () {
-  var panZoomMap = svgPanZoom('#GameMap', {
-    controlIconsEnabled: false,
-    dblClickZoomEnabled: false
-  })
+/* Tokens display NorthWest UI*/
+.tokens {
+  width: 16.5rem;
+  height: 3.5rem;
+  background-color: #27282d;
+  position: absolute;
+  border-right: solid 0.2rem #f9ce93;
+  border-bottom: solid 0.2rem #f9ce93;
+  border-top: none;
+  left: 0;
+  top: 0;
+  border-bottom-right-radius: 2.2rem;
+  opacity: 0.9;
 }
 
-/* Handling the double click event on map */
-export var onDbClick = function () {
-  var gmap = document.getElementById('GameMap')
-  gmap.addEventListener('click', _placeSoldier, true)
+[id^="tokenType"],
+[id*="tokenType"] {
+  float: left;
+  margin: 0.3rem 0.4rem 0rem 0.4rem;
 }
 
-export var disableDbClick = function () {
-  var gmap = document.getElementById('GameMap')
-  gmap.removeEventListener('click', _placeSoldier, true)
+[id^="tokenType"],
+[id*="tokenType"] > img {
+  width: 1.8rem;
+  height: 1.8rem;
 }
 
-export var onDbClickReinUI = function () {
-  var gmap = document.getElementById('GameMap')
-  gmap.addEventListener('click', dblClickTerritory, true)
+[id^="nbTokenType"],
+[id*="nbTokenType"] {
+  color: #fdf6eb;
+  text-align: center;
 }
 
-export var disableDbClickReinUi = function () {
-  var gmap = document.getElementById('GameMap')
-  gmap.removeEventListener('click', dblClickTerritory, true)
-}
-/*********************************************************************************************************************/
-/* Starting the timer */
-export function startTimer () {
-  setInterval(chronometer, 1000)
+#playerArmies,
+#playerTerritories {
+  float: left;
+  margin: 0.3rem 0.4rem 0rem 0.4rem;
 }
 
-/*********************************************************************************************************************/
-/* Starting the mouse over country */
-export function startMouseoverCountry () {
-  svg = document.getElementById('GameMap')
-  doc = svg.ownerDocument
-  highlight = doc.getElementById('highlight')
-  countries = document.getElementsByClassName('country')
-
-  for (var i = 0; i < countries.length; i++) {
-    var country = countries[i]
-    country.addEventListener('mouseover', function (evt) {
-      mouseoverCountry(evt)
-    })
-  }
-
-  seas = document.getElementsByClassName('sea')
-  for (i = 0; i < seas.length; i++) {
-    var sea = seas[i]
-    sea.addEventListener('mouseover', function (evt) {
-      mouseoverSea(evt)
-    })
-  }
+#playerArmies,
+#playerTerritories > img {
+  width: 1.8rem;
+  height: 1.8rem;
 }
 
-export var _placeSoldier = function (evt) {
-  var country = evt.target
-
-  // if (evt.target.className.baseVal !== 'sea') {
-  //   clearDisplayMessage()
-  //   displayMessage('This territory is occupied !')
-  //   return
-  // }
-
-  // getting the country id
-  selectedCountryName = hoveredCountryName
-
-  MainGame.prototype.tryPutUnits(
-    localStorage.getItem('myId'),
-    selectedCountryName,
-    1
-  )
-
-  // console.log(
-  //   'free territories left : ' + MainGame.prototype.getFreeTerritoriesNumber()
-  // )
-  // if (MainGame.prototype.getFreeTerritoriesNumber() > 0) {
-  //   if (MainGame.prototype.tryPutUnits() == true) {
-  //     if (
-  //       MainGame.prototype.checkTerritoryFreedom(selectedCountryName) == true
-  //     ) {
-  //       // looping on the map object to match the dbclicked country
-  //       Object.keys(map).forEach(key => {
-  //         var continentName = map[key]
-  //         for (var countries in continentName) {
-  //           var res =
-  //             countries == selectedCountryName
-  //               ? 0
-  //               : countries > selectedCountryName
-  //                 ? 1
-  //                 : -1
-  //           if (res == 0) {
-  //             // limiting the number of appended icons to 1
-  //             if (continentName[countries].soldiers == 0) {
-  //               // puts a soldier icon on the country
-  //               // drawSoldier(localStorage.myColor, selectedCountryName)
-  //               // // changes the country color to the own player color
-  //               // document.getElementById(selectedCountryName).style.fill =
-  //               //   localStorage.myColor
-  //             }
-  //           } else {
-  //             // console.log("no match")
-  //           }
-  //         }
-  //       })
-  //       MainGame.prototype.claimTerritory(
-  //         MainGame.prototype.getCountryIdByName(selectedCountryName)
-  //       )
-  //     } else {
-  //       if (evt.target.className.baseVal !== 'sea') {
-  //         clearDisplayMessage()
-  //         displayMessage('This territory is occupied !')
-  //       }
-  //     }
-  //   } else {
-  //     clearDisplayMessage()
-  //     displayMessage('Wait for your turn please')
-  //   }
-  // } else {
-  //   clearDisplayMessage()
-  //   MainGame.prototype.claimTerritory(
-  //     MainGame.prototype.getCountryIdByName(selectedCountryName)
-  //   )
-  //   // displayMessage('No more free territories left !')
-  // }
+#nbArmies,
+#nbTerritories {
+  color: #fdf6eb;
+  text-align: center;
 }
 
-/** Draws a svg soldier icon on the country passed, and add the number
- * area with one soldier
- * @param color color of the calling player
- * @param countryName the country name where the soldier must be put
- */
-export function drawSoldier (color, countryName) {
-  if (document.getElementById('soldierNumberOn' + countryName) == null) {
-    // getting the coordinates of the square center of a country
-    var bbox = document.getElementById(countryName).getBBox()
-    var posX = Math.floor(bbox.x + bbox.width / 2.0) - 20
-    var posY = Math.floor(bbox.y + bbox.height / 2.0) - 15
-
-    // appending icon on map
-    var temp = d3
-      .select('#GameMap g')
-      .append('svg')
-      // .html(require('../assets/icons/soldier.svg'))
-      .html(
-        "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 512.001 512.001' style='enable-background:new 0 0 512.001 512.001;' xml:space='preserve'><g>             <g>               <path d='M287.846,79.777c-5.434,0-10.414-2.903-13.095-7.605c-7.744,3.365-16.438,5.154-25.445,5.154                 c-9.074,0-17.823-1.811-25.604-5.222c-2.606,4.626-7.421,7.517-12.73,7.659c1.703,19.939,18.416,35.593,38.795,35.593                 c20.375,0,37.084-15.647,38.794-35.579H287.846z'/>             </g>           </g>           <g>             <g>               <path d='M300.813,254.966l-36.811,12.978c-1.049,4.357-2.883,8.601-5.555,12.524c-10.116,14.852-29.298,20.7-46.057,13.756                 c-1.505,1.022-12.266,8.336-13.785,9.368c-0.568,3.139-0.389-9.924-0.389,184.53c0,13.188,10.691,23.879,23.879,23.879                 s23.879-10.691,23.879-23.879V307.867h7.083v180.255c0,13.188,10.691,23.879,23.879,23.879s23.879-10.691,23.879-23.879                 C300.813,291.849,300.813,254.966,300.813,254.966z'/>             </g>           </g>           <g>             <g>               <path d='M391.394,223.746l-23.689-9.82l-28.395,9.896c0.629,4.097,0.009,8.285-1.834,12.097c-1.217,2.517-2.895,4.716-4.93,6.513                 l43.605,18.077c10.159,4.21,21.796-0.616,26.003-10.761C406.364,239.597,401.546,227.955,391.394,223.746z'/>             </g>           </g>           <g>             <g>               <path d='M173.063,268.43l-60.176,20.845c-6.011,2.095-9.186,8.666-7.091,14.677l8.647,24.814c2.503,7.18,11.128,9.978,17.363,5.74                 l69.209-47.036L173.063,268.43z'/>             </g>           </g>           <g>             <g>               <path d='M406.362,178.54c-1.583-4.544-6.551-6.943-11.095-5.36l-12.354,4.305l-2.508-7.199c-1.583-4.544-6.55-6.944-11.095-5.36                 c-4.544,1.583-6.944,6.551-5.36,11.095l2.508,7.199L245.35,225.427l3.051,2.078c9.619,6.552,15.285,16.73,16.436,27.461                 l56.873-19.82c4.544-1.583,6.944-6.551,5.36-11.095c-1.235-3.544-4.53-5.773-8.075-5.836l82.006-28.579                 C405.546,188.052,407.946,183.084,406.362,178.54z'/>             </g>           </g>           <g>             <g>               <path d='M345.632,172.013c-0.125-25.006-20.571-45.35-45.578-45.35c-10.93,0-84.186,0-95.151,0                 c-17.026,0-32.828,9.195-41.242,23.996c-17.591,30.956-9.981,17.567-27.532,48.443c-5.121,9.01-2.468,20.444,6.097,26.279                 l73.514,50.074c9.085,6.188,21.463,3.836,27.647-5.244c6.187-9.083,3.839-21.462-5.244-27.648l-58.351-39.746                 c19.952-35.103,18.606-33.024,19.741-34.145v25.546l33.494,22.815l66.048-23.018v-22.806c0-1.891,1.533-3.424,3.424-3.424                 c1.891,0,3.423,1.533,3.423,3.424c0,0.314-0.028,0.648-0.087,1.004l0.097,19.411l39.728-13.846L345.632,172.013z'/>             </g>           </g>           <g>             <g>               <path d='M297.251,64.128c-1.639-8.838-5.667-30.644-5.667-31.455C291.584,14.628,272.656,0,249.307,0                 c-22.281,0-40.522,13.323-42.146,30.223h-0.131l-5.903,33.944c-0.331,1.895,1.132,3.63,3.053,3.63h6.388                 c1.15,0,2.204-0.636,2.741-1.653l5.663-10.725c7.683,6.12,18.432,9.928,30.336,9.928c11.807,0,22.479-3.744,30.149-9.776 l5.659,10.588c0.539,1.009,1.59,1.638,2.734,1.638h6.354C296.138,67.797,297.606,66.039,297.251,64.128z'/></g></g></svg>"
-      )
-      .attr('width', '40')
-      .attr('height', '40')
-      .attr('x', posX.toString())
-      .attr('y', posY.toString())
-      .style('fill', color)
-      .style('stroke', '#27282D')
-      .style('stroke-width', '15')
-      .attr('id', 'soldierOn' + countryName)
-    // modify numX and numY to adjust soldier position of soldier icon
-    var numX = posX
-    var numY = posY + 10
-
-    // Adds a number text area on soldier icon
-    var t = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-    t.setAttribute('transform', 'translate(' + numX + ' ' + numY + ')')
-    t.setAttribute('font-family', 'Copperplate')
-    t.setAttribute('font-size', '1.5rem')
-    t.setAttribute('fill', 'white')
-    t.setAttribute('id', 'soldierNumberOn' + countryName)
-    t.textContent = '1'
-
-    var p = document.getElementById('soldierOn' + countryName)
-    p.parentNode.insertBefore(t, p.nextSibling)
-  }
+/* Menu Button NorthEast UI */
+.menuBtn {
+  background-color: #27282d;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  top: 0;
+  right: 0;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-left: solid 0.2rem #f9ce93;
+  border-bottom: solid 0.2rem #f9ce93;
+  border-bottom-left-radius: 2.2rem;
+  opacity: 0.9;
 }
 
-export var _addReinforcement = function (evt) {
-  // var country = evt.target
-
-  // getting the country id
-  selectedCountryName = hoveredCountryName
-  // console.log('Target country : ' + selectedCountryName)
-  // console.log(
-  //   'Units left : ' + MainGame.prototype.getMyReinforcementNum()
-  // )
-
-  // if (evt.target.className.baseVal !== 'sea') {
-  //     clearDisplayMessage()
-  //     displayMessage(selectedCountryName + ' is not Yours !')
-  //     return
-  //   }
-
-  var nbUnits = 1
-
-  if (MainGame.prototype.getCurrentPhase() == phases['REINFORCEMENT']) {
-    // alert('choose units')
-    // nbUnits = valeur_saisie
-    console.log('PHASE 0 -------------------------- DISPLAYING REIN UI')
-    disableDbClick()
-    onDbClickReinUI()
-    /*allows the current player to use next phase button*/
-    if(localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()){
-      enableNextPhaseBtn()
-    }
-  } else if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
-     MainGame.prototype.tryPutUnits(
-      localStorage.getItem('myId'),
-      selectedCountryName,
-      nbUnits
-    )
-  }
-
-  console.log('Try to add units on ' + selectedCountryName)
-
-  // if (MainGame.prototype.getMyReinforcementNum() > 0) {
-  //   if (MainGame.prototype.tryPutUnits() === true) {
-  //     if (
-  //       MainGame.prototype.checkTerritoryIsMine(selectedCountryName) === true
-  //     ) {
-  //       // looping on the map object to match the dbclicked country
-  //       Object.keys(map).forEach(key => {
-  //         var continentName = map[key]
-  //         for (var countries in continentName) {
-  //           var res =
-  //             countries == selectedCountryName
-  //               ? 0
-  //               : countries > selectedCountryName
-  //                 ? 1
-  //                 : -1
-  //           if (res == 0) {
-  //             /* asks server to put units */
-  //             console.log('try to add units on ' + selectedCountryName)
-  //             MainGame.prototype.putUnit(selectedCountryName, 1)
-  //           }
-  //         }
-  //       })
-  //     } else {
-  //       if (evt.target.className.baseVal !== 'sea') {
-  //         clearDisplayMessage()
-  //         displayMessage(selectedCountryName + ' is not Yours !')
-  //       }
-  //     }
-  //   } else {
-  //     clearDisplayMessage()
-  //     displayMessage('Wait for your turn please')
-  //   }
-  // } else {
-  //   clearDisplayMessage()
-  //   displayMessage("You've got no more units left !")
-  //   // MainGame.prototype.nextPlayerTurn()
-  // }
+.menuIcon {
+  height: 70%;
+  cursor: pointer;
 }
 
-// generic function to create an xml element
-export function newElement (type, attrs) {
-  var result = doc.createElementNS('http://www.w3.org/2000/svg', type)
-  if (result) {
-    var attr = attrs.split(' ')
-    for (var i = 0; i < attr.length; i++) {
-      var value = attr[i].split('=')
-      result.setAttribute(value[0], value[1])
-    }
-  }
-  return result
+.menuIcon:hover {
+  filter: brightness(120%);
 }
 
-/* Resets the country name area and deletes the higlight on the last hovered country */
-export function mouseoverSea (evt) {
-  var sea = evt.target
-  highlight.setAttribute('d', 'm0 0')
-  hoveredCountryName = sea.getAttribute('id')
-  doc.getElementById('hovered-country').innerHTML = 'Hover a Country'
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 4rem;
+  right: 0.5rem;
 }
 
-/* Display country name when mouse hovers it  */
-export function mouseoverCountry (evt) {
-  var country = evt.target
-  var outline = country.getAttribute('d')
-  // for function placeSoldier, to access the country id under the highlight layer
-  hoveredCountryName = country.getAttribute('id')
-  highlight.setAttribute('d', outline)
-
-  var countryElement =
-    map[getContinentOf(country.getAttribute('id'))][country.getAttribute('id')]
-  doc.getElementById('hovered-country').innerHTML =
-    country.getAttribute('id') + ' - ' + countryElement.soldiers + ' soldiers'
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: #fdf6eb;
+  background-color: #27282d;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  text-decoration: none;
+  border: solid 0.2rem #f9ce93;
+  border-radius: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 0.3rem;
+  width: 11rem;
+  height: 1rem;
+  cursor: pointer;
 }
 
-export function updateCountrySoldiersNumber (countryId) {
-  var cName = MainGame.prototype.getCountryNameById(countryId)
-  console.log(cName+" attacked")
-  var countryElement = map[getContinentOf(cName)][cName]
-  doc.getElementById('soldierNumberOn' + cName).innerHTML = countryElement.soldiers
-}
-/*****************************************************************************************************/
-
-/* Timer handling */
-var startingTime = Date.now()
-
-export function chronometer () {
-  // Find the distance between now and the starting time
-  var distance = Date.now() - startingTime
-
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000)
-
-  var m = minutes + ''
-  var s = seconds + ''
-
-  // adding leading zeros under 10th secs and mins
-  while (m.length === 1) {
-    m = '0' + m
-  }
-  while (s.length === 1) {
-    s = '0' + s
-  }
-
-  // Output the result in the timer
-  document.getElementById('timer').innerHTML = m + ':' + s
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #fbe3c2;
+  border: solid 0.2rem #fbe3c2;
+  color: #27282d;
 }
 
-/**********************************************************************************/
-//* adds the local player message into the chat
-/* waiting for 'sending to server' part */
-export function addLocalPlayerMessage () {
-  var playerName = localStorage.login
-  var playerColor = localStorage.myColor
-  var msgParagraph = document.createElement('P')
-  msgParagraph.className = 'playerMessage'
-  msgParagraph.style.lineHeight = '1em'
-  var msgStr = document.getElementById('playerMsgInput').value
-  msgParagraph.innerHTML =
-    '<span class="messagePlayerName" style="color: ' +
-    playerColor +
-    '">' +
-    playerName +
-    '</span><span class="messageContent"> : ' +
-    msgStr +
-    '</span>'
-  document.getElementById('chatWindow').appendChild(msgParagraph)
-  document.getElementById('chatWindow').scrollTop = document.getElementById(
-    'chatWindow'
-  ).scrollHeight
-  document.getElementById('playerMsgInput').value = ''
-
-  /* to do chat messages sending to server */
+/* Show the dropdown menu */
+.show {
+  display: block;
 }
 
-/** add messages from others players into the chat
- * this function generates random values for the moment
- */
-export function addDistantPlayerMessage () {
-  console.log('add random message')
-  var min = 5
-  var max = 10
-  var rand = Math.floor(Math.random() * (max - min + 1) + min) // Generate Random number between 5 - 10
-  setTimeout(addDistantPlayerMessage, rand * 1000)
+/*-----------------------------------------------------------*/
+/* Players list on southeast UI*/
 
-  /* to do : getting chat messages from server */
-
-  var playerName = 'Player_2'
-  var playerColor = '#DF4C4C'
-  var msgParagraph = document.createElement('P')
-  msgParagraph.className = 'playerMessage'
-  msgParagraph.style.lineHeight = '1em'
-  var msgStr = 'Lorem ipsum dolor sit amet ...'
-  msgParagraph.innerHTML =
-    '<span class="messagePlayerName" style="color: ' +
-    playerColor +
-    '">' +
-    playerName +
-    '</span><span class="messageContent"> : ' +
-    msgStr +
-    '</span>'
-  document.getElementById('chatWindow').appendChild(msgParagraph)
-  document.getElementById('chatWindow').scrollTop = document.getElementById(
-    'chatWindow'
-  ).scrollHeight
+/* Elements of players list*/
+li[id^="playerSlot"],
+li[id*="playerSlot"] {
+  position: absolute;
+  width: 15vw;
+  height: 2.5rem;
+  background-color: #27282d;
+  border: solid 0.2rem #f9ce93;
+  opacity: 0.9;
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0;
+  justify-content: center;
+  display: inline-block;
+  border-radius: 0.5rem;
 }
 
-export function displayMessage (message) {
-  clearDisplayMessage()
-  console.log('displayMessage func')
-  console.log(message)
-  var msgParagraph = document.createElement('P')
-  msgParagraph.className = 'infoMessage'
-  msgParagraph.style.lineHeight = '1em'
-  msgParagraph.innerHTML = message
-  document.getElementById('messageUIBottom').appendChild(msgParagraph)
-}
-
-export function clearDisplayMessage () {
-  document.getElementById('messageUIBottom').innerHTML = ''
-}
-
-export function setMyColor (id, color) {
-  document.getElementById(id).style.color = color
-}
-
-export function displayMyColor (color) {
-  document.getElementById('yourPlayerColor').style.borderLeftColor = color
-  document.getElementById('yourPlayerColor').style.borderTopColor = color
-}
-
-export function setCountryColor (color, countryId) {
-  var cName = MainGame.prototype.getCountryNameById(countryId)
-  document.getElementById(cName).style.fill = color
-}
-
-/**
- * Displays the current phase name in the player controls area
- *
- * @param phase : current phase number
- */
-export function displayCurrentPhase (phase) {
-  // console.log('phaseReceived')
-  // console.log(phase)
-  var phaseStr = ''
-  switch (phase) {
-    case -1:
-      phaseStr = 'Prephase (-1)'
-      break
-    case 0:
-      phaseStr = 'Phase 1 (0)' // REINFORCEMENTS
-      break
-    case 1:
-      phaseStr = 'Phase 2 (1)' // OFFENSE
-      break
-    case 2:
-      phaseStr = 'Phase 3 (2)' // FORTIFICATION
-      break
-    default:
-      phaseStr = 'N/C'
-      break
-  }
-  var phaseIndicator = document.getElementById('phase')
-  phaseIndicator.innerHTML = ''
-  phaseIndicator.innerHTML = phaseStr
-}
-
-export function displayCurrentPlayer () {
-  var currentPlayer = MainGame.prototype.getActivePlayerId()
-  document.getElementById('messageUITop').innerHTML = ''
-  console.log('auto rein is ' + MainGame.prototype.getAutoRein())
-  console.log('******************  GAMEWINDOW  ********************')
-  console.log('localstorage id = ' + localStorage.getItem('myId') + ', view.current = ' + currentPlayer)
-  if (currentPlayer == localStorage.getItem('myId')) {
-    document.getElementById('messageUITop').innerHTML = 'Your turn'
-    if(MainGame.prototype.getAutoInit() === true){
-      var idToSend = parseInt(localStorage.getItem('myId'))
-      MainGame.prototype.autoInit(idToSend)
-    }
-    if(MainGame.prototype.getAutoRein() === true){
-      var idToSend = parseInt(localStorage.getItem('myId'))
-      MainGame.prototype.autoReinforce(idToSend)
-    }
-  } else {
-    document.getElementById('messageUITop').innerHTML =
-      MainGame.prototype.getActivePlayerName() + ' is playing.'
-  }
-  highlightCurrentPlayer()
-  // _displayReinforcementUI()
-}
-
-export function highlightCurrentPlayer () {
-  // console.log("highlight current player")
-  var currentPlayer = MainGame.prototype.getActivePlayerId()
-  var totalPlayers = MainGame.prototype.getNbPlayers()
-  for (var i = 0; i < totalPlayers; i++) {
-    if (i === currentPlayer) {
-      console.log('')
-      document.getElementById('playerSlot' + (currentPlayer + 1)).style.border =
-        'double #FBE3C2'
-    } else {
-      document.getElementById('playerSlot' + (i + 1)).style.border =
-        'solid 0.2rem #f9ce93'
-    }
-  }
-}
-
-export function updateRatioBar (player, nbTerritories) {
-  document.getElementById('ratioPlayer' + (player + 1)).style.width =
-    ((nbTerritories / 42) * 100) + '%'
-  // console.log('ratio : ' + ((nbTerritories / 42) * 100) + '%')
-  // console.log('nbTerritories : ' + nbTerritories)
-}
-
-export var _displayReinforcementUI = function () {
-  selectedCountryName = hoveredCountryName
-
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  document.getElementById('reinforcementUI').style.visibility = 'visible'
-  document.getElementById(
-    'reinforcementTerritory'
-  ).innerHTML = selectedCountryName
-}
-
-export function clearReinUI () {
-  console.log('clear reinUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  var reinUI = document.getElementById('reinforcementUI')
-  reinUI.style.visibility = 'hidden'
-  reinUI.style.height = '0'
-  reinUI.style.marginTop = '0'
-}
-
-/**
- * Calls tryPutUnits and clears the reinforcement interface
- *
- * @param value number of units to add on territory
- */
-export function addReinUnit (value) {
-  clearReinUI()
-  console.log('added value rein unit = ' + value)
-  console.log('on ' + selectedCountryName)
-  /* here we handle the put unit during phase 1 (reinforcements) */
-  MainGame.prototype.tryPutUnits(localStorage.getItem('myId'), 
-    selectedCountryName, value)
-}
-
-
-/*********************************************************************/
-/**
- * Function called when user double clicks on territory
- * if prephase places 1 soldier
- * if reinforcement select reinforcement ui
- */
-export function dblClickTerritory(evt) {
-  console.log('current phase = ' + MainGame.prototype.getCurrentPhase() + ', prephase = ' + phases['PREPHASE'])
-  if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
-    _placeSoldier(evt)
-  }
-  else {
-    _displayReinforcementUI()
-  }
-}
-
-/**
- * Enables the next phase button usage
- */
-export function enableNextPhaseBtn () {
-  var nextPhaseBtn = document.getElementById('nextPhaseBtn')
-  nextPhaseBtn.disabled = false
-  nextPhaseBtn.style.backgroundColor = 'transparent'
-}
-
-/**
- * Disable the next phase button usage
- */
-export function disableNextPhaseBtn () {
-  var nextPhaseBtn = document.getElementById('nextPhaseBtn')
-  nextPhaseBtn.disabled = true
-  nextPhaseBtn.style.backgroundColor = 'gray'
-}
-
-/**
- * Calls the nextPhase function in MainGame controller
- */
-export function nextPhase () {
-  console.log('NEXT PHASE IS CALLED in GAIMWINDOW')
-  MainGame.prototype.nextPhase()
-}
-
-/***********************************  TOKENS  ************************************************ */
-export function displayTokenUI () {
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  var tokenUI = document.getElementById('tokenUI')
-  tokenkUI.style.visibility = 'visible'
-  tokenUI.style.height = '10rem'
-  tokenUI.style.marginTop = '1rem'
-}
-
-export function clearTokenUI () {
-  console.log('clear tokenkUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  var tokenUI = document.getElementById('tokenUI')
-  tokenUI.style.visibility = 'hidden'
-  tokenUI.style.height = '0'
-  tokenUI.style.margin = '0'
-}
-
-/***********************************  ASK TO ATTACK  ************************************************ */
-export function displayAskAttackUI () {
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  var askAttackUI = document.getElementById('askAttackUI')  
-  askAttackUI.style.visibility = 'visible'
-  askAttackUI.style.height = '10rem'
-  askAttackUI.style.marginTop = '1rem'
-}
-
-export function clearAskAttackUI () {
-  console.log('clear askAttackUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  var askAttackUI = document.getElementById('askAttackUI')
-  askAttackUI.style.visibility = 'hidden'
-  askAttackUI.style.height = '0'
-  askAttackUI.style.margin = '0'
+.current {
+  border: solid 0.4rem #f9ce93;
 
 }
 
-/***********************************  ATTACK UI ************************************************ */
-
-export function displayAttackUI () {
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  var attackUI = document.getElementById('attackUI')
-  attackUI.style.visibility = 'visible'
-  attackUI.style.height = '10rem'
-  attackUI.style.marginTop = '1rem'
+#playerSlot1 {
+  bottom: 0.7rem;
+  color: rgb(64, 121, 221);
 }
 
-export function clearAttackUI () {
-  console.log('clear attackUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  var attackUI = document.getElementById('attackUI')
-  attackUI.style.visibility = 'hidden'
-  attackUI.style.height = '0'
-  attackUI.style.margin = '0'
+#playerSlot2 {
+  bottom: 4rem;
+  color: rgb(225, 103, 103);
+}
+
+#playerSlot3 {
+  bottom: 7.3rem;
+  color: rgb(90, 170, 83);
+}
+
+#playerSlot4 {
+  bottom: 10.6rem;
+  color: rgb(227, 199, 92);
+}
+
+#playerSlot5 {
+  bottom: 13.9rem;
+  color: rgb(223, 111, 73);
+}
+#playerSlot6 {
+  bottom: 17.2rem;
+  color: rgb(147, 107, 216);
+}
+
+[id^="playerSlot"]::after {
+  content: "";
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0.7rem;
+}
+
+#playerSlot1::after {
+  border-left-color: #3d76e2;
+  border-top-color: #3d76e2;
+}
+#playerSlot2::after {
+  border-left-color: #df4c4c;
+  border-top-color: #df4c4c;
+}
+#playerSlot3::after {
+  border-left-color: #59ad4a;
+  border-top-color: #59ad4a;
+}
+#playerSlot4::after {
+  border-left-color: #f6d63d;
+  border-top-color: #f6d63d;
+}
+#playerSlot5::after {
+  border-left-color: #f0713c;
+  border-top-color: #f0713c;
+}
+#playerSlot6::after {
+  border-left-color: #9367da;
+  border-top-color: #9367da;
+}
+
+[id^="playerSlot"][id$="Info"] {
+  right: 16.5vw;
+  width: 0px;
+  /* border: transparent; */
+  visibility: hidden;
+  transition: width 0.3s ease-out;
+  overflow: hidden;
+  z-index: 2000;
+  opacity: 0.9;
+}
+
+#playerSlot1Info {
+  bottom: 0.7rem;
+  color: rgb(64, 121, 221);
+}
+#playerSlot1:hover ~ #playerSlot1Info {
+  width: 25rem;
+  border: solid 0.2rem #f9ce93;
+  visibility: visible;
+}
+#playerSlot2Info {
+  bottom: 4rem;
+  color: rgb(225, 103, 103);
+}
+#playerSlot2:hover ~ #playerSlot2Info {
+  width: 25rem;
+  border: solid 0.2rem #f9ce93;
+  visibility: visible;
+}
+
+#playerSlot3Info {
+  bottom: 7.3rem;
+  color: rgb(90, 170, 83);
+}
+#playerSlot3:hover ~ #playerSlot3Info {
+  width: 25rem;
+  border: solid 0.2rem #f9ce93;
+  visibility: visible;
+}
+
+#playerSlot4Info {
+  bottom: 10.6rem;
+  color: rgb(227, 199, 92);
+}
+#playerSlot4:hover ~ #playerSlot4Info {
+  width: 25rem;
+  border: solid 0.2rem #f9ce93;
+  visibility: visible;
+}
+
+#playerSlot5Info {
+  bottom: 13.9rem;
+  color: rgb(223, 111, 73);
+}
+#playerSlot5:hover ~ #playerSlot5Info {
+  width: 25rem;
+  border: solid 0.2rem #f9ce93;
+  visibility: visible;
+}
+
+#playerSlot6Info {
+  bottom: 17.2rem;
+  color: rgb(147, 107, 216);
+}
+#playerSlot6:hover ~ #playerSlot6Info {
+  width: 25rem;
+  border: solid 0.2rem #f9ce93;
+  visibility: visible;
+}
+
+[id^="player"][id*="TokenType"],
+[id^="player"][id*="Armies"],
+[id^="player"][id*="Territories"] {
+  float: left;
+  margin: 0.3rem 0.4rem 0px 0.4rem;
+  color: #fdf6eb;
+}
+
+[id^="player"][id*="TokenType"] > img,
+[id^="player"][id*="Armies"] > img,
+[id^="player"][id*="Territories"] > img {
+  width: 1.8rem;
+  height: 1.8rem;
+  fill: #fbe3c2;
+}
+
+[id^="player"][id*="NbTokenType"],
+[id^="player"][id*="NbArmies"],
+[id^="player"][id*="NbTerritories"] {
+  color: #fdf6eb;
+  text-align: center;
+}
+
+/* Player name*/
+[id^="player"][id$="Name"] > p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: auto;
+  margin-top: 0.3rem;
+  text-align: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+/****************************************************************************/
+
+.chat {
+  position: absolute;
+  left: 1rem;
+  bottom: 8rem;
+  width: 20vw;
+  height: 45vh;
+  opacity: 0.5;
+}
+
+.chat:hover {
+  opacity: 1;
+}
+
+#chat ~ form,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+#chatWindow {
+  text-align: left;
+  margin: 0 auto;
+  height: 38vh;
+  width: 20vw;
+  color: #fdf6eb;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+#chatForm {
+  margin-top: 1rem;
+}
+
+#playerMsgInput {
+  width: 14vw;
+  height: 1.5rem;
+  font-size: 1rem;
+  font-family: Copperplate, serif;
+  border: 0.1rem solid #fbe3c2;
+  padding: 0.1rem 0.2rem;
+  border-radius: 0.2rem;
+  outline: none;
+  opacity: 0.9;
+  background-color: #48484d;
+  color: #fdf6eb;
+}
+
+#submitMsgBtn {
+  width: 4vw;
+  height: 1.7rem;
+  color: #fdf6eb;
+  font-size: 0.9rem;
+  text-align: center;
+  font-family: Copperplate, serif;
+  background-color: transparent;
+  border: solid 0.1rem #fbe3c2;
+  border-radius: 0.2rem;
+  opacity: 0.9;
+}
+
+#submitMsgBtn:hover {
+  color: #27282d;
+  border: solid 0.1rem #fbe3c2;
+  background-color: #fbe3c2;
+}
+
+/************************************************************************/
+
+/* Player controls southwest UI*/
+.playerControls {
+  width: 25vw;
+  height: 5rem;
+  background-color: #27282d;
+  border: solid 0.2rem #f9ce93;
+  opacity: 0.9;
+  border-radius: 0.5rem;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin-left: 0.7rem;
+  margin-bottom: 0.7rem;
+  line-height: normal;
+}
+
+#playerControlMessage {
+  float: left;
+  width: 150px;
+  color: #fdf6eb;
+  margin-left: 30px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+#playerControlMessage > #action {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+#yourPlayerColor {
+  position: absolute;
+  display: inline-block;
+  top: 0.2rem;
+  left: 0.2rem;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 1rem;
+  border-left-color: white;
+  border-top-color: white;
+}
+
+/* Play button on player control*/
+#nextPhaseBtn {
+  float: right;
+  background-color: lightgray; /*"none" or "transparent" when enabled*/
+  height: 44px;
+  width: 100px;
+  margin: 1rem 0.5rem 0rem 0rem;
+  border-radius: 12px;
+  outline: none;
+  border: none;
+  font-family: Copperplate, Serif;
+  font-weight: bold;
+  text-align: left;
+  font-size: 1.3em;
+}
+
+#phaseControlBtn::-moz-focus-inner {
+  border: 0;
+}
+
+/* Combat zone on south UI*/
+.combatUI {
+  position: absolute;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  color: #fdf6eb;
+  font-size: 1.5em;
+  bottom: 0;
+  width: 40vw;
+  height: 9rem;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #27282d;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  border-top: solid 0.2rem #f9ce93;
+  border-right: solid 0.2rem #f9ce93;
+  border-left: solid 0.2rem #f9ce93;
+  opacity: 0.9;
+}
+
+.combatUILeft {
+  position: absolute;
+  flex-direction: column;
+  left: 1rem;
+  width: 33%;
+}
+
+.combatUIRight {
+  position: absolute;
+  flex-direction: column;
+  right: 1rem;
+  width: 33%;
+}
+
+.combatUICenter {
+  position: absolute;
+  flex-direction: column;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 33%;
+}
+
+.bigBtn {
+  margin-top: 0.8%;
+  height: 8rem;
+  cursor: pointer;
+}
+
+.bigBtn:hover {
+  filter: brightness(120%);
+}
+
+.armiesSelectionBtn {
+  height: 3rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+  margin: 0.2rem;
+  cursor: pointer;
+}
+
+.armiesSelectionBtn:hover {
+  filter: brightness(120%);
+}
+
+#DefendUI {
+  display: none;
+  visibility: hidden;
+}
+
+#AttackUI {
+  display: none;
+  visibility: hidden;
+}
+
+#attackCombatRed, #defendCombatRed {
+  color: rgb(225, 103, 103);
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+/* ------------------------------------------------------------------------*/
+/* Ratio bar on north UI*/
+#ratioBar {
+  position: absolute;
+  top: 0.3rem;
+  width: 45vw;
+  height: 0.8rem;
+  border: 0.2rem solid #f9ce93;
+  background-color: #f9ce93;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+#ratioPlayer1 {
+  height: 1rem;
+  background-color: #3d76e2;
+  float: left;
+}
+
+#ratioPlayer2 {
+  height: 1rem;
+  background-color: #df4c4c;
+  float: left;
+}
+
+#ratioPlayer3 {
+  height: 1rem;
+  background-color: #59ad4a;
+  float: left;
+}
+
+#ratioPlayer4 {
+  background-color: #f6d63d;
+  height: 1rem;
+  float: left;
+}
+
+#ratioPlayer5 {
+  background-color: #f0713c;
+  height: 1rem;
+  float: left;
+}
+
+#ratioPlayer6 {
+  background-color: #9367da;
+  height: 1rem;
+  float: left;
+}
+
+.hovered-country {
+  position: absolute;
+  top: 2rem;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25vw;
+  height: 1.5rem;
+  text-align: center;
+  background-color: #27282d;
+  color: #fdf6eb;
+  border: solid 0.2rem #f9ce93;
+  border-radius: 2rem;
+  opacity: 0.9;
+}
+
+/****************************************************************************/
+#timer {
+  position: absolute;
+  width: 4rem;
+  height: 1.7rem;
+  top: 0;
+  right: 15vw;
+  background-color: #27282d;
+  border-bottom: solid 0.2rem #f9ce93;
+  border-left: solid 0.2rem #f9ce93;
+  border-right: solid 0.2rem #f9ce93;
+  border-bottom-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  color: #fdf6eb;
+  text-align: center;
+  margin: auto;
+  opacity: 0.9;
+}
+
+.generalMessageDisplay {
+  position: absolute;
+  width: 50vw;
+  height: 10rem;
+  max-width: 10em;
+  background-color: #27282d;
+  border: 0.2rem solid #f9ce93;
+  border-radius: 1rem;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  color: #fdf6eb;
+  font-size: 3rem;
+  opacity: 0.9;
+  visibility: hidden;
+  display: none;
+}
+
+#messageUITop {
+  border-bottom: solid #f9ce93 1px;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  text-align: center;
+  width: 40vw;
+  position: absolute;
+  bottom: 70px;
+}
+
+#messageUIBottom {
+  padding-bottom: 0.5rem;
+  text-align: center;
+  width: 40vw;
+  position: absolute;
+  bottom: 10px;
+}
+
+#reinforcementUI {
+  display: none;
+  visibility: hidden;
+  font-size: 0.5em;
+  margin-top: 1rem;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 3fr 4fr 1fr;
+}
+
+.reinforcementUILeft{
+  text-align: center;
+  padding: 0.1rem;
+}
+
+.innerReinUIcenter, .innerReinUILeft {
+  text-align: center;
+}
+
+.reinforcementUIRight{
+  text-align: center;
+  padding: 0.5rem;
+}
+
+#reinUIRightAbort {
+  margin-bottom: 1rem;
+}
+
+#reinUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
+}
+
+#reinUIRightOK:hover {
+  margin-bottom: 1rem;
+  color: green
+}
+
+#reinforcementTerritory {
+  color: #fdf6eb;
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+#unitsToPut {
+  width: 2em;
+
+}
+
+/*********** TOKENS UI ********************/
+#tokenUI {
+  display: none;
+  visibility: hidden;
+  font-size: 0.5em;
+  margin-top: 1rem;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 3fr 4fr 1fr;
+}
+
+.tokenUILeft{
+  text-align: center;
+  padding: 0.1rem;
+}
+
+.innertokenUIcenter, .innertokenUILeft {
+  text-align: center;
+}
+
+.tokenUIRight{
+  text-align: center;
+  padding: 0.5rem;
+}
+
+#tokenUIRightAbort {
+  margin-bottom: 1rem;
+}
+
+#tokenUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
+}
+
+#tokenUIRightOK:hover {
+  margin-bottom: 1rem;
+  color: green
+}
+/*********** ASK ATTACK UI ********************/
+#askAttackUI {
+  display: none;
+  visibility: hidden;
+  font-size: 0.5em;
+  margin-top: 1rem;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.askAttackUILeft{
+  text-align: center;
+  padding: 0.1rem;
 }
 
 
-export function displayAttackChooseUnits (attackTerritory) {
-  var attackUI = document.getElementById('AttackUI')
-  attackUI.style.display = 'block'
-  attackUI.style.visibility = 'visible'
-  attackUI.style.height = '8rem'
-  document.getElementById('attackCombatRed').innerHTML = attackTerritory
+.askAttackUIRight{
+  text-align: center;
 }
 
-export function clearAttackChooseUnits () {
-  console.log('clear attackUI')
-  document.getElementById('AttackUI').style.display = 'none'
-  document.getElementById('AttackUI').style.visibility = 'hidden'
-  var attackUI = document.getElementById('attackUI')
-  attackUI.style.visibility = 'hidden'
-  attackUI.style.height = '0'
-  attackUI.style.margin = '0'
+#askAttackUIRightAbort {
 }
 
-/***********************************  DEFEND UI  ************************************************ */
-
-export function displayDefendUId () {
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  var defendUI = document.getElementById('defendUI')
-  defendUI.style.visibility = 'visible'
-  defendUI.style.height = '0'
-  defendUI.style.marginTop = '0'
+#askAttackUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
 }
 
-export function clearDefendUI () {
-  console.log('clear defendUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  document.getElementById('defendUI').style.visibility = 'hidden'
+#askAttackUIRightOK:hover {
+  color: green
 }
 
-export function displayDefendUIdChooseUnits (nbUnits, targetedTerritory) {
-  var defendUI = document.getElementById('DefendUI')
-  defendUI.style.display = 'block'
-  defendUI.style.visibility = 'visible'
-  defendUI.style.height = '8rem'
-  defendUI.style.marginTop = '0'
-  if(targetedTerritory !== undefined){
-    document.getElementById('defendCombatRed').innerHTML = MainGame.prototype.getCountryNameById(targetedTerritory)
-    document.getElementById('attackingUnits').innerHTML = nbUnits
-  } else {
-    document.getElementById('defendCombatRed').innerHTML = "Territory"
-  }
+/*********** ATTACK UI ********************/
+#attackUI {
+  display: none;
+  visibility: hidden;
+  font-size: 0.5em;
+  margin-top: 1rem;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 3fr 4fr 1fr;
 }
 
-export function clearDefendUIChooseUnits () {
-  console.log('clear DefendUI')
-  var defendUI = document.getElementById('DefendUI')
-  defendUI.style.display = 'none'
-  defendUI.style.visibility = 'hidden'
-  attackUI.style.height = '0'
-  attackUI.style.marginTop = '0'
-}
-/***********************************  ASK FORTIFICATION UI  ************************************************ */
-
-export function displayAskFortificationUI () {
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  var fortificationUI = document.getElementById('askFortificationUI')  
-  fortificationUI.style.visibility = 'visible'
-  fortificationUI.style.height = '10rem'
-  fortificationUI.style.marginTop = '1rem'
+.attackUILeft{
+  text-align: center;
+  padding: 0.1rem;
 }
 
-export function clearAskFortificationUI () {
-  console.log('clear askfortificationUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  var askfortificationUI = document.getElementById('askFortificationUI')
-  askfortificationUI.style.visibility = 'hidden'
-  askfortificationUI.style.height = '0'
-  askfortificationUI.style.marginTop = '0'
+.innerattackUIcenter, .innerattackUILeft {
+  text-align: center;
 }
 
-/***********************************  FORTIFICATION UI ************************************************ */
-
-export function displayFortificationUI () {
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  var fortificationUI = document.getElementById('fortificationUI')  
-  fortificationUI.style.visibility = 'visible'
+.attackUIRight{
+  text-align: center;
 }
 
-export function clearFortificationUI () {
-  console.log('clear fortificationUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  document.getElementById('fortificationUI').style.visibility = 'hidden'
+#attackUIRightAbort {
 }
 
-
-var attackFrom = ""
-export var _enableAttackFromTerritory = function () {
-  var gmap = document.getElementById('GameMap')
-  gmap.addEventListener('click', attackFromTerritory, true)
-  attackFrom = ""
+#attackUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
 }
 
-export var _disableAttackFromTerritory = function () {
-  var gmap = document.getElementById('GameMap')
-  gmap.removeEventListener('click', attackFromTerritory, true)
+#attackUIRightOK:hover {
+  color: green
 }
 
-var attackTo = ""
-export var _enableChooseTerritoryToAttack = function () {
-  var gmap = document.getElementById('GameMap')
-  gmap.addEventListener('click', attackTerritory, true)
-  attackTo = ""
+/*********** ASK FORTIFICATION UI ********************/
+#askFortificationUI {
+  display: none;
+  visibility: hidden;
+  font-size: 0.5em;
+  margin-top: 1rem;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 3fr 4fr 1fr;
 }
 
-export var _disableChooseTerritoryToAttack = function () {
-  var gmap = document.getElementById('GameMap')
-  gmap.removeEventListener('click', attackTerritory, true)
+.askFortificationUILeft{
+  text-align: center;
+  padding: 0.1rem;
 }
 
-export function attackFromTerritory(){
-  selectedCountryName = hoveredCountryName
-  console.log('user clicked to attack from ' + selectedCountryName)
-  document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
-
-  attackFrom = selectedCountryName
-  _disableAttackFromTerritory()
-  clearDisplayMessage()
-  
-  displayMessage("Choose territory to attack")
-  _enableChooseTerritoryToAttack()
+.askFortificationUIRight{
+  text-align: center;
 }
 
-export function attackWith(nb){
-  clearAttackChooseUnits()
-  displayUITop()
-  displayMessage('You launched an attack on ' + attackTo + ' from ' + attackFrom + ' with ' + nb + 'unit(s)')
-  console.log('func attack with')
-  console.log('attack from ' + attackFrom)
-  console.log('attack from ' + attackTo)
-  console.log('nb ' + nb)
-  MainGame.prototype.tryAttack(attackFrom, attackTo,nb)
-  // MainGame.prototype.attack(
-  //   MainGame.prototype.getCountryIdByName(attackFrom),
-  //   MainGame.prototype.getCountryIdByName(attackTo),
-  //   nb
-  // )
+#askFortificationUIRightAbort {
 }
 
-export function attackTerritory(){
-  selectedCountryName = hoveredCountryName
-  console.log('user clicked to attack ' + selectedCountryName)
-  document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
-
-  attackTo = selectedCountryName
-  _disableChooseTerritoryToAttack()
-  clearMessageUITop()
-  clearDisplayMessage()
-  displayAttackChooseUnits(attackTo)
-  display
+#askFortificationUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
 }
 
-export function defendTerritoryNotification (nbUnits, targetedTerritory) {
-  clearDisplayMessage()
-  clearMessageUITop()
-  if(nbUnits !== undefined && targetedTerritory !== undefined){
-    displayDefendUIdChooseUnits(nbUnits, targetedTerritory)
-  }
-  else{
-    displayDefendUIdChooseUnits()
-  }
-  
+#askFortificationUIRightOK:hover {
+  color: green
 }
 
-export function defendWith (nbUnits) {
-  console.log('func defend with')
-  console.log('nbUnits ' + nbUnits)
-  displayUITop()
-  
-  var targetedTerritory = document.getElementById('defendCombatRed').innerHTML
-  displayMessage('You defended attack on ' + targetedTerritory + ' with ' + nbUnits + ' unit(s)')
-  clearDefendUIChooseUnits()
-  clearDisplayMessage()
-  MainGame.prototype.tryDefend(targetedTerritory, nbUnits)
+/*********** FORTIFICATION UI ********************/
+#fortificationUI {
+  display: none;
+  visibility: hidden;
+  font-size: 0.5em;
+  margin-top: 1rem;
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 3fr 4fr 1fr;
 }
 
-export function clearMessageUITop () {
-  var messageUITop = document.getElementById('messageUITop')
-  messageUITop.innerHTML = ''
-  messageUITop.style.display = 'none'
-  messageUITop.style.visibility = 'hidden'
-  messageUITop.style.height = '0'
-  messageUITop.style.margin = '0'
-  messageUITop.style.padding = '0'
+.fortificationUILeft{
+  text-align: center;
+  padding: 0.1rem;
 }
 
-export function displayUITop () {
-  var messageUITop = document.getElementById('messageUITop')
-  messageUITop.style.display = 'block'
-  messageUITop.style.visibility = 'visible'
-  messageUITop.style.height = '2rem'
-  messageUITop.style.borderBottom = 'solid #f9ce93 1px'
-  messageUITop.style.marginBottom = '1rem'
-  messageUITop.style.paddingBottom = '0.5rem'
-  messageUITop.style.textAlign = 'center'
-  messageUITop.style.width = '40vw'
-  messageUITop.style.position = 'absolute'
-  messageUITop.style.bottom = '70px'
+.fortificationUIRight{
+  text-align: center;
+}
+
+#fortificationUIRightAbort {
+}
+
+#fortificationUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
+}
+
+#fortificationUIRightOK:hover {
+  color: green
 }
