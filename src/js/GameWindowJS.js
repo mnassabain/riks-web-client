@@ -152,6 +152,11 @@ export function drawSoldier (color, countryName) {
   }
 }
 
+export function updateSoldierColor (color, countryName) {
+  var soldierIcon = document.getElementById('soldierOn' + countryName)
+  soldierIcon.style.fill = color
+}
+
 export var _addReinforcement = function (evt) {
   // getting the country id
   selectedCountryName = hoveredCountryName
@@ -174,6 +179,8 @@ export var _addReinforcement = function (evt) {
     /*allows the current player to use next phase button*/
     if(localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()){
       enableNextPhaseBtn()
+    } else {
+      disableNextPhaseBtn()
     }
   } else if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
      MainGame.prototype.tryPutUnits(
@@ -376,11 +383,11 @@ export function displayCurrentPhase (phase) {
 export function displayCurrentPlayer () {
   var currentPlayer = MainGame.prototype.getActivePlayerId()
   document.getElementById('messageUITop').innerHTML = ''
-  console.log('auto rein is ' + MainGame.prototype.getAutoRein())
-  console.log('******************  GAMEWINDOW  ********************')
   console.log('localstorage id = ' + localStorage.getItem('myId') + ', view.current = ' + currentPlayer)
   if (currentPlayer == localStorage.getItem('myId')) {
     document.getElementById('messageUITop').innerHTML = 'Your turn'
+    
+    /************************************* TURN OFF BEFORE PRODUCTION ************************************************************************** */
     if(MainGame.prototype.getAutoInit() === true){
       var idToSend = parseInt(localStorage.getItem('myId'))
       MainGame.prototype.autoInit(idToSend)
@@ -389,12 +396,13 @@ export function displayCurrentPlayer () {
       var idToSend = parseInt(localStorage.getItem('myId'))
       MainGame.prototype.autoReinforce(idToSend)
     }
+    /************************************************************************************************************************************************** */
+
   } else {
     document.getElementById('messageUITop').innerHTML =
       MainGame.prototype.getActivePlayerName() + ' is playing.'
   }
   highlightCurrentPlayer()
-  // _displayReinforcementUI()
 }
 
 export function highlightCurrentPlayer () {
@@ -423,15 +431,17 @@ export function updateRatioBar (player, nbTerritories) {
 export var _displayReinforcementUI = function () {
   selectedCountryName = hoveredCountryName
 
-  console.log("selected country name class" + selectedCountryName + ' class :' )
-  console.log(document.getElementById(selectedCountryName).className)
-  if(document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
-    document.getElementById('messageDisplay').style.display = 'block'
-    document.getElementById('messageDisplay').style.visibility = 'visible'
-    document.getElementById('reinforcementUI').style.visibility = 'visible'
-    document.getElementById(
-      'reinforcementTerritory'
-    ).innerHTML = selectedCountryName
+  if(localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()){
+    console.log("selected country name class" + selectedCountryName + ' class :' )
+    console.log(document.getElementById(selectedCountryName).className)
+    if(document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
+      document.getElementById('messageDisplay').style.display = 'block'
+      document.getElementById('messageDisplay').style.visibility = 'visible'
+      document.getElementById('reinforcementUI').style.visibility = 'visible'
+      document.getElementById(
+        'reinforcementTerritory'
+      ).innerHTML = selectedCountryName
+    }
   }
 }
 
@@ -471,12 +481,15 @@ export function addReinUnit (value) {
  * if reinforcement select reinforcement ui
  */
 export function dblClickTerritory(evt) {
-  console.log('current phase = ' + MainGame.prototype.getCurrentPhase() + ', prephase = ' + phases['PREPHASE'])
+  console.log('current phase = ' + MainGame.prototype.getCurrentPhase())
   if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
     _placeSoldier(evt)
   }
   else if (MainGame.prototype.getCurrentPhase() == phases['REINFORCEMENT']) {
     _displayReinforcementUI()
+  }
+  else if (MainGame.prototype.getCurrentPhase() == phases['OFFENSE']) {
+    _enableChooseTerritoryToAttack()
   }
 }
 
@@ -625,8 +638,15 @@ export function clearDefendUI () {
   document.getElementById('defendUI').style.visibility = 'hidden'
 }
 
+var lastUnits = 0
+var lastTerritory = -1
 export function displayDefendUIdChooseUnits (nbUnits, targetedTerritoryId) {
-  var tName = MainGame.prototype.getCountryNameById(targetedTerritoryId)
+  if(nbUnits !== undefined && targetedTerritoryId !== undefined){
+    lastUnits = nbUnits
+    lastTerritory = targetedTerritoryId
+  }
+  console.log('units ' + lastUnits  + ' T id : ' + lastTerritory)
+  var tName = MainGame.prototype.getCountryNameById(lastTerritory)
   var unitsAvailable = MainGame.prototype.getUnitsOnTerritory(tName)
   console.log('units available on ' + tName + ' : ' + unitsAvailable)
   
@@ -637,7 +657,7 @@ export function displayDefendUIdChooseUnits (nbUnits, targetedTerritoryId) {
   defendUI.style.marginTop = '0'
   if(tName !== undefined){
     document.getElementById('defendCombatRed').innerHTML = tName
-    document.getElementById('attackingUnits').innerHTML = nbUnits
+    document.getElementById('attackingUnits').innerHTML = lastUnits
   } else {
     document.getElementById('defendCombatRed').innerHTML = "Territory"
   }
