@@ -596,11 +596,11 @@ export default {
       localPlayerName: localStorage.login,
       localArmies: 0,
       localTerritories: 0,
-      localNbTokenTypeOne: localStorage.token1,
-      localNbTokenTypeTwo: localStorage.token2,
-      localNbTokenTypeThree: localStorage.token3,
-      localNbTokenTypeJoker: localStorage.tokenJoker,
-      localColor: localStorage.myColor
+      localNbTokenTypeOne: 0,
+      localNbTokenTypeTwo: 0,
+      localNbTokenTypeThree: 0,
+      localNbTokenTypeJoker: 0,
+      localColor: ""
     };
   },
   methods: {
@@ -660,7 +660,7 @@ export default {
     GameWindow.startMouseoverCountry();
     // GameWindow.onDbClick();
     GameWindow.onDbClickReinUI();
-    GameWindow.displayMyColor(this.localColor);
+    //GameWindow.displayMyColor(this.localColor);
     // GameWindow.enableNextPhaseBtn();
     GameWindow.disableNextPhaseBtn();
     /*GameWindow.clearReinUI();
