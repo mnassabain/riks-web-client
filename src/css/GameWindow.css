@@ -842,66 +842,40 @@ p {
   color: green
 }
 
-/*********** ASK FORTIFICATION UI ********************/
-#askFortificationUI {
-  display: none;
-  visibility: hidden;
-  font-size: 0.5em;
-  margin-top: 1rem;
-  /* display: flex; */
-  display: grid;
-  grid-template-columns: 3fr 4fr 1fr;
-}
-
-.askFortificationUILeft{
-  text-align: center;
-  padding: 0.1rem;
-}
-
-.askFortificationUIRight{
-  text-align: center;
-}
-
-#askFortificationUIRightAbort {
-}
-
-#askFortificationUIRightAbort:hover {
-  margin-bottom: 1rem;
-  color: red
-}
-
-#askFortificationUIRightOK:hover {
-  color: green
-}
-
 /*********** FORTIFICATION UI ********************/
-#fortificationUI {
+#FortifyUI {
   display: none;
   visibility: hidden;
   font-size: 0.5em;
   margin-top: 1rem;
+  width: 50vw;
   /* display: flex; */
   display: grid;
-  grid-template-columns: 3fr 4fr 1fr;
+  grid-template-columns: 4fr 1fr 4fr;
 }
-
-.fortificationUILeft{
+.FortifyUILeft{
   text-align: center;
-  padding: 0.1rem;
+  padding: 0.5rem;
+  /*background-color: blue*/
+}
+.FortifyUICenter{
+  /*background-color: white*/
 }
 
-.fortificationUIRight{
+.FortifyUIRight{
   text-align: center;
+  /*background-color: red*/
 }
 
-#fortificationUIRightAbort {
+#FortifyUIRightAbort {
+
 }
 
-#fortificationUIRightAbort:hover {
+#FortifyUIRightAbort:hover {
   margin-bottom: 1rem;
   color: red
 }
 
-#fortificationUIRightOK:hover {
+#FortifyUIRightOK:hover {
   color: green
 }

@@ -30,6 +30,7 @@
     </div>
 
       <div id="messageDisplay" class="generalMessageDisplay">
+        
         <div id="reinforcementUI">
           <div class="reinforcementUILeft">
             <div class="innerReinUILeft">Add units on</div>
@@ -55,9 +56,30 @@
             </div>
           </div>
         </div>
+
+        <div id="FortifyUI">
+          <div class="FortifyUILeft">
+            <div>Move units form</div>
+            <div>Territory</div>
+            <div>To</div>
+            <div>Territory</div>
+          </div>
+          <div class="FortifyUICenter">
+              <input v-model.number="units" type="number" id="unitsToMove" min="0" pattern="\d+">
+          </div>
+          <div class="FortifyUIRight" >
+            <div id="FortifyUIRightAbort" v-on:click="clearFortifyUI()">
+              Abort
+            </div>
+            <div id="FortifyUIRightOK">
+              OK
+            </div>
+          </div>
+        </div>
+
       </div>
 
-    </div>
+      
 
     <!--Under Tokens NorthWest UI hidden by default-->
     <div idTokenSpread></div>
@@ -537,6 +559,7 @@ export default {
     nextPhase: GameWindow.nextPhase,
     attackWith: GameWindow.attackWith,
     defendWith: GameWindow.defendWith,
+    clearFortifyUI: GameWindow.clearFortifyChooseUnits,
 
     displayMessage: function(message) {
       console.log(message);
@@ -575,6 +598,9 @@ export default {
     GameWindow.startTimer();
     GameWindow.mapPanZoom();
     GameWindow.startMouseoverCountry();
+
+
+    GameWindow.displayFortifyChooseUnits();
     // GameWindow.onDbClick();
     GameWindow.onDbClickReinUI();
     //GameWindow.displayMyColor(this.localColor);
@@ -592,7 +618,6 @@ export default {
     // GameWindow.displayAskAttackUI();
     // GameWindow.displayAttackUI();
     // GameWindow.displayAskFortificationUI();
-    // GameWindow.displayFortificationUI();
   }
 };
 </script>

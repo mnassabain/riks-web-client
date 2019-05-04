@@ -1076,6 +1076,27 @@ export class MainGame {
     }
   }
 
+  fortificationLogic (message) {
+    console.log('Server is now on phase fortification')
+    var secondStr = ""
+    if(message !== undefined){
+      secondStr = message + '<br/>'
+    }
+            
+    GameWindow.displayCurrentPlayer()
+    if(localStorage.getItem('myId') == THIS.view.currentPlayer){
+      // disable attack logic
+      GameWindow._disableAttackFromTerritory()
+      GameWindow._disableChooseTerritoryToAttack()
+      GameWindow.displayCurrentPlayer()
+      GameWindow.displayMessage( secondStr + "You can fortify your territories.")
+        // Enable fortify logic
+      GameWindow._enableFortifyFromTerritory()
+    } else {
+      GameWindow.displayMessage(THIS.getPlayerNameById(THIS.view.currentPlayer) + ' is fortifying.')
+    }
+  }
+
   getUnitsOnTerritory (territoryName) {
     var cName = getContinentOf(territoryName)
     var units = THIS.map[cName][territoryName].soldiers
@@ -1157,15 +1178,11 @@ export class MainGame {
           THAT_CLASS.currentPhase = msg.data.phase
           
           if (msg.data.phase == phases['OFFENSE']) {
-
             THIS.beginAttackPhase()
           }
 
           if (msg.data.phase == phases['FORTIFICATION']) {
-            console.log('Server is now on phase fortification')
-            GameWindow._disableAttackFromTerritory()
-            GameWindow._disableChooseTerritoryToAttack()
-            GameWindow.displayMessage('FORTIFICATION')
+            THIS.fortificationLogic()
           }
           break
 
