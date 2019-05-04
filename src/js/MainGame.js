@@ -1072,8 +1072,6 @@ export class MainGame {
 
       // 3. Send info to server
     } else {
-      // GameWindow.displayMessageUITop(THIS.getPlayerNameById(THIS.view.currentPlayer) + ' is playing')
-      // GameWindow.clearDisplayMessage()
       GameWindow.displayMessage(THIS.getPlayerNameById(THIS.view.currentPlayer) + ' is attacking')
     }
   }
@@ -1159,6 +1157,7 @@ export class MainGame {
           THAT_CLASS.currentPhase = msg.data.phase
           
           if (msg.data.phase == phases['OFFENSE']) {
+
             THIS.beginAttackPhase()
           }
 

@@ -30,103 +30,29 @@
     </div>
 
       <div id="messageDisplay" class="generalMessageDisplay">
-
-      <div id="reinforcementUI">
-        <div class="reinforcementUILeft">
-          <div class="innerReinUILeft">Add units on</div>
-          <div class="innerReinUILeft" id="reinforcementTerritory"></div>
-        </div>
-        
-        <div class="reinforcementUIcenter">
-          <div class="innerReinUIcenter">Reinforce with</div>
-         <div class="innerReinUIcenter">
-            
-            <input v-model.number="units" type="number" id="unitsToPut" min="0" pattern="\d+">
-
+        <div id="reinforcementUI">
+          <div class="reinforcementUILeft">
+            <div class="innerReinUILeft">Add units on</div>
+            <div class="innerReinUILeft" id="reinforcementTerritory"></div>
           </div>
-          <div class="innerReinUIcenter">Units</div>
-        </div>
+          
+          <div class="reinforcementUIcenter">
+            <div class="innerReinUIcenter">Reinforce with</div>
+          <div class="innerReinUIcenter">
+              
+              <input v-model.number="units" type="number" id="unitsToPut" min="0" pattern="\d+">
 
-        <div class="reinforcementUIRight" >
-          <div id="reinUIRightAbort" v-on:click="clearReinUI">
-            Abort
+            </div>
+            <div class="innerReinUIcenter">Units</div>
           </div>
-          <div id="reinUIRightOK" v-on:click="addReinUnit(units)">
-            OK
-          </div>
-        </div>
-      </div>
 
-      <div id="tokenUI">
-        <div class="tokenUILeft">
-          <div class="innerTokenUILeft">
-          </div>
-        </div>
-        
-        <div class="tokenUIcenter">
-
-        </div>
-
-        <div class="tokenUIRight" >
-          <div id="tokenUIRightAbort">
-            Abort
-          </div>
-          <div id="tokenUIRightOK">
-            OK
-          </div>
-        </div>
-      </div>
-
-      <div id="askAttackUI">
-        <div class="askAttackUILeft">DO YOU WANT TO ATTACK ?</div>
-
-        <div class="askAttackUIRight" >          
-          <div id="askAttackUIRightOK" v-on:click="clearAskAttackUI(), displayAttackUI()">
-            YES
-          </div>
-          <div id="askAttackUIRightAbort" v-on:click="clearAskAttackUI(), displayAskFortificationUI()">
-            NO (go to fortification phase)
-          </div>
-        </div>
-      </div>
-
-      <div id="attackUI">
-        <div class="attackUILeft">
-          <div class="innerAttackUILeft">Attack from</div>
-          <div class="innerAttackUILeft" id="attackFromTerritory"></div>
-        </div>
-        <div class="attackUIRight" >          
-          <div id="attackUIRightOK">
-            GO
-          </div>
-          <div id="attackUIRightAbort" v-on:click="clearAttackUI(), displayAskAttackUI()">
-            ABORT
-          </div>
-        </div>
-      </div>
-
-      <div id="askFortificationUI">
-        <div class="askFortificationUILeft">Do you want to fortify your territories ?</div>
-
-        <div class="askFortificationUIRight" >          
-          <div id="askFortificationUIRightOK" v-on:click="clearAskFortificationUI(), displayFortificationUI()">
-            YES
-          </div>
-          <div id="askFortificationUIRightAbort" v-on:click="clearAskFortificationUI()">
-            NO (end your turn)
-          </div>
-        </div>
-      </div>
-
-      <div id="fortificationUI">
-        <div class="fortificationUILeft">FORTIFICATION (TODO)</div>
-
-        <div class="fortificationUIRight" >          
-          <div id="fortificationUIRightOK" v-on:click="clearFortificationUI()">
-            (TODO) leave
-          </div>
-          <div id="fortificationUIRightAbort" v-on:click="clearFortificationUI()">
-            (TODO) leave
+          <div class="reinforcementUIRight" >
+            <div id="reinUIRightAbort" v-on:click="clearReinUI">
+              Abort
+            </div>
+            <div id="reinUIRightOK" v-on:click="addReinUnit(units)">
+              OK
+            </div>
           </div>
         </div>
       </div>
@@ -611,15 +537,6 @@ export default {
     nextPhase: GameWindow.nextPhase,
     attackWith: GameWindow.attackWith,
     defendWith: GameWindow.defendWith,
-
-    displayAskAttackUI: GameWindow.displayAskAttackUI,
-    clearAskAttackUI: GameWindow.clearAskAttackUI,
-    displayAttackUI: GameWindow.displayAttackUI,
-    clearAttackUI: GameWindow.clearAttackUI,
-    displayAskFortificationUI: GameWindow.displayAskFortificationUI,
-    clearAskFortificationUI: GameWindow.clearAskFortificationUI,
-    displayFortificationUI: GameWindow.displayFortificationUI,
-    clearFortificationUI: GameWindow.clearFortificationUI,
 
     displayMessage: function(message) {
       console.log(message);

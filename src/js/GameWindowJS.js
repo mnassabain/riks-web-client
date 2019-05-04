@@ -519,68 +519,7 @@ export function nextPhase () {
   MainGame.prototype.nextPhase()
 }
 
-/***********************************  TOKENS  ************************************************ */
-export function displayTokenUI () {
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  var tokenUI = document.getElementById('tokenUI')
-  tokenkUI.style.visibility = 'visible'
-  tokenUI.style.height = '10rem'
-  tokenUI.style.marginTop = '1rem'
-}
-
-export function clearTokenUI () {
-  console.log('clear tokenkUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  var tokenUI = document.getElementById('tokenUI')
-  tokenUI.style.visibility = 'hidden'
-  tokenUI.style.height = '0'
-  tokenUI.style.margin = '0'
-}
-
-/***********************************  ASK TO ATTACK  ************************************************ */
-export function displayAskAttackUI () {
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  var askAttackUI = document.getElementById('askAttackUI')  
-  askAttackUI.style.visibility = 'visible'
-  askAttackUI.style.height = '10rem'
-  askAttackUI.style.marginTop = '1rem'
-}
-
-export function clearAskAttackUI () {
-  console.log('clear askAttackUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  var askAttackUI = document.getElementById('askAttackUI')
-  askAttackUI.style.visibility = 'hidden'
-  askAttackUI.style.height = '0'
-  askAttackUI.style.margin = '0'
-
-}
-
 /***********************************  ATTACK UI ************************************************ */
-
-export function displayAttackUI () {
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  var attackUI = document.getElementById('attackUI')
-  attackUI.style.visibility = 'visible'
-  attackUI.style.height = '10rem'
-  attackUI.style.marginTop = '1rem'
-}
-
-export function clearAttackUI () {
-  console.log('clear attackUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  var attackUI = document.getElementById('attackUI')
-  attackUI.style.visibility = 'hidden'
-  attackUI.style.height = '0'
-  attackUI.style.margin = '0'
-}
-
 
 export function displayAttackChooseUnits () {
   var unitsAvailable = MainGame.prototype.getUnitsOnTerritory(attackFrom)
@@ -614,7 +553,7 @@ export function clearAttackChooseUnits () {
   console.log('clear attackUI')
   document.getElementById('AttackUI').style.display = 'none'
   document.getElementById('AttackUI').style.visibility = 'hidden'
-  var attackUI = document.getElementById('attackUI')
+  var attackUI = document.getElementById('AttackUI')
   attackUI.style.visibility = 'hidden'
   attackUI.style.height = '0'
   attackUI.style.margin = '0'
@@ -622,21 +561,6 @@ export function clearAttackChooseUnits () {
 
 /***********************************  DEFEND UI  ************************************************ */
 
-export function displayDefendUId () {
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  var defendUI = document.getElementById('defendUI')
-  defendUI.style.visibility = 'visible'
-  defendUI.style.height = '0'
-  defendUI.style.marginTop = '0'
-}
-
-export function clearDefendUI () {
-  console.log('clear defendUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  document.getElementById('defendUI').style.visibility = 'hidden'
-}
 
 var lastUnits = 0
 var lastTerritory = -1
@@ -675,44 +599,8 @@ export function clearDefendUIChooseUnits () {
   var defendUI = document.getElementById('DefendUI')
   defendUI.style.display = 'none'
   defendUI.style.visibility = 'hidden'
-  attackUI.style.height = '0'
-  attackUI.style.marginTop = '0'
-}
-/***********************************  ASK FORTIFICATION UI  ************************************************ */
-
-export function displayAskFortificationUI () {
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  var fortificationUI = document.getElementById('askFortificationUI')  
-  fortificationUI.style.visibility = 'visible'
-  fortificationUI.style.height = '10rem'
-  fortificationUI.style.marginTop = '1rem'
-}
-
-export function clearAskFortificationUI () {
-  console.log('clear askfortificationUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  var askfortificationUI = document.getElementById('askFortificationUI')
-  askfortificationUI.style.visibility = 'hidden'
-  askfortificationUI.style.height = '0'
-  askfortificationUI.style.marginTop = '0'
-}
-
-/***********************************  FORTIFICATION UI ************************************************ */
-
-export function displayFortificationUI () {
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  var fortificationUI = document.getElementById('fortificationUI')  
-  fortificationUI.style.visibility = 'visible'
-}
-
-export function clearFortificationUI () {
-  console.log('clear fortificationUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  document.getElementById('fortificationUI').style.visibility = 'hidden'
+  defendUI.style.height = '0'
+  defendUI.style.marginTop = '0'
 }
 
 
@@ -743,7 +631,7 @@ export var _disableChooseTerritoryToAttack = function () {
 export function attackFromTerritory(){
   selectedCountryName = hoveredCountryName
   console.log('user clicked to attack from ' + selectedCountryName)
-  document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
+  //document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
 
   attackFrom = selectedCountryName
   if(document.getElementById(attackFrom).className.baseVal !== 'sea') {
@@ -756,6 +644,7 @@ export function attackFromTerritory(){
 
 export function attackWith(nb){
   clearAttackChooseUnits()
+  enableNextPhaseBtn()
   displayUITop()
   displayMessage('You launched an attack on ' + attackTo + ' from ' + attackFrom + ' with ' + nb + 'unit(s)')
   console.log('func attack with')
@@ -773,7 +662,7 @@ export function attackWith(nb){
 export function attackTerritory(){
   selectedCountryName = hoveredCountryName
   console.log('user clicked to attack ' + selectedCountryName)
-  document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
+  //document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
 
   attackTo = selectedCountryName
 
@@ -783,6 +672,7 @@ export function attackTerritory(){
     _disableChooseTerritoryToAttack()
     clearMessageUITop()
     clearDisplayMessage()
+    disableNextPhaseBtn()
     displayAttackChooseUnits()
   }
 }
