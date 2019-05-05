@@ -40,6 +40,7 @@ export class MainGame {
     this.gameIsSet = false
     this.prephaseIsDone = false
     this.attackUnits = 0
+    this.haveFortified = false
     
     this.autoInit = true
     this.autoRein = false
@@ -986,6 +987,13 @@ export class MainGame {
    *
    **/
   fortify (tSource, tDest, nbUnits) {
+
+    var sourceId = tSource
+    var destId = tDest
+
+    tSource = THIS.getCountryNameById(tSource)
+    tDest = THIS.getCountryNameById(tDest)
+
     /* continent which contains the source territory */
     var cSource = getContinentOf(tSource)
 
@@ -995,6 +1003,16 @@ export class MainGame {
     /* move units */
     THIS.map[cSource][tSource].soldiers -= nbUnits
     THIS.map[cDest][tDest].soldiers += nbUnits
+
+    // updating local map data
+    GameWindow.updateCountrySoldiersNumber(sourceId)
+    GameWindow.updateCountrySoldiersNumber(destId)
+
+    GameWindow.displayUITop()
+    GameWindow.enableNextPhaseBtn()
+    THIS.haveFortified = true
+    THIS.fortificationLogic('You moved ' + nbUnits + ' unit(s) from ' + tSource + ' to ' + tDest)
+    
   }
 
   /** Try to move x units from one territory to another (phase 3)
@@ -1015,7 +1033,7 @@ export class MainGame {
 
     /* check if it's phase 3 */
     if (THIS.currentPhase != phases['FORTIFICATION']) {
-      console.log('Action not permitted: icorrect phase')
+      console.log('Action not permitted: incorrect phase')
       return -1
     }
 
@@ -1025,20 +1043,28 @@ export class MainGame {
       THIS.map[cSource][tSource].player != THIS.view.currentPlayer
     ) {
       console.log('Action not permitted: you do not control the territories')
+      
+      THIS.fortificationLogic('You do not control all of the two territories.')
+
       return -1
     }
 
     /* check if the number of units is ok */
     if (THIS.map[cSource][tSource].soldiers <= nbUnits) {
       console.log('Action not permitted: not enough units')
+      THIS.fortificationLogic('Not enough units present on ' + tSource)
+
       return -1
     }
 
     /* check if the territories are adjacent */
-    if (!areAdjacent(tSource, tDest)) {
-      console.log('Action not permitted: territories not adjacent')
-      return -1
-    }
+    // if (!areAdjacent(tSource, tDest)) {
+    //   console.log('Action not permitted: territories not adjacent')
+    //   return -1
+    // }
+
+    tSource = THIS.getCountryIdByName(tSource)
+    tDest = THIS.getCountryIdByName(tDest)
 
     /* if all tests pass notify server */
     var data = {
@@ -1047,7 +1073,7 @@ export class MainGame {
       units: nbUnits
     }
 
-    sendToServer(new Packet('MOVE', data))
+    THIS.sendToServer(new Packet('MOVE', data))
 
     return 0
   }
@@ -1081,19 +1107,32 @@ export class MainGame {
     var secondStr = ""
     if(message !== undefined){
       secondStr = message + '<br/>'
-    }
-            
-    GameWindow.displayCurrentPlayer()
-    if(localStorage.getItem('myId') == THIS.view.currentPlayer){
-      // disable attack logic
-      GameWindow._disableAttackFromTerritory()
-      GameWindow._disableChooseTerritoryToAttack()
+      GameWindow.displayUITop()
       GameWindow.displayCurrentPlayer()
-      GameWindow.displayMessage( secondStr + "You can fortify your territories.")
-        // Enable fortify logic
-      GameWindow._enableFortifyFromTerritory()
+    }
+    GameWindow.displayCurrentPlayer()
+    if(THIS.haveFortified === false){
+      if(localStorage.getItem('myId') == THIS.view.currentPlayer){
+        // disable attack logic
+        GameWindow._disableAttackFromTerritory()
+        GameWindow._disableChooseTerritoryToAttack()
+        GameWindow.displayCurrentPlayer()
+        GameWindow.displayMessage( secondStr + "You can fortify your territories.")
+          // Enable fortify logic
+        GameWindow._enableFortifyFromTerritory()
+      } else {
+        GameWindow.displayMessage(THIS.getPlayerNameById(THIS.view.currentPlayer) + ' is fortifying.')
+      }
     } else {
-      GameWindow.displayMessage(THIS.getPlayerNameById(THIS.view.currentPlayer) + ' is fortifying.')
+      if(localStorage.getItem('myId') == THIS.view.currentPlayer){
+        GameWindow._disableFortifyFromTerritory()
+        GameWindow._disableChooseTerritoryToFortify()
+        GameWindow.displayCurrentPlayer()
+        GameWindow.displayMessage( secondStr + "You can now give turn to next player.")
+        GameWindow.enableNextPhaseBtn()
+      } else {
+        GameWindow.displayMessage(THIS.getPlayerNameById(THIS.view.currentPlayer) + ' is finishing his/her turn.')
+      }
     }
   }
 
@@ -1157,6 +1196,7 @@ export class MainGame {
           GameWindow.displayCurrentPhase()          
 
           if(msg.data.phase == phases['REINFORCEMENT']){
+            THIS.haveFortified = false
             GameWindow.displayCurrentPlayer()
             GameWindow.clearDisplayMessage()
             console.log('localstorage id = ' + localStorage.getItem('myId') + ', view.current = ' + THIS.view.currentPlayer)
@@ -1249,7 +1289,8 @@ export class MainGame {
           break
 
         case Packet.prototype.getTypeOf('MOVE'):
-          console.log('MOVE' + msg)
+          console.log('MOVE')
+          console.log(msg)
           THAT_CLASS.fortify(
             msg.data.source,
             msg.data.destination,
@@ -1466,7 +1507,11 @@ export class MainGame {
         this.attacked()
         break
 
-      
+      case Packet.prototype.getTypeOf('MOVE'):
+        console.log('error attack')
+        console.log(data.errType)
+        THIS.fortificationLogic(str.substr(str.indexOf(':') + 1))
+        break
       
       default:
         break

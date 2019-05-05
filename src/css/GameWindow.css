@@ -843,28 +843,33 @@ p {
 }
 
 /*********** FORTIFICATION UI ********************/
-#FortifyUI {
+/* #FortifyUI {
   display: none;
   visibility: hidden;
   font-size: 0.5em;
   margin-top: 1rem;
-  width: 50vw;
-  /* display: flex; */
-  display: grid;
-  grid-template-columns: 4fr 1fr 4fr;
-}
+  width: 30rem;
+  /* display: grid;
+  grid-template-columns: 1fr 1fr 1fr; */
+/*}
 .FortifyUILeft{
   text-align: center;
   padding: 0.5rem;
-  /*background-color: blue*/
+  background-color: blue;
+  float: left;
+  width: 10rem;
 }
 .FortifyUICenter{
-  /*background-color: white*/
+  background-color: white;
+  float: left;
+  width: 5rem;
 }
 
 .FortifyUIRight{
   text-align: center;
-  /*background-color: red*/
+  background-color: red;
+  float: left;
+  width: 10rem;
 }
 
 #FortifyUIRightAbort {
@@ -877,5 +882,44 @@ p {
 }
 
 #FortifyUIRightOK:hover {
+  color: green
+} */
+#FortifyUI {
+  display: none;
+  visibility: hidden;
+  font-size: 0.5em;
+  margin-top: 1rem;
+  width: 40rem;
+}
+
+.FortifyUILeft{
+  text-align: center;
+  padding: 0.1rem;
+  width: 20rem;
+  float: left;
+}
+
+.FortifyUILeft > input {
+  width: 3rem;
+}
+
+.FortifyUIRight{
+  text-align: center;
+  padding: 0.5rem;
+  width: 10rem;
+  float: left;
+}
+
+#FortifyUIRightAbort {
+  margin-bottom: 1rem;
+}
+
+#FortifyUIRightAbort:hover {
+  margin-bottom: 1rem;
+  color: red
+}
+
+#FortifyUIRightOK:hover {
+  margin-bottom: 1rem;
   color: green
 }

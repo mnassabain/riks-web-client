@@ -41,7 +41,7 @@
             <div class="innerReinUIcenter">Reinforce with</div>
           <div class="innerReinUIcenter">
               
-              <input v-model.number="units" type="number" id="unitsToPut" min="0" pattern="\d+">
+              <input v-model.number="unitsToPut" type="number" id="unitsToPut" min="0" pattern="\d+">
 
             </div>
             <div class="innerReinUIcenter">Units</div>
@@ -51,30 +51,29 @@
             <div id="reinUIRightAbort" v-on:click="clearReinUI">
               Abort
             </div>
-            <div id="reinUIRightOK" v-on:click="addReinUnit(units)">
+            <div id="reinUIRightOK" v-on:click="addReinUnit(unitsToPut)">
               OK
             </div>
           </div>
         </div>
 
         <div id="FortifyUI">
+          
           <div class="FortifyUILeft">
-            <div>Move units form</div>
-            <div>Territory</div>
-            <div>To</div>
-            <div>Territory</div>
-          </div>
-          <div class="FortifyUICenter">
-              <input v-model.number="units" type="number" id="unitsToMove" min="0" pattern="\d+">
-          </div>
+            Move <input v-model.number="unitsToMove" type="number" id="unitsToMove" min="0" pattern="\d+">  units<br>
+            from <span id="moveFrom"></span><br>
+            to <span id="moveTo"></span>
+          </div>   
+          
           <div class="FortifyUIRight" >
             <div id="FortifyUIRightAbort" v-on:click="clearFortifyUI()">
               Abort
             </div>
-            <div id="FortifyUIRightOK">
+            <div id="FortifyUIRightOK" v-on:click="fortifyWith(unitsToMove)">
               OK
             </div>
           </div>
+
         </div>
 
       </div>
@@ -540,6 +539,8 @@ export default {
       map: [],
       currentPlayer: 0,
       units: 0,
+      unitsToPut: 0,
+      unitsToMove: 0,
       localPlayerId: localStorage.myId,
       localPlayerName: localStorage.login,
       localArmies: 0,
@@ -559,6 +560,7 @@ export default {
     nextPhase: GameWindow.nextPhase,
     attackWith: GameWindow.attackWith,
     defendWith: GameWindow.defendWith,
+    fortifyWith: GameWindow.fortifyWith,
     clearFortifyUI: GameWindow.clearFortifyChooseUnits,
 
     displayMessage: function(message) {
@@ -600,9 +602,9 @@ export default {
     GameWindow.startMouseoverCountry();
 
 
-    GameWindow.displayFortifyChooseUnits();
-    // GameWindow.onDbClick();
-    GameWindow.onDbClickReinUI();
+    //GameWindow.displayFortifyChooseUnits();
+    GameWindow.onDbClick();
+    //GameWindow.onDbClickReinUI();
     //GameWindow.displayMyColor(this.localColor);
     // GameWindow.enableNextPhaseBtn();
     GameWindow.disableNextPhaseBtn();
@@ -618,6 +620,7 @@ export default {
     // GameWindow.displayAskAttackUI();
     // GameWindow.displayAttackUI();
     // GameWindow.displayAskFortificationUI();
+    // GameWindow._displayReinforcementUI()
   }
 };
 </script>

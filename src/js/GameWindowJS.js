@@ -230,7 +230,6 @@ export function mouseoverCountry (evt) {
 
 export function updateCountrySoldiersNumber (countryId) {
   var cName = MainGame.prototype.getCountryNameById(countryId)
-  console.log(cName+" attacked")
   var countryElement = map[getContinentOf(cName)][cName]
   doc.getElementById('soldierNumberOn' + cName).innerHTML = countryElement.soldiers
 }
@@ -431,18 +430,18 @@ export function updateRatioBar (player, nbTerritories) {
 export var _displayReinforcementUI = function () {
   selectedCountryName = hoveredCountryName
 
-  if(localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()){
-    console.log("selected country name class" + selectedCountryName + ' class :' )
-    console.log(document.getElementById(selectedCountryName).className)
-    if(document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
+  // if(localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()){
+  //   console.log("selected country name class" + selectedCountryName + ' class :' )
+  //   console.log(document.getElementById(selectedCountryName).className)
+  //   if(document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
       document.getElementById('messageDisplay').style.display = 'block'
       document.getElementById('messageDisplay').style.visibility = 'visible'
       document.getElementById('reinforcementUI').style.visibility = 'visible'
       document.getElementById(
         'reinforcementTerritory'
       ).innerHTML = selectedCountryName
-    }
-  }
+  //   }
+  // }
 }
 
 export function clearReinUI () {
@@ -615,104 +614,6 @@ export var _disableAttackFromTerritory = function () {
   var gmap = document.getElementById('GameMap')
   gmap.removeEventListener('click', attackFromTerritory, true)
 }
-/******************************* FORTIFY ENABLE DISABLE, & treatements *************************************************** */
-var fortifyFrom = ""
-export var _enableFortifyFromTerritory = function () {
-  var gmap = document.getElementById('GameMap')
-  gmap.addEventListener('click', fortifyFromTerritory, true)
-  fortifyFrom = ""
-}
-
-export var _disableFortifyFromTerritory = function () {
-  var gmap = document.getElementById('GameMap')
-  gmap.removeEventListener('click', fortifyFromTerritory, true)
-}
-
-var fortifyTo = ""
-export var _enableChooseTerritoryToFortify = function () {
-  var gmap = document.getElementById('GameMap')
-  gmap.addEventListener('click', fortifyTerritory, true)
-  fortifyTo = ""
-}
-
-export var _disableChooseTerritoryToFortify = function () {
-  var gmap = document.getElementById('GameMap')
-  gmap.removeEventListener('click', fortifyTerritory, true)
-}
-
-export function fortifyFromTerritory(){
-  selectedCountryName = hoveredCountryName
-  console.log('user clicked to fortify from ' + selectedCountryName)
-
-  fortifyFrom = selectedCountryName
-  if(document.getElementById(fortifyFrom).className.baseVal !== 'sea') {
-    _disableFortifyFromTerritory()
-    clearDisplayMessage()
-    displayMessage("Choose territory to fortify")
-    _enableChooseTerritoryToFortify()
-  }
-}
-
-export function fortifyTerritory(){
-  selectedCountryName = hoveredCountryName
-  console.log('user clicked to fortify ' + selectedCountryName)
-
-  fortifyTo = selectedCountryName
-
-  console.log(document.getElementById(fortifyTo).className)
-
-  if(document.getElementById(fortifyTo).className.baseVal !== 'sea') {
-    _disableChooseTerritoryToFortify()
-    clearMessageUITop()
-    clearDisplayMessage()
-    disableNextPhaseBtn()
-    displayFortifyChooseUnits()
-  }
-}
-
-export function displayFortifyChooseUnits () {
-  //var unitsAvailable = MainGame.prototype.getUnitsOnTerritory(fortifyFrom)
-  //console.log('****************************** units available on ' + fortifyFrom + ' : ' + unitsAvailable)
-  clearReinUI()
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  var fortifyUI = document.getElementById('FortifyUI')
-  fortifyUI.style.display = 'block'
-  fortifyUI.style.visibility = 'visible'
-  fortifyUI.style.height = '8rem'
-  //document.getElementById('attackCombatRed').innerHTML = fortifyTo
-
-  // if(unitsAvailable < 4){
-  //   document.getElementById('selectArmyThreeAttack').disabled = true
-  //   document.getElementById('attackThreeImg').style.cursor = 'not-allowed'
-  // }  else {
-  //   document.getElementById('selectArmyThreeAttack').disabled = false
-  //   document.getElementById('attackThreeImg').style.cursor = 'pointer'
-  // }
-  
-  // if(unitsAvailable < 3) {
-  //   document.getElementById('selectArmyTwoAttack').disabled = true
-  //   document.getElementById('attackTwoImg').style.cursor = 'not-allowed'
-  // } else {
-  //   document.getElementById('selectArmyTwoAttack').disabled = false
-  //   document.getElementById('attackTwoImg').style.cursor = 'pointer'
-  // }
-
-}
-
-export function clearFortifyChooseUnits () {
-  console.log('clear FortifyUI')
-  document.getElementById('messageDisplay').style.display = 'none'
-  document.getElementById('messageDisplay').style.visibility = 'hidden'
-  document.getElementById('FortifyUI').style.display = 'none'
-  document.getElementById('FortifyUI').style.visibility = 'hidden'
-  var fortifyUI = document.getElementById('FortifyUI')
-  fortifyUI.style.visibility = 'hidden'
-  fortifyUI.style.height = '0'
-  fortifyUI.style.margin = '0'
-  MainGame.prototype.fortificationLogic()
-}
-/********************************************************************************** */
 
 var attackTo = ""
 export var _enableChooseTerritoryToAttack = function () {
@@ -826,3 +727,91 @@ export function displayMessageUITop (message) {
   var messageUITop = document.getElementById('messageUITop')
   messageUITop.innerHTML = message
 }
+
+/******************************* FORTIFY ENABLE DISABLE, & treatements *************************************************** */
+var fortifyFrom = ""
+export var _enableFortifyFromTerritory = function () {
+  var gmap = document.getElementById('GameMap')
+  gmap.addEventListener('click', fortifyFromTerritory, true)
+  //fortifyFrom = ""
+}
+
+export var _disableFortifyFromTerritory = function () {
+  var gmap = document.getElementById('GameMap')
+  gmap.removeEventListener('click', fortifyFromTerritory, true)
+}
+
+var fortifyTo = ""
+export var _enableChooseTerritoryToFortify = function () {
+  var gmap = document.getElementById('GameMap')
+  gmap.addEventListener('click', fortifyTerritory, true)
+  fortifyTo = ""
+}
+
+export var _disableChooseTerritoryToFortify = function () {
+  var gmap = document.getElementById('GameMap')
+  gmap.removeEventListener('click', fortifyTerritory, true)
+}
+
+export function fortifyFromTerritory(){
+  selectedCountryName = hoveredCountryName
+  console.log('user clicked to fortify from ' + selectedCountryName)
+
+  fortifyFrom = selectedCountryName
+  if(document.getElementById(fortifyFrom).className.baseVal !== 'sea') {
+    _disableFortifyFromTerritory()
+    clearDisplayMessage()
+    displayMessage("Choose territory to fortify")
+    _enableChooseTerritoryToFortify()
+  }
+}
+
+export function fortifyTerritory(){
+  selectedCountryName = hoveredCountryName
+  console.log('user clicked to fortify ' + selectedCountryName)
+
+  fortifyTo = selectedCountryName
+
+  console.log(document.getElementById(fortifyTo).className)
+
+  if(document.getElementById(fortifyTo).className.baseVal !== 'sea') {
+    _disableChooseTerritoryToFortify()
+    clearMessageUITop()
+    clearDisplayMessage()
+    disableNextPhaseBtn()
+    displayFortifyChooseUnits()
+  }
+}
+
+export function displayFortifyChooseUnits () {
+  var unitsAvailable = MainGame.prototype.getUnitsOnTerritory(fortifyFrom)
+  console.log('****************************** units available on ' + fortifyFrom + ' : ' + unitsAvailable)
+  clearReinUI()
+  document.getElementById('messageDisplay').style.display = 'block'
+  document.getElementById('messageDisplay').style.visibility = 'visible'
+  var fortifyUI = document.getElementById('FortifyUI')
+  fortifyUI.style.display = 'block'
+  fortifyUI.style.visibility = 'visible'
+  fortifyUI.style.height = '8rem'
+  document.getElementById('moveFrom').innerHTML = fortifyFrom
+  document.getElementById('moveTo').innerHTML = fortifyTo
+}
+
+export function clearFortifyChooseUnits () {
+  console.log('clear FortifyUI')
+  document.getElementById('messageDisplay').style.display = 'none'
+  document.getElementById('messageDisplay').style.visibility = 'hidden'
+  document.getElementById('FortifyUI').style.display = 'none'
+  document.getElementById('FortifyUI').style.visibility = 'hidden'
+  var fortifyUI = document.getElementById('FortifyUI')
+  fortifyUI.style.visibility = 'hidden'
+  fortifyUI.style.height = '0'
+  fortifyUI.style.margin = '0'
+  MainGame.prototype.fortificationLogic()
+}
+
+export function fortifyWith(nb) {
+  clearFortifyChooseUnits()
+  MainGame.prototype.tryFortify(fortifyFrom, fortifyTo, nb)
+}
+/********************************************************************************** */
