@@ -21,6 +21,6 @@ export default new Router({
     { path: '/JoinGame', name: 'JoinGame', component: JoinGame },
     { path: '/Start', name: 'Start', component: Start },
     { path: '/Lobby', name: 'Lobby', component: Lobby },
-    { path: '/GameWindow', name: 'GameWindow', component: GameWindow },
-  ],
-});
+    { path: '/GameWindow', name: 'GameWindow', component: GameWindow }
+  ]
+})

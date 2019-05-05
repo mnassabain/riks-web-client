@@ -1,5 +1,5 @@
 import { Packet } from '../Packet'
-import { map, getContinentOf, areAdjacent } from './Map'
+import { map, getContinentOf } from './Map'
 import { Player, SupportedColors } from './Player'
 import * as GameWindow from './GameWindowJS'
 
@@ -41,7 +41,7 @@ export class MainGame {
     this.prephaseIsDone = false
     this.attackUnits = 0
     this.haveFortified = false
-    
+
     this.autoInit = true
     this.autoRein = false
     this.cpt = 0
@@ -57,8 +57,7 @@ export class MainGame {
     // this.innerLoop();
   }
 
-
-  getCurrentPhase() {
+  getCurrentPhase () {
     return THIS.currentPhase
   }
 
@@ -143,7 +142,7 @@ export class MainGame {
       i++
     })
     console.log('this playerlist is set')
-    console.log(THIS.playerList)    
+    console.log(THIS.playerList)
 
     // The player list is copyied to the view
     THIS.view.players = THIS.playerList
@@ -266,7 +265,6 @@ export class MainGame {
    * @returns true or false
    */
   tryPutUnits (player, territory, units) {
-
     /* test if enough units left */
     if (MainGame.prototype.getMyReinforcementNum() <= 0) {
       console.log('not enough units')
@@ -338,10 +336,10 @@ export class MainGame {
     return THIS.view.players[THIS.view.currentPlayer].displayName
   }
 
-   /**
+  /**
    * return the active player
    */
-  getActivePlayer(){
+  getActivePlayer () {
     return THIS.view.currentPlayer
   }
 
@@ -479,7 +477,7 @@ export class MainGame {
       )
 
       GameWindow.displayCurrentPlayer()
-      if (localStorage.myId == THIS.view.currentPlayer){
+      if (localStorage.myId == THIS.view.currentPlayer) {
         GameWindow.displayMessage('Double click on a territory to claim it !')
       } else {
         GameWindow.displayMessage(
@@ -496,14 +494,10 @@ export class MainGame {
 
   autoInit (id) {
     console.log('cpt = ' + THIS.cpt)
-    var cId = THIS.cpt + id 
+    var cId = THIS.cpt + id
     var tName = THIS.getCountryNameById(cId)
-    if(THIS.autoInit === true && THIS.cpt < 42){
-      THIS.tryPutUnits(
-        id,
-        tName,
-        1
-      )
+    if (THIS.autoInit === true && THIS.cpt < 42) {
+      THIS.tryPutUnits(id, tName, 1)
       THIS.cpt += THIS.getNbPlayers()
     }
   }
@@ -511,12 +505,8 @@ export class MainGame {
   autoReinforce (id) {
     console.log('cpt = ' + THIS.cpt)
     var tName = THIS.getCountryNameById(parseInt(id))
-    if(THIS.autoRein === true && THIS.cpt < 38){
-      THIS.tryPutUnits(
-        id,
-        tName,
-        1
-      )
+    if (THIS.autoRein === true && THIS.cpt < 38) {
+      THIS.tryPutUnits(id, tName, 1)
       THIS.cpt += 1
     }
   }
@@ -528,7 +518,6 @@ export class MainGame {
   getAutoRein () {
     return THIS.autoRein
   }
-
 
   /**
    * Sends a PUT message to game server to allow a
@@ -564,7 +553,7 @@ export class MainGame {
     /* Modificates addeventlistener on dblclick */
     GameWindow.disableDbClick()
     GameWindow.disableDbClickReinUi()
-    
+
     THIS.cpt = 0
     THIS.autoInit = false
     THIS.autoRein = true
@@ -576,7 +565,12 @@ export class MainGame {
     var ms = 3000
     setTimeout(function () {
       GameWindow.clearDisplayMessage()
-      console.log('localstorage id = ' + localStorage.getItem('myId') + ', view.current = ' + THIS.view.currentPlayer)
+      console.log(
+        'localstorage id = ' +
+          localStorage.getItem('myId') +
+          ', view.current = ' +
+          THIS.view.currentPlayer
+      )
       if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
         GameWindow.displayMessage(
           'Put reinforcement units on your territories !'
@@ -591,16 +585,14 @@ export class MainGame {
 
   getMyReinforcementNum () {
     console.log(
-      'my reinforcements : ' +
-        THIS.view.players[localStorage.getItem('myId')]
+      'my reinforcements : ' + THIS.view.players[localStorage.getItem('myId')]
     )
     return THIS.view.players[localStorage.getItem('myId')]
   }
 
   nextPlayerTurn () {
-    THIS.view.currentPlayer =
-      (THIS.view.currentPlayer + 1) % THIS.totalPlayers
-    //THIS.view.currentPlayer = THIS.currentPlayer
+    THIS.view.currentPlayer = (THIS.view.currentPlayer + 1) % THIS.totalPlayers
+    // THIS.view.currentPlayer = THIS.currentPlayer
   }
 
   /**
@@ -635,9 +627,8 @@ export class MainGame {
 
   nextPhase () {
     console.log('Next phase is called in MAINGAME')
-    
-    THIS.sendToServer(new Packet('END_PHASE'))
 
+    THIS.sendToServer(new Packet('END_PHASE'))
   }
 
   sendToServer (packet) {
@@ -726,9 +717,7 @@ export class MainGame {
   checkAllPlayersReinforcements () {
     console.log('players reinforcements :')
     for (var i = 0; i < THIS.playerList.length; i++) {
-      console.log(
-        'player' + i + ' : ' + THIS.playerList[i].reinforcements
-      )
+      console.log('player' + i + ' : ' + THIS.playerList[i].reinforcements)
     }
   }
 
@@ -829,16 +818,21 @@ export class MainGame {
    * @param nbUnits number of attacking units
    */
   attacked (nbUnits, targetedTerritory) {
-    if(nbUnits !== undefined && targetedTerritory !== undefined){
+    if (nbUnits !== undefined && targetedTerritory !== undefined) {
       /* display that the player is being attacked, let him defend */
       console.log('You are being attacked with ' + nbUnits)
       GameWindow.clearDisplayMessage()
-      GameWindow.displayMessage('You are being attacked on' + targetedTerritory + ' by ' + nbUnits + ' unit(s)')
+      GameWindow.displayMessage(
+        'You are being attacked on' +
+          targetedTerritory +
+          ' by ' +
+          nbUnits +
+          ' unit(s)'
+      )
       // TODO add some timeout here
       GameWindow.clearDisplayMessage()
       GameWindow.defendTerritoryNotification(nbUnits, targetedTerritory)
-    }
-    else{
+    } else {
       GameWindow.defendTerritoryNotification()
     }
   }
@@ -858,7 +852,7 @@ export class MainGame {
     console.log('nb units = ' + nbUnits)
 
     /* check if the territory has the number of units */
-    if (THIS.map[cDest][tDest].soldiers < nbUnits) {      
+    if (THIS.map[cDest][tDest].soldiers < nbUnits) {
       console.log('Action not permitted: not enough units')
       return -1
     }
@@ -925,7 +919,7 @@ export class MainGame {
     /* apply losses */
     THIS.map[cSource][tSource].soldiers -= attackerLoss
     THIS.map[cDest][tDest].soldiers -= defenderLoss
-    /* displaying loss(es) on map (using country IDs)*/
+    /* displaying loss(es) on map (using country IDs) */
     GameWindow.updateCountrySoldiersNumber(tmpSource)
     GameWindow.updateCountrySoldiersNumber(tmpDest)
     // Rest
@@ -933,13 +927,14 @@ export class MainGame {
     var restAttack = THIS.attackUnits - attackerLoss
     console.log('restattack = ' + restAttack)
     /* if there are no more units on the territory */
-    if (THIS.map[cDest][tDest].soldiers <= 0) { // is dead : replace dest soldiers by attackers soldiers
+    if (THIS.map[cDest][tDest].soldiers <= 0) {
+      // is dead : replace dest soldiers by attackers soldiers
 
       THIS.view.players[THIS.map[cDest][tDest].player].nbTerritories--
       THIS.map[cDest][tDest].player = THIS.map[cSource][tSource].player
       THIS.map[cDest][tDest].soldiers = restAttack
       THIS.map[cSource][tSource].soldiers -= THIS.attackUnits
-      
+
       console.log('Attacker territory after conquer : ')
       console.log(tSource)
       console.log(THIS.map[cSource][tSource].soldiers)
@@ -958,8 +953,7 @@ export class MainGame {
       THIS.view.players[THIS.map[cSource][tSource].player].nbTerritories++
       GameWindow.updateCountrySoldiersNumber(tmpDest)
       GameWindow.updateCountrySoldiersNumber(tmpSource)
-    }
-    else{
+    } else {
       GameWindow.updateCountrySoldiersNumber(tmpDest)
     }
   }
@@ -987,7 +981,6 @@ export class MainGame {
    *
    **/
   fortify (tSource, tDest, nbUnits) {
-
     var sourceId = tSource
     var destId = tDest
 
@@ -1011,8 +1004,9 @@ export class MainGame {
     GameWindow.displayUITop()
     GameWindow.enableNextPhaseBtn()
     THIS.haveFortified = true
-    THIS.fortificationLogic('You moved ' + nbUnits + ' unit(s) from ' + tSource + ' to ' + tDest)
-    
+    THIS.fortificationLogic(
+      'You moved ' + nbUnits + ' unit(s) from ' + tSource + ' to ' + tDest
+    )
   }
 
   /** Try to move x units from one territory to another (phase 3)
@@ -1025,7 +1019,6 @@ export class MainGame {
    *
    **/
   tryFortify (tSource, tDest, nbUnits) {
-    
     /* continent which contains the source territory */
     var cSource = getContinentOf(tSource)
 
@@ -1044,7 +1037,7 @@ export class MainGame {
       THIS.map[cSource][tSource].player != THIS.view.currentPlayer
     ) {
       console.log('Action not permitted: you do not control the territories')
-      
+
       THIS.fortificationLogic('You do not control all of the two territories.')
 
       return -1
@@ -1079,28 +1072,30 @@ export class MainGame {
     return 0
   }
 
-  tryUseTokens(token1, token2, token3){
+  tryUseTokens (token1, token2, token3) {
     var data = {
       token1: token1,
       token2: token2,
       token3: token3
     }
-    this.sendToServer(new Packet("USE_TOKENS", data))
+    this.sendToServer(new Packet('USE_TOKENS', data))
   }
 
-  beginAttackPhase(message){
-    var secondStr = ""
-    if(message !== undefined){
+  beginAttackPhase (message) {
+    var secondStr = ''
+    if (message !== undefined) {
       secondStr = message + '<br/>'
     }
 
     console.log('Server is now on phase offense')
     GameWindow.displayCurrentPlayer()
-    if(localStorage.getItem('myId') == THIS.view.currentPlayer){
+    if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
       // Display message to select
       GameWindow.displayCurrentPlayer()
-      GameWindow.displayMessage( secondStr + "You are attacking, select start territory")
-        // Enable click
+      GameWindow.displayMessage(
+        secondStr + 'You are attacking, select start territory'
+      )
+      // Enable click
       GameWindow._enableAttackFromTerritory()
       // 1. Select territory from which to attack
 
@@ -1108,40 +1103,51 @@ export class MainGame {
 
       // 3. Send info to server
     } else {
-      GameWindow.displayMessage(THIS.getPlayerNameById(THIS.view.currentPlayer) + ' is attacking')
+      GameWindow.displayMessage(
+        THIS.getPlayerNameById(THIS.view.currentPlayer) + ' is attacking'
+      )
     }
   }
 
   fortificationLogic (message) {
     console.log('Server is now on phase fortification')
-    var secondStr = ""
-    if(message !== undefined){
+    var secondStr = ''
+    if (message !== undefined) {
       secondStr = message + '<br/>'
       GameWindow.displayUITop()
       GameWindow.displayCurrentPlayer()
     }
     GameWindow.displayCurrentPlayer()
-    if(THIS.haveFortified === false){
-      if(localStorage.getItem('myId') == THIS.view.currentPlayer){
+    if (THIS.haveFortified === false) {
+      if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
         // disable attack logic
         GameWindow._disableAttackFromTerritory()
         GameWindow._disableChooseTerritoryToAttack()
         GameWindow.displayCurrentPlayer()
-        GameWindow.displayMessage( secondStr + "You can fortify your territories.")
-          // Enable fortify logic
+        GameWindow.displayMessage(
+          secondStr + 'You can fortify your territories.'
+        )
+        // Enable fortify logic
         GameWindow._enableFortifyFromTerritory()
       } else {
-        GameWindow.displayMessage(THIS.getPlayerNameById(THIS.view.currentPlayer) + ' is fortifying.')
+        GameWindow.displayMessage(
+          THIS.getPlayerNameById(THIS.view.currentPlayer) + ' is fortifying.'
+        )
       }
     } else {
       GameWindow._disableFortifyFromTerritory()
       GameWindow._disableChooseTerritoryToFortify()
-      if(localStorage.getItem('myId') == THIS.view.currentPlayer){        
+      if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
         GameWindow.displayCurrentPlayer()
-        GameWindow.displayMessage( secondStr + "You can now give turn to next player.")
+        GameWindow.displayMessage(
+          secondStr + 'You can now give turn to next player.'
+        )
         GameWindow.enableNextPhaseBtn()
       } else {
-        GameWindow.displayMessage(THIS.getPlayerNameById(THIS.view.currentPlayer) + ' is finishing his/her turn.')
+        GameWindow.displayMessage(
+          THIS.getPlayerNameById(THIS.view.currentPlayer) +
+            ' is finishing his/her turn.'
+        )
       }
     }
   }
@@ -1158,7 +1164,7 @@ export class MainGame {
     var ownerName = THIS.getPlayerNameById(owner)
     return ownerName
   }
-  
+
   handleIncommingMessages () {
     var THAT_CLASS = this
     THIS.$socket.onmessage = function (d) {
@@ -1166,7 +1172,7 @@ export class MainGame {
       console.log(d)
       console.log('msg data')
       console.log(d.data)
-      var msg = JSON.parse(d.data) 
+      var msg = JSON.parse(d.data)
       switch (msg.type) {
         case Packet.prototype.getTypeOf('ATTACK'):
           THAT_CLASS.attack(
@@ -1174,7 +1180,7 @@ export class MainGame {
             msg.data.destination,
             msg.data.units
           )
-          console.log("ATTACK response")
+          console.log('ATTACK response')
           console.log(msg.data)
           THIS.attackUnits = msg.data.units
           console.log('attackUnits = ' + THIS.attackUnits)
@@ -1199,34 +1205,45 @@ export class MainGame {
           break
 
         case Packet.prototype.getTypeOf('CURRENT_PHASE'):
-          console.log('CURRENT_PHASE: ' + msg.data.phase + ', now ' + THIS.playerList[THIS.view.currentPlayer].displayName + ' is playing')
-          if(THIS.currentPhase != msg.data.phase) {
+          console.log(
+            'CURRENT_PHASE: ' +
+              msg.data.phase +
+              ', now ' +
+              THIS.playerList[THIS.view.currentPlayer].displayName +
+              ' is playing'
+          )
+          if (THIS.currentPhase != msg.data.phase) {
             THIS.currentPhase = (THIS.currentPhase + 1) % 3
           }
-          GameWindow.displayCurrentPhase()          
+          GameWindow.displayCurrentPhase()
 
-          if(msg.data.phase == phases['REINFORCEMENT']){
+          if (msg.data.phase == phases['REINFORCEMENT']) {
             THIS.haveFortified = false
             GameWindow.displayCurrentPlayer()
             GameWindow.clearDisplayMessage()
-            console.log('localstorage id = ' + localStorage.getItem('myId') + ', view.current = ' + THIS.view.currentPlayer)
+            console.log(
+              'localstorage id = ' +
+                localStorage.getItem('myId') +
+                ', view.current = ' +
+                THIS.view.currentPlayer
+            )
             if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
               GameWindow.displayMessage(
                 'Put reinforcement units on your territories !'
               )
             } else {
               GameWindow.displayMessage(
-                THIS.getActivePlayerName() + ' is reinforcing his/her territories !'
+                THIS.getActivePlayerName() +
+                  ' is reinforcing his/her territories !'
               )
             }
-          
           }
           THIS.autoRein = false
           /* updates the current phase in players controls area */
           GameWindow.displayCurrentPhase(msg.data.phase)
 
           THAT_CLASS.currentPhase = msg.data.phase
-          
+
           if (msg.data.phase == phases['OFFENSE']) {
             THIS.beginAttackPhase()
           }
@@ -1244,7 +1261,7 @@ export class MainGame {
 
         case Packet.prototype.getTypeOf('ERROR'):
           // print the type of the error in the console
-          THIS.ErrorHandling(msg.data);
+          THIS.ErrorHandling(msg.data)
           break
 
         case Packet.prototype.getTypeOf('GAME_OVER'):
@@ -1278,7 +1295,7 @@ export class MainGame {
           console.log('VIEW.CURRENTPLAYER' + THIS.view.currentPlayer)
           console.log('msg data player' + msg.data.player)
 
-          if(msg.data.player == localStorage.getItem('myId')){
+          if (msg.data.player == localStorage.getItem('myId')) {
             THAT_CLASS.view.localNbTokenTypeOne += msg.data.token1
             THAT_CLASS.view.localNbTokenTypeTwo += msg.data.token2
             THAT_CLASS.view.localNbTokenTypeThree += msg.data.token3
@@ -1326,19 +1343,21 @@ export class MainGame {
           THAT_CLASS.view.players[msg.data.player].reinforcements -=
             msg.data.units
           /* local player informations */
-          if(localStorage.getItem('myId')  == msg.data.player) {
+          if (localStorage.getItem('myId') == msg.data.player) {
             THAT_CLASS.view.localArmies -= msg.data.units
           }
 
           if (THAT_CLASS.currentPhase == phases['PREPHASE']) {
-
             /* updating current player turn */
             THAT_CLASS.nextPlayerTurn()
             GameWindow.displayCurrentPlayer()
 
             // updating the ratio bar
             for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
-              GameWindow.updateRatioBar(i, THAT_CLASS.playerList[i].nbTerritories)
+              GameWindow.updateRatioBar(
+                i,
+                THAT_CLASS.playerList[i].nbTerritories
+              )
             }
 
             /* updating the local map data */
@@ -1363,7 +1382,7 @@ export class MainGame {
               )
 
               THAT_CLASS.view.players[msg.data.player].nbTerritories++
-              if(localStorage.getItem('myId') == msg.data.player) {
+              if (localStorage.getItem('myId') == msg.data.player) {
                 THAT_CLASS.view.localTerritories++
               }
             }
@@ -1401,14 +1420,15 @@ export class MainGame {
                   THAT_CLASS.getCountryNameById(msg.data.territory)
               )
             }
-          }
-          else if (THAT_CLASS.currentPhase == phases['REINFORCEMENT']){
-
-            //GameWindow.displayCurrentPlayer()
+          } else if (THAT_CLASS.currentPhase == phases['REINFORCEMENT']) {
+            // GameWindow.displayCurrentPlayer()
 
             // updating the ratio bar
             for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
-              GameWindow.updateRatioBar(i, THAT_CLASS.playerList[i].nbTerritories)
+              GameWindow.updateRatioBar(
+                i,
+                THAT_CLASS.playerList[i].nbTerritories
+              )
             }
 
             THAT_CLASS.updateMapData(
@@ -1477,9 +1497,8 @@ export class MainGame {
 
           THAT_CLASS.view.players[msg.data.player].reinforcements +=
             msg.data.units
-          
-          if (msg.data.player == localStorage.getItem('myId'))
-            THIS.view.localArmies += msg.data.units
+
+          if (msg.data.player == localStorage.getItem('myId')) { THIS.view.localArmies += msg.data.units }
           GameWindow.displayCurrentPlayer()
           break
 
@@ -1498,21 +1517,21 @@ export class MainGame {
     }
   }
 
-  //{"data":{"errType":21,"message":"ATTACK: You cannot attack one of your terrirories"},"type":0}
+  // {"data":{"errType":21,"message":"ATTACK: You cannot attack one of your terrirories"},"type":0}
 
-  ErrorHandling(data){
+  ErrorHandling (data) {
     var str = data.message
     GameWindow.displayMessage(str.substr(str.indexOf(':') + 1))
-    //THIS.updateViewPlayers(THIS.playerList)
+    // THIS.updateViewPlayers(THIS.playerList)
     console.log(str)
-    
-    switch(data.errType){
+
+    switch (data.errType) {
       case Packet.prototype.getTypeOf('ATTACK'):
         console.log('error attack')
         console.log(data.errType)
         THIS.beginAttackPhase(str.substr(str.indexOf(':') + 1))
         break
-      
+
       case Packet.prototype.getTypeOf('DEFEND'):
         this.attacked()
         break
@@ -1522,7 +1541,7 @@ export class MainGame {
         console.log(data.errType)
         THIS.fortificationLogic(str.substr(str.indexOf(':') + 1))
         break
-      
+
       default:
         break
     }

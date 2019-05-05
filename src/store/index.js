@@ -15,48 +15,51 @@ Vue.use(Vuex)
 const inFifteenMinutes = new Date(new Date().getTime() + 15 * 60 * 1000)
 
 export default new Vuex.Store({
-  plugins: [createPersistedState({
-    storage: {
-      getItem: key => Cookies.get(key),
-      // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
-      setItem: (key, value) => Cookies.set(key, value, { expires: inFifteenMinutes }),
-      removeItem: key => Cookies.remove(key)
-    }
-  })],
+  plugins: [
+    createPersistedState({
+      storage: {
+        getItem: key => Cookies.get(key),
+        // Please see https://github.com/js-cookie/js-cookie#json, on how to handle JSON.
+        setItem: (key, value) =>
+          Cookies.set(key, value, { expires: inFifteenMinutes }),
+        removeItem: key => Cookies.remove(key)
+      }
+    })
+  ],
   state: {
     socket: {
       isConnected: false,
       message: '',
-      reconnectError: false,
+      reconnectError: false
     }
   },
   mutations: {
-    [SOCKET_ONOPEN](state, event) {
+    [SOCKET_ONOPEN] (state, event) {
       console.info(state, event)
       state.socket.isConnected = true
     },
-    [SOCKET_ONOPEN](state, event) {
+    [SOCKET_ONOPEN] (state, event) {
       console.info(state, event)
       state.socket.isConnected = true
     },
-    [SOCKET_ONCLOSE](state, event) {
+    [SOCKET_ONCLOSE] (state, event) {
       state.socket.isConnected = false
     },
-    [SOCKET_ONERROR](state, event) {
+    [SOCKET_ONERROR] (state, event) {
       console.error(state, event)
     },
     // default handler called for all methods
-    [SOCKET_ONMESSAGE](state, message) {
-      console.log("===== MESSAGE =====");
-      console.log(message);
+    [SOCKET_ONMESSAGE] (state, message) {
+      console.log('===== MESSAGE =====')
+      console.log(message)
       state.socket.message = message
     },
     // mutations for reconnect methods
-    [SOCKET_RECONNECT](state, count) {
+    [SOCKET_RECONNECT] (state, count) {
       console.info(state, count)
     },
-    [SOCKET_RECONNECT_ERROR](state) {
-      state.socket.reconnectError = true;
+    [SOCKET_RECONNECT_ERROR] (state) {
+      state.socket.reconnectError = true
     }
   }
 })

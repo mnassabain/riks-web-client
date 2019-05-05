@@ -2,7 +2,6 @@ import * as d3 from 'd3'
 import * as svgPanZoom from 'svg-pan-zoom'
 
 import { map, getContinentOf } from './Map'
-import { Player } from './Player'
 import { MainGame, phases } from './MainGame'
 
 /*********************************************************************************************************************/
@@ -177,21 +176,22 @@ export var _addReinforcement = function (evt) {
     disableDbClick()
     disableDbClickReinUi()
     dblClickTerritory()
-    /*allows the current player to use next phase button*/
-    if(localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()){
+    /* allows the current player to use next phase button */
+    if (
+      localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()
+    ) {
       enableNextPhaseBtn()
     } else {
       disableNextPhaseBtn()
     }
   } else if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
-     MainGame.prototype.tryPutUnits(
+    MainGame.prototype.tryPutUnits(
       localStorage.getItem('myId'),
       selectedCountryName,
       nbUnits
     )
-    console.log('Try to add units on ' + selectedCountryName)  
+    console.log('Try to add units on ' + selectedCountryName)
   }
-  
 }
 
 // generic function to create an xml element
@@ -232,7 +232,8 @@ export function mouseoverCountry (evt) {
 export function updateCountrySoldiersNumber (countryId) {
   var cName = MainGame.prototype.getCountryNameById(countryId)
   var countryElement = map[getContinentOf(cName)][cName]
-  doc.getElementById('soldierNumberOn' + cName).innerHTML = countryElement.soldiers
+  doc.getElementById('soldierNumberOn' + cName).innerHTML =
+    countryElement.soldiers
 }
 /*****************************************************************************************************/
 
@@ -383,21 +384,25 @@ export function displayCurrentPhase (phase) {
 export function displayCurrentPlayer () {
   var currentPlayer = MainGame.prototype.getActivePlayerId()
   document.getElementById('messageUITop').innerHTML = ''
-  console.log('localstorage id = ' + localStorage.getItem('myId') + ', view.current = ' + currentPlayer)
+  console.log(
+    'localstorage id = ' +
+      localStorage.getItem('myId') +
+      ', view.current = ' +
+      currentPlayer
+  )
   if (currentPlayer == localStorage.getItem('myId')) {
     document.getElementById('messageUITop').innerHTML = 'Your turn'
-    
-    /************************************* TURN OFF BEFORE PRODUCTION ************************************************************************** */
-    if(MainGame.prototype.getAutoInit() === true){
+
+    /** *********************************** TURN OFF BEFORE PRODUCTION ************************************************************************** */
+    if (MainGame.prototype.getAutoInit() === true) {
       var idToSend = parseInt(localStorage.getItem('myId'))
       MainGame.prototype.autoInit(idToSend)
     }
-    if(MainGame.prototype.getAutoRein() === true){
+    if (MainGame.prototype.getAutoRein() === true) {
       var idToSend = parseInt(localStorage.getItem('myId'))
       MainGame.prototype.autoReinforce(idToSend)
     }
-    /************************************************************************************************************************************************** */
-
+    /** ************************************************************************************************************************************************ */
   } else {
     document.getElementById('messageUITop').innerHTML =
       MainGame.prototype.getActivePlayerName() + ' is playing.'
@@ -423,7 +428,7 @@ export function highlightCurrentPlayer () {
 
 export function updateRatioBar (player, nbTerritories) {
   document.getElementById('ratioPlayer' + (player + 1)).style.width =
-    ((nbTerritories / 42) * 100) + '%'
+    (nbTerritories / 42) * 100 + '%'
   // console.log('ratio : ' + ((nbTerritories / 42) * 100) + '%')
   // console.log('nbTerritories : ' + nbTerritories)
 }
@@ -435,12 +440,12 @@ export var _displayReinforcementUI = function () {
   //   console.log("selected country name class" + selectedCountryName + ' class :' )
   //   console.log(document.getElementById(selectedCountryName).className)
   //   if(document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
-      document.getElementById('messageDisplay').style.display = 'block'
-      document.getElementById('messageDisplay').style.visibility = 'visible'
-      document.getElementById('reinforcementUI').style.visibility = 'visible'
-      document.getElementById(
-        'reinforcementTerritory'
-      ).innerHTML = selectedCountryName
+  document.getElementById('messageDisplay').style.display = 'block'
+  document.getElementById('messageDisplay').style.visibility = 'visible'
+  document.getElementById('reinforcementUI').style.visibility = 'visible'
+  document.getElementById(
+    'reinforcementTerritory'
+  ).innerHTML = selectedCountryName
   //   }
   // }
 }
@@ -462,17 +467,19 @@ export function clearReinUI () {
  */
 export function addReinUnit (value) {
   clearReinUI()
-  if(value < 1){
+  if (value < 1) {
     displayMessage('You have to add at least 1 unit')
-  } else  {
+  } else {
     console.log('added value rein unit = ' + value)
     console.log('on ' + selectedCountryName)
     /* here we handle the put unit during phase 1 (reinforcements) */
-    MainGame.prototype.tryPutUnits(localStorage.getItem('myId'), 
-      selectedCountryName, value)
+    MainGame.prototype.tryPutUnits(
+      localStorage.getItem('myId'),
+      selectedCountryName,
+      value
+    )
   }
 }
-
 
 /*********************************************************************/
 /**
@@ -480,15 +487,13 @@ export function addReinUnit (value) {
  * if prephase places 1 soldier
  * if reinforcement select reinforcement ui
  */
-export function dblClickTerritory(evt) {
+export function dblClickTerritory (evt) {
   console.log('current phase = ' + MainGame.prototype.getCurrentPhase())
   if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
     _placeSoldier(evt)
-  }
-  else if (MainGame.prototype.getCurrentPhase() == phases['REINFORCEMENT']) {
+  } else if (MainGame.prototype.getCurrentPhase() == phases['REINFORCEMENT']) {
     _displayReinforcementUI()
-  }
-  else if (MainGame.prototype.getCurrentPhase() == phases['OFFENSE']) {
+  } else if (MainGame.prototype.getCurrentPhase() == phases['OFFENSE']) {
     _enableChooseTerritoryToAttack()
   }
 }
@@ -519,7 +524,7 @@ export function nextPhase () {
   MainGame.prototype.nextPhase()
 }
 
-/***********************************  ATTACK UI ************************************************ */
+/** *********************************  ATTACK UI ************************************************ */
 
 export function displayAttackChooseUnits () {
   var unitsAvailable = MainGame.prototype.getUnitsOnTerritory(attackFrom)
@@ -531,22 +536,21 @@ export function displayAttackChooseUnits () {
   attackUI.style.height = '8rem'
   document.getElementById('attackCombatRed').innerHTML = attackTo
 
-  if(unitsAvailable < 4){
+  if (unitsAvailable < 4) {
     document.getElementById('selectArmyThreeAttack').disabled = true
     document.getElementById('attackThreeImg').style.cursor = 'not-allowed'
-  }  else {
+  } else {
     document.getElementById('selectArmyThreeAttack').disabled = false
     document.getElementById('attackThreeImg').style.cursor = 'pointer'
   }
-  
-  if(unitsAvailable < 3) {
+
+  if (unitsAvailable < 3) {
     document.getElementById('selectArmyTwoAttack').disabled = true
     document.getElementById('attackTwoImg').style.cursor = 'not-allowed'
   } else {
     document.getElementById('selectArmyTwoAttack').disabled = false
     document.getElementById('attackTwoImg').style.cursor = 'pointer'
   }
-
 }
 
 export function clearAttackChooseUnits () {
@@ -559,33 +563,32 @@ export function clearAttackChooseUnits () {
   attackUI.style.margin = '0'
 }
 
-/***********************************  DEFEND UI  ************************************************ */
-
+/** *********************************  DEFEND UI  ************************************************ */
 
 var lastUnits = 0
 var lastTerritory = -1
 export function displayDefendUIdChooseUnits (nbUnits, targetedTerritoryId) {
-  if(nbUnits !== undefined && targetedTerritoryId !== undefined){
+  if (nbUnits !== undefined && targetedTerritoryId !== undefined) {
     lastUnits = nbUnits
     lastTerritory = targetedTerritoryId
   }
-  console.log('units ' + lastUnits  + ' T id : ' + lastTerritory)
+  console.log('units ' + lastUnits + ' T id : ' + lastTerritory)
   var tName = MainGame.prototype.getCountryNameById(lastTerritory)
   var unitsAvailable = MainGame.prototype.getUnitsOnTerritory(tName)
   console.log('units available on ' + tName + ' : ' + unitsAvailable)
-  
+
   var defendUI = document.getElementById('DefendUI')
   defendUI.style.display = 'block'
   defendUI.style.visibility = 'visible'
   defendUI.style.height = '8rem'
   defendUI.style.marginTop = '0'
-  if(tName !== undefined){
+  if (tName !== undefined) {
     document.getElementById('defendCombatRed').innerHTML = tName
     document.getElementById('attackingUnits').innerHTML = lastUnits
   } else {
-    document.getElementById('defendCombatRed').innerHTML = "Territory"
+    document.getElementById('defendCombatRed').innerHTML = 'Territory'
   }
-  if(unitsAvailable < 2){
+  if (unitsAvailable < 2) {
     document.getElementById('selectArmyTwoDefend').disabled = true
     document.getElementById('defendTwoImg').style.cursor = 'not-allowed'
   } else {
@@ -603,12 +606,11 @@ export function clearDefendUIChooseUnits () {
   defendUI.style.marginTop = '0'
 }
 
-
-var attackFrom = ""
+var attackFrom = ''
 export var _enableAttackFromTerritory = function () {
   var gmap = document.getElementById('GameMap')
   gmap.addEventListener('click', attackFromTerritory, true)
-  attackFrom = ""
+  attackFrom = ''
 }
 
 export var _disableAttackFromTerritory = function () {
@@ -616,11 +618,11 @@ export var _disableAttackFromTerritory = function () {
   gmap.removeEventListener('click', attackFromTerritory, true)
 }
 
-var attackTo = ""
+var attackTo = ''
 export var _enableChooseTerritoryToAttack = function () {
   var gmap = document.getElementById('GameMap')
   gmap.addEventListener('click', attackTerritory, true)
-  attackTo = ""
+  attackTo = ''
 }
 
 export var _disableChooseTerritoryToAttack = function () {
@@ -628,30 +630,38 @@ export var _disableChooseTerritoryToAttack = function () {
   gmap.removeEventListener('click', attackTerritory, true)
 }
 
-export function attackFromTerritory(){
+export function attackFromTerritory () {
   selectedCountryName = hoveredCountryName
   console.log('user clicked to attack from ' + selectedCountryName)
-  //document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
+  // document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
 
   attackFrom = selectedCountryName
-  if(document.getElementById(attackFrom).className.baseVal !== 'sea') {
+  if (document.getElementById(attackFrom).className.baseVal !== 'sea') {
     _disableAttackFromTerritory()
     clearDisplayMessage()
-    displayMessage("Choose territory to attack")
+    displayMessage('Choose territory to attack')
     _enableChooseTerritoryToAttack()
   }
 }
 
-export function attackWith(nb){
+export function attackWith (nb) {
   clearAttackChooseUnits()
   enableNextPhaseBtn()
   displayUITop()
-  displayMessage('You launched an attack on ' + attackTo + ' from ' + attackFrom + ' with ' + nb + 'unit(s)')
+  displayMessage(
+    'You launched an attack on ' +
+      attackTo +
+      ' from ' +
+      attackFrom +
+      ' with ' +
+      nb +
+      'unit(s)'
+  )
   console.log('func attack with')
   console.log('attack from ' + attackFrom)
   console.log('attack to ' + attackTo)
   console.log('nb ' + nb)
-  MainGame.prototype.tryAttack(attackFrom, attackTo,nb)
+  MainGame.prototype.tryAttack(attackFrom, attackTo, nb)
   // MainGame.prototype.attack(
   //   MainGame.prototype.getCountryIdByName(attackFrom),
   //   MainGame.prototype.getCountryIdByName(attackTo),
@@ -659,16 +669,16 @@ export function attackWith(nb){
   // )
 }
 
-export function attackTerritory(){
+export function attackTerritory () {
   selectedCountryName = hoveredCountryName
   console.log('user clicked to attack ' + selectedCountryName)
-  //document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
+  // document.getElementById('attackFromTerritory').innerHTML = selectedCountryName
 
   attackTo = selectedCountryName
 
   console.log(document.getElementById(attackTo).className)
 
-  if(document.getElementById(attackTo).className.baseVal !== 'sea') {
+  if (document.getElementById(attackTo).className.baseVal !== 'sea') {
     _disableChooseTerritoryToAttack()
     clearMessageUITop()
     clearDisplayMessage()
@@ -680,10 +690,9 @@ export function attackTerritory(){
 export function defendTerritoryNotification (nbUnits, targetedTerritory) {
   clearDisplayMessage()
   clearMessageUITop()
-  if(nbUnits !== undefined && targetedTerritory !== undefined){
+  if (nbUnits !== undefined && targetedTerritory !== undefined) {
     displayDefendUIdChooseUnits(nbUnits, targetedTerritory)
-  }
-  else{
+  } else {
     displayDefendUIdChooseUnits()
   }
 }
@@ -692,11 +701,17 @@ export function defendWith (nbUnits) {
   console.log('func defend with')
   console.log('nbUnits ' + nbUnits)
   displayUITop()
-  
+
   var targetedTerritory = document.getElementById('defendCombatRed').innerHTML
-  displayMessage('You defended attack on ' + targetedTerritory + ' with ' + nbUnits + ' unit(s)')
+  displayMessage(
+    'You defended attack on ' +
+      targetedTerritory +
+      ' with ' +
+      nbUnits +
+      ' unit(s)'
+  )
   clearDefendUIChooseUnits()
-  //clearDisplayMessage()
+  // clearDisplayMessage()
   MainGame.prototype.tryDefend(targetedTerritory, nbUnits)
 }
 
@@ -729,12 +744,12 @@ export function displayMessageUITop (message) {
   messageUITop.innerHTML = message
 }
 
-/******************************* FORTIFY ENABLE DISABLE, & treatements *************************************************** */
-var fortifyFrom = ""
+/** ***************************** FORTIFY ENABLE DISABLE, & treatements *************************************************** */
+var fortifyFrom = ''
 export var _enableFortifyFromTerritory = function () {
   var gmap = document.getElementById('GameMap')
   gmap.addEventListener('click', fortifyFromTerritory, true)
-  //fortifyFrom = ""
+  // fortifyFrom = ""
 }
 
 export var _disableFortifyFromTerritory = function () {
@@ -742,11 +757,11 @@ export var _disableFortifyFromTerritory = function () {
   gmap.removeEventListener('click', fortifyFromTerritory, true)
 }
 
-var fortifyTo = ""
+var fortifyTo = ''
 export var _enableChooseTerritoryToFortify = function () {
   var gmap = document.getElementById('GameMap')
   gmap.addEventListener('click', fortifyTerritory, true)
-  fortifyTo = ""
+  fortifyTo = ''
 }
 
 export var _disableChooseTerritoryToFortify = function () {
@@ -754,20 +769,20 @@ export var _disableChooseTerritoryToFortify = function () {
   gmap.removeEventListener('click', fortifyTerritory, true)
 }
 
-export function fortifyFromTerritory(){
+export function fortifyFromTerritory () {
   selectedCountryName = hoveredCountryName
   console.log('user clicked to fortify from ' + selectedCountryName)
 
   fortifyFrom = selectedCountryName
-  if(document.getElementById(fortifyFrom).className.baseVal !== 'sea') {
+  if (document.getElementById(fortifyFrom).className.baseVal !== 'sea') {
     _disableFortifyFromTerritory()
     clearDisplayMessage()
-    displayMessage("Choose territory to fortify")
+    displayMessage('Choose territory to fortify')
     _enableChooseTerritoryToFortify()
   }
 }
 
-export function fortifyTerritory(){
+export function fortifyTerritory () {
   selectedCountryName = hoveredCountryName
   console.log('user clicked to fortify ' + selectedCountryName)
 
@@ -775,7 +790,7 @@ export function fortifyTerritory(){
 
   console.log(document.getElementById(fortifyTo).className)
 
-  if(document.getElementById(fortifyTo).className.baseVal !== 'sea') {
+  if (document.getElementById(fortifyTo).className.baseVal !== 'sea') {
     _disableChooseTerritoryToFortify()
     clearMessageUITop()
     clearDisplayMessage()
@@ -786,7 +801,12 @@ export function fortifyTerritory(){
 
 export function displayFortifyChooseUnits () {
   var unitsAvailable = MainGame.prototype.getUnitsOnTerritory(fortifyFrom)
-  console.log('****************************** units available on ' + fortifyFrom + ' : ' + unitsAvailable)
+  console.log(
+    '****************************** units available on ' +
+      fortifyFrom +
+      ' : ' +
+      unitsAvailable
+  )
   clearReinUI()
   document.getElementById('messageDisplay').style.display = 'block'
   document.getElementById('messageDisplay').style.visibility = 'visible'
@@ -811,28 +831,22 @@ export function clearFortifyChooseUnits () {
   MainGame.prototype.fortificationLogic()
 }
 
-export function fortifyWith(nb) {
+export function fortifyWith (nb) {
   clearFortifyChooseUnits()
   MainGame.prototype.tryFortify(fortifyFrom, fortifyTo, nb)
 }
-/********************************************************************************** */
+/** ******************************************************************************** */
 
-/******************************* TOKENS ******************************* */
+/** ***************************** TOKENS ******************************* */
 
-export function displayUseTokensUI(){
+export function displayUseTokensUI () {}
 
-}
+export function clearUseTokenUI () {}
 
-export function clearUseTokenUI(){
-
-}
-
-export function useTokens(token1, token2, token3){
+export function useTokens (token1, token2, token3) {
   clearUseTokenUI()
 
-  MainGame.prototype.tryUseTokens(token1, token2, token3)  
+  MainGame.prototype.tryUseTokens(token1, token2, token3)
 }
 
-
-
-/********************************************************************************** */
+/** ******************************************************************************** */
