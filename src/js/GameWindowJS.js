@@ -361,16 +361,16 @@ export function displayCurrentPhase (phase) {
   var phaseStr = ''
   switch (phase) {
     case -1:
-      phaseStr = 'Prephase (-1)'
+      phaseStr = 'Prephase'
       break
     case 0:
-      phaseStr = 'Phase 1 (0)' // REINFORCEMENTS
+      phaseStr = 'Preparing' // REINFORCEMENTS
       break
     case 1:
-      phaseStr = 'Phase 2 (1)' // OFFENSE
+      phaseStr = 'Attacking' // OFFENSE
       break
     case 2:
-      phaseStr = 'Phase 3 (2)' // FORTIFICATION
+      phaseStr = 'Fortifying' // FORTIFICATION
       break
     default:
       phaseStr = 'N/C'
