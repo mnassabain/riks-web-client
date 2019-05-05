@@ -339,16 +339,16 @@ export function displayCurrentPhase (phase) {
   var phaseStr = ''
   switch (phase) {
     case -1:
-      phaseStr = 'Prephase (-1)'
+      phaseStr = 'Prephase'
       break
     case 0:
-      phaseStr = 'Phase 1 (0)' // REINFORCEMENTS
+      phaseStr = 'Preparing' // REINFORCEMENTS
       break
     case 1:
-      phaseStr = 'Phase 2 (1)' // OFFENSE
+      phaseStr = 'Attacking' // OFFENSE
       break
     case 2:
-      phaseStr = 'Phase 3 (2)' // FORTIFICATION
+      phaseStr = 'Fortifying' // FORTIFICATION
       break
     default:
       phaseStr = 'N/C'
@@ -481,8 +481,9 @@ export function dblClickTerritory (evt) {
  */
 export function enableNextPhaseBtn () {
   var nextPhaseBtn = document.getElementById('nextPhaseBtn')
-  nextPhaseBtn.disabled = false
-  nextPhaseBtn.style.backgroundColor = 'transparent'
+  nextPhaseBtn.style.cursor = 'pointer'
+  nextPhaseBtn.style.pointerEvents = 'all'
+  nextPhaseBtn.style.opacity = '1'
 }
 
 /**
@@ -490,8 +491,9 @@ export function enableNextPhaseBtn () {
  */
 export function disableNextPhaseBtn () {
   var nextPhaseBtn = document.getElementById('nextPhaseBtn')
-  nextPhaseBtn.disabled = true
-  nextPhaseBtn.style.backgroundColor = 'gray'
+  nextPhaseBtn.style.cursor = 'not-allowed'
+  nextPhaseBtn.style.pointerEvents = 'none'
+  nextPhaseBtn.style.opacity = '0.5'
 }
 
 /**
