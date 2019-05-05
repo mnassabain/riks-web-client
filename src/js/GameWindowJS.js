@@ -503,8 +503,9 @@ export function dblClickTerritory (evt) {
  */
 export function enableNextPhaseBtn () {
   var nextPhaseBtn = document.getElementById('nextPhaseBtn')
-  nextPhaseBtn.disabled = false
-  nextPhaseBtn.style.backgroundColor = 'transparent'
+  nextPhaseBtn.style.cursor = 'pointer'
+  nextPhaseBtn.style.pointerEvents = 'all'
+  nextPhaseBtn.style.opacity = '1'
 }
 
 /**
@@ -512,8 +513,9 @@ export function enableNextPhaseBtn () {
  */
 export function disableNextPhaseBtn () {
   var nextPhaseBtn = document.getElementById('nextPhaseBtn')
-  nextPhaseBtn.disabled = true
-  nextPhaseBtn.style.backgroundColor = 'gray'
+  nextPhaseBtn.style.cursor = 'not-allowed'
+  nextPhaseBtn.style.pointerEvents = 'none'
+  nextPhaseBtn.style.opacity = '0.5'
 }
 
 /**

@@ -30,17 +30,17 @@
     </div>
 
       <div id="messageDisplay" class="generalMessageDisplay">
-        
+
         <div id="reinforcementUI">
           <div class="reinforcementUILeft">
             <div class="innerReinUILeft">Add units on</div>
             <div class="innerReinUILeft" id="reinforcementTerritory"></div>
           </div>
-          
+
           <div class="reinforcementUIcenter">
             <div class="innerReinUIcenter">Reinforce with</div>
           <div class="innerReinUIcenter">
-              
+
               <input v-model.number="unitsToPut" type="number" id="unitsToPut" min="0" pattern="\d+">
 
             </div>
@@ -58,13 +58,13 @@
         </div>
 
         <div id="FortifyUI">
-          
+
           <div class="FortifyUILeft">
             Move <input v-model.number="unitsToMove" type="number" id="unitsToMove" min="0" pattern="\d+">  units<br>
             from <span id="moveFrom"></span><br>
             to <span id="moveTo"></span>
-          </div>   
-          
+          </div>
+
           <div class="FortifyUIRight" >
             <div id="FortifyUIRightAbort" v-on:click="clearFortifyUI()">
               Abort
@@ -78,7 +78,7 @@
 
       </div>
 
-      
+
 
     <!--Under Tokens NorthWest UI hidden by default-->
     <div idTokenSpread></div>
@@ -120,8 +120,8 @@
       </div>
       <div id="playerControlButton">
         <button id="nextPhaseBtn" v-on:click="nextPhase()">
-          <img src="../assets/icons/nextPhase.svg">
-        </button> 
+          <img draggable="false" src="../assets/icons/nextPhase.svg">
+        </button>
       </div>
     </div>
 
@@ -184,14 +184,14 @@
 
     <!-- South UI combat informations are displayed here-->
     <div class="combatUI" id="combatUIArea">
-      
+
       <div id="messageUI">
         <div id="messageUITop">
         </div>
         <div id="messageUIBottom">
         </div>
       </div>
-      
+
       <div id="DefendUI">
         <div class="combatUILeft">
           <div id="defendCombatRed"></div>
@@ -613,9 +613,9 @@ export default {
     GameWindow.clearAskAttackUI();
     GameWindow.clearAttackUI();
     GameWindow.clearAskAttackUI();
-    GameWindow.clearAskFortificationUI(); 
+    GameWindow.clearAskFortificationUI();
     GameWindow.clearFortificationUI();*/
-    
+
     // GameWindow.clearDefendUI();
     // GameWindow.displayAskAttackUI();
     // GameWindow.displayAttackUI();
