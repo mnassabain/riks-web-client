@@ -1124,9 +1124,9 @@ export class MainGame {
         GameWindow.displayMessage(THIS.getPlayerNameById(THIS.view.currentPlayer) + ' is fortifying.')
       }
     } else {
-      if(localStorage.getItem('myId') == THIS.view.currentPlayer){
-        GameWindow._disableFortifyFromTerritory()
-        GameWindow._disableChooseTerritoryToFortify()
+      GameWindow._disableFortifyFromTerritory()
+      GameWindow._disableChooseTerritoryToFortify()
+      if(localStorage.getItem('myId') == THIS.view.currentPlayer){        
         GameWindow.displayCurrentPlayer()
         GameWindow.displayMessage( secondStr + "You can now give turn to next player.")
         GameWindow.enableNextPhaseBtn()
