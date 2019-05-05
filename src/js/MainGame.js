@@ -353,6 +353,10 @@ export class MainGame {
     return THIS.view.players[playerId].displayName
   }
 
+  getPlayerById(playerId){
+    return THIS.view.players[playerId]
+  }
+
   /**
    * Returns the id number matching the given player name
    * @param playerName
@@ -1165,6 +1169,16 @@ export class MainGame {
     return ownerName
   }
 
+
+  sendChatMessage(message) {
+    var data = {
+      'message': message      
+    }
+
+    THIS.sendToServer(new Packet('CHAT', data))
+  }
+
+
   handleIncommingMessages () {
     var THAT_CLASS = this
     THIS.$socket.onmessage = function (d) {
@@ -1510,6 +1524,14 @@ export class MainGame {
           console.log('USE_TOKENS' + msg)
           /* THIS.useTokensResponse(msg.player.name,msg.units); */
           break
+
+        case Packet.prototype.getTypeOf('CHAT'):
+          console.log('chat message received from player ' + msg.data.name + 
+            ', with message: "' + msg.data.message + '"')
+        
+          GameWindow.addDistantPlayerMessage(msg.data.name, msg.data.message)
+
+        break
 
         default:
           break

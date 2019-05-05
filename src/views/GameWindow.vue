@@ -176,7 +176,7 @@
             type="submit"
             id="submitMsgBtn"
             value="Send"
-            v-on:click="addLocalPlayerMessage()"
+            v-on:click="sendLocalMessage()"
           >
         </form>
       </div>
@@ -554,7 +554,7 @@ export default {
   },
   methods: {
     dropdownClick: GameWindow.dropdownClick,
-    addLocalPlayerMessage: GameWindow.addLocalPlayerMessage,
+    sendLocalMessage: GameWindow.sendLocalMessage,
     clearReinUI: GameWindow.clearReinUI,
     addReinUnit: GameWindow.addReinUnit,
     nextPhase: GameWindow.nextPhase,

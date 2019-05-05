@@ -10,7 +10,13 @@
       </ul>
     </div>
     <div>
-      <button tag="button" class="button validate-button my-1" @click="getReady">Ready</button>
+      <button tag="button" class="button validate-button my-1" @click="getReady" v-if="myId == players[0]">
+        Start
+      </button>
+
+      <h3 v-else>
+        Waiting for host to start game...                
+      </h3>
     </div>
     <div class="additional-button-block">
       <button tag="button" class="button second-button my-1" @click="leaveLobby">Back</button>
@@ -26,7 +32,8 @@ export default {
   name: "Lobby",
   data() {
     return {
-      players: []
+      players: [],
+      myId: undefined
     };
   },
   methods: {
@@ -40,6 +47,8 @@ export default {
     }
   },
   created() {
+    this.myId = localStorage.getItem('login')
+
     var vm = this;
     this.$socket.send(new Packet("LOBBY_STATE").getJson());
     this.$socket.onmessage = function(d) {

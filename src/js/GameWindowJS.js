@@ -265,48 +265,26 @@ export function chronometer () {
 /**********************************************************************************/
 //* adds the local player message into the chat
 /* waiting for 'sending to server' part */
-export function addLocalPlayerMessage () {
-  var playerName = localStorage.login
-  var playerColor = localStorage.myColor
-  var msgParagraph = document.createElement('P')
-  msgParagraph.className = 'playerMessage'
-  msgParagraph.style.lineHeight = '1em'
+export function sendLocalMessage () {
   var msgStr = document.getElementById('playerMsgInput').value
-  msgParagraph.innerHTML =
-    '<span class="messagePlayerName" style="color: ' +
-    playerColor +
-    '">' +
-    playerName +
-    '</span><span class="messageContent"> : ' +
-    msgStr +
-    '</span>'
-  document.getElementById('chatWindow').appendChild(msgParagraph)
-  document.getElementById('chatWindow').scrollTop = document.getElementById(
-    'chatWindow'
-  ).scrollHeight
   document.getElementById('playerMsgInput').value = ''
 
   /* to do chat messages sending to server */
+  MainGame.prototype.sendChatMessage(msgStr)
 }
+
 
 /** add messages from others players into the chat
  * this function generates random values for the moment
  */
-export function addDistantPlayerMessage () {
-  console.log('add random message')
-  var min = 5
-  var max = 10
-  var rand = Math.floor(Math.random() * (max - min + 1) + min) // Generate Random number between 5 - 10
-  setTimeout(addDistantPlayerMessage, rand * 1000)
-
-  /* to do : getting chat messages from server */
-
-  var playerName = 'Player_2'
-  var playerColor = '#DF4C4C'
+export function addDistantPlayerMessage (name, message) {
+  var player = MainGame.prototype.getPlayerById(MainGame.prototype.getPlayerIdByName(name))
+  var playerName = name
+  var playerColor = player.color
   var msgParagraph = document.createElement('P')
   msgParagraph.className = 'playerMessage'
   msgParagraph.style.lineHeight = '1em'
-  var msgStr = 'Lorem ipsum dolor sit amet ...'
+  var msgStr = message
   msgParagraph.innerHTML =
     '<span class="messagePlayerName" style="color: ' +
     playerColor +
