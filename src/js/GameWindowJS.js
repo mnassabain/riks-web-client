@@ -68,7 +68,8 @@ export var disableDbClickReinUi = function () {
 }
 /*********************************************************************************************************************/
 /* Starting the timer */
-export function startTimer () {
+export function startTimer (startingTime) {
+  startingTime = startingTime
   setInterval(chronometer, 1000)
 }
 
@@ -814,4 +815,24 @@ export function fortifyWith(nb) {
   clearFortifyChooseUnits()
   MainGame.prototype.tryFortify(fortifyFrom, fortifyTo, nb)
 }
+/********************************************************************************** */
+
+/******************************* TOKENS ******************************* */
+
+export function displayUseTokensUI(){
+
+}
+
+export function clearUseTokenUI(){
+
+}
+
+export function useTokens(token1, token2, token3){
+  clearUseTokenUI()
+
+  MainGame.prototype.tryUseTokens(token1, token2, token3)  
+}
+
+
+
 /********************************************************************************** */

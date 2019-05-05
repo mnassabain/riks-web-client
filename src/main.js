@@ -64,3 +64,5 @@ new Vue({
     sync(store, router) // done. Returns an unsync callback fn
   }
 }).$mount('#app')
+
+

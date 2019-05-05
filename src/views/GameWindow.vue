@@ -597,7 +597,7 @@ export default {
   },
   beforeMount() {},
   mounted() {
-    GameWindow.startTimer();
+    GameWindow.startTimer(Date.now());
     GameWindow.mapPanZoom();
     GameWindow.startMouseoverCountry();
 

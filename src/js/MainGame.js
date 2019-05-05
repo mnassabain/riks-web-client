@@ -1025,6 +1025,7 @@ export class MainGame {
    *
    **/
   tryFortify (tSource, tDest, nbUnits) {
+    
     /* continent which contains the source territory */
     var cSource = getContinentOf(tSource)
 
@@ -1076,6 +1077,15 @@ export class MainGame {
     THIS.sendToServer(new Packet('MOVE', data))
 
     return 0
+  }
+
+  tryUseTokens(token1, token2, token3){
+    var data = {
+      token1: token1,
+      token2: token2,
+      token3: token3
+    }
+    this.sendToServer(new Packet("USE_TOKENS", data))
   }
 
   beginAttackPhase(message){

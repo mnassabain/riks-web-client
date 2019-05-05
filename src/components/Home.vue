@@ -47,6 +47,8 @@ export default {
       if (response.data.error == true) {
         alert("Error when connecting: " + response.data.response);
       } else {
+        
+
         delete this.$socket.onmessage;
         /* redirect user */
         this.$router.push("/MainMenu");

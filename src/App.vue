@@ -3,7 +3,12 @@
     <div class="container">
       <router-view></router-view>
     </div>
+    <audio autoplay>
+      <source src="./assets/music/menuTheme.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
   </div>
+  
 </template>
 
 <script>
@@ -11,21 +16,16 @@ import Home from '@/components/Home'
 import MainMenu from '@/views/MainMenu'
 import Register from '@/views/Register'
 
+
 export default {
   name: 'App',
   components: {
     Home,
     MainMenu,
     Register
-  }
+  },
 }
 </script>
-
-<script>
-//this.$options.sockets.onmessage = (data) => console.log(data)
-</script>
-
-
 
 <style>
 #app {
