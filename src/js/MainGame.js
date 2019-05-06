@@ -333,6 +333,11 @@ export class MainGame {
     return THIS.view.currentPlayer
   }
 
+
+  getMyPlayer(){
+    return this.getPlayerById(localStorage.getItem('myId'))
+  }
+
   /**
    * return the active player name string
    */
@@ -937,11 +942,17 @@ export class MainGame {
     
     var attackingPlayer =  THIS.getPlayerById(THIS.map[cSource][tSource].player)
     var defendingPlayer = THIS.getPlayerById(THIS.map[cDest][tDest].player)
+
+    var myPlayer = THIS.getMyPlayer()
    
-    if(attackingPlayer.id == THIS.getActivePlayerId()){ // We attacked
+    console.log(attackingPlayer);
+    console.log(defendingPlayer);
+    console.log(myPlayer);
+
+    if(attackingPlayer.id == myPlayer.id){ // We attacked
       GameWindow.addServerMessage('YOUR LOSSES', 'You lost '+attackerLoss+' units')
     }
-    else if(defendingPlayer.id == THIS.getActivePlayerId()){
+    else if(defendingPlayer.id == myPlayer.id){
       GameWindow.addServerMessage('YOUR LOSSES', 'You lost '+defenderLoss+' units')
     }
     else{
