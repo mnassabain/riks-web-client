@@ -374,12 +374,17 @@ export function displayCurrentPlayer () {
 
     /** *********************************** TURN OFF BEFORE PRODUCTION ************************************************************************** */
     if (MainGame.prototype.getAutoInit() === true) {
-      var idToSend = parseInt(localStorage.getItem('myId'))
-      MainGame.prototype.autoInit(idToSend)
+      setTimeout(function () {
+        var idToSend = parseInt(localStorage.getItem('myId'))
+        MainGame.prototype.autoInit(idToSend)
+      }, 500)
+      
     }
     if (MainGame.prototype.getAutoRein() === true) {
-      var idToSend = parseInt(localStorage.getItem('myId'))
-      MainGame.prototype.autoReinforce(idToSend)
+      ssetTimeout(function () {
+          var idToSend = parseInt(localStorage.getItem('myId'))
+          MainGame.prototype.autoReinforce(idToSend)
+      }, 500)
     }
     /** ************************************************************************************************************************************************ */
   } else {
