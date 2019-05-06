@@ -148,6 +148,10 @@ export class MainGame {
     THIS.view.players = THIS.playerList
   }
 
+  getPlayers () {
+    console.log('this playerlist') 
+    return THIS.playerList
+  }
   /**
    * Sets the player's localStorage with data matching his name in the array
    *

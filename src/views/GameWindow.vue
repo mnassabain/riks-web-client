@@ -192,6 +192,67 @@
         </div>
       </div>
 
+      <div id="TokenUI">
+      <!--********************* TOKEN UI LEFT *****************************-->  
+        <div id="TokenUILeft">
+          <!--********************* UPPER *****************************-->  
+          <div id="TokenUIUpperLeft">
+            <div id="tokenUITypeOne">
+              <button id="tokenTypeOneBtn" v-on:click="setTokenType('One')">
+                <img id="tokenTypeOneImg" src="../assets/icons/tokenTypeOne.svg">
+                <div id="nbTokenTypeOne">{{ localNbTokenTypeOne }}</div>
+              </button>
+            </div>
+            <div id="tokenUITypeTwo">
+              <button id="tokenTypeTwoBtn" v-on:click="setTokenType('Two')">
+                <img id="tokenTypeTwoImg" src="../assets/icons/tokenTypeTwo.svg">
+                <div id="nbTokenTypeTwo">{{ localNbTokenTypeTwo }}</div>
+              </button>
+            </div>
+            <div id="tokenUITypeThree">
+              <button id="tokenTypeThreeBtn" v-on:click="setTokenType('Three')">
+                <img id="tokenTypeThreeImg" src="../assets/icons/tokenTypeThree.svg">
+                <div id="nbTokenTypeThree">{{ localNbTokenTypeThree }}</div>
+              </button>
+            </div>
+            <div id="tokenUITypeJoker">
+              <button id="tokenTypeJokerBtn" v-on:click="setTokenType('Joker')">
+                <img id="tokenTypeFourImg" src="../assets/icons/tokenTypeJoker.svg">
+                <div id="nbTokenTypeJoker">{{ localNbTokenTypeJoker }}</div>
+              </button>
+            </div>
+            <div id="tokenUINotice">
+              Make a set of 3 tokens to gain an army unit.
+            </div>
+          </div>          
+          <!--********************* LOWER *****************************-->  
+          <div id="TokenUILowerLeft">
+            <div id="tokenSlotOne">
+              <button id="tokenSlotOneBtn" v-on:click="getTokenToSet(1)">
+                <img id="tokenSlotOneImg" src="">
+              </button>
+            </div>
+            <div id="tokenSlotTwo">
+              <button id="tokenSlotTwoBtn" v-on:click="getTokenToSet(2)">
+                <img id="tokenSlotTwoImg" src="">
+              </button>
+            </div>
+            <div id="tokenSlotThree">
+              <button id="tokenSlotThreeBtn" v-on:click="getTokenToSet(3)">
+                <img id="tokenSlotThreeImg" src="">
+              </button>
+            </div>
+            <button id="tokenTradeBtn">
+              <img draggable="false" src="../assets/icons/nextPhase.svg">
+            </button>
+          </div>
+        </div>
+      <!--********************* TOKEN UI RIGHT *****************************-->  
+        <div id="TokenUIRight">
+          You gained <span id="unitsTraded"></span> units
+        </div>      
+      </div>
+    <!--********************* TOKEN END *****************************-->  
       <div id="DefendUI">
         <div class="combatUILeft">
           <div id="defendCombatRed"></div>
@@ -562,6 +623,8 @@ export default {
     defendWith: GameWindow.defendWith,
     fortifyWith: GameWindow.fortifyWith,
     clearFortifyUI: GameWindow.clearFortifyChooseUnits,
+    setTokenType: GameWindow.setTokenType,
+    getTokenToSet: GameWindow.getTokenToSet,
 
     displayMessage: function(message) {
       console.log(message);
@@ -608,6 +671,11 @@ export default {
     //GameWindow.displayMyColor(this.localColor);
     // GameWindow.enableNextPhaseBtn();
     GameWindow.disableNextPhaseBtn();
+    
+    GameWindow.displayUseTokensUI();
+    
+    //GameWindow.clearDisplayMessage();
+
     /*GameWindow.clearReinUI();
     GameWindow.clearTokenUI();
     GameWindow.clearAskAttackUI();

@@ -910,3 +910,129 @@ p {
   margin-bottom: 1rem;
   color: green
 }
+
+/*********** TOKEN UI ************/
+#TokenUI {
+  width: 40vw;
+}
+
+#TokenUILeft {
+  position: absolute;
+  width: 22rem;
+  height: 10rem;
+  top: 0;
+  left: 0;
+  border-right: solid #f9ce93  1px;
+}
+
+#TokenUIUpperLeft {
+  width: 16.5rem;
+  height: 4.5rem;
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+
+#TokenUILowerLeft {
+  width: 24rem;
+  height: 5rem;
+  position: absolute;
+  left: 1rem;
+  top: 5rem;
+  /* background-color: green; */
+}
+
+#TokenUIRight {
+  position: absolute;
+  float: left;
+  width: 12rem;
+  height: 10rem;
+  top: 0;
+  right: 0;
+  padding: 1em;
+  /* background-color: red; */
+  font-size: 0.8em;
+  
+}
+
+[id^="tokenUIType"],
+[id*="tokenUIType"] {
+  float: left;
+  margin: 0.0rem 0.4rem 0rem 0.4rem;
+}
+
+[id^="tokenUIType"],
+[id*="tokenUIType"] > img {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+[id*="tokenUIType"] > button {
+  width: 1.8rem;
+  height: 2.2rem;
+}
+
+[id^="nbTokenType"],
+[id*="nbTokenType"] {
+  color: #fdf6eb;
+  text-align: center;
+}
+
+#tokenUINotice {
+  position: absolute;
+  float: left;
+  width: 10rem;
+  font-size: 1rem;
+  left: 10.5rem;
+}
+
+/* #tokenSlotOne {
+  float: left;
+  width: 1.8rem;
+  height: 1.8rem;
+  margin: 0.3rem 0.4rem 0rem 0.4rem; 
+}
+
+#tokenSlotTwo {
+  float: left;
+  width: 1.8rem;
+  height: 1.8rem;
+  margin: 0.3rem 0.4rem 0rem 0.4rem; 
+}
+
+#tokenSlotThree {
+  float: left;
+  width: 1.8rem;
+  height: 1.8rem;
+  margin: 0.3rem 0.4rem 0rem 0.4rem; 
+} */
+
+[id*="tokenSlot"][id$="Btn"] {
+  float: left;
+  margin: 0.3rem 0.7rem 0rem 0.4rem;
+  border: solid #f9ce93 2px;
+  border-radius: 0.5rem;
+  background-color: #48484d;
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+[id*="tokenSlot"][id$="Img"] > img{
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+#tokenTradeBtn {
+  background-color: transparent;
+  height: 2.4rem;
+  width: 5rem;
+  margin: 0.3rem 0.7rem 0rem 0.4rem;
+  border-radius: 0.5em;
+  float: left;
+}
+
+#tokenTradeBtn > img {
+  height: 2.4rem;
+  width: 5rem;
+}

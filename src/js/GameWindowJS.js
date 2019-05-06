@@ -13,6 +13,7 @@ var countries
 var seas
 var hoveredCountryName
 var selectedCountryName
+var THIS = this
 
 /*********************************************************************************************************************/
 /* Menu handling */
@@ -819,14 +820,96 @@ export function fortifyWith (nb) {
 
 /** ***************************** TOKENS ******************************* */
 
-export function displayUseTokensUI () {}
+export function displayUseTokensUI () {
+  clearDisplayMessage()
+  clearMessageUITop()
+  var attackUI = document.getElementById('TokenUI')
+  attackUI.style.display = 'block'
+  attackUI.style.visibility = 'visible'
+  attackUI.style.height = '8rem'
 
-export function clearUseTokenUI () {}
+  console.log('token present t ')
+  console.log(MainGame.prototype.getPlayers())
+  console.log('token present t ')
+  if(THIS.localNbTokenTypeOne == 0){
+    document.getElementById('tokenTypeOneBtn').disabled = true
+    document.getElementById('tokenTypeOneImg').style.cursor = 'not-allowed'
+  } else {
+    document.getElementById('tokenTypeOneBtn').disabled = false
+    document.getElementById('tokenTypeOneImg').style.cursor = 'pointer'
+  }
+
+}
+
+export function clearUseTokenUI () {
+
+}
+
+var choosedTokenType = ""
+
+export function setTokenType (tokenNb) {
+  choosedTokenType = tokenNb
+}
+
+var tokenSlotOneIsSet = false
+var tokenSlotTwoIsSet = false
+var tokenSlotThreeIsSet = false
+var tokenSlotOneIsSetWith = ""
+var tokenSlotTwoIsSetWith = ""
+var tokenSlotThreeIsSetWith = ""
+export function getTokenToSet (selectedSlot) {
+  if(choosedTokenType !== ""){
+    switch(selectedSlot){
+      case 1:
+        if(tokenSlotOneIsSet === false){
+          tokenSlotOneIsSet = true
+          document.getElementById('tokenSlotOneImg').src = require("../assets/icons/tokenType" + choosedTokenType + ".svg")
+          this['localNbTokenType' + choosedTokenType]-=1
+          tokenSlotOneIsSetWith = choosedTokenType
+        }else{
+          this['localNbTokenType' + tokenSlotOneIsSetWith]+=1
+          tokenSlotOneIsSet = false
+          document.getElementById('tokenSlotOneImg').src = ""
+        }
+        break
+      case 2:
+        if(tokenSlotTwoIsSet === false){
+          tokenSlotTwoIsSet = true
+          document.getElementById('tokenSlotTwoImg').src = require("../assets/icons/tokenType" + choosedTokenType + ".svg")
+          this['localNbTokenType' + choosedTokenType]-=1
+          tokenSlotTwoIsSetWith = choosedTokenType
+        }else{
+          this['localNbTokenType' + tokenSlotTwoIsSetWith]+=1
+          tokenSlotTwoIsSet = false
+          document.getElementById('tokenSlotTwoImg').src = ""
+        }
+        break
+      case 3:
+        if(tokenSlotThreeIsSet === false){
+          tokenSlotThreeIsSet = true
+          document.getElementById('tokenSlotThreeImg').src = require("../assets/icons/tokenType" + choosedTokenType + ".svg")
+          this['localNbTokenType' + choosedTokenType]-=1
+          tokenSlotThreeIsSetWith = choosedTokenType
+        }else{
+          this['localNbTokenType' + tokenSlotThreeIsSetWith]+=1
+          tokenSlotThreeIsSet = false
+          document.getElementById('tokenSlotThreeImg').src = ""
+        }
+        break
+    }
+  }
+}
+
 
 export function useTokens (token1, token2, token3) {
   clearUseTokenUI()
 
-  MainGame.prototype.tryUseTokens(token1, token2, token3)
+  // MainGame.prototype.tryUseTokens(token1, token2, token3)
+  MainGame.prototype.tryUseTokens(
+    tokenSlotOneIsSetWith,
+    tokenSlotTwoIsSetWith,
+    tokenSlotThreeIsSetWith
+  )
 }
 
 /** ******************************************************************************** */
