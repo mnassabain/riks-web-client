@@ -415,6 +415,7 @@ p {
 .playerControls {
   width: 25vw;
   height: 5rem;
+  display: flex;
   background-color: #27282d;
   border: solid 0.2rem #f9ce93;
   opacity: 0.9;
@@ -429,20 +430,28 @@ p {
 
 #playerControlMessage {
   float: left;
-  width: 40%;
   color: #fdf6eb;
-  margin-left: 10%;
+  margin-left: 1rem;
+  margin-right: 9rem;
   text-align: left;
-  margin-top: 1rem;
+  margin-top: 1.1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#playerControlMessage:hover {
+  overflow: visible;
 }
 
 #phaseNumber {
-  font-size: 1.3em;
+  margin-left: 1.5rem;
+  font-size: 1em;
   font-weight: bold;
 }
 
 #phaseName {
-  font-size: 1.8em;
+  font-size: 1.9em;
   font-weight: bold;
 }
 
@@ -460,10 +469,10 @@ p {
 
 /* Play button on player control*/
 #nextPhaseBtn {
-  float: right;
+  right: 0.8rem;
+  position: absolute;
   width: 8rem;
   margin-top: 0.8rem;
-  margin-right: 0.8rem;
 }
 
 #nextPhaseBtn:hover {
