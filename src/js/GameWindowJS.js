@@ -398,7 +398,7 @@ export function displayCurrentPlayer () {
       
     }
     if (MainGame.prototype.getAutoRein() === true) {
-      ssetTimeout(function () {
+      setTimeout(function () {
           var idToSend = parseInt(localStorage.getItem('myId'))
           MainGame.prototype.autoReinforce(idToSend)
       }, 500)

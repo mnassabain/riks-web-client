@@ -935,13 +935,13 @@ export class MainGame {
     var restAttack = THIS.attackUnits - attackerLoss
     console.log('restattack = ' + restAttack)
     
-    var attackingPlayer =  getPlayerById(THIS.map[cSource][tSource].player)
-    var defendingPlayer = getPlayerById(THIS.map[cDest][tDest].player)
+    var attackingPlayer =  THIS.getPlayerById(THIS.map[cSource][tSource].player)
+    var defendingPlayer = THIS.getPlayerById(THIS.map[cDest][tDest].player)
    
-    if(attackingPlayer.id == getActivePlayerId()){ // We attacked
+    if(attackingPlayer.id == THIS.getActivePlayerId()){ // We attacked
       GameWindow.addServerMessage('YOUR LOSSES', 'You lost '+attackerLoss+' units')
     }
-    else if(defendingPlayer.id == getActivePlayerId()){
+    else if(defendingPlayer.id == THIS.getActivePlayerId()){
       GameWindow.addServerMessage('YOUR LOSSES', 'You lost '+defenderLoss+' units')
     }
     else{
