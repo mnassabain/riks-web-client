@@ -274,7 +274,7 @@ export function sendLocalMessage () {
   MainGame.prototype.sendChatMessage(msgStr)
 }
 
-export function addServerMessage (title, message){
+export function addServerMessage (title, message) {
   var msgParagraph = document.createElement('P')
   msgParagraph.className = 'playerMessage'
   msgParagraph.style.lineHeight = '1em'
@@ -291,12 +291,13 @@ export function addServerMessage (title, message){
   ).scrollHeight
 }
 
-
 /** add messages from others players into the chat
  * this function generates random values for the moment
  */
 export function addDistantPlayerMessage (name, message) {
-  var player = MainGame.prototype.getPlayerById(MainGame.prototype.getPlayerIdByName(name))
+  var player = MainGame.prototype.getPlayerById(
+    MainGame.prototype.getPlayerIdByName(name)
+  )
   var playerName = name
   var playerColor = player.color
   var msgParagraph = document.createElement('P')
@@ -390,19 +391,19 @@ export function displayCurrentPlayer () {
     document.getElementById('messageUITop').innerHTML = 'Your turn'
 
     /** *********************************** TURN OFF BEFORE PRODUCTION ************************************************************************** */
-    /*if (MainGame.prototype.getAutoInit() === true) {
+    /* if (MainGame.prototype.getAutoInit() === true) {
       setTimeout(function () {
         var idToSend = parseInt(localStorage.getItem('myId'))
         MainGame.prototype.autoInit(idToSend)
       }, 500)
-      
+
     }
     if (MainGame.prototype.getAutoRein() === true) {
       setTimeout(function () {
           var idToSend = parseInt(localStorage.getItem('myId'))
           MainGame.prototype.autoReinforce(idToSend)
       }, 500)
-    }*/
+    } */
     /** ************************************************************************************************************************************************ */
   } else {
     document.getElementById('messageUITop').innerHTML =
@@ -419,10 +420,10 @@ export function highlightCurrentPlayer () {
     if (i === currentPlayer) {
       console.log('')
       document.getElementById('playerSlot' + (currentPlayer + 1)).style.border =
-        'double #FBE3C2'
+        'outset #9EB9C1'
     } else {
       document.getElementById('playerSlot' + (i + 1)).style.border =
-        'solid 0.2rem #f9ce93'
+        'solid #f9ce93'
     }
   }
 }
@@ -853,21 +854,18 @@ export function displayUseTokensUI () {
   console.log('token present t ')
   console.log(MainGame.prototype.getPlayers())
   console.log('token present t ')
-  if(THIS.localNbTokenTypeOne == 0){
+  if (THIS.localNbTokenTypeOne == 0) {
     document.getElementById('tokenTypeOneBtn').disabled = true
     document.getElementById('tokenTypeOneImg').style.cursor = 'not-allowed'
   } else {
     document.getElementById('tokenTypeOneBtn').disabled = false
     document.getElementById('tokenTypeOneImg').style.cursor = 'pointer'
   }
-
 }
 
-export function clearUseTokenUI () {
+export function clearUseTokenUI () {}
 
-}
-
-var choosedTokenType = ""
+var choosedTokenType = ''
 
 export function setTokenType (tokenNb) {
   choosedTokenType = tokenNb
@@ -876,52 +874,63 @@ export function setTokenType (tokenNb) {
 var tokenSlotOneIsSet = false
 var tokenSlotTwoIsSet = false
 var tokenSlotThreeIsSet = false
-var tokenSlotOneIsSetWith = ""
-var tokenSlotTwoIsSetWith = ""
-var tokenSlotThreeIsSetWith = ""
+var tokenSlotOneIsSetWith = ''
+var tokenSlotTwoIsSetWith = ''
+var tokenSlotThreeIsSetWith = ''
 export function getTokenToSet (selectedSlot) {
-  if(choosedTokenType !== ""){
-    switch(selectedSlot){
+  if (choosedTokenType !== '') {
+    switch (selectedSlot) {
       case 1:
-        if(tokenSlotOneIsSet === false){
+        if (tokenSlotOneIsSet === false) {
           tokenSlotOneIsSet = true
-          document.getElementById('tokenSlotOneImg').src = require("../assets/icons/tokenType" + choosedTokenType + ".svg")
-          this['localNbTokenType' + choosedTokenType]-=1
+          document.getElementById(
+            'tokenSlotOneImg'
+          ).src = require('../assets/icons/tokenType' +
+            choosedTokenType +
+            '.svg')
+          this['localNbTokenType' + choosedTokenType] -= 1
           tokenSlotOneIsSetWith = choosedTokenType
-        }else{
-          this['localNbTokenType' + tokenSlotOneIsSetWith]+=1
+        } else {
+          this['localNbTokenType' + tokenSlotOneIsSetWith] += 1
           tokenSlotOneIsSet = false
-          document.getElementById('tokenSlotOneImg').src = ""
+          document.getElementById('tokenSlotOneImg').src = ''
         }
         break
       case 2:
-        if(tokenSlotTwoIsSet === false){
+        if (tokenSlotTwoIsSet === false) {
           tokenSlotTwoIsSet = true
-          document.getElementById('tokenSlotTwoImg').src = require("../assets/icons/tokenType" + choosedTokenType + ".svg")
-          this['localNbTokenType' + choosedTokenType]-=1
+          document.getElementById(
+            'tokenSlotTwoImg'
+          ).src = require('../assets/icons/tokenType' +
+            choosedTokenType +
+            '.svg')
+          this['localNbTokenType' + choosedTokenType] -= 1
           tokenSlotTwoIsSetWith = choosedTokenType
-        }else{
-          this['localNbTokenType' + tokenSlotTwoIsSetWith]+=1
+        } else {
+          this['localNbTokenType' + tokenSlotTwoIsSetWith] += 1
           tokenSlotTwoIsSet = false
-          document.getElementById('tokenSlotTwoImg').src = ""
+          document.getElementById('tokenSlotTwoImg').src = ''
         }
         break
       case 3:
-        if(tokenSlotThreeIsSet === false){
+        if (tokenSlotThreeIsSet === false) {
           tokenSlotThreeIsSet = true
-          document.getElementById('tokenSlotThreeImg').src = require("../assets/icons/tokenType" + choosedTokenType + ".svg")
-          this['localNbTokenType' + choosedTokenType]-=1
+          document.getElementById(
+            'tokenSlotThreeImg'
+          ).src = require('../assets/icons/tokenType' +
+            choosedTokenType +
+            '.svg')
+          this['localNbTokenType' + choosedTokenType] -= 1
           tokenSlotThreeIsSetWith = choosedTokenType
-        }else{
-          this['localNbTokenType' + tokenSlotThreeIsSetWith]+=1
+        } else {
+          this['localNbTokenType' + tokenSlotThreeIsSetWith] += 1
           tokenSlotThreeIsSet = false
-          document.getElementById('tokenSlotThreeImg').src = ""
+          document.getElementById('tokenSlotThreeImg').src = ''
         }
         break
     }
   }
 }
-
 
 export function useTokens (token1, token2, token3) {
   clearUseTokenUI()
