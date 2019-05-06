@@ -126,7 +126,6 @@
     </div>
 
     <!-- SouthEast UI-->
-    <!-- TODO: add dynamic data -->
     <div id="playerList" class="playerListContainer">
       <div class="playerList">
         <ul v-for="(player, index) in players" :key="index">
@@ -193,9 +192,9 @@
       </div>
 
       <div id="TokenUI">
-      <!--********************* TOKEN UI LEFT *****************************-->  
+      <!--********************* TOKEN UI LEFT *****************************-->
         <div id="TokenUILeft">
-          <!--********************* UPPER *****************************-->  
+          <!--********************* UPPER *****************************-->
           <div id="TokenUIUpperLeft">
             <div id="tokenUITypeOne">
               <button id="tokenTypeOneBtn" v-on:click="setTokenType('One')">
@@ -224,8 +223,8 @@
             <div id="tokenUINotice">
               Make a set of 3 tokens to gain an army unit.
             </div>
-          </div>          
-          <!--********************* LOWER *****************************-->  
+          </div>
+          <!--********************* LOWER *****************************-->
           <div id="TokenUILowerLeft">
             <div id="tokenSlotOne">
               <button id="tokenSlotOneBtn" v-on:click="getTokenToSet(1)">
@@ -243,16 +242,16 @@
               </button>
             </div>
             <button id="tokenTradeBtn">
-              <img draggable="false" src="../assets/icons/nextPhase.svg">
+              <img draggable="false" src="../assets/icons/tradeTokens.svg">
             </button>
           </div>
         </div>
-      <!--********************* TOKEN UI RIGHT *****************************-->  
+      <!--********************* TOKEN UI RIGHT *****************************-->
         <div id="TokenUIRight">
           You gained <span id="unitsTraded"></span> units
-        </div>      
+        </div>
       </div>
-    <!--********************* TOKEN END *****************************-->  
+    <!--********************* TOKEN END *****************************-->
       <div id="DefendUI">
         <div class="combatUILeft">
           <div id="defendCombatRed"></div>
@@ -671,9 +670,9 @@ export default {
     //GameWindow.displayMyColor(this.localColor);
     // GameWindow.enableNextPhaseBtn();
     GameWindow.disableNextPhaseBtn();
-    
+
     //GameWindow.displayUseTokensUI();
-    
+
     //GameWindow.clearDisplayMessage();
 
     /*GameWindow.clearReinUI();
