@@ -390,7 +390,7 @@ export function displayCurrentPlayer () {
     document.getElementById('messageUITop').innerHTML = 'Your turn'
 
     /** *********************************** TURN OFF BEFORE PRODUCTION ************************************************************************** */
-    if (MainGame.prototype.getAutoInit() === true) {
+    /*if (MainGame.prototype.getAutoInit() === true) {
       setTimeout(function () {
         var idToSend = parseInt(localStorage.getItem('myId'))
         MainGame.prototype.autoInit(idToSend)
@@ -402,7 +402,7 @@ export function displayCurrentPlayer () {
           var idToSend = parseInt(localStorage.getItem('myId'))
           MainGame.prototype.autoReinforce(idToSend)
       }, 500)
-    }
+    }*/
     /** ************************************************************************************************************************************************ */
   } else {
     document.getElementById('messageUITop').innerHTML =
