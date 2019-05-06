@@ -780,7 +780,7 @@ export function fortifyTerritory () {
     _disableChooseTerritoryToFortify()
     clearMessageUITop()
     clearDisplayMessage()
-    disableNextPhaseBtn()
+    // disableNextPhaseBtn()
     displayFortifyChooseUnits()
   }
 }
