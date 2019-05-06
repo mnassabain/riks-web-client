@@ -54,7 +54,7 @@ export class MainGame {
     // v.$socket.send(new Packet('GAME_STATUS').getJson())
 
     this.synchronize()
-    // this.innerLoop();
+    this.innerLoop();
   }
 
   getCurrentPhase () {
@@ -86,17 +86,19 @@ export class MainGame {
     console.log('view.players after update')
     console.log(THIS.view.players)
 
-    /* Sets the map data */
-    this.setMapData(data)
-
     /* Set the player localstorage */
     this.setPlayerLocalStorage(data)
+
+    /* Sets the map data */
+    this.setMapData(data)
 
     var myColor = SupportedColors[localStorage.getItem('myId')]
 
     // SupportedColors[]
 
     GameWindow.displayMyColor(myColor)
+
+    
 
     console.log('player localstorage')
     console.log(localStorage)
@@ -105,6 +107,7 @@ export class MainGame {
       this.gameIsSet = true
       this.startGame()
     }
+
   }
 
   /**
@@ -138,7 +141,13 @@ export class MainGame {
       console.log('player is set :')
       console.log(p)
       THIS.playerList.push(p)
-      THIS.view.localArmies = data.players[i].reinforcements
+      if(localStorage.login === data.players[i].name){
+        THIS.view.localNbTokenTypeJoker = data.players[i].tokens.tok4
+        THIS.view.localNbTokenTypeOne = data.players[i].tokens.tok1
+        THIS.view.localNbTokenTypeTwo = data.players[i].tokens.tok2
+        THIS.view.localNbTokenTypeThree = data.players[i].tokens.tok3
+      }
+
       i++
     })
     console.log('this playerlist is set')
@@ -149,7 +158,7 @@ export class MainGame {
   }
 
   getPlayers () {
-    console.log('this playerlist')
+    console.log('this playerlist') 
     return THIS.playerList
   }
   /**
@@ -198,6 +207,12 @@ export class MainGame {
     console.log('board')
     console.log(data.board)
     var i = 0
+
+    for(var j = 0; j < THIS.totalPlayers; j++){
+      THIS.view.players[j].nbTerritories = 0
+      THIS.view.players[j].reinforcements = data.players[j].reinforcements
+    }
+
     /* Looping on local map object */
     Object.keys(THIS.map).forEach(key => {
       var continentName = THIS.map[key]
@@ -205,9 +220,37 @@ export class MainGame {
         /* copying territories data received from the server */
         continentName[countries].soldiers = data.board[i].nbUnits
         continentName[countries].player = data.board[i].ownerId
+        if(data.board[i].ownerId !== -1){
+            
+          GameWindow.setCountryColor(
+            SupportedColors[data.board[i].ownerId],
+            THIS.getCountryIdByName(countries)
+          )
+          
+          GameWindow.drawSoldier(SupportedColors[data.board[i].ownerId], countries)
+          
+          GameWindow.updateCountrySoldiersNumber(THIS.getCountryIdByName(countries))
+          
+          
+          
+
+          /* Updating territories number */
+          THIS.view.players[data.board[i].ownerId].nbTerritories++
+          
+        }
+
         i++
       }
     })
+    
+    for(var j = 0; j < THIS.totalPlayers; j++){
+      if(localStorage.getItem('myId') ==  j){
+        console.log('nb terr player ' + j + ' : ' + THIS.view.players[j].nbTerritories)
+        console.log('nb reinf player ' + j + ' : ' + THIS.view.players[j].reinforcements)
+        THIS.view.localTerritories =  THIS.view.players[j].nbTerritories
+        THIS.view.localArmies =  THIS.view.players[j].reinforcements
+      }
+    }
   }
 
   /**
@@ -335,7 +378,7 @@ export class MainGame {
 
 
   getMyPlayer(){
-    return this.getPlayerById(localStorage.getItem('myId'))
+    return THIS.getPlayerById(localStorage.getItem('myId'))
   }
 
   /**
@@ -479,6 +522,13 @@ export class MainGame {
    */
   startGame (data) {
     GameWindow.displayMessage('Welcome to RiKS World!')
+
+    //for(var j = 0; j < THIS.totalPlayers; j++){
+      //if(localStorage.getItem('myId') ==  j){
+       // GameWindow.updateRatioBar(1, THIS.view.players[1].nbTerritories)
+      //}
+    //}
+
     var ms = 2000
     setTimeout(function () {
       GameWindow.clearDisplayMessage()
@@ -490,11 +540,11 @@ export class MainGame {
       )
 
       GameWindow.displayCurrentPlayer()
-      if (localStorage.myId == THIS.view.currentPlayer) {
-        GameWindow.displayMessage('Click on a territory to claim it !')
+      if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
+        GameWindow.displayMessage('Double click on a territory to claim it !')
       } else {
         GameWindow.displayMessage(
-          this.getActivePlayerName() + ' is choosing a territory !'
+          THIS.getActivePlayerName() + ' is choosing a territory !'
         )
       }
       console.log('free territories = ' + THIS.getFreeTerritoriesNumber())
@@ -939,12 +989,12 @@ export class MainGame {
     console.log('attackUnits = ' + THIS.attackUnits)
     var restAttack = THIS.attackUnits - attackerLoss
     console.log('restattack = ' + restAttack)
-
+    
     var attackingPlayer =  THIS.getPlayerById(THIS.map[cSource][tSource].player)
     var defendingPlayer = THIS.getPlayerById(THIS.map[cDest][tDest].player)
 
     var myPlayer = THIS.getMyPlayer()
-
+   
     console.log(attackingPlayer);
     console.log(defendingPlayer);
     console.log(myPlayer);
@@ -1111,7 +1161,7 @@ export class MainGame {
       token2: token2,
       token3: token3
     }
-    this.sendToServer(new Packet('USE_TOKENS', data))
+    THIS.sendToServer(new Packet('USE_TOKENS', data))
   }
 
   beginAttackPhase (message) {
@@ -1201,7 +1251,7 @@ export class MainGame {
 
   sendChatMessage(message) {
     var data = {
-      'message': message
+      'message': message      
     }
 
     THIS.sendToServer(new Packet('CHAT', data))
@@ -1555,9 +1605,9 @@ export class MainGame {
           break
 
         case Packet.prototype.getTypeOf('CHAT'):
-          console.log('chat message received from player ' + msg.data.name +
+          console.log('chat message received from player ' + msg.data.name + 
             ', with message: "' + msg.data.message + '"')
-
+        
           GameWindow.addDistantPlayerMessage(msg.data.name, msg.data.message)
 
         break
@@ -1584,7 +1634,7 @@ export class MainGame {
         break
 
       case Packet.prototype.getTypeOf('DEFEND'):
-        this.attacked()
+        THIS.attacked()
         break
 
       case Packet.prototype.getTypeOf('MOVE'):
@@ -1603,6 +1653,6 @@ export class MainGame {
 
     setInterval(function () {
       THIS.synchronize()
-    }, 1000)
+    }, 3000)
   }
 }
