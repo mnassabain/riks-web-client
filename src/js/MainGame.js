@@ -54,7 +54,7 @@ export class MainGame {
     // v.$socket.send(new Packet('GAME_STATUS').getJson())
 
     this.synchronize()
-    this.innerLoop();
+    this.innerLoop()
   }
 
   getCurrentPhase () {
@@ -98,8 +98,6 @@ export class MainGame {
 
     GameWindow.displayMyColor(myColor)
 
-    
-
     console.log('player localstorage')
     console.log(localStorage)
     console.log('')
@@ -107,7 +105,6 @@ export class MainGame {
       this.gameIsSet = true
       this.startGame()
     }
-
   }
 
   /**
@@ -141,7 +138,7 @@ export class MainGame {
       console.log('player is set :')
       console.log(p)
       THIS.playerList.push(p)
-      if(localStorage.login === data.players[i].name){
+      if (localStorage.login === data.players[i].name) {
         THIS.view.localNbTokenTypeJoker = data.players[i].tokens.tok4
         THIS.view.localNbTokenTypeOne = data.players[i].tokens.tok1
         THIS.view.localNbTokenTypeTwo = data.players[i].tokens.tok2
@@ -208,7 +205,7 @@ export class MainGame {
     console.log(data.board)
     var i = 0
 
-    for(var j = 0; j < THIS.totalPlayers; j++){
+    for (var j = 0; j < THIS.totalPlayers; j++) {
       THIS.view.players[j].nbTerritories = 0
       THIS.view.players[j].reinforcements = data.players[j].reinforcements
     }
@@ -220,35 +217,39 @@ export class MainGame {
         /* copying territories data received from the server */
         continentName[countries].soldiers = data.board[i].nbUnits
         continentName[countries].player = data.board[i].ownerId
-        if(data.board[i].ownerId !== -1){
-            
+        if (data.board[i].ownerId !== -1) {
           GameWindow.setCountryColor(
             SupportedColors[data.board[i].ownerId],
             THIS.getCountryIdByName(countries)
           )
-          
-          GameWindow.drawSoldier(SupportedColors[data.board[i].ownerId], countries)
-          
-          GameWindow.updateCountrySoldiersNumber(THIS.getCountryIdByName(countries))
-          
-          
-          
+
+          GameWindow.drawSoldier(
+            SupportedColors[data.board[i].ownerId],
+            countries
+          )
+
+          GameWindow.updateCountrySoldiersNumber(
+            THIS.getCountryIdByName(countries)
+          )
 
           /* Updating territories number */
           THIS.view.players[data.board[i].ownerId].nbTerritories++
-          
         }
 
         i++
       }
     })
-    
-    for(var j = 0; j < THIS.totalPlayers; j++){
-      if(localStorage.getItem('myId') ==  j){
-        console.log('nb terr player ' + j + ' : ' + THIS.view.players[j].nbTerritories)
-        console.log('nb reinf player ' + j + ' : ' + THIS.view.players[j].reinforcements)
-        THIS.view.localTerritories =  THIS.view.players[j].nbTerritories
-        THIS.view.localArmies =  THIS.view.players[j].reinforcements
+
+    for (var j = 0; j < THIS.totalPlayers; j++) {
+      if (localStorage.getItem('myId') == j) {
+        console.log(
+          'nb terr player ' + j + ' : ' + THIS.view.players[j].nbTerritories
+        )
+        console.log(
+          'nb reinf player ' + j + ' : ' + THIS.view.players[j].reinforcements
+        )
+        THIS.view.localTerritories = THIS.view.players[j].nbTerritories
+        THIS.view.localArmies = THIS.view.players[j].reinforcements
       }
     }
   }
@@ -376,8 +377,7 @@ export class MainGame {
     return THIS.view.currentPlayer
   }
 
-
-  getMyPlayer(){
+  getMyPlayer () {
     return THIS.getPlayerById(localStorage.getItem('myId'))
   }
 
@@ -405,7 +405,7 @@ export class MainGame {
     return THIS.view.players[playerId].displayName
   }
 
-  getPlayerById(playerId){
+  getPlayerById (playerId) {
     return THIS.view.players[playerId]
   }
 
@@ -522,12 +522,6 @@ export class MainGame {
    */
   startGame (data) {
     GameWindow.displayMessage('Welcome to RiKS World!')
-
-    //for(var j = 0; j < THIS.totalPlayers; j++){
-      //if(localStorage.getItem('myId') ==  j){
-       // GameWindow.updateRatioBar(1, THIS.view.players[1].nbTerritories)
-      //}
-    //}
 
     var ms = 2000
     setTimeout(function () {
@@ -990,29 +984,47 @@ export class MainGame {
     var restAttack = THIS.attackUnits - attackerLoss
     console.log('restattack = ' + restAttack)
 
-    var attackingPlayer =  THIS.getPlayerById(THIS.map[cSource][tSource].player)
+    var attackingPlayer = THIS.getPlayerById(THIS.map[cSource][tSource].player)
     var defendingPlayer = THIS.getPlayerById(THIS.map[cDest][tDest].player)
 
     var myPlayer = THIS.getMyPlayer()
 
-    console.log(attackingPlayer);
-    console.log(defendingPlayer);
-    console.log(myPlayer);
+    console.log(attackingPlayer)
+    console.log(defendingPlayer)
+    console.log(myPlayer)
 
-    if(attackingPlayer.id == myPlayer.id){ // We attacked
-      GameWindow.addServerMessage('YOUR LOSSES', 'You lost '+attackerLoss+' units')
-    }
-    else if(defendingPlayer.id == myPlayer.id){
-      GameWindow.addServerMessage('YOUR LOSSES', 'You lost '+defenderLoss+' units')
-    }
-    else{
-      GameWindow.addServerMessage('LOSSES', attackingPlayer.displayName+' lost '+attackerLoss+' units <br>'+defendingPlayer.displayName+' lost '+defenderLoss+' units')
+    if (attackingPlayer.id == myPlayer.id) {
+      // We attacked
+      GameWindow.addServerMessage(
+        'YOUR LOSSES',
+        'You lost ' + attackerLoss + ' units'
+      )
+    } else if (defendingPlayer.id == myPlayer.id) {
+      GameWindow.addServerMessage(
+        'YOUR LOSSES',
+        'You lost ' + defenderLoss + ' units'
+      )
+    } else {
+      GameWindow.addServerMessage(
+        'LOSSES',
+        attackingPlayer.displayName +
+          ' lost ' +
+          attackerLoss +
+          ' units <br>' +
+          defendingPlayer.displayName +
+          ' lost ' +
+          defenderLoss +
+          ' units'
+      )
     }
 
     /* if there are no more units on the territory */
     if (THIS.map[cDest][tDest].soldiers <= 0) {
       // is dead : replace dest soldiers by attackers soldiers
-      GameWindow.addServerMessage('COMBAT', defendingPlayer.displayName+' lost '+tDest)
+      GameWindow.addServerMessage(
+        'COMBAT',
+        defendingPlayer.displayName + ' lost ' + tDest
+      )
       THIS.view.players[THIS.map[cDest][tDest].player].nbTerritories--
       THIS.map[cDest][tDest].player = THIS.map[cSource][tSource].player
       THIS.map[cDest][tDest].soldiers = restAttack
@@ -1038,6 +1050,11 @@ export class MainGame {
       GameWindow.updateCountrySoldiersNumber(tmpSource)
     } else {
       GameWindow.updateCountrySoldiersNumber(tmpDest)
+    }
+
+    // updating the ratio bar
+    for (var i = 0; i < THIS.totalPlayers; i++) {
+      GameWindow.updateRatioBar(i, THIS.playerList[i].nbTerritories)
     }
   }
 
@@ -1248,15 +1265,13 @@ export class MainGame {
     return ownerName
   }
 
-
-  sendChatMessage(message) {
+  sendChatMessage (message) {
     var data = {
-      'message': message  
+      message: message
     }
 
     THIS.sendToServer(new Packet('CHAT', data))
   }
-
 
   handleIncommingMessages () {
     var THAT_CLASS = this
@@ -1445,14 +1460,6 @@ export class MainGame {
             THAT_CLASS.nextPlayerTurn()
             GameWindow.displayCurrentPlayer()
 
-            // updating the ratio bar
-            for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
-              GameWindow.updateRatioBar(
-                i,
-                THAT_CLASS.playerList[i].nbTerritories
-              )
-            }
-
             /* updating the local map data */
             THAT_CLASS.updateMapData(
               THAT_CLASS.getCountryNameById(msg.data.territory),
@@ -1513,8 +1520,6 @@ export class MainGame {
                   THAT_CLASS.getCountryNameById(msg.data.territory)
               )
             }
-          } else if (THAT_CLASS.currentPhase == phases['REINFORCEMENT']) {
-            // GameWindow.displayCurrentPlayer()
 
             // updating the ratio bar
             for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
@@ -1523,7 +1528,7 @@ export class MainGame {
                 THAT_CLASS.playerList[i].nbTerritories
               )
             }
-
+          } else if (THAT_CLASS.currentPhase == phases['REINFORCEMENT']) {
             THAT_CLASS.updateMapData(
               THAT_CLASS.getCountryNameById(msg.data.territory),
               msg.data.player,
@@ -1580,6 +1585,14 @@ export class MainGame {
                   THAT_CLASS.getCountryNameById(msg.data.territory)
               )
             }
+
+            // updating the ratio bar
+            for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
+              GameWindow.updateRatioBar(
+                i,
+                THAT_CLASS.playerList[i].nbTerritories
+              )
+            }
           }
           break
 
@@ -1591,7 +1604,9 @@ export class MainGame {
           THAT_CLASS.view.players[msg.data.player].reinforcements +=
             msg.data.units
 
-          if (msg.data.player == localStorage.getItem('myId')) { THIS.view.localArmies += msg.data.units }
+          if (msg.data.player == localStorage.getItem('myId')) {
+            THIS.view.localArmies += msg.data.units
+          }
           GameWindow.displayCurrentPlayer()
           break
 
@@ -1605,12 +1620,17 @@ export class MainGame {
           break
 
         case Packet.prototype.getTypeOf('CHAT'):
-          console.log('chat message received from player ' + msg.data.name + 
-            ', with message: "' + msg.data.message + '"')
+          console.log(
+            'chat message received from player ' +
+              msg.data.name +
+              ', with message: "' +
+              msg.data.message +
+              '"'
+          )
 
           GameWindow.addDistantPlayerMessage(msg.data.name, msg.data.message)
 
-        break
+          break
 
         default:
           break
