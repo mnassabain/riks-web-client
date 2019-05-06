@@ -162,34 +162,34 @@ export var _addReinforcement = function (evt) {
   // getting the country id
   selectedCountryName = hoveredCountryName
 
-  //if (document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
+  // if (document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
 
-    var nbUnits = 1
+  var nbUnits = 1
 
-    if (MainGame.prototype.getCurrentPhase() == phases['REINFORCEMENT']) {
-      // alert('choose units')
-      // nbUnits = valeur_saisie
-      console.log('PHASE 0 -------------------------- DISPLAYING REIN UI')
-      disableDbClick()
-      disableDbClickReinUi()
-      dblClickTerritory()
-      /* allows the current player to use next phase button */
-      if (
-        localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()
-      ) {
-        enableNextPhaseBtn()
-      } else {
-        disableNextPhaseBtn()
-      }
-    } else if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
-      MainGame.prototype.tryPutUnits(
-        localStorage.getItem('myId'),
-        selectedCountryName,
-        nbUnits
-      )
-      console.log('Try to add units on ' + selectedCountryName)
+  if (MainGame.prototype.getCurrentPhase() == phases['REINFORCEMENT']) {
+    // alert('choose units')
+    // nbUnits = valeur_saisie
+    console.log('PHASE 0 -------------------------- DISPLAYING REIN UI')
+    disableDbClick()
+    disableDbClickReinUi()
+    dblClickTerritory()
+    /* allows the current player to use next phase button */
+    if (
+      localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()
+    ) {
+      enableNextPhaseBtn()
+    } else {
+      disableNextPhaseBtn()
     }
-  //}
+  } else if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
+    MainGame.prototype.tryPutUnits(
+      localStorage.getItem('myId'),
+      selectedCountryName,
+      nbUnits
+    )
+    console.log('Try to add units on ' + selectedCountryName)
+  }
+  // }
 }
 
 // generic function to create an xml element
@@ -223,8 +223,7 @@ export function mouseoverCountry (evt) {
 
   var countryElement =
     map[getContinentOf(country.getAttribute('id'))][country.getAttribute('id')]
-  doc.getElementById('hovered-country').innerHTML =
-    country.getAttribute('id')
+  doc.getElementById('hovered-country').innerHTML = country.getAttribute('id')
 }
 
 export function updateCountrySoldiersNumber (countryId) {
@@ -356,8 +355,8 @@ export function displayCurrentPhase (phase) {
   var phaseNumber = ''
   switch (phase) {
     case -1:
-      phaseName = 'Prephase'
-      phaseNumber = 'Phase 0'
+      phaseName = 'Preparing'
+      phaseNumber = 'Prephase'
       break
     case 0:
       phaseName = 'Reinforcements' // REINFORCEMENTS
@@ -433,12 +432,10 @@ export function highlightCurrentPlayer () {
 }
 
 export function updateRatioBar (player, nbTerritories) {
-  
   var str = 'ratioPlayer' + (player + 1)
   console.log('ratio player str : ' + str)
   var ratio = document.getElementById(str)
-  ratio.style.width =
-    (nbTerritories / 42) * 100 + '%'
+  ratio.style.width = (nbTerritories / 42) * 100 + '%'
   // console.log('ratio : ' + ((nbTerritories / 42) * 100) + '%')
   // console.log('nbTerritories : ' + nbTerritories)
 }
@@ -446,14 +443,18 @@ export function updateRatioBar (player, nbTerritories) {
 export var _displayReinforcementUI = function () {
   selectedCountryName = hoveredCountryName
 
-  if(localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()){
-  //   console.log("selected country name class" + selectedCountryName + ' class :' )
-  //   console.log(document.getElementById(selectedCountryName).className)
-    if(document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
+  if (localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()) {
+    //   console.log("selected country name class" + selectedCountryName + ' class :' )
+    //   console.log(document.getElementById(selectedCountryName).className)
+    if (
+      document.getElementById(selectedCountryName).className.baseVal !== 'sea'
+    ) {
       document.getElementById('messageDisplay').style.display = 'block'
       document.getElementById('messageDisplay').style.visibility = 'visible'
       document.getElementById('reinforcementUI').style.visibility = 'visible'
-      if(document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
+      if (
+        document.getElementById(selectedCountryName).className.baseVal !== 'sea'
+      ) {
         document.getElementById(
           'reinforcementTerritory'
         ).innerHTML = selectedCountryName
