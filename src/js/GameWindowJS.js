@@ -162,37 +162,34 @@ export var _addReinforcement = function (evt) {
   // getting the country id
   selectedCountryName = hoveredCountryName
 
-  // if (evt.target.className.baseVal !== 'sea') {
-  //     clearDisplayMessage()
-  //     displayMessage(selectedCountryName + ' is not Yours !')
-  //     return
-  //   }
+  //if (document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
 
-  var nbUnits = 1
+    var nbUnits = 1
 
-  if (MainGame.prototype.getCurrentPhase() == phases['REINFORCEMENT']) {
-    // alert('choose units')
-    // nbUnits = valeur_saisie
-    console.log('PHASE 0 -------------------------- DISPLAYING REIN UI')
-    disableDbClick()
-    disableDbClickReinUi()
-    dblClickTerritory()
-    /* allows the current player to use next phase button */
-    if (
-      localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()
-    ) {
-      enableNextPhaseBtn()
-    } else {
-      disableNextPhaseBtn()
+    if (MainGame.prototype.getCurrentPhase() == phases['REINFORCEMENT']) {
+      // alert('choose units')
+      // nbUnits = valeur_saisie
+      console.log('PHASE 0 -------------------------- DISPLAYING REIN UI')
+      disableDbClick()
+      disableDbClickReinUi()
+      dblClickTerritory()
+      /* allows the current player to use next phase button */
+      if (
+        localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()
+      ) {
+        enableNextPhaseBtn()
+      } else {
+        disableNextPhaseBtn()
+      }
+    } else if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
+      MainGame.prototype.tryPutUnits(
+        localStorage.getItem('myId'),
+        selectedCountryName,
+        nbUnits
+      )
+      console.log('Try to add units on ' + selectedCountryName)
     }
-  } else if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
-    MainGame.prototype.tryPutUnits(
-      localStorage.getItem('myId'),
-      selectedCountryName,
-      nbUnits
-    )
-    console.log('Try to add units on ' + selectedCountryName)
-  }
+  //}
 }
 
 // generic function to create an xml element
@@ -227,7 +224,7 @@ export function mouseoverCountry (evt) {
   var countryElement =
     map[getContinentOf(country.getAttribute('id'))][country.getAttribute('id')]
   doc.getElementById('hovered-country').innerHTML =
-    country.getAttribute('id')
+    country.getAttribute('id') + ' - ' + countryElement.soldiers + ' soldiers'
 }
 
 export function updateCountrySoldiersNumber (countryId) {
@@ -355,34 +352,27 @@ export function setCountryColor (color, countryId) {
 export function displayCurrentPhase (phase) {
   // console.log('phaseReceived')
   // console.log(phase)
-  var phaseName = ''
-  var phaseNumber = ''
+  var phaseStr = ''
   switch (phase) {
     case -1:
-      phaseName = 'Prephase'
-      phaseNumber = 'Phase 0'
+      phaseStr = 'Prephase'
       break
     case 0:
-      phaseName = 'Reinforcements' // REINFORCEMENTS
-      phaseNumber = 'Phase 1'
+      phaseStr = 'Preparing' // REINFORCEMENTS
       break
     case 1:
-      phaseName = 'Offense' // OFFENSE
-      phaseNumber = 'Phase 2'
+      phaseStr = 'Attacking' // OFFENSE
       break
     case 2:
-      phaseName = 'Fortification' // FORTIFICATION
-      phaseNumber = 'Phase 3'
+      phaseStr = 'Fortifying' // FORTIFICATION
       break
     default:
-      phaseName = 'N/C'
-      phaseNumber = 'N/C'
+      phaseStr = 'N/C'
       break
   }
-  var phaseIndicator = document.getElementById('phaseName')
-  phaseIndicator.innerHTML = phaseName
-  phaseIndicator = document.getElementById('phaseNumber')
-  phaseIndicator.innerHTML = phaseNumber
+  var phaseIndicator = document.getElementById('phase')
+  phaseIndicator.innerHTML = ''
+  phaseIndicator.innerHTML = phaseStr
 }
 
 export function displayCurrentPlayer () {
@@ -436,7 +426,11 @@ export function highlightCurrentPlayer () {
 }
 
 export function updateRatioBar (player, nbTerritories) {
-  document.getElementById('ratioPlayer' + (player + 1)).style.width =
+  
+  var str = 'ratioPlayer' + (player + 1)
+  console.log('ratio player str : ' + str)
+  var ratio = document.getElementById(str)
+  ratio.style.width =
     (nbTerritories / 42) * 100 + '%'
   // console.log('ratio : ' + ((nbTerritories / 42) * 100) + '%')
   // console.log('nbTerritories : ' + nbTerritories)
@@ -445,18 +439,20 @@ export function updateRatioBar (player, nbTerritories) {
 export var _displayReinforcementUI = function () {
   selectedCountryName = hoveredCountryName
 
-  // if(localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()){
+  if(localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()){
   //   console.log("selected country name class" + selectedCountryName + ' class :' )
   //   console.log(document.getElementById(selectedCountryName).className)
-  //   if(document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
-  document.getElementById('messageDisplay').style.display = 'block'
-  document.getElementById('messageDisplay').style.visibility = 'visible'
-  document.getElementById('reinforcementUI').style.visibility = 'visible'
-  document.getElementById(
-    'reinforcementTerritory'
-  ).innerHTML = selectedCountryName
-  //   }
-  // }
+    if(document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
+      document.getElementById('messageDisplay').style.display = 'block'
+      document.getElementById('messageDisplay').style.visibility = 'visible'
+      document.getElementById('reinforcementUI').style.visibility = 'visible'
+      if(document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
+        document.getElementById(
+          'reinforcementTerritory'
+        ).innerHTML = selectedCountryName
+      }
+    }
+  }
 }
 
 export function clearReinUI () {
