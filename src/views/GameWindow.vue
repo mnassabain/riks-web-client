@@ -672,7 +672,7 @@ export default {
     // GameWindow.enableNextPhaseBtn();
     GameWindow.disableNextPhaseBtn();
     
-    GameWindow.displayUseTokensUI();
+    //GameWindow.displayUseTokensUI();
     
     //GameWindow.clearDisplayMessage();
 
