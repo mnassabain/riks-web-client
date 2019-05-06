@@ -274,6 +274,23 @@ export function sendLocalMessage () {
   MainGame.prototype.sendChatMessage(msgStr)
 }
 
+export function addServerMessage (title, message){
+  var msgParagraph = document.createElement('P')
+  msgParagraph.className = 'playerMessage'
+  msgParagraph.style.lineHeight = '1em'
+  var msgStr = message
+  msgParagraph.innerHTML =
+    '<span class="messagePlayerName">' +
+    title +
+    '</span><span class="messageContent"> : ' +
+    msgStr +
+    '</span>'
+  document.getElementById('chatWindow').appendChild(msgParagraph)
+  document.getElementById('chatWindow').scrollTop = document.getElementById(
+    'chatWindow'
+  ).scrollHeight
+}
+
 
 /** add messages from others players into the chat
  * this function generates random values for the moment

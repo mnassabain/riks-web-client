@@ -934,10 +934,24 @@ export class MainGame {
     console.log('attackUnits = ' + THIS.attackUnits)
     var restAttack = THIS.attackUnits - attackerLoss
     console.log('restattack = ' + restAttack)
+    
+    var attackingPlayer =  getPlayerById(THIS.map[cSource][tSource].player)
+    var defendingPlayer = getPlayerById(THIS.map[cDest][tDest].player)
+   
+    if(attackingPlayer.id == getActivePlayerId()){ // We attacked
+      GameWindow.addServerMessage('YOUR LOSSES', 'You lost '+attackerLoss+' units')
+    }
+    else if(defendingPlayer.id == getActivePlayerId()){
+      GameWindow.addServerMessage('YOUR LOSSES', 'You lost '+defenderLoss+' units')
+    }
+    else{
+      GameWindow.addServerMessage('LOSSES', attackingPlayer.displayName+' lost '+attackerLoss+' units <br>'+defendingPlayer.displayName+' lost '+defenderLoss+' units')
+    }
+
     /* if there are no more units on the territory */
     if (THIS.map[cDest][tDest].soldiers <= 0) {
       // is dead : replace dest soldiers by attackers soldiers
-
+      GameWindow.addServerMessage('COMBAT', defendingPlayer.displayName+' lost '+tDest)
       THIS.view.players[THIS.map[cDest][tDest].player].nbTerritories--
       THIS.map[cDest][tDest].player = THIS.map[cSource][tSource].player
       THIS.map[cDest][tDest].soldiers = restAttack
