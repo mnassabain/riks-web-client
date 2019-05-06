@@ -913,6 +913,8 @@ p {
 
 /*********** TOKEN UI ************/
 #TokenUI {
+    display: none;
+    visibility: hidden;
   width: 40vw;
 }
 
