@@ -149,7 +149,7 @@ export class MainGame {
   }
 
   getPlayers () {
-    console.log('this playerlist') 
+    console.log('this playerlist')
     return THIS.playerList
   }
   /**
@@ -491,7 +491,7 @@ export class MainGame {
 
       GameWindow.displayCurrentPlayer()
       if (localStorage.myId == THIS.view.currentPlayer) {
-        GameWindow.displayMessage('Double click on a territory to claim it !')
+        GameWindow.displayMessage('Click on a territory to claim it !')
       } else {
         GameWindow.displayMessage(
           this.getActivePlayerName() + ' is choosing a territory !'
@@ -939,12 +939,12 @@ export class MainGame {
     console.log('attackUnits = ' + THIS.attackUnits)
     var restAttack = THIS.attackUnits - attackerLoss
     console.log('restattack = ' + restAttack)
-    
+
     var attackingPlayer =  THIS.getPlayerById(THIS.map[cSource][tSource].player)
     var defendingPlayer = THIS.getPlayerById(THIS.map[cDest][tDest].player)
 
     var myPlayer = THIS.getMyPlayer()
-   
+
     console.log(attackingPlayer);
     console.log(defendingPlayer);
     console.log(myPlayer);
@@ -1201,7 +1201,7 @@ export class MainGame {
 
   sendChatMessage(message) {
     var data = {
-      'message': message      
+      'message': message
     }
 
     THIS.sendToServer(new Packet('CHAT', data))
@@ -1555,9 +1555,9 @@ export class MainGame {
           break
 
         case Packet.prototype.getTypeOf('CHAT'):
-          console.log('chat message received from player ' + msg.data.name + 
+          console.log('chat message received from player ' + msg.data.name +
             ', with message: "' + msg.data.message + '"')
-        
+
           GameWindow.addDistantPlayerMessage(msg.data.name, msg.data.message)
 
         break

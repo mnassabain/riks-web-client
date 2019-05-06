@@ -432,12 +432,17 @@ p {
   width: 40%;
   color: #fdf6eb;
   margin-left: 10%;
-  text-align: center;
-  margin-top: 10px;
+  text-align: left;
+  margin-top: 1rem;
 }
 
-#playerControlMessage > #action {
-  font-size: 1.5em;
+#phaseNumber {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+#phaseName {
+  font-size: 1.8em;
   font-weight: bold;
 }
 
@@ -448,7 +453,7 @@ p {
   left: 0.2rem;
   border-color: transparent;
   border-style: solid;
-  border-width: 1rem;
+  border-width: 1.2rem;
   border-left-color: white;
   border-top-color: white;
 }
@@ -955,7 +960,7 @@ p {
   padding: 1em;
   /* background-color: red; */
   font-size: 0.8em;
-  
+
 }
 
 [id^="tokenUIType"],
@@ -993,21 +998,21 @@ p {
   float: left;
   width: 1.8rem;
   height: 1.8rem;
-  margin: 0.3rem 0.4rem 0rem 0.4rem; 
+  margin: 0.3rem 0.4rem 0rem 0.4rem;
 }
 
 #tokenSlotTwo {
   float: left;
   width: 1.8rem;
   height: 1.8rem;
-  margin: 0.3rem 0.4rem 0rem 0.4rem; 
+  margin: 0.3rem 0.4rem 0rem 0.4rem;
 }
 
 #tokenSlotThree {
   float: left;
   width: 1.8rem;
   height: 1.8rem;
-  margin: 0.3rem 0.4rem 0rem 0.4rem; 
+  margin: 0.3rem 0.4rem 0rem 0.4rem;
 } */
 
 [id*="tokenSlot"][id$="Btn"] {

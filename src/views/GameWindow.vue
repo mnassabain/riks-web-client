@@ -114,9 +114,9 @@
     <div class="playerControls">
       <div id="yourPlayerColor"></div>
       <div id="playerControlMessage">
-        <span id="phase"></span>
+        <span id="phaseNumber"></span>
         <br>
-        <span id="action">{{ localPlayerName }}</span>
+        <span id="phaseName"></span>
       </div>
       <div id="playerControlButton">
         <button id="nextPhaseBtn" v-on:click="nextPhase()">
