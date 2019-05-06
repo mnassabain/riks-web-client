@@ -224,7 +224,7 @@ export function mouseoverCountry (evt) {
   var countryElement =
     map[getContinentOf(country.getAttribute('id'))][country.getAttribute('id')]
   doc.getElementById('hovered-country').innerHTML =
-    country.getAttribute('id') + ' - ' + countryElement.soldiers + ' soldiers'
+    country.getAttribute('id')
 }
 
 export function updateCountrySoldiersNumber (countryId) {
@@ -352,27 +352,34 @@ export function setCountryColor (color, countryId) {
 export function displayCurrentPhase (phase) {
   // console.log('phaseReceived')
   // console.log(phase)
-  var phaseStr = ''
+  var phaseName = ''
+  var phaseNumber = ''
   switch (phase) {
     case -1:
-      phaseStr = 'Prephase'
+      phaseName = 'Prephase'
+      phaseNumber = 'Phase 0'
       break
     case 0:
-      phaseStr = 'Preparing' // REINFORCEMENTS
+      phaseName = 'Reinforcements' // REINFORCEMENTS
+      phaseNumber = 'Phase 1'
       break
     case 1:
-      phaseStr = 'Attacking' // OFFENSE
+      phaseName = 'Offense' // OFFENSE
+      phaseNumber = 'Phase 2'
       break
     case 2:
-      phaseStr = 'Fortifying' // FORTIFICATION
+      phaseName = 'Fortification' // FORTIFICATION
+      phaseNumber = 'Phase 3'
       break
     default:
-      phaseStr = 'N/C'
+      phaseName = 'N/C'
+      phaseNumber = 'N/C'
       break
   }
-  var phaseIndicator = document.getElementById('phase')
-  phaseIndicator.innerHTML = ''
-  phaseIndicator.innerHTML = phaseStr
+  var phaseIndicator = document.getElementById('phaseName')
+  phaseIndicator.innerHTML = phaseName
+  phaseIndicator = document.getElementById('phaseNumber')
+  phaseIndicator.innerHTML = phaseNumber
 }
 
 export function displayCurrentPlayer () {
