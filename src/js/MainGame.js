@@ -335,7 +335,7 @@ export class MainGame {
 
 
   getMyPlayer(){
-    return getPlayerById(localStorage.getItem('myId'))
+    return this.getPlayerById(localStorage.getItem('myId'))
   }
 
   /**
@@ -947,7 +947,7 @@ export class MainGame {
    
     console.log(attackingPlayer);
     console.log(defendingPlayer);
-    console.log(THIS.getActivePlayerId());
+    console.log(myPlayer);
 
     if(attackingPlayer.id == myPlayer.id){ // We attacked
       GameWindow.addServerMessage('YOUR LOSSES', 'You lost '+attackerLoss+' units')
