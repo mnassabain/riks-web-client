@@ -1425,6 +1425,7 @@ export class MainGame {
 
         case Packet.prototype.getTypeOf('GAME_OVER'):
           console.log('GAME_OVER' + msg)
+          localStorage.setItem('winner', msg.data.winner)
           break
 
         case Packet.prototype.getTypeOf('GAME_RESULTS'):
