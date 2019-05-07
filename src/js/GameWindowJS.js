@@ -15,6 +15,9 @@ var hoveredCountryName
 var selectedCountryName
 var THIS = this
 
+
+export var displayTimeout
+
 /*********************************************************************************************************************/
 /* Menu handling */
 
