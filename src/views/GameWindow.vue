@@ -1,5 +1,5 @@
 <template>
- <body>
+<body>
   <div>
     <!--NorthWest UI -->
     <div class="tokens">
@@ -37,57 +37,55 @@
 
     <!--Under Tokens NorthWest UI hidden by default-->
     <div id="TokenSpread">
-      <button id="TokenSpreadBtn" v-on:click="(TTXHiden ? displayUseTokensUI() : clearUseTokensUI()),(TTXHiden ? hide() : show())">Tokens Trade</button>
+      <button
+        id="TokenSpreadBtn"
+        v-on:click="(TTXHiden ? displayUseTokensUI() : clearUseTokensUI()),(TTXHiden ? hide() : show())"
+      >Tokens Trade</button>
     </div>
-    
-      <div id="messageDisplay" class="generalMessageDisplay">
 
-        <div id="reinforcementUI">
-          <div class="reinforcementUILeft">
-            <div class="innerReinUILeft">Add units on</div>
-            <div class="innerReinUILeft" id="reinforcementTerritory"></div>
-          </div>
+    <div id="messageDisplay" class="generalMessageDisplay">
+      <div id="reinforcementUI">
+        <div class="reinforcementUILeft">
+          <div class="innerReinUILeft">Add units on</div>
+          <div class="innerReinUILeft" id="reinforcementTerritory"></div>
+        </div>
 
-          <div class="reinforcementUIcenter">
-            <div class="innerReinUIcenter">Reinforce with</div>
+        <div class="reinforcementUIcenter">
+          <div class="innerReinUIcenter">Reinforce with</div>
           <div class="innerReinUIcenter">
-
-              <input v-model.number="unitsToPut" type="number" id="unitsToPut" min="0" pattern="\d+">
-
-            </div>
-            <div class="innerReinUIcenter">Units</div>
+            <input v-model.number="unitsToPut" type="number" id="unitsToPut" min="0" pattern="\d+">
           </div>
-
-          <div class="reinforcementUIRight" >
-            <div id="reinUIRightAbort" v-on:click="clearReinUI">
-              Abort
-            </div>
-            <div id="reinUIRightOK" v-on:click="addReinUnit(unitsToPut)">
-              OK
-            </div>
-          </div>
+          <div class="innerReinUIcenter">Units</div>
         </div>
 
-        <div id="FortifyUI">
-
-          <div class="FortifyUILeft">
-            Move <input v-model.number="unitsToMove" type="number" id="unitsToMove" min="0" pattern="\d+">  units<br>
-            from <span id="moveFrom"></span><br>
-            to <span id="moveTo"></span>
-          </div>
-
-          <div class="FortifyUIRight" >
-            <div id="FortifyUIRightAbort" v-on:click="clearFortifyUI()">
-              Abort
-            </div>
-            <div id="FortifyUIRightOK" v-on:click="fortifyWith(unitsToMove)">
-              OK
-            </div>
-          </div>
-
+        <div class="reinforcementUIRight">
+          <div id="reinUIRightAbort" v-on:click="clearReinUI">Abort</div>
+          <div id="reinUIRightOK" v-on:click="addReinUnit(unitsToPut)">OK</div>
         </div>
-
       </div>
+
+      <div id="FortifyUI">
+        <div class="FortifyUILeft">
+          Move
+          <input
+            v-model.number="unitsToMove"
+            type="number"
+            id="unitsToMove"
+            min="0"
+            pattern="\d+"
+          > units
+          <br>from
+          <span id="moveFrom"></span>
+          <br>to
+          <span id="moveTo"></span>
+        </div>
+
+        <div class="FortifyUIRight">
+          <div id="FortifyUIRightAbort" v-on:click="clearFortifyUI()">Abort</div>
+          <div id="FortifyUIRightOK" v-on:click="fortifyWith(unitsToMove)">OK</div>
+        </div>
+      </div>
+    </div>
 
     <!--North UI-->
     <div id="ratioBar">
@@ -189,16 +187,13 @@
 
     <!-- South UI combat informations are displayed here-->
     <div class="combatUI" id="combatUIArea">
-
       <div id="messageUI">
-        <div id="messageUITop">
-        </div>
-        <div id="messageUIBottom">
-        </div>
+        <div id="messageUITop"></div>
+        <div id="messageUIBottom"></div>
       </div>
 
       <div id="TokenUI">
-      <!--********************* TOKEN UI LEFT *****************************-->
+        <!--********************* TOKEN UI LEFT *****************************-->
         <div id="TokenUILeft">
           <!--********************* UPPER *****************************-->
           <div id="TokenUIUpperLeft">
@@ -226,25 +221,23 @@
                 <div id="nbTokenUITypeJoker"></div>
               </button>
             </div>
-            <div id="tokenUINotice">
-              Make a set of 3 tokens to gain an army unit.
-            </div>
+            <div id="tokenUINotice">Make a set of 3 tokens to gain an army unit.</div>
           </div>
           <!--********************* LOWER *****************************-->
           <div id="TokenUILowerLeft">
             <div id="tokenSlotOne">
               <button id="tokenSlotOneBtn" v-on:click="getTokenToSet(1)">
-                <img id="tokenSlotOneImg" src="">
+                <img id="tokenSlotOneImg" src>
               </button>
             </div>
             <div id="tokenSlotTwo">
               <button id="tokenSlotTwoBtn" v-on:click="getTokenToSet(2)">
-                <img id="tokenSlotTwoImg" src="">
+                <img id="tokenSlotTwoImg" src>
               </button>
             </div>
             <div id="tokenSlotThree">
               <button id="tokenSlotThreeBtn" v-on:click="getTokenToSet(3)">
-                <img id="tokenSlotThreeImg" src="">
+                <img id="tokenSlotThreeImg" src>
               </button>
             </div>
             <button id="tokenTradeBtn">
@@ -252,16 +245,20 @@
             </button>
           </div>
         </div>
-      <!--********************* TOKEN UI RIGHT *****************************-->
+        <!--********************* TOKEN UI RIGHT *****************************-->
         <div id="TokenUIRight">
-          You gained <span id="unitsTraded"></span> units
+          You gained
+          <span id="unitsTraded"></span> units
         </div>
       </div>
-    <!--********************* TOKEN END *****************************-->
+      <!--********************* TOKEN END *****************************-->
       <div id="DefendUI">
         <div class="combatUILeft">
           <div id="defendCombatRed"></div>
-          <div>is attacked by <span id="attackingUnits"></span> unit(s)</div>
+          <div>
+            is attacked by
+            <span id="attackingUnits"></span> unit(s)
+          </div>
         </div>
         <div class="combatUICenter" id="defendBtn">
           <img draggable="false" onclick="test()" src="../assets/icons/defend.svg" class="bigBtn">
@@ -284,7 +281,7 @@
                 src="../assets/icons/emptyTwo.svg"
                 class="armiesSelectionBtn"
               >
-            </button >
+            </button>
           </div>
           <div>Armies</div>
         </div>
@@ -583,6 +580,108 @@
             d="M219 423c0,0 1,-1 1,-1 -2,-1 -2,-1 -16,-6 -2,-6 -10,-6 -16,-10 1,-7 4,-13 5,-21 -1,0 -2,0 -3,-1 0,-3 1,-7 2,-10 1,0 2,0 3,0 0,-2 0,-4 0,-5 2,2 3,3 3,6 1,1 2,1 3,2 0,-2 -1,-4 -1,-6 4,-2 8,-5 12,-8 4,-2 7,-2 12,-5 2,0 3,0 5,-1 1,1 2,2 3,3 -1,1 -2,3 -4,4 1,2 2,3 3,5 0,-2 0,-2 0,-3 1,-1 1,-1 2,-1 0,-1 0,-2 0,-3 5,-1 8,0 13,2 10,0 18,-2 21,9 0,0 1,0 2,0 1,1 1,2 1,4 6,1 9,3 13,7 1,-1 2,-1 2,-2 5,3 16,7 19,9 -3,6 -9,16 -16,11 -6,5 -13,3 -20,4 -1,-6 -1,-6 -4,-13 -8,1 -9,3 -15,4 0,5 0,6 -3,9 -5,0 -7,1 -11,-2 -2,0 -5,1 -7,2 -1,7 4,11 0,18 -3,0 -5,0 -8,0 0,0 -1,-1 -1,-1z"
           ></path>
         </g>
+        <g id="Lines">
+          <path
+            d="M342,176L362.118,160.063"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M440,228L446,239"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M446,212L467,220"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M427,152L424,203"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M443,185L464,167"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M423,144.541L409,128"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M446,149L463,154"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M564,405L592,396"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M361,431L390,417"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M440,321L435,300L440,321Z"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M492,280L474,310.5"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M519,302L521,338"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M527,278L538,285"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M558,513L597,551"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M536.5,576L585,570"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M867,273.23L895,271"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M897,197L929,185"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M780,414L810,438"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M802,473L793,532"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M889,452L826,508"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M911,473L889,513"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M31,120L2,120"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M2,115L2,125"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M1003,126L1022,126"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+          <path
+            d="M1022,121L1022,131"
+            style="fill:none;stroke:#27282D;stroke-width:3px;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1;"
+          ></path>
+        </g>
       </g>
       <path id="highlight" fill="white" stroke-width="5" stroke="black" opacity="0.3"></path>
     </svg>
@@ -633,34 +732,34 @@ export default {
     getTokenToSet: GameWindow.getTokenToSet,
     displayUseTokensUI: GameWindow.displayUseTokensUI,
     clearUseTokensUI: GameWindow.clearUseTokensUI,
-    
+
     displayMessage: function(message) {
       console.log(message);
     },
     hide() {
-    	console.log('one');
+      console.log("one");
       this.TTXHiden = !this.TTXHiden;
     },
     show() {
-    	console.log('two');
+      console.log("two");
       this.TTXHiden = !this.TTXHiden;
     },
     verify(data) {
-      var response = JSON.parse(data)
+      var response = JSON.parse(data);
       if (response.data.error == true) {
-        alert("Error: " + response.data.response)
-        return
+        alert("Error: " + response.data.response);
+        return;
       } else {
         delete this.$socket.onmessage;
         /* redirect user */
-        this.$router.push({ path: "/" })
+        this.$router.push({ path: "/" });
       }
     },
     logout() {
-      this.$socket.send(new Packet("DISCONNECT").getJson())
+      this.$socket.send(new Packet("DISCONNECT").getJson());
       /* message listener */
-      this.$socket.onmessage = data => this.verify(data.data)
-      this.$router.push({ path: "/" })
+      this.$socket.onmessage = data => this.verify(data.data);
+      this.$router.push({ path: "/" });
     },
     leaveLobby() {
       this.$socket.send(new Packet("LEAVE_GAME").getJson());
@@ -678,7 +777,6 @@ export default {
     GameWindow.startTimer(Date.now());
     GameWindow.mapPanZoom();
     GameWindow.startMouseoverCountry();
-
 
     //GameWindow.displayFortifyChooseUnits();
     GameWindow.onDbClick();
