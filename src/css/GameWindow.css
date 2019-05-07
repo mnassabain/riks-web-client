@@ -81,6 +81,34 @@ Player purple #9367DA
   text-align: center;
 }
 
+/* Tooltip */
+.tooltipText {
+  visibility: hidden;
+  width: 11rem;
+  background-color: #27282D;
+  color: #FDF6EB;
+  border: solid 0.2rem #f9ce93;
+  text-align: center;
+  padding: 0.3rem 0;
+  border-radius: 0.5rem;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  top: 4.2rem;
+  left: 1.5rem;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltipHover:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
+}
+
 /* Menu Button NorthEast UI */
 .menuBtn {
   background-color: #27282d;

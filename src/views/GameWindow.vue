@@ -3,29 +3,35 @@
   <div>
     <!--NorthWest UI -->
     <div class="tokens">
-      <div id="playerArmies">
+      <div class="tooltipHover" id="playerArmies">
         <img src="../assets/icons/armies.svg">
         <div id="nbArmies">{{ localArmies }}</div>
+        <span class="tooltipText">Reinforcements</span>
       </div>
-      <div id="playerTerritories">
+      <div class="tooltipHover" id="playerTerritories">
         <img src="../assets/icons/flag.svg">
         <div id="nbTerritories">{{ localTerritories }}</div>
+        <span class="tooltipText">Owned territories</span>
       </div>
-      <div id="tokenTypeOne">
+      <div class="tooltipHover" id="tokenTypeOne">
         <img src="../assets/icons/tokenTypeOne.svg">
         <div id="nbTokenTypeOne">{{ localNbTokenTypeOne }}</div>
+        <span class="tooltipText">Token 1</span>
       </div>
-      <div id="tokenTypeTwo">
+      <div class="tooltipHover" id="tokenTypeTwo">
         <img src="../assets/icons/tokenTypeTwo.svg">
         <div id="nbTokenTypeTwo">{{ localNbTokenTypeTwo }}</div>
+        <span class="tooltipText">Token 2</span>
       </div>
-      <div id="tokenTypeThree">
+      <div class="tooltipHover" id="tokenTypeThree">
         <img src="../assets/icons/tokenTypeThree.svg">
         <div id="nbTokenTypeThree">{{ localNbTokenTypeThree }}</div>
+        <span class="tooltipText">Token 3</span>
       </div>
-      <div id="tokenTypeJoker">
+      <div class="tooltipHover" id="tokenTypeJoker">
         <img src="../assets/icons/tokenTypeJoker.svg">
         <div id="nbTokenTypeJoker">{{ localNbTokenTypeJoker }}</div>
+        <span class="tooltipText">Token joker</span>
       </div>
     </div>
 
