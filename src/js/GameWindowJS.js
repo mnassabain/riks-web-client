@@ -640,9 +640,29 @@ export var _enableAttackFromTerritory = function () {
   attackFrom = ''
 }
 
+export var cancelAttackFromTerritory = function(evt){
+  evt.preventDefault()
+  _disableChooseTerritoryToAttack()
+  clearDisplayMessage()
+  displayMessage('Choose territory to attack from')
+  _enableAttackFromTerritory()
+}
+
+export var enableCancelAttackFromTerritory = function(){
+  var gmap = document.getElementById('GameMap')
+  gmap.addEventListener('contextmenu', cancelAttackFromTerritory, false)
+}
+
+export var disableCancelAttackFromTerritory = function(){
+  var gmap = document.getElementById('GameMap')
+  gmap.removeEventListener('contextmenu', cancelAttackFromTerritory, false)
+}
+
+
 export var _disableAttackFromTerritory = function () {
   var gmap = document.getElementById('GameMap')
   gmap.removeEventListener('click', attackFromTerritory, true)
+  return false
 }
 
 var attackTo = ''
@@ -664,6 +684,7 @@ export function attackFromTerritory () {
 
   attackFrom = selectedCountryName
   if (document.getElementById(attackFrom).className.baseVal !== 'sea') {
+    enableCancelAttackFromTerritory()
     _disableAttackFromTerritory()
     clearDisplayMessage()
     displayMessage('Choose territory to attack')
@@ -672,6 +693,7 @@ export function attackFromTerritory () {
 }
 
 export function attackWith (nb) {
+  disableCancelAttackFromTerritory()
   clearAttackChooseUnits()
   enableNextPhaseBtn()
   displayUITop()
@@ -706,6 +728,7 @@ export function attackTerritory () {
   console.log(document.getElementById(attackTo).className)
 
   if (document.getElementById(attackTo).className.baseVal !== 'sea') {
+    disableCancelAttackFromTerritory()
     _disableChooseTerritoryToAttack()
     clearMessageUITop()
     clearDisplayMessage()
