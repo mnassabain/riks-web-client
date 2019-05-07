@@ -2,7 +2,7 @@
     <div class="game-container">
         
       <button
-          @click="joinRoom"
+          @click="onClick"
           tag="button"
           class="button menu-button room-button"
           v-bind="data.id"
@@ -10,11 +10,11 @@
           {{ data.lobbyName }} - {{data.nbPlayers}}/{{data.maxPlayers}}
       </button>
         
-      <div v-if="data.password !== ''">
+      <div v-if="data.password !== ''" id="password-warning" v-bind:class="{ 'hidden-element': !clicked }">
         This room needs a password ! please enter the password to join the room
       </div>
         
-      <input v-if="data.password !== ''" id="passwordloby" type="password" placeholder="Password" v-model="password">
+      <input v-if="data.password !== ''" id="passwordloby" v-bind:class="{ 'hidden-element': !clicked }" type="password" placeholder="Password" v-model="password">
 
 
     </div>
@@ -27,19 +27,39 @@ export default {
     name: 'Room',
     data() {
       return {
-        // data: 'acab'
+        password: '',
+        clicked: false,
       }
     },
     props: [
       'data'
     ],
     methods: {
+      onClick() {
+        if (!this.clicked) {
+          if (this.data.password === '') {
+            this.joinRoom()
+          }
+          else {
+            this.clicked = true
+          }
+          return
+        }
+
+        if (this.password == '') {
+          this.clicked = !this.clicked
+        }
+        else {
+          this.joinRoom()
+        }
+      },
+
       joinRoom() {
         var params = {
           // CAUTION : dirty way to test the game flow
           // TODO : securise this access
             lobbyID: this.data.lobbyID,
-            lobbyPassword: this.data.password
+            lobbyPassword: this.password
             /*lobbyID: this.item.id,
             lobbyPassword: this.passwordloby*/
         }
@@ -54,7 +74,8 @@ export default {
         var needPassword = false
 
         if (response.data.error == true) {
-          //alert("Error: " + response.data.response)
+          alert("Error: " + response.data.response)
+          this.password = ''
           // needPassword = true
           return
         } else {
@@ -74,5 +95,9 @@ export default {
 <style>
 body {
   background-color: #27282d;
+}
+
+.hidden-element {
+  display: none;
 }
 </style>
