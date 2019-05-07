@@ -1,6 +1,6 @@
 <template>
     <div class="game-container">
-        
+
       <button
           @click="onClick"
           tag="button"
@@ -9,11 +9,11 @@
         >
           {{ data.lobbyName }} - {{data.nbPlayers}}/{{data.maxPlayers}}
       </button>
-        
+
       <div v-if="data.password !== ''" id="password-warning" v-bind:class="{ 'hidden-element': !clicked }">
         This room needs a password ! please enter the password to join the room
       </div>
-        
+
       <input v-if="data.password !== ''" id="passwordloby" v-bind:class="{ 'hidden-element': !clicked }" type="password" placeholder="Password" v-model="password">
 
 
@@ -56,8 +56,8 @@ export default {
 
       joinRoom() {
         var params = {
-          // CAUTION : dirty way to test the game flow
-          // TODO : securise this access
+          // CAUTION: dirty way to test the game flow
+          // TODO: securise this access
             lobbyID: this.data.lobbyID,
             lobbyPassword: this.password
             /*lobbyID: this.item.id,

@@ -85,8 +85,8 @@ Player purple #9367DA
 .tooltipText {
   visibility: hidden;
   width: 11rem;
-  background-color: #27282D;
-  color: #FDF6EB;
+  background-color: #27282d;
+  color: #fdf6eb;
   border: solid 0.2rem #f9ce93;
   text-align: center;
   padding: 0.3rem 0;
@@ -196,7 +196,6 @@ li[id*="playerSlot"] {
 
 .current {
   border: solid 0.4rem #f9ce93;
-
 }
 
 #playerSlot1 {
@@ -582,7 +581,8 @@ p {
   visibility: hidden;
 }
 
-#attackCombatRed, #defendCombatRed {
+#attackCombatRed,
+#defendCombatRed {
   color: rgb(225, 103, 103);
   font-weight: bold;
   font-size: 1.2em;
@@ -725,16 +725,17 @@ p {
   grid-template-columns: 3fr 4fr 1fr;
 }
 
-.reinforcementUILeft{
+.reinforcementUILeft {
   text-align: center;
   padding: 0.1rem;
 }
 
-.innerReinUIcenter, .innerReinUILeft {
+.innerReinUIcenter,
+.innerReinUILeft {
   text-align: center;
 }
 
-.reinforcementUIRight{
+.reinforcementUIRight {
   text-align: center;
   padding: 0.5rem;
 }
@@ -745,12 +746,12 @@ p {
 
 #reinUIRightAbort:hover {
   margin-bottom: 1rem;
-  color: red
+  color: red;
 }
 
 #reinUIRightOK:hover {
   margin-bottom: 1rem;
-  color: green
+  color: green;
 }
 
 #reinforcementTerritory {
@@ -761,7 +762,6 @@ p {
 
 #unitsToPut {
   width: 2em;
-
 }
 
 /*********** TOKENS UI ********************/
@@ -775,16 +775,17 @@ p {
   grid-template-columns: 3fr 4fr 1fr;
 }
 
-.tokenUILeft{
+.tokenUILeft {
   text-align: center;
   padding: 0.1rem;
 }
 
-.innertokenUIcenter, .innertokenUILeft {
+.innertokenUIcenter,
+.innertokenUILeft {
   text-align: center;
 }
 
-.tokenUIRight{
+.tokenUIRight {
   text-align: center;
   padding: 0.5rem;
 }
@@ -795,12 +796,12 @@ p {
 
 #tokenUIRightAbort:hover {
   margin-bottom: 1rem;
-  color: red
+  color: red;
 }
 
 #tokenUIRightOK:hover {
   margin-bottom: 1rem;
-  color: green
+  color: green;
 }
 /*********** ASK ATTACK UI ********************/
 #askAttackUI {
@@ -813,13 +814,12 @@ p {
   grid-template-columns: 1fr 2fr;
 }
 
-.askAttackUILeft{
+.askAttackUILeft {
   text-align: center;
   padding: 0.1rem;
 }
 
-
-.askAttackUIRight{
+.askAttackUIRight {
   text-align: center;
 }
 
@@ -828,11 +828,11 @@ p {
 
 #askAttackUIRightAbort:hover {
   margin-bottom: 1rem;
-  color: red
+  color: red;
 }
 
 #askAttackUIRightOK:hover {
-  color: green
+  color: green;
 }
 
 /*********** ATTACK UI ********************/
@@ -846,16 +846,17 @@ p {
   grid-template-columns: 3fr 4fr 1fr;
 }
 
-.attackUILeft{
+.attackUILeft {
   text-align: center;
   padding: 0.1rem;
 }
 
-.innerattackUIcenter, .innerattackUILeft {
+.innerattackUIcenter,
+.innerattackUILeft {
   text-align: center;
 }
 
-.attackUIRight{
+.attackUIRight {
   text-align: center;
 }
 
@@ -864,11 +865,11 @@ p {
 
 #attackUIRightAbort:hover {
   margin-bottom: 1rem;
-  color: red
+  color: red;
 }
 
 #attackUIRightOK:hover {
-  color: green
+  color: green;
 }
 
 /*********** FORTIFICATION UI ********************/
@@ -921,7 +922,7 @@ p {
   width: 40rem;
 }
 
-.FortifyUILeft{
+.FortifyUILeft {
   text-align: center;
   padding: 0.1rem;
   width: 20rem;
@@ -932,7 +933,7 @@ p {
   width: 3rem;
 }
 
-.FortifyUIRight{
+.FortifyUIRight {
   text-align: center;
   padding: 0.5rem;
   width: 10rem;
@@ -945,18 +946,18 @@ p {
 
 #FortifyUIRightAbort:hover {
   margin-bottom: 1rem;
-  color: red
+  color: red;
 }
 
 #FortifyUIRightOK:hover {
   margin-bottom: 1rem;
-  color: green
+  color: green;
 }
 
 /*********** TOKEN UI ************/
 #TokenUI {
-    display: none;
-    visibility: hidden;
+  display: none;
+  visibility: hidden;
   width: 40vw;
 }
 
@@ -966,7 +967,7 @@ p {
   height: 10rem;
   top: 0;
   left: 0;
-  border-right: solid #f9ce93  1px;
+  border-right: solid #f9ce93 1px;
 }
 
 #TokenUIUpperLeft {
@@ -976,7 +977,6 @@ p {
   left: 0.5rem;
   top: 0.5rem;
 }
-
 
 #TokenUILowerLeft {
   width: 24rem;
@@ -997,13 +997,12 @@ p {
   padding: 1em;
   /* background-color: red; */
   font-size: 0.8em;
-
 }
 
 [id^="tokenUIType"],
 [id*="tokenUIType"] {
   float: left;
-  margin: 0.0rem 0.4rem 0rem 0.4rem;
+  margin: 0rem 0.4rem 0rem 0.4rem;
 }
 
 [id^="tokenUIType"],
@@ -1062,7 +1061,7 @@ p {
   height: 2.2rem;
 }
 
-[id*="tokenSlot"][id$="Img"] > img{
+[id*="tokenSlot"][id$="Img"] > img {
   width: 1.8rem;
   height: 1.8rem;
 }

@@ -862,7 +862,7 @@ export function fortifyTerritory () {
   }
 }
 
-export function fortifyAfterConquering(startTerritory, endTerritory){
+export function fortifyAfterConquering (startTerritory, endTerritory) {
   fortifyFrom = startTerritory
   fortifyTo = endTerritory
   displayFortifyChooseUnits()

@@ -40,14 +40,13 @@
       <!-- <button
         id="TokenSpreadBtn"
         v-on:click="(TTXHiden ? displayUseTokensUI() : clearUseTokensUI()),(TTXHiden ? hide() : show())"
-      >Tokens Trade</button> -->
+      >Tokens Trade</button>-->
       <img
         draggable="false"
         v-on:click="(TTXHiden ? displayUseTokensUI() : clearUseTokensUI()),(TTXHiden ? hide() : show())"
         src="../assets/icons/trade.svg"
         class="tradeIcon"
       >
-
     </div>
 
     <div id="messageDisplay" class="generalMessageDisplay">
@@ -743,7 +742,7 @@ export default {
 
     /* TODO: call this function on game over */
     goToGameOver() {
-      this.$router.push('/GameOver')
+      this.$router.push("/GameOver");
     },
 
     displayMessage: function(message) {

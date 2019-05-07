@@ -38,8 +38,8 @@ export default {
       // ]
     }
   },
-  // CAUTION the following must to be improved
-  // TODO change button clics and messages handling behaviour
+  // CAUTION: the following must to be improved
+  // TODO: change button clics and messages handling behaviour
   methods: {
     startGame () {
       this.$socket.send(new Packet("START_GAME").getJson());
