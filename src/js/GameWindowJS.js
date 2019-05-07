@@ -100,11 +100,13 @@ export function startMouseoverCountry () {
 export var _placeSoldier = function (evt) {
   selectedCountryName = hoveredCountryName
 
-  MainGame.prototype.tryPutUnits(
+  if (document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
+    MainGame.prototype.tryPutUnits(
     localStorage.getItem('myId'),
     selectedCountryName,
     1
-  )
+    )
+  }
 }
 
 /** Draws a svg soldier icon on the country passed, and add the number
@@ -162,34 +164,34 @@ export var _addReinforcement = function (evt) {
   // getting the country id
   selectedCountryName = hoveredCountryName
 
-  // if (document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
+  if (document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
 
-  var nbUnits = 1
-
-  if (MainGame.prototype.getCurrentPhase() == phases['REINFORCEMENT']) {
-    // alert('choose units')
-    // nbUnits = valeur_saisie
-    console.log('PHASE 0 -------------------------- DISPLAYING REIN UI')
-    disableDbClick()
-    disableDbClickReinUi()
-    dblClickTerritory()
-    /* allows the current player to use next phase button */
-    if (
-      localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()
-    ) {
-      enableNextPhaseBtn()
-    } else {
-      disableNextPhaseBtn()
-    }
-  } else if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
-    MainGame.prototype.tryPutUnits(
-      localStorage.getItem('myId'),
-      selectedCountryName,
-      nbUnits
-    )
-    console.log('Try to add units on ' + selectedCountryName)
+      var nbUnits = 1
+    
+      if (MainGame.prototype.getCurrentPhase() == phases['REINFORCEMENT']) {
+        // alert('choose units')
+        // nbUnits = valeur_saisie
+        console.log('PHASE 0 -------------------------- DISPLAYING REIN UI')
+        disableDbClick()
+        disableDbClickReinUi()
+        dblClickTerritory()
+        /* allows the current player to use next phase button */
+        if (
+          localStorage.getItem('myId') == MainGame.prototype.getActivePlayerId()
+        ) {
+          enableNextPhaseBtn()
+        } else {
+          disableNextPhaseBtn()
+        }
+      } else if (MainGame.prototype.getCurrentPhase() == phases['PREPHASE']) {
+        MainGame.prototype.tryPutUnits(
+          localStorage.getItem('myId'),
+          selectedCountryName,
+          nbUnits
+        )
+        console.log('Try to add units on ' + selectedCountryName)
+      }
   }
-  // }
 }
 
 // generic function to create an xml element
@@ -535,7 +537,7 @@ export function disableNextPhaseBtn () {
  * Calls the nextPhase function in MainGame controller
  */
 export function nextPhase () {
-  console.log('NEXT PHASE IS CALLED in GAIMWINDOW')
+  console.log('NEXT PHASE IS CALLED in GAMEWINDOW')
   MainGame.prototype.nextPhase()
 }
 
@@ -852,29 +854,89 @@ export function fortifyWith (nb) {
 }
 /** ******************************************************************************** */
 
-/** ***************************** TOKENS ******************************* */
-
 export function displayUseTokensUI () {
   clearDisplayMessage()
   clearMessageUITop()
-  var attackUI = document.getElementById('TokenUI')
-  attackUI.style.display = 'block'
-  attackUI.style.visibility = 'visible'
-  attackUI.style.height = '8rem'
 
-  console.log('token present t ')
-  console.log(MainGame.prototype.getPlayers())
-  console.log('token present t ')
-  if (THIS.localNbTokenTypeOne == 0) {
+  var tokensUI = document.getElementById('TokenUI')
+  tokensUI.style.display = 'block'
+  tokensUI.style.visibility = 'visible'
+  tokensUI.style.height = '8rem'
+
+  console.log(window['players'])
+  
+  // var playerId = localStorage.getItem('myId')
+  // var playerList = []
+  // playerList = MainGame.prototype.getViewPlayerList(playerId)
+  // console.log(MainGame.prototype.getPlayers())
+  // var tokenOne = playerList[playerId].tokens.tok1
+  // var tokenTwo = playerList[playerId].tokens.tok2
+  // var tokenThree = playerList[playerId].tokens.tok3
+  // var tokenFour = playerList[playerId].tokens.tok4
+
+  var tokenOne = document.getElementById('nbTokenTypeOne').innerHTML
+  var tokenTwo = document.getElementById('nbTokenTypeTwo').innerHTML
+  var tokenThree = document.getElementById('nbTokenTypeThree').innerHTML
+  var tokenFour = document.getElementById('nbTokenTypeJoker').innerHTML
+
+  console.log('all tokens : ' + tokenOne + ' ' + tokenTwo + ' ' + tokenThree + ' ' + tokenFour)
+
+  document.getElementById('nbTokenUITypeOne').innerHTML = tokenOne
+  document.getElementById('nbTokenUITypeTwo').innerHTML = tokenTwo
+  document.getElementById('nbTokenUITypeThree').innerHTML = tokenThree
+  document.getElementById('nbTokenUITypeJoker').innerHTML = tokenFour
+
+  if (tokenOne == 0) {
     document.getElementById('tokenTypeOneBtn').disabled = true
     document.getElementById('tokenTypeOneImg').style.cursor = 'not-allowed'
   } else {
     document.getElementById('tokenTypeOneBtn').disabled = false
     document.getElementById('tokenTypeOneImg').style.cursor = 'pointer'
   }
+
+  if (tokenTwo == 0) {
+    document.getElementById('tokenTypeTwoBtn').disabled = true
+    document.getElementById('tokenTypeTwoImg').style.cursor = 'not-allowed'
+  } else {
+    document.getElementById('tokenTypeTwoBtn').disabled = false
+    document.getElementById('tokenTypeTwoImg').style.cursor = 'pointer'
+  }
+
+  if (tokenThree == 0) {
+    document.getElementById('tokenTypeThreeBtn').disabled = true
+    document.getElementById('tokenTypeThreeImg').style.cursor = 'not-allowed'
+  } else {
+    document.getElementById('tokenTypeThreeBtn').disabled = false
+    document.getElementById('tokenTypeThreeImg').style.cursor = 'pointer'
+  }
+
+  if (tokenFour == 0) {
+    document.getElementById('tokenTypeJokerBtn').disabled = true
+    document.getElementById('tokenTypeFourImg').style.cursor = 'not-allowed'
+  } else {
+    document.getElementById('tokenTypeJokerBtn').disabled = false
+    document.getElementById('tokenTypeFourImg').style.cursor = 'pointer'
+  }
 }
 
-export function clearUseTokenUI () {}
+export function clearUseTokensUI () {
+  var tokensUI = document.getElementById('TokenUI')
+  tokensUI.style.display = 'none'
+  tokensUI.style.visibility = 'hidden'
+  choosedTokenType = ''
+  document.getElementById('tokenSlotOneImg').src = ''
+  document.getElementById('tokenSlotTwoImg').src = ''
+  document.getElementById('tokenSlotThreeImg').src = ''
+
+  tokenSlotOneIsSet = false
+  tokenSlotTwoIsSet = false
+  tokenSlotThreeIsSet = false
+  tokenSlotOneIsSetWith = ''
+  tokenSlotTwoIsSetWith = ''
+  tokenSlotThreeIsSetWith = ''
+
+  displayUITop()
+}
 
 var choosedTokenType = ''
 
@@ -893,16 +955,34 @@ export function getTokenToSet (selectedSlot) {
     switch (selectedSlot) {
       case 1:
         if (tokenSlotOneIsSet === false) {
-          tokenSlotOneIsSet = true
-          document.getElementById(
-            'tokenSlotOneImg'
-          ).src = require('../assets/icons/tokenType' +
-            choosedTokenType +
-            '.svg')
-          this['localNbTokenType' + choosedTokenType] -= 1
-          tokenSlotOneIsSetWith = choosedTokenType
-        } else {
-          this['localNbTokenType' + tokenSlotOneIsSetWith] += 1
+          console.log('###########' + parseInt(document.getElementById('nbTokenUIType' + choosedTokenType).innerHTML))
+          if(document.getElementById('nbTokenUIType' + choosedTokenType).innerHTML !== 0){
+            tokenSlotOneIsSet = true
+            document.getElementById(
+              'tokenSlotOneImg'
+            ).src = require('../assets/icons/tokenType' +
+              choosedTokenType +
+              '.svg')
+            var nbMinus = 0
+            nbMinus = parseInt(document.getElementById('nbTokenUIType' + choosedTokenType).innerHTML)
+            nbMinus--
+            document.getElementById('nbTokenUIType' + choosedTokenType).innerHTML = nbMinus
+            tokenSlotOneIsSetWith = choosedTokenType
+            console.log('###########' + parseInt(document.getElementById('nbTokenUIType' + choosedTokenType).innerHTML))
+            if (parseInt(document.getElementById('nbTokenUIType' + choosedTokenType).innerHTML) === 0) {
+              document.getElementById('tokenTypeOneBtn').disabled = true
+              document.getElementById('tokenTypeOneImg').style.cursor = 'not-allowed'
+              choosedTokenType = ''
+            } else {
+              document.getElementById('tokenTypeOneBtn').disabled = false
+              document.getElementById('tokenTypeOneImg').style.cursor = 'pointer'
+            }
+          }
+        } else if(tokenSlotOneIsSetWith !== ''){
+          var nbPlus = 0
+          nbPlus = parseInt(document.getElementById('nbTokenUIType' + tokenSlotOneIsSetWith).innerHTML)
+          nbPlus++
+          document.getElementById('nbTokenUIType' + tokenSlotOneIsSetWith).innerHTML = nbPlus
           tokenSlotOneIsSet = false
           document.getElementById('tokenSlotOneImg').src = ''
         }
@@ -915,10 +995,24 @@ export function getTokenToSet (selectedSlot) {
           ).src = require('../assets/icons/tokenType' +
             choosedTokenType +
             '.svg')
-          this['localNbTokenType' + choosedTokenType] -= 1
+          var nbMinus = 0
+          nbMinus = parseInt(document.getElementById('nbTokenUIType' + choosedTokenType).innerHTML)
+          nbMinus--
+          document.getElementById('nbTokenUIType' + choosedTokenType).innerHTML = nbMinus
           tokenSlotTwoIsSetWith = choosedTokenType
+          if (parseInt(document.getElementById('nbTokenUIType' + choosedTokenType).innerHTML) === 0) {
+            document.getElementById('tokenTypeTwoBtn').disabled = true
+            document.getElementById('tokenTypeTwoImg').style.cursor = 'not-allowed'
+            choosedTokenType = ''
+          } else {
+            document.getElementById('tokenTypeTwoBtn').disabled = false
+            document.getElementById('tokenTypeTwoImg').style.cursor = 'pointer'
+          }
         } else {
-          this['localNbTokenType' + tokenSlotTwoIsSetWith] += 1
+          var nbPlus = 0
+          nbPlus = parseInt(document.getElementById('nbTokenUIType' + tokenSlotTwoIsSetWith).innerHTML)
+          nbPlus++
+          document.getElementById('nbTokenUIType' + tokenSlotTwoIsSetWith).innerHTML = nbPlus
           tokenSlotTwoIsSet = false
           document.getElementById('tokenSlotTwoImg').src = ''
         }
@@ -931,12 +1025,26 @@ export function getTokenToSet (selectedSlot) {
           ).src = require('../assets/icons/tokenType' +
             choosedTokenType +
             '.svg')
-          this['localNbTokenType' + choosedTokenType] -= 1
-          tokenSlotThreeIsSetWith = choosedTokenType
-        } else {
-          this['localNbTokenType' + tokenSlotThreeIsSetWith] += 1
-          tokenSlotThreeIsSet = false
-          document.getElementById('tokenSlotThreeImg').src = ''
+            var nbMinus = 0
+            nbMinus = parseInt(document.getElementById('nbTokenUIType' + choosedTokenType).innerHTML)
+            nbMinus--
+            document.getElementById('nbTokenUIType' + choosedTokenType).innerHTML = nbMinus
+            tokenSlotThreeIsSetWith = choosedTokenType
+            if (parseInt(document.getElementById('nbTokenUIType' + choosedTokenType).innerHTML) === 0) {
+              document.getElementById('tokenTypeThreeBtn').disabled = true
+              document.getElementById('tokenTypeThreeImg').style.cursor = 'not-allowed'
+              choosedTokenType = ''
+            } else {
+              document.getElementById('tokenTypeThreeBtn').disabled = false
+              document.getElementById('tokenTypeThreeImg').style.cursor = 'pointer'
+            }
+          } else {
+            var nbPlus = 0
+            nbPlus = parseInt(document.getElementById('nbTokenUIType' + tokenSlotThreeIsSetWith).innerHTML)
+            nbPlus++
+            document.getElementById('nbTokenUIType' + tokenSlotThreeIsSetWith).innerHTML = nbPlus
+            tokenSlotThreeIsSet = false
+            document.getElementById('tokenSlotThreeImg').src = ''
         }
         break
     }
@@ -954,4 +1062,11 @@ export function useTokens (token1, token2, token3) {
   )
 }
 
+export function setNextPhaseBtnImg () {
+  document.getElementById('nextPhaseBtnImg').src = require('../assets/icons/nextPhase.svg')
+}
+
+export function setEndtourBtnImg () {
+  document.getElementById('nextPhaseBtnImg').src = require('../assets/icons/endTour.svg')
+}
 /** ******************************************************************************** */
