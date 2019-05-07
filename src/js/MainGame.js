@@ -1315,6 +1315,20 @@ export class MainGame {
       var msg = JSON.parse(d.data)
       switch (msg.type) {
         case Packet.prototype.getTypeOf('ATTACK'):
+        
+          /* display attack to other players */
+          var tSource = THAT_CLASS.getCountryNameById(msg.data.source)
+          var tDest = THAT_CLASS.getCountryNameById(msg.data.destination)
+
+          var cSource = getContinentOf(tSource)
+          var cDest = getContinentOf(tDest)
+
+          var attackingPlayer = THAT_CLASS.getPlayerNameById(THAT_CLASS.map[cSource][tSource].player)
+          var defendingPlayer = THAT_CLASS.getPlayerNameById(THAT_CLASS.map[cDest][tDest].player)
+
+          GameWindow.displayMessage(attackingPlayer + ' launched an attack from ' +
+            tSource + ' onto ' + tDest + ' of ' + defendingPlayer)
+
           THAT_CLASS.attack(
             msg.data.source,
             msg.data.destination,
