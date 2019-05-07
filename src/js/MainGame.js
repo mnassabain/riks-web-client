@@ -55,6 +55,8 @@ export class MainGame {
 
     this.synchronize()
     //this.innerLoop()
+
+    this.timeoutDisplay = undefined
   }
 
   getCurrentPhase () {
@@ -104,6 +106,14 @@ export class MainGame {
     if (this.gameIsSet === false) {
       this.gameIsSet = true
       this.startGame()
+    }
+  }
+
+  clearTimeoutDisplay(){
+    try {
+      clearTimeout(this.timeoutDisplay)
+    } catch (error) {
+      
     }
   }
 
@@ -524,7 +534,8 @@ export class MainGame {
     GameWindow.displayMessage('Welcome to RiKS World!')
 
     var ms = 2000
-    setTimeout(function () {
+    this.clearTimeoutDisplay()
+    this.timeoutDisplay = setTimeout(function () {
       GameWindow.clearDisplayMessage()
       console.log(
         'localstorage id = ' +
@@ -620,7 +631,8 @@ export class MainGame {
     map.addEventListener('click', GameWindow._addReinforcement, true)
 
     var ms = 3000
-    setTimeout(function () {
+    this.clearTimeoutDisplay()
+    this.timeoutDisplay = setTimeout(function () {
       GameWindow.clearDisplayMessage()
       console.log(
         'localstorage id = ' +
