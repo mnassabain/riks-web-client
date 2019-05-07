@@ -331,6 +331,7 @@ export function addDistantPlayerMessage (name, message) {
 
 export function displayMessage (message) {
   clearDisplayMessage()
+  MainGame.prototype.clearTimeoutDisplay()
   console.log('displayMessage func')
   console.log(message)
   var msgParagraph = document.createElement('P')

@@ -112,8 +112,9 @@ export class MainGame {
   clearTimeoutDisplay(){
     try {
       clearTimeout(this.timeoutDisplay)
+      console.log("Cleared timeout")
     } catch (error) {
-      
+      console.log("cannot clear")
     }
   }
 
