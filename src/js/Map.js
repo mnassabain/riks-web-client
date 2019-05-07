@@ -1,6 +1,6 @@
 export var map = {
   'North America': {
-    Alaska: {
+    'Alaska': {
       player: false,
       soldiers: 0
     },
@@ -8,27 +8,27 @@ export var map = {
       player: false,
       soldiers: 0
     },
-    Greenland: {
+    'Greenland': {
       player: false,
       soldiers: 0
     },
-    Alberta: {
+    'Alberta': {
       player: false,
       soldiers: 0
     },
-    Ontario: {
+    'Ontario': {
       player: false,
       soldiers: 0
     },
-    Quebec: {
-      player: false,
-      soldiers: 0
-    },
-    'Eastern United States': {
+    'Quebec': {
       player: false,
       soldiers: 0
     },
     'Western United States': {
+      player: false,
+      soldiers: 0
+    },
+    'Eastern United States': {
       player: false,
       soldiers: 0
     },
@@ -38,33 +38,33 @@ export var map = {
     }
   },
   'South America': {
-    Venezuela: {
+    'Venezuela': {
       player: false,
       soldiers: 0
     },
-    Peru: {
+    'Peru': {
       player: false,
       soldiers: 0
     },
-    Brazil: {
+    'Brazil': {
       player: false,
       soldiers: 0
     },
-    Argentina: {
+    'Argentina': {
       player: false,
       soldiers: 0
     }
   },
-  Europe: {
-    Iceland: {
+  'Europe': {
+    'Iceland': {
       player: false,
       soldiers: 0
     },
-    Scandinavia: {
+    'Scandinavia': {
       player: false,
       soldiers: 0
     },
-    Ukraine: {
+    'Ukraine': {
       player: false,
       soldiers: 0
     },
@@ -76,25 +76,25 @@ export var map = {
       player: false,
       soldiers: 0
     },
-    'Southern Europe': {
+    'Western Europe': {
       player: false,
       soldiers: 0
     },
-    'Western Europe': {
+    'Southern Europe': {
       player: false,
       soldiers: 0
     }
   },
-  Africa: {
+  'Africa': {
     'North Africa': {
       player: false,
       soldiers: 0
     },
-    Egypt: {
+    'Egypt': {
       player: false,
       soldiers: 0
     },
-    Congo: {
+    'Congo': {
       player: false,
       soldiers: 0
     },
@@ -106,45 +106,45 @@ export var map = {
       player: false,
       soldiers: 0
     },
-    Madagascar: {
+    'Madagascar': {
       player: false,
       soldiers: 0
     }
   },
-  Asia: {
-    Ural: {
+  'Asia': {
+    'Ural': {
       player: false,
       soldiers: 0
     },
-    Siberia: {
+    'Siberia': {
       player: false,
       soldiers: 0
     },
-    Yakutsk: {
+    'Yakutsk': {
       player: false,
       soldiers: 0
     },
-    Kamchatka: {
+    'Kamchatka': {
       player: false,
       soldiers: 0
     },
-    Afghanistan: {
+    'Afghanistan': {
       player: false,
       soldiers: 0
     },
-    China: {
+    'China': {
       player: false,
       soldiers: 0
     },
-    Irkutsk: {
+    'Irkutsk': {
       player: false,
       soldiers: 0
     },
-    Mongolia: {
+    'Mongolia': {
       player: false,
       soldiers: 0
     },
-    Japan: {
+    'Japan': {
       player: false,
       soldiers: 0
     },
@@ -152,17 +152,17 @@ export var map = {
       player: false,
       soldiers: 0
     },
-    India: {
+    'India': {
       player: false,
       soldiers: 0
     },
-    Siam: {
+    'Siam': {
       player: false,
       soldiers: 0
     }
   },
-  Australia: {
-    Indonesia: {
+  'Australia': {
+    'Indonesia': {
       player: false,
       soldiers: 0
     },
@@ -170,11 +170,11 @@ export var map = {
       player: false,
       soldiers: 0
     },
-    'Eastern Australia': {
+    'Western Australia': {
       player: false,
       soldiers: 0
     },
-    'Western Australia': {
+    'Eastern Australia': {
       player: false,
       soldiers: 0
     }
