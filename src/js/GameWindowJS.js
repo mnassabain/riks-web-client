@@ -67,10 +67,20 @@ export var disableDbClickReinUi = function () {
   gmap.removeEventListener('click', dblClickTerritory, true)
 }
 /*********************************************************************************************************************/
+/* Timer handling */
+var startingTime
+var timer
+
 /* Starting the timer */
-export function startTimer (startingTime) {
-  startingTime = startingTime
-  setInterval(chronometer, 1000)
+export function startTimer () {
+  startingTime = Date.now()
+  try{
+    clearInterval(timer)
+    timer = window.setInterval(chronometer, 1000)
+  }
+  catch(error){
+    timer = window.setInterval(chronometer, 1000)
+  }
 }
 
 /*********************************************************************************************************************/
@@ -163,7 +173,8 @@ export function updateSoldierColor (color, countryName) {
 export var _addReinforcement = function (evt) {
   // getting the country id
   selectedCountryName = hoveredCountryName
-
+/* Timer handling */
+var startingTime = Date.now()
   if (document.getElementById(selectedCountryName).className.baseVal !== 'sea') {
 
       var nbUnits = 1
@@ -236,8 +247,7 @@ export function updateCountrySoldiersNumber (countryId) {
 }
 /*****************************************************************************************************/
 
-/* Timer handling */
-var startingTime = Date.now()
+
 
 export function chronometer () {
   // Find the distance between now and the starting time

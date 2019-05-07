@@ -5,18 +5,21 @@
       <img draggable="false" src="../assets/logo.svg" class="img-fluid logo">
       <h2>The game of global domination</h2>
     </div>
-    <div class="input-block">
+    <form @submit="validateForm">
+      <div class="input-block">
       <input id="user" type="text" placeholder="User Name" v-model="login">
       <input id="password" type="password" placeholder="Password" v-model="password">
-    </div>
-    <div>
-      <button
-        :to="{ path: '/MainMenu' }"
-        @click="loginUser"
-        tag="button"
-        class="button validate-button my-1"
-      >Log In</button>
-    </div>
+      </div>
+      <div>
+        <button
+          :to="{ path: '/MainMenu' }"
+          @click="loginUser"
+          tag="button"
+          class="button validate-button my-1"
+          type="submit"
+        >Log In</button>
+      </div>
+    </form>
     <div class="additional-button-block">
       <h3>Not registered yet?</h3>
       <router-link
@@ -41,6 +44,9 @@ export default {
     };
   },
   methods: {
+    validateForm(e){
+      e.preventDefault()
+    },
     verify(data) {
       var response = JSON.parse(data);
 

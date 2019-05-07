@@ -4,7 +4,8 @@
     <div>
       <h1>Create your room</h1>
     </div>
-    <div class="input-block">
+    <form @submit="validateForm">
+      <div class="input-block">
       <input v-model="nameOfRoom" id="nameOfRoom" type="text" placeholder="Room Name">
       <input
         v-model="passwordOfRoom"
@@ -12,10 +13,11 @@
         type="password"
         placeholder="Room Password"
       >
-    </div>
-    <div>
-      <button @click="createGame" class="button validate-button my-1">Create Room</button>
-    </div>
+      </div>
+      <div>
+        <button @click="createGame" class="button validate-button my-1">Create Room</button>
+      </div>
+    </form>
     <div class="additional-button-block">
       <button class="button second-button my-1" @click="Cancel">Cancel</button>
     </div>
@@ -36,6 +38,9 @@ export default {
     }
   },
   methods: {
+    validateForm(e){
+      e.preventDefault()
+    },
     verify(data) {
       var response = JSON.parse(data)
       if (response.data.error == true) {
