@@ -1006,7 +1006,7 @@ export class MainGame {
     console.log(defendingPlayer)
     console.log(myPlayer)
 
-    if (attackingPlayer.id == myPlayer.id) {
+    /*if (attackingPlayer.id == myPlayer.id) {
       // We attacked
       GameWindow.addServerMessage(
         'YOUR LOSSES',
@@ -1018,26 +1018,44 @@ export class MainGame {
         'You lost ' + defenderLoss + ' units'
       )
     } else {
-      GameWindow.addServerMessage(
-        'LOSSES',
-        attackingPlayer.displayName +
-          ' lost ' +
-          attackerLoss +
-          ' units <br>' +
-          defendingPlayer.displayName +
-          ' lost ' +
-          defenderLoss +
-          ' units'
-      )
-    }
+      
+    }*/
+
+    GameWindow.addServerMessage(
+      'LOSSES',
+      attackingPlayer.displayName +
+        ' lost ' +
+        attackerLoss +
+        ' units <br>' +
+        defendingPlayer.displayName +
+        ' lost ' +
+        defenderLoss +
+        ' units'
+    )
 
     /* if there are no more units on the territory */
     if (THIS.map[cDest][tDest].soldiers <= 0) {
       // is dead : replace dest soldiers by attackers soldiers
-      GameWindow.addServerMessage(
-        'COMBAT',
-        defendingPlayer.displayName + ' lost ' + tDest
-      )
+      
+
+      if (attackingPlayer.id == myPlayer.id) {
+        // We attacked
+        GameWindow.addServerMessage(
+          'COMBAT',
+          'You conquered ' + tDest + ' !'
+        )
+      } else if (defendingPlayer.id == myPlayer.id) {
+        GameWindow.addServerMessage(
+          'COMBAT',
+          'You lost ' + tDest + " :'("
+        )
+      } else {
+        GameWindow.addServerMessage(
+          'COMBAT',
+          defendingPlayer.displayName + ' lost ' + tDest
+        )
+      }
+
       THIS.view.players[THIS.map[cDest][tDest].player].nbTerritories--
       THIS.map[cDest][tDest].player = THIS.map[cSource][tSource].player
       THIS.map[cDest][tDest].soldiers = restAttack
