@@ -1315,7 +1315,7 @@ export class MainGame {
       var msg = JSON.parse(d.data)
       switch (msg.type) {
         case Packet.prototype.getTypeOf('ATTACK'):
-        
+
           /* display attack to other players */
           var tSource = THAT_CLASS.getCountryNameById(msg.data.source)
           var tDest = THAT_CLASS.getCountryNameById(msg.data.destination)
@@ -1327,7 +1327,7 @@ export class MainGame {
           var defendingPlayer = THAT_CLASS.getPlayerNameById(THAT_CLASS.map[cDest][tDest].player)
 
           GameWindow.displayMessage(attackingPlayer + ' launched an attack from ' +
-            tSource + ' onto ' + tDest + ' of ' + defendingPlayer)
+            tSource + ' with ' + msg.data.units + ' units onto ' + tDest + ' of ' + defendingPlayer)
 
           THAT_CLASS.attack(
             msg.data.source,
@@ -1415,6 +1415,7 @@ export class MainGame {
           console.log('defend response')
           console.log(msg.data)
           THAT_CLASS.defend(msg.data.defenderName, msg.data.units)
+
           break
 
         case Packet.prototype.getTypeOf('ERROR'):
