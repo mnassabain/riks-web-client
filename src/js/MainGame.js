@@ -1426,8 +1426,7 @@ export class MainGame {
         case Packet.prototype.getTypeOf('GAME_OVER'):
           console.log('GAME_OVER' + msg)
           localStorage.setItem('winner', THAT_CLASS.getPlayerNameById(msg.data.winner))
-          /* TODO: delete listener ?? */
-          this.$router.push('/GameOver')
+          /* TODO: REDIRECT TO /GameOver (+delete listener?) */
           break
 
         case Packet.prototype.getTypeOf('GAME_RESULTS'):
