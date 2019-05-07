@@ -54,7 +54,7 @@ export class MainGame {
     // v.$socket.send(new Packet('GAME_STATUS').getJson())
 
     this.synchronize()
-    this.innerLoop()
+    //this.innerLoop()
   }
 
   getCurrentPhase () {
@@ -1238,6 +1238,7 @@ export class MainGame {
       GameWindow._disableFortifyFromTerritory()
       GameWindow._disableChooseTerritoryToFortify()
       if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
+        GameWindow.setEndtourBtnImg()
         GameWindow.displayCurrentPlayer()
         GameWindow.displayMessage(
           secondStr + 'You can now give turn to next player.'
@@ -1327,6 +1328,10 @@ export class MainGame {
 
           if (msg.data.phase == phases['REINFORCEMENT']) {
             THIS.haveFortified = false
+            GameWindow.setNextPhaseBtnImg()
+            GameWindow.clearFortifyChooseUnits()
+            GameWindow._disableChooseTerritoryToFortify()
+            GameWindow._disableFortifyFromTerritory()
             GameWindow.displayCurrentPlayer()
             GameWindow.clearDisplayMessage()
             console.log(
