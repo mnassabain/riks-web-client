@@ -741,6 +741,11 @@ export default {
     displayUseTokensUI: GameWindow.displayUseTokensUI,
     clearUseTokensUI: GameWindow.clearUseTokensUI,
 
+    /* TODO: call this function on game over */
+    goToGameOver() {
+      this.$router.push('/GameOver')
+    },
+
     displayMessage: function(message) {
       console.log(message);
     },

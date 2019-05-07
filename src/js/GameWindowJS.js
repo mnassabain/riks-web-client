@@ -862,6 +862,12 @@ export function fortifyTerritory () {
   }
 }
 
+export function fortifyAfterConquering(startTerritory, endTerritory){
+  fortifyFrom = startTerritory
+  fortifyTo = endTerritory
+  displayFortifyChooseUnits()
+}
+
 export function displayFortifyChooseUnits () {
   var unitsAvailable = MainGame.prototype.getUnitsOnTerritory(fortifyFrom)
   console.log(

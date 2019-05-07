@@ -1034,9 +1034,11 @@ export class MainGame {
         ' units'
     )
 
+    var dead = false
     /* if there are no more units on the territory */
     if (THIS.map[cDest][tDest].soldiers <= 0) {
       // is dead : replace dest soldiers by attackers soldiers
+      dead = true
 
       if (attackingPlayer.id == myPlayer.id) {
         // We attacked
@@ -1073,6 +1075,7 @@ export class MainGame {
       THIS.view.players[THIS.map[cSource][tSource].player].nbTerritories++
       GameWindow.updateCountrySoldiersNumber(tmpDest)
       GameWindow.updateCountrySoldiersNumber(tmpSource)
+
     } else {
       GameWindow.updateCountrySoldiersNumber(tmpDest)
     }
@@ -1080,6 +1083,15 @@ export class MainGame {
     // updating the ratio bar
     for (var i = 0; i < THIS.totalPlayers; i++) {
       GameWindow.updateRatioBar(i, THIS.playerList[i].nbTerritories)
+    }
+
+    if(!dead){
+      this.beginAttackPhase()
+    }
+    else{
+      // Player can move soldiers
+      if (attackingPlayer.id == myPlayer.id)
+        GameWindow.fortifyAfterConquering(tSource, tDest)
     }
   }
 
@@ -1151,10 +1163,10 @@ export class MainGame {
     var cDest = getContinentOf(tDest)
 
     /* check if it's phase 3 */
-    if (THIS.currentPhase != phases['FORTIFICATION']) {
+    /*if (THIS.currentPhase != phases['FORTIFICATION']) {
       console.log('Action not permitted: incorrect phase')
       return -1
-    }
+    }*/
 
     /* check if the player controls those territories */
     if (
@@ -1265,16 +1277,30 @@ export class MainGame {
       if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
         GameWindow.setEndtourBtnImg()
         GameWindow.displayCurrentPlayer()
-        GameWindow.displayMessage(
-          secondStr + 'You can now give turn to next player.'
-        )
+        if(this.currentPhase == phases["OFFENSE"]){
+          GameWindow.displayMessage(
+            secondStr + 'You can now end phase, or continue attacking'
+          )
+        }
+        else{
+          GameWindow.displayMessage(
+            secondStr + 'You can now give turn to next player'
+          )
+        }
+
         GameWindow.enableNextPhaseBtn()
       } else {
-        GameWindow.displayMessage(
-          THIS.getPlayerNameById(THIS.view.currentPlayer) +
-            ' is finishing his/her turn.'
-        )
+        if(this.currentPhase != phases["OFFENSE"]){
+          GameWindow.displayMessage(
+            THIS.getPlayerNameById(THIS.view.currentPlayer) +
+              ' is finishing his/her turn.'
+          )
+        }
       }
+    }
+
+    if(this.currentPhase == phases["OFFENSE"]){
+      this.beginAttackPhase()
     }
   }
 
@@ -1309,6 +1335,20 @@ export class MainGame {
       var msg = JSON.parse(d.data)
       switch (msg.type) {
         case Packet.prototype.getTypeOf('ATTACK'):
+
+          /* display attack to other players */
+          var tSource = THAT_CLASS.getCountryNameById(msg.data.source)
+          var tDest = THAT_CLASS.getCountryNameById(msg.data.destination)
+
+          var cSource = getContinentOf(tSource)
+          var cDest = getContinentOf(tDest)
+
+          var attackingPlayer = THAT_CLASS.getPlayerNameById(THAT_CLASS.map[cSource][tSource].player)
+          var defendingPlayer = THAT_CLASS.getPlayerNameById(THAT_CLASS.map[cDest][tDest].player)
+
+          GameWindow.displayMessage(attackingPlayer + ' launched an attack from ' +
+            tSource + ' with ' + msg.data.units + ' units onto ' + tDest + ' of ' + defendingPlayer)
+
           THAT_CLASS.attack(
             msg.data.source,
             msg.data.destination,
@@ -1335,7 +1375,7 @@ export class MainGame {
             msg.data.attackerLoss,
             msg.data.defenderLoss
           )
-          THAT_CLASS.beginAttackPhase()
+
           break
 
         case Packet.prototype.getTypeOf('CURRENT_PHASE'):
@@ -1387,6 +1427,7 @@ export class MainGame {
           }
 
           if (msg.data.phase == phases['FORTIFICATION']) {
+            THIS.haveFortified = false
             THIS.fortificationLogic()
           }
           break
@@ -1395,6 +1436,7 @@ export class MainGame {
           console.log('defend response')
           console.log(msg.data)
           THAT_CLASS.defend(msg.data.defenderName, msg.data.units)
+
           break
 
         case Packet.prototype.getTypeOf('ERROR'):
@@ -1404,6 +1446,8 @@ export class MainGame {
 
         case Packet.prototype.getTypeOf('GAME_OVER'):
           console.log('GAME_OVER' + msg)
+          localStorage.setItem('winner', THAT_CLASS.getPlayerNameById(msg.data.winner))
+          /* TODO: REDIRECT TO /GameOver (+delete listener?) */
           break
 
         case Packet.prototype.getTypeOf('GAME_RESULTS'):
