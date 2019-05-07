@@ -54,7 +54,7 @@ export class MainGame {
     // v.$socket.send(new Packet('GAME_STATUS').getJson())
 
     this.synchronize()
-    //this.innerLoop()
+    // this.innerLoop()
 
     this.timeoutDisplay = undefined
   }
@@ -109,12 +109,12 @@ export class MainGame {
     }
   }
 
-  clearTimeoutDisplay(){
+  clearTimeoutDisplay () {
     try {
       clearTimeout(this.timeoutDisplay)
-      console.log("Cleared timeout")
+      console.log('Cleared timeout')
     } catch (error) {
-      console.log("cannot clear")
+      console.log('cannot clear')
     }
   }
 
@@ -874,11 +874,9 @@ export class MainGame {
         ' units'
     )
 
-    var data = {
-      source: tSource,
-      destination: tDest,
-      units: nbUnits
-    }
+    /* Highlight the belligerents */
+    GameWindow.highlightTerritory(THIS.getCountryNameById(tSource), 'attack1')
+    GameWindow.highlightTerritory(THIS.getCountryNameById(tDest), 'attack2')
   }
 
   /** Called when the player is being attacked
@@ -986,6 +984,9 @@ export class MainGame {
     var cSource = getContinentOf(tSource)
     var cDest = getContinentOf(tDest)
 
+    /* Unhighlight the belligerents */
+    GameWindow.unhighlightTerritory()
+
     /* apply losses */
     THIS.map[cSource][tSource].soldiers -= attackerLoss
     THIS.map[cDest][tDest].soldiers -= defenderLoss
@@ -1006,7 +1007,7 @@ export class MainGame {
     console.log(defendingPlayer)
     console.log(myPlayer)
 
-    /*if (attackingPlayer.id == myPlayer.id) {
+    /* if (attackingPlayer.id == myPlayer.id) {
       // We attacked
       GameWindow.addServerMessage(
         'YOUR LOSSES',
@@ -1018,8 +1019,8 @@ export class MainGame {
         'You lost ' + defenderLoss + ' units'
       )
     } else {
-      
-    }*/
+
+    } */
 
     GameWindow.addServerMessage(
       'LOSSES',
@@ -1036,19 +1037,12 @@ export class MainGame {
     /* if there are no more units on the territory */
     if (THIS.map[cDest][tDest].soldiers <= 0) {
       // is dead : replace dest soldiers by attackers soldiers
-      
 
       if (attackingPlayer.id == myPlayer.id) {
         // We attacked
-        GameWindow.addServerMessage(
-          'COMBAT',
-          'You conquered ' + tDest + ' !'
-        )
+        GameWindow.addServerMessage('COMBAT', 'You conquered ' + tDest + ' !')
       } else if (defendingPlayer.id == myPlayer.id) {
-        GameWindow.addServerMessage(
-          'COMBAT',
-          'You lost ' + tDest + " :'("
-        )
+        GameWindow.addServerMessage('COMBAT', 'You lost ' + tDest + " :'(")
       } else {
         GameWindow.addServerMessage(
           'COMBAT',
