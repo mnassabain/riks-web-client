@@ -1082,15 +1082,25 @@ p {
 }
 
 #TokenSpread {
-  visibility: visible;
-  display: block;
+  background-color: #27282d;
   position: absolute;
-  top: 4em;
-  left: 3em;
-  width: 8em;
-  height: 1.5em;
-  background-color: #fbe3c2;
-  border-radius: 0.5em;
-  border: solid #27282d 3px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  top: 0.3rem;
+  left: 17.2rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: solid 0.2rem #f9ce93;
+  border-radius: 2.2rem;
+  opacity: 0.9;
+}
+
+.tradeIcon {
+  height: 70%;
+  cursor: pointer;
+}
+
+.tradeIcon:hover {
+  filter: brightness(120%);
 }
