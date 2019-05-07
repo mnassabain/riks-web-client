@@ -1052,3 +1052,17 @@ p {
   height: 2.4rem;
   width: 5rem;
 }
+
+#TokenSpread {
+  visibility: visible;
+  display: block;
+  position: absolute;
+  top: 4em;
+  left: 3em;
+  width: 8em;
+  height: 1.5em;
+  background-color: #fbe3c2;
+  border-radius: 0.5em;
+  border: solid #27282d 3px;
+  text-align: center;
+}
