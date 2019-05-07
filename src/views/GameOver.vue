@@ -2,6 +2,7 @@
     <div class="game-over-container">
         <h1>{{ message }}</h1>
         <h2>Winner: {{ winner }}</h2>
+        <router-link to="/">Main Menu</router-link>
     </div>
 </template>
 
