@@ -2,7 +2,7 @@
     <div class="game-over-container">
         <h1>{{ message }}</h1>
         <h2>Winner: {{ winner }}</h2>
-        <router-link to="/">Main Menu</router-link>
+        <button @click="mainMenu">Main Menu</button>
     </div>
 </template>
 
@@ -13,6 +13,11 @@ export default {
         return {
             winner: '',
             message: '',
+        }
+    },
+    methods: {
+        mainMenu: function(){
+            this.$router.push({ path: "/" });
         }
     },
     created() {
