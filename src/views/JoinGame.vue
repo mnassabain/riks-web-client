@@ -5,16 +5,21 @@
       <h1>Rooms</h1>
     </div>
     <div class="rooms">
-      <ul v-for="(item) in items" :key="item.id">
-        <button
+
+      <room v-for="item in items" :key="item.id" :data="item"
+        @join="joinRoom()" class="lobby-list-room"/>
+      
+      
+      <!-- <ul v-for="(item) in items" :key="item.id"> -->
+        <!-- <button
           v-on:click="JoinGame(item.lobbyID)"
           tag="button"
           class="button menu-button room-button"
           v-bind="item.id"
         >{{ item.lobbyName }} - {{item.nbPlayers}}/{{item.maxPlayers}}</button>
-        <div v-if="needPassword == true">This room need a password ! please enter the password to join the room</div>
-        <input v-if="needPassword == true" id="passwordloby" type="password" placeholder="Password" v-model="password">
-      </ul>
+        <div v-if="item.password !== ''">This room needs a password ! please enter the password to join the room</div>
+        <input v-if="item.password !== ''" id="passwordloby" type="password" placeholder="Password" v-model="password"> -->
+      <!-- </ul> -->
     </div>
     <div class="additional-button-block">
       <router-link to="/MainMenu" tag="button" class="button second-button my-1">Cancel</router-link>
@@ -25,42 +30,51 @@
 
 <script>
 import { Packet } from "../Packet.js";
+import Room from '@/components/Room.vue';
 
 export default {
   name: "JoinGame",
+  components: {
+    'room': Room,
+  },
   data() {
     return {
-      items: []
+      items: [],
+      password: '',
     };
   },
   methods: {
-    verify(data) {
-      var response = JSON.parse(data)
-      var needPassword = false
-      if (response.data.error == true) {
-        //alert("Error: " + response.data.response)
-        needPassword = true
-        return
-      } else {
-        delete this.$socket.onmessage;
+    // verify(data) {
+    //   var response = JSON.parse(data)
+    //   var needPassword = false
+    //   if (response.data.error == true) {
+    //     //alert("Error: " + response.data.response)
+    //     needPassword = true
+    //     return
+    //   } else {
+    //     delete this.$socket.onmessage;
 
-        /* redirect user */
-        this.$router.push({ path: "/Lobby" });
-      }
-    },
-    JoinGame(item) {
-      var params = {
-      // CAUTION : dirty way to test the game flow
-      // TODO : securise this access
-        lobbyID: item,
-        lobbyPassword: ""
-        /*lobbyID: this.item.id,
-        lobbyPassword: this.passwordloby*/
-      }
-      this.$socket.send(new Packet("JOIN_LOBBY", params).getJson())
+    //     /* redirect user */
+    //     this.$router.push({ path: "/Lobby" });
+    //   }
+    // },
+    // JoinGame(item) {
+    //   var params = {
+    //   // CAUTION : dirty way to test the game flow
+    //   // TODO : securise this access
+    //     lobbyID: item,
+    //     lobbyPassword: this.password
+    //     /*lobbyID: this.item.id,
+    //     lobbyPassword: this.passwordloby*/
+    //   }
+    //   this.$socket.send(new Packet("JOIN_LOBBY", params).getJson())
 
-      /* message listener */
-      this.$socket.onmessage = data => this.verify(data.data)
+    //   /* message listener */
+    //   this.$socket.onmessage = data => this.verify(data.data)
+    // },
+
+    joinRoom() {
+      this.$router.push({ path: "/Lobby" });
     }
   },
   created() {
