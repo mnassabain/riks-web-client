@@ -29,6 +29,11 @@
       </div>
     </div>
 
+    <!--Under Tokens NorthWest UI hidden by default-->
+    <div id="TokenSpread">
+      <button id="TokenSpreadBtn" v-on:click="(TTXHiden ? displayUseTokensUI() : clearUseTokensUI()),(TTXHiden ? hide() : show())">Tokens Trade</button>
+    </div>
+    
       <div id="messageDisplay" class="generalMessageDisplay">
 
         <div id="reinforcementUI">
@@ -78,11 +83,6 @@
 
       </div>
 
-
-
-    <!--Under Tokens NorthWest UI hidden by default-->
-    <div idTokenSpread></div>
-
     <!--North UI-->
     <div id="ratioBar">
       <div v-for="(player, index) in players" :key="index" :id="'ratioPlayer'+(index+1)"></div>
@@ -120,7 +120,7 @@
       </div>
       <div id="playerControlButton">
         <button id="nextPhaseBtn" v-on:click="nextPhase()">
-          <img draggable="false" src="../assets/icons/nextPhase.svg">
+          <img id="nextPhaseBtnImg" draggable="false" src="../assets/icons/nextPhase.svg">
         </button>
       </div>
     </div>
@@ -199,25 +199,25 @@
             <div id="tokenUITypeOne">
               <button id="tokenTypeOneBtn" v-on:click="setTokenType('One')">
                 <img id="tokenTypeOneImg" src="../assets/icons/tokenTypeOne.svg">
-                <div id="nbTokenTypeOne">{{ localNbTokenTypeOne }}</div>
+                <div id="nbTokenUITypeOne"></div>
               </button>
             </div>
             <div id="tokenUITypeTwo">
               <button id="tokenTypeTwoBtn" v-on:click="setTokenType('Two')">
                 <img id="tokenTypeTwoImg" src="../assets/icons/tokenTypeTwo.svg">
-                <div id="nbTokenTypeTwo">{{ localNbTokenTypeTwo }}</div>
+                <div id="nbTokenUITypeTwo"></div>
               </button>
             </div>
             <div id="tokenUITypeThree">
               <button id="tokenTypeThreeBtn" v-on:click="setTokenType('Three')">
                 <img id="tokenTypeThreeImg" src="../assets/icons/tokenTypeThree.svg">
-                <div id="nbTokenTypeThree">{{ localNbTokenTypeThree }}</div>
+                <div id="nbTokenUITypeThree"></div>
               </button>
             </div>
             <div id="tokenUITypeJoker">
               <button id="tokenTypeJokerBtn" v-on:click="setTokenType('Joker')">
                 <img id="tokenTypeFourImg" src="../assets/icons/tokenTypeJoker.svg">
-                <div id="nbTokenTypeJoker">{{ localNbTokenTypeJoker }}</div>
+                <div id="nbTokenUITypeJoker"></div>
               </button>
             </div>
             <div id="tokenUINotice">
@@ -609,7 +609,8 @@ export default {
       localNbTokenTypeTwo: 0,
       localNbTokenTypeThree: 0,
       localNbTokenTypeJoker: 0,
-      localColor: ""
+      localColor: "",
+      TTXHiden: true
     };
   },
   methods: {
@@ -624,11 +625,20 @@ export default {
     clearFortifyUI: GameWindow.clearFortifyChooseUnits,
     setTokenType: GameWindow.setTokenType,
     getTokenToSet: GameWindow.getTokenToSet,
-
+    displayUseTokensUI: GameWindow.displayUseTokensUI,
+    clearUseTokensUI: GameWindow.clearUseTokensUI,
+    
     displayMessage: function(message) {
       console.log(message);
     },
-
+    hide() {
+    	console.log('one');
+      this.TTXHiden = !this.TTXHiden;
+    },
+    show() {
+    	console.log('two');
+      this.TTXHiden = !this.TTXHiden;
+    },
     verify(data) {
       var response = JSON.parse(data)
       if (response.data.error == true) {
