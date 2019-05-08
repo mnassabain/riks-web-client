@@ -416,7 +416,11 @@ export function displayCurrentPlayer () {
     document.getElementById('messageUITop').innerHTML =
       MainGame.prototype.getActivePlayerName() + ' is playing.'
   }
-  highlightCurrentPlayer()
+  try{
+    highlightCurrentPlayer()
+  }catch(error){
+    console.log("HIGHLIGHT CURRENT PLAYER")
+  }
 }
 
 export function highlightCurrentPlayer () {
