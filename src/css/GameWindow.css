@@ -890,6 +890,12 @@ p {
   color: green;
 }
 
+/* PIN grayedOut class */
+.grayedOut {
+  stroke: #27282d;
+  opacity: 0.3;
+}
+
 /*********** FORTIFICATION UI ********************/
 /* #FortifyUI {
   display: none;

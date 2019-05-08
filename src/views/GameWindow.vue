@@ -690,8 +690,6 @@
         </g>
       </g>
       <path id="highlight" fill="white" stroke-width="5" stroke="black" opacity="0.3"></path>
-      <path id="attack1" fill="white" stroke-width="5" stroke="black" opacity="0.4"></path>
-      <path id="attack2" fill="white" stroke-width="5" stroke="black" opacity="0.4"></path>
     </svg>
   </div>
 </body>
