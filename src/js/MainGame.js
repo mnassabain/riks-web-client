@@ -1530,7 +1530,7 @@ export class MainGame {
             'winner',
             THAT_CLASS.getPlayerNameById(msg.data.winner)
           )
-
+          THAT_CLASS.sendToServer(new Packet("LEAVE_GAME"))
           GameWindow.stopTimer()
           THIS.$socket.onmessage
           THIS.view.goToGameOver()
