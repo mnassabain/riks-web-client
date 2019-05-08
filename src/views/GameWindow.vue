@@ -770,12 +770,14 @@ export default {
       }
     },
     logout() {
+      GameWindow.stopTimer()
       this.$socket.send(new Packet("DISCONNECT").getJson());
       /* message listener */
       this.$socket.onmessage = data => this.verify(data.data);
       this.$router.push({ path: "/" });
     },
     leaveLobby() {
+      GameWindow.stopTimer()
       this.$socket.send(new Packet("LEAVE_GAME").getJson());
       this.$router.push({ path: "/MainMenu" });
     }
