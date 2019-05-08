@@ -118,7 +118,7 @@ export class MainGame {
         break
 
       case phases['OFFENSE']:
-        console.log('offenc phase')
+        console.log('offence phase')
         THIS.beginAttackPhase()
         break
 
@@ -874,7 +874,32 @@ export class MainGame {
       console.log('Action not permitted: incorrect phase')
       return -1
     }
+    
+    // TODO : adapt following checks
+    /* check if the player controls the attacking territory territories */
+    // if (THIS.map[cSource][tSource].player != THIS.view.currentPlayer) {
+    //   console.log('Action not permitted: you do not control the territory')
+    //   return -1
+    // }
 
+    /* check if the attacked territory doesn't belong to the attacking player */
+    // if (THIS.map[cDest][tDest].player == THIS.map[cSource][tSource]) {
+    //   console.log('Action not permitted: cannot attack own territory')
+    //   return -1
+    // }
+
+    /* check if the number of units is ok */
+    // if (THIS.map[cSource][tSource].soldiers <= nbUnits) {
+    //   console.log('Action not permitted: not enough units')
+    //   return -1
+    // }
+
+    /* check if the territories are adjacent */
+    // if (!areAdjacent(tSource, tDest)) {
+    //   console.log('Action not permitted: territories not adjacent')
+    //   return -1
+    // }
+    
     /* if all tests pass notify server */
     var data = {
       source: THIS.getCountryIdByName(tSource),
@@ -1306,9 +1331,11 @@ export class MainGame {
     var secondStr = ''
     if (message !== undefined) {
       secondStr = message + '<br/>'
-      GameWindow.displayUITop()
-      GameWindow.displayCurrentPlayer()
     }
+    GameWindow.displayUITop()
+    GameWindow.displayCurrentPlayer()
+    GameWindow.disableDbClick()
+    GameWindow.disableDbClickReinUi()
     GameWindow.displayCurrentPlayer()
     console.log(
       'CURRENT PHASE: ' + THIS.currentPhase + 'OFFENSE: ' + phases['OFFENSE']
