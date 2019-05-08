@@ -736,26 +736,30 @@ p {
   display: none;
   visibility: hidden;
   font-size: 0.5em;
-  margin-top: 1rem;
+  margin-top: 2rem;
   display: grid;
   grid-template-columns: 3fr 4fr 2fr;
 }
 
 .reinforcementUILeft {
   text-align: center;
-  padding: 0.1rem;
+  margin-top: 1rem;
 }
 
 .innerReinUIcenter,
 .innerReinUILeft {
   text-align: center;
-  outline: none;
+}
+
+.reinforcementUIcenter {
+  margin-top: 1rem;
 }
 
 .reinforcementUIRight {
   text-align: center;
   padding: 0.5rem;
   width: 7rem;
+  margin-top: 1rem;
 }
 
 #reinUIRightAbort {
@@ -765,7 +769,6 @@ p {
   cursor: pointer;
 }
 
-/* PIN */
 #reinUIRightAbort:hover {
   color: #27282d;
   background-color: #e24935;
@@ -909,14 +912,13 @@ p {
   display: none;
   visibility: hidden;
   font-size: 0.5em;
-  width: 40rem;
 }
 
 .FortifyUILeft {
   text-align: center;
-  padding: 0.1rem;
   width: 20rem;
   float: left;
+  margin-left: 2rem;
   margin-top: 1rem;
 }
 
@@ -929,11 +931,11 @@ p {
   text-align: center;
   padding: 0.5rem;
   width: 7rem;
-  float: left;
+  float: right;
+  margin-right: 2rem;
   margin-top: 1rem;
 }
 
-/* PIN */
 #FortifyUIRightAbort {
   margin-bottom: 1rem;
   border: solid 0.1rem #fbe3c2;
