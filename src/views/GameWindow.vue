@@ -272,7 +272,7 @@
           </div>
         </div>
         <div class="combatUICenter" id="defendBtn">
-          <img draggable="false" onclick="test()" src="@/assets/icons/defend.svg" class="bigBtn">
+          <img draggable="false" src="@/assets/icons/defend.svg" class="bigBtn">
         </div>
         <div class="combatUIRight">
           <div>Defend with</div>
@@ -304,7 +304,7 @@
           <div id="attackCombatRed"></div>
         </div>
         <div class="combatUICenter" id="defendBtn">
-          <img draggable="false" onclick="tes()" src="@/assets/icons/attack.svg" class="bigBtn">
+          <img draggable="false" src="@/assets/icons/attack.svg" class="bigBtn">
         </div>
         <div class="combatUIRight">
           <div>Attack with</div>
