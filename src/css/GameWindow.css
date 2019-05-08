@@ -988,6 +988,8 @@ p {
 }
 
 #TokenUIRight {
+  visibility: 'hidden';
+  display: none;
   position: absolute;
   float: left;
   width: 12rem;
@@ -1077,10 +1079,12 @@ p {
 
 #tokenTradeBtn > img {
   height: 2.4rem;
-  width: 5rem;
+  width: 7.5rem;
 }
 
 #TokenSpread {
+  visibility: hidden;
+  display: none;
   background-color: #27282d;
   position: absolute;
   display: flex;
