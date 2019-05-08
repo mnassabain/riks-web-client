@@ -104,20 +104,30 @@ export class MainGame {
 
     GameWindow.displayMyColor(myColor)
 
-    console.log('player localstorage')
-    console.log(localStorage)
-    console.log('name of the game : ' + data.name )
-    if (this.gameIsSet === false) {
-      this.gameIsSet = true
-      if(data.name !== 'endgame'){
-        this.startGame()
-      }else{
-        /* End game scenario */
-        GameWindow.disableDbClick()
-        GameWindow.onDbClickReinUI()
-        GameWindow.enableNextPhaseBtn()
-        THIS.tryShowTokenTradeBtn()
-      }
+    switch(THIS.currentPhase){
+
+      case phases['PREPHASE']:
+        console.log('start game')
+        THIS.startGame()
+        break
+      
+      case phases['REINFORCEMENT']:
+        console.log('reinforcement phase')
+        THIS.reinforcementLogic()
+        break
+      
+      case phases['OFFENSE']:
+      console.log('offenc phase')
+        THIS.beginAttackPhase()
+        break
+    
+      case phases['FORTIFICATION']:
+        console.log('fortification phase')
+        THIS.fortificationLogic()
+        break
+    
+      default:
+        break
     }
   }
 
@@ -1264,6 +1274,38 @@ export class MainGame {
     }
     THIS.sendToServer(new Packet('USE_TOKENS', data))
   }
+  
+  reinforcementLogic () {
+    THIS.haveFortified = false
+    /*checking current user tokens if trade is possible */
+    GameWindow.enableNextPhaseBtn()
+    THIS.tryShowTokenTradeBtn()
+    GameWindow.setNextPhaseBtnImg()
+    GameWindow.disableDbClick()
+    GameWindow.onDbClickReinUI()
+    GameWindow.clearFortifyChooseUnits()
+    GameWindow._disableChooseTerritoryToFortify()
+    GameWindow._disableFortifyFromTerritory()
+    GameWindow.displayCurrentPlayer()
+    GameWindow.clearDisplayMessage()
+    console.log(
+      'localstorage id = ' +
+        localStorage.getItem('myId') +
+        ', view.current = ' +
+        THIS.view.currentPlayer
+    )
+    if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
+      GameWindow.displayMessage(
+        'Put reinforcement units on your territories !'
+      )
+    } else {
+      GameWindow.displayMessage(
+        THIS.getActivePlayerName() +
+          ' is reinforcing his/her territories !'
+      )
+    }
+  }
+
 
   beginAttackPhase (message) {
     var secondStr = ''
@@ -1455,35 +1497,15 @@ export class MainGame {
           if (THIS.currentPhase != msg.data.phase) {
             THIS.currentPhase = (THIS.currentPhase + 1) % 3
           }
-          GameWindow.displayCurrentPhase()
+          
+          /* updates the current phase in players controls area */
+          GameWindow.displayCurrentPhase(msg.data.phase)
+          THAT_CLASS.currentPhase = msg.data.phase
 
           if (msg.data.phase == phases['REINFORCEMENT']) {
-            THIS.haveFortified = false
-            /*checking current user tokens if trade is possible */
-            THIS.tryShowTokenTradeBtn()
-            GameWindow.setNextPhaseBtnImg()
-            GameWindow.clearFortifyChooseUnits()
-            GameWindow._disableChooseTerritoryToFortify()
-            GameWindow._disableFortifyFromTerritory()
-            GameWindow.displayCurrentPlayer()
-            GameWindow.clearDisplayMessage()
-            console.log(
-              'localstorage id = ' +
-                localStorage.getItem('myId') +
-                ', view.current = ' +
-                THIS.view.currentPlayer
-            )
-            if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
-              GameWindow.displayMessage(
-                'Put reinforcement units on your territories !'
-              )
-            } else {
-              GameWindow.displayMessage(
-                THIS.getActivePlayerName() +
-                  ' is reinforcing his/her territories !'
-              )
-            }
+            THIS.reinforcementLogic()
           }
+
           THIS.autoRein = false
           /* updates the current phase in players controls area */
           GameWindow.displayCurrentPhase(msg.data.phase)
@@ -1680,52 +1702,14 @@ export class MainGame {
                   THAT_CLASS.getCountryNameById(msg.data.territory)
               )
             }
-
-            // updating the ratio bar
-            for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
-              GameWindow.updateRatioBar(
-                i,
-                THAT_CLASS.playerList[i].nbTerritories
-              )
-            }
           } else if (THAT_CLASS.currentPhase == phases['REINFORCEMENT']) {
             THAT_CLASS.updateMapData(
               THAT_CLASS.getCountryNameById(msg.data.territory),
               msg.data.player,
               msg.data.units
             )
-
-            /* updating the number of free territories */
-            if (THAT_CLASS.prephaseLogic === false) {
-              THAT_CLASS.freeTerritories--
-              /* change the color of a territory during the pre-phase */
-              GameWindow.setCountryColor(
-                SupportedColors[msg.data.player],
-                msg.data.territory
-              )
-              /* puts the soldier icon with the number area */
-              GameWindow.drawSoldier(
-                SupportedColors[msg.data.player],
-                THAT_CLASS.getCountryNameById(msg.data.territory)
-              )
-
-              THAT_CLASS.view.players[msg.data.player].nbTerritories++
-            }
+            
             GameWindow.updateCountrySoldiersNumber(msg.data.territory)
-
-            /* if no more territories we go to the second part of prephase */
-            if (
-              THAT_CLASS.freeTerritories > 0 &&
-              THAT_CLASS.prephaseLogic === false
-            ) {
-              console.log(
-                'Total free territories left ' + THAT_CLASS.freeTerritories
-              )
-            } else {
-              THAT_CLASS.prephaseLogic = true
-              MainGame.prototype.prephaseLogic()
-            }
-
             GameWindow.clearDisplayMessage()
 
             /* displaying different put message according to current player */
@@ -1745,15 +1729,14 @@ export class MainGame {
                   THAT_CLASS.getCountryNameById(msg.data.territory)
               )
             }
-
-            // updating the ratio bar
+          }
+          // updating the ratio bar
             for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
               GameWindow.updateRatioBar(
                 i,
                 THAT_CLASS.playerList[i].nbTerritories
               )
             }
-          }
           break
 
         case Packet.prototype.getTypeOf('REINFORCEMENT'):
