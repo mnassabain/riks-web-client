@@ -605,37 +605,37 @@ p {
   overflow: hidden;
 }
 
-#ratioPlayer1 {
+#ratioPlayer0 {
   height: 1rem;
   background-color: #3d76e2;
   float: left;
 }
 
-#ratioPlayer2 {
+#ratioPlayer1 {
   height: 1rem;
   background-color: #df4c4c;
   float: left;
 }
 
-#ratioPlayer3 {
+#ratioPlayer2 {
   height: 1rem;
   background-color: #59ad4a;
   float: left;
 }
 
-#ratioPlayer4 {
+#ratioPlayer3 {
   background-color: #f6d63d;
   height: 1rem;
   float: left;
 }
 
-#ratioPlayer5 {
+#ratioPlayer4 {
   background-color: #f0713c;
   height: 1rem;
   float: left;
 }
 
-#ratioPlayer6 {
+#ratioPlayer5 {
   background-color: #9367da;
   height: 1rem;
   float: left;

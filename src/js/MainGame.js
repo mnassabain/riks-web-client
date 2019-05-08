@@ -260,6 +260,7 @@ export class MainGame {
     })
 
     for (var j = 0; j < THIS.totalPlayers; j++) {
+      GameWindow.updateRatioBar(j, THIS.view.players[j].nbTerritories)
       if (localStorage.getItem('myId') == j) {
         console.log(
           'nb terr player ' + j + ' : ' + THIS.view.players[j].nbTerritories
@@ -269,13 +270,6 @@ export class MainGame {
         )
         THIS.view.localTerritories = THIS.view.players[j].nbTerritories
         THIS.view.localArmies = THIS.view.players[j].reinforcements
-
-        if(THIS.view.players[j].nbTerritories == 0){
-          GameWindow.showDeadNotification()
-        }
-      }
-      if(THIS.view.players[j].nbTerritories == 0){
-        GameWindow.setPlayerDead(j)
       }
     }
   }

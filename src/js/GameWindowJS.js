@@ -452,10 +452,31 @@ export function highlightCurrentPlayer () {
 }
 
 export function updateRatioBar (player, nbTerritories) {
-  var str = 'ratioPlayer' + (player + 1)
-  console.log('ratio player str : ' + str)
-  var ratio = document.getElementById(str)
-  ratio.style.width = (nbTerritories / 42) * 100 + '%'
+  try {
+    var str = 'ratioPlayer' + player
+    var ratio = document.getElementById(str)
+    console.log(ratio)
+    ratio.style.width = (nbTerritories / 43) * 100 + '%'
+
+    var total = 0
+    for(var i=0;i<6; i++){
+      var ratioP = document.getElementById('ratioPlayer' + i)
+      var width = ratioP.style.offsetWidth
+      total+=width
+    }
+    while(total > 100){
+      for(var i=0;i<6; i++){
+        var ratioP = document.getElementById('ratioPlayer' + i)
+        var width = ratioP.style.offsetWidth
+        if(width > 0){
+          document.getElementById('ratioPlayer' + i).style.width = (width-1)+"%"
+        }
+      }
+    }
+  } catch (error) {
+    
+  }
+  
   // console.log('ratio : ' + ((nbTerritories / 42) * 100) + '%')
   // console.log('nbTerritories : ' + nbTerritories)
 }

@@ -95,7 +95,7 @@
 
     <!--North UI-->
     <div id="ratioBar">
-      <div v-for="(player, index) in players" :key="index" :id="'ratioPlayer'+(index+1)"></div>
+      <div v-for="(player, index) in players" :key="index" :id="'ratioPlayer'+index"></div>
     </div>
 
     <div id="timer">00:00</div>
