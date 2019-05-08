@@ -1004,7 +1004,7 @@ export function clearUseTokensUI () {
   clearUnitsTraded()
 }
 
-var choosedTokenType = ''
+var chosenTokenType = ''
 
 export function setTokenType (tokenNb) {
   chosenTokenType = tokenNb
