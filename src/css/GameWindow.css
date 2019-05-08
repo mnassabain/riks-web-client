@@ -697,9 +697,9 @@ p {
 
 .generalMessageDisplay {
   position: absolute;
-  width: 50vw;
+  width: 70vw;
   height: 10rem;
-  max-width: 10em;
+  max-width: 13em;
   background-color: #27282d;
   border: 0.2rem solid #f9ce93;
   border-radius: 1rem;
@@ -710,7 +710,6 @@ p {
   bottom: 0;
   color: #fdf6eb;
   font-size: 3rem;
-  opacity: 0.9;
   visibility: hidden;
   display: none;
 }
@@ -733,14 +732,14 @@ p {
   bottom: 10px;
 }
 
+/* PIN */
 #reinforcementUI {
   display: none;
   visibility: hidden;
   font-size: 0.5em;
   margin-top: 1rem;
-  /* display: flex; */
   display: grid;
-  grid-template-columns: 3fr 4fr 1fr;
+  grid-template-columns: 3fr 4fr 3fr;
 }
 
 .reinforcementUILeft {
@@ -760,11 +759,16 @@ p {
 
 #reinUIRightAbort {
   margin-bottom: 1rem;
+  border: solid 0.1rem #fbe3c2;
+  border-radius: 0.2rem;
+  cursor: pointer;
 }
 
 #reinUIRightAbort:hover {
-  margin-bottom: 1rem;
-  color: red;
+  color: #27282d;
+  background-color: #e24935;
+  border: solid 0.1rem #e24935;
+  filter: brightness(120%)
 }
 
 #reinUIRightOK:hover {
@@ -896,7 +900,6 @@ p {
   display: none;
   visibility: hidden;
   font-size: 0.5em;
-  margin-top: 1rem;
   width: 40rem;
 }
 
@@ -905,6 +908,7 @@ p {
   padding: 0.1rem;
   width: 20rem;
   float: left;
+  margin-top: 1rem;
 }
 
 .FortifyUILeft > input {
@@ -914,22 +918,35 @@ p {
 .FortifyUIRight {
   text-align: center;
   padding: 0.5rem;
-  width: 10rem;
+  width: 7rem;
   float: left;
+  margin-top: 1rem;
 }
 
+/* PIN */
 #FortifyUIRightAbort {
   margin-bottom: 1rem;
+  border: solid 0.1rem #fbe3c2;
+  border-radius: 0.2rem;
+  cursor: pointer;
 }
 
 #FortifyUIRightAbort:hover {
-  margin-bottom: 1rem;
-  color: red;
+  color: #27282d;
+  background-color: #e24935;
+  border: solid 0.1rem #e24935;
+}
+
+#FortifyUIRightOK {
+  color: #27282d;
+  background-color: #fbe3c2;
+  border: solid 0.1rem #fbe3c2;
+  border-radius: 0.2rem;
+  cursor: pointer;
 }
 
 #FortifyUIRightOK:hover {
-  margin-bottom: 1rem;
-  color: green;
+  filter: brightness(120%)
 }
 
 /*********** TOKEN UI ************/
