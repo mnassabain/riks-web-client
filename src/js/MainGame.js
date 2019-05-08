@@ -103,6 +103,8 @@ export class MainGame {
     // SupportedColors[]
 
     GameWindow.displayMyColor(myColor)
+    
+    GameWindow.unhighlightTerritory()
 
     switch(THIS.currentPhase){
 
