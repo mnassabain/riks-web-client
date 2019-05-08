@@ -45,6 +45,10 @@ export class MainGame {
     this.autoInit = true
     this.autoRein = false
     this.cpt = 0
+    this.lastFortify = {
+      tSource: null,
+      tDest: null
+    }
 
     // copy of the object GameWindow
     this.view = v
@@ -1130,7 +1134,11 @@ export class MainGame {
       this.beginAttackPhase()
     } else {
       // Player can move soldiers
-      if (attackingPlayer.id == myPlayer.id) { GameWindow.fortifyAfterConquering(tSource, tDest) }
+      if (attackingPlayer.id == myPlayer.id) { 
+        THIS.lastFortify.tSource = tSource
+        THIS.lastFortify.tDest = tDest
+        GameWindow.fortifyAfterConquering(tSource, tDest) 
+      }
     }
   }
 
@@ -1820,7 +1828,12 @@ export class MainGame {
       case Packet.prototype.getTypeOf('MOVE'):
         console.log('error move')
         console.log(data.errType)
-        THIS.fortificationLogic(str.substr(str.indexOf(':') + 1))
+        if(THIS.currentPhase == phases['OFFENSE']){
+          GameWindow.fortifyAfterConquering(THIS.lastFortify.tSource, THIS.lastFortify.tDest) 
+        }
+        else{
+          THIS.fortificationLogic(str.substr(str.indexOf(':') + 1))
+        }
         break
 
       case Packet.prototype.getTypeOf('USE_TOKENS'):
