@@ -113,7 +113,6 @@
         >
       </div>
       <div id="myDropdown" class="dropdown-content">
-        <a>Parameters</a>
         <a @click="leaveLobby">Main menu</a>
         <a @click="logout">Log out</a>
       </div>
