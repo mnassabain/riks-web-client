@@ -1111,6 +1111,12 @@ export class MainGame {
       }
 
       THIS.view.players[THIS.map[cDest][tDest].player].nbTerritories--
+      
+      /* updating local player territories number (NW UI) */
+      if(localStorage.getItem('myId') == THIS.map[cDest][tDest].player){
+        THIS.view.localTerritories--
+      }
+      
       THIS.map[cDest][tDest].player = THIS.map[cSource][tSource].player
       THIS.map[cDest][tDest].soldiers = restAttack
       THIS.map[cSource][tSource].soldiers -= THIS.attackUnits
@@ -1131,6 +1137,12 @@ export class MainGame {
         tDest
       )
       THIS.view.players[THIS.map[cSource][tSource].player].nbTerritories++
+      
+      /* updating local player territories number (NW UI) */
+      if(localStorage.getItem('myId') == THIS.map[cSource][tSource].player){
+        THIS.view.localTerritories++
+      }
+      
       GameWindow.updateCountrySoldiersNumber(tmpDest)
       GameWindow.updateCountrySoldiersNumber(tmpSource)
     } else {
