@@ -37,10 +37,6 @@
 
     <!--Under Tokens NorthWest UI hidden by default-->
     <div id="TokenSpread">
-      <!-- <button
-        id="TokenSpreadBtn"
-        v-on:click="(TTXHiden ? displayUseTokensUI() : clearUseTokensUI()),(TTXHiden ? hide() : show())"
-      >Tokens Trade</button>-->
       <img
         draggable="false"
         v-on:click="(TTXHiden ? displayUseTokensUI() : clearUseTokensUI()),(TTXHiden ? hide() : show())"
@@ -139,10 +135,17 @@
     <div id="playerList" class="playerListContainer">
       <div class="playerList">
         <ul v-for="(player, index) in players" :key="index">
-          <!--li :id="'playerSlot'+(index+1)" :class="{current: (currentPlayer === index)}"-->
           <li :id="'playerSlot'+(index+1)">
             <div :id="'playerSlot'+(index+1)+'Name'" class="playerListName">
-              <p>{{player.displayName}} <img src="@/assets/icons/skull.svg" width="15px" style="color:white; display:none" :id="'playerSlot'+(index+1)+'Dead'"> </p>
+              <p>
+                {{player.displayName}}
+                <img
+                  src="@/assets/icons/skull.svg"
+                  width="15px"
+                  style="color:white; display:none"
+                  :id="'playerSlot'+(index+1)+'Dead'"
+                >
+              </p>
             </div>
           </li>
           <li :id="'playerSlot'+(index+1)+'Info'">
@@ -247,13 +250,16 @@
               </button>
             </div>
             <button id="tokenTradeBtn" v-on:click="tradeToken()">
-              <img id="tradeTokenBtnImg"  draggable="false" src="@/assets/icons/tradeTokens.svg">
+              <img id="tradeTokenBtnImg" draggable="false" src="@/assets/icons/tradeTokens.svg">
             </button>
           </div>
         </div>
         <!--********************* TOKEN UI RIGHT *****************************-->
         <div id="TokenUIRight">
-          You gained<br><span id="unitsTraded"></span><br>units
+          You gained
+          <br>
+          <span id="unitsTraded"></span>
+          <br>units
         </div>
       </div>
       <!--********************* TOKEN END *****************************-->
@@ -742,7 +748,7 @@ export default {
     show: GameWindow.show,
 
     goToGameOver() {
-      delete this.$socket.onmessage
+      delete this.$socket.onmessage;
       this.$router.push({ path: "/GameOver" });
     },
 
@@ -769,14 +775,14 @@ export default {
       }
     },
     logout() {
-      GameWindow.stopTimer()
+      GameWindow.stopTimer();
       this.$socket.send(new Packet("DISCONNECT").getJson());
       /* message listener */
       this.$socket.onmessage = data => this.verify(data.data);
       this.$router.push({ path: "/" });
     },
     leaveLobby() {
-      GameWindow.stopTimer()
+      GameWindow.stopTimer();
       this.$socket.send(new Packet("LEAVE_GAME").getJson());
       this.$router.push({ path: "/MainMenu" });
     }
@@ -792,31 +798,8 @@ export default {
     GameWindow.startTimer(Date.now());
     GameWindow.mapPanZoom();
     GameWindow.startMouseoverCountry();
-
-    //GameWindow.displayFortifyChooseUnits();
     GameWindow.onDbClick();
-    //GameWindow.onDbClickReinUI();
-    //GameWindow.displayMyColor(this.localColor);
-    // GameWindow.enableNextPhaseBtn();
     GameWindow.disableNextPhaseBtn();
-
-    //GameWindow.displayUseTokensUI();
-
-    //GameWindow.clearDisplayMessage();
-
-    /*GameWindow.clearReinUI();
-    GameWindow.clearTokenUI();
-    GameWindow.clearAskAttackUI();
-    GameWindow.clearAttackUI();
-    GameWindow.clearAskAttackUI();
-    GameWindow.clearAskFortificationUI();
-    GameWindow.clearFortificationUI();*/
-
-    // GameWindow.clearDefendUI();
-    // GameWindow.displayAskAttackUI();
-    // GameWindow.displayAttackUI();
-    // GameWindow.displayAskFortificationUI();
-    // GameWindow._displayReinforcementUI()
   }
 };
 </script>
