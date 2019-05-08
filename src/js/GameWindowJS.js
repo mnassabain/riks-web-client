@@ -84,7 +84,7 @@ export function startTimer () {
   }
 }
 
-export function stopTimer(){
+export function stopTimer () {
   clearInterval(timer)
 }
 
@@ -163,7 +163,7 @@ export function drawSoldier (color, countryName) {
     t.setAttribute('transform', 'translate(' + numX + ' ' + numY + ')')
     t.setAttribute('font-family', 'Copperplate')
     t.setAttribute('font-size', '1.5rem')
-    t.setAttribute('fill', 'white')
+    t.setAttribute('fill', '#FDF6EB')
     t.setAttribute('id', 'soldierNumberOn' + countryName)
     t.textContent = '1'
 
@@ -774,15 +774,27 @@ export function defendWith (nbUnits) {
   MainGame.prototype.tryDefend(targetedTerritory, nbUnits)
 }
 
-export function highlightTerritory (territory, attack) {
-  document
-    .getElementById(attack)
-    .setAttribute('d', document.getElementById(territory).getAttribute('d'))
+// PIN highlightTerritory
+export function highlightTerritory (tSource, tDest) {
+  var countries = document.getElementsByClassName('country')
+
+  for (var i = 0; i < countries.length; i++) {
+    var country = countries[i]
+    var countryID = country.getAttribute('id')
+    if (countryID !== tSource && countryID !== tDest) {
+      document.getElementById(countryID).classList.add('grayedOut')
+    }
+  }
 }
 
 export function unhighlightTerritory () {
-  document.getElementById('attack1').setAttribute('d', 'm0 0')
-  document.getElementById('attack2').setAttribute('d', 'm0 0')
+  var countries = document.getElementsByClassName('country')
+
+  for (var i = 0; i < countries.length; i++) {
+    var country = countries[i]
+    var countryID = country.getAttribute('id')
+    document.getElementById(countryID).classList.remove('grayedOut')
+  }
 }
 
 export function clearMessageUITop () {
@@ -921,7 +933,7 @@ export function displayUseTokensUI () {
   tokensUI.style.display = 'block'
   tokensUI.style.visibility = 'visible'
   tokensUI.style.height = '8rem'
-  
+
   document.getElementById('tokenTradeBtn').disabled = true
   document.getElementById('tradeTokenBtnImg').style.cursor = 'not-allowed'
 
@@ -1021,53 +1033,68 @@ var tokenSlotOneIsSetWith = ''
 var tokenSlotTwoIsSetWith = ''
 var tokenSlotThreeIsSetWith = ''
 export function getTokenToSet (selectedSlot) {
-  
-    switch (selectedSlot) {
-      case 1:
-      
+  switch (selectedSlot) {
+    case 1:
       if (tokenSlotOneIsSet === false && chosenTokenType !== '') {
         /* setting the source token type present in the slot */
         tokenSlotOneIsSetWith = chosenTokenType
         tokenSlotOneIsSet = true
 
         /* set recorded icon into slot */
-        document.getElementById('tokenSlotOneImg').src = require('../assets/icons/tokenType' + chosenTokenType + '.svg')
+        document.getElementById(
+          'tokenSlotOneImg'
+        ).src = require('../assets/icons/tokenType' + chosenTokenType + '.svg')
 
         /* getting the number of tokens of the recorded token */
         var nbMinus = 0
-        nbMinus = parseInt(document.getElementById('nbTokenUIType' + chosenTokenType).innerHTML)
+        nbMinus = parseInt(
+          document.getElementById('nbTokenUIType' + chosenTokenType).innerHTML
+        )
 
         /* decrementing number of token of source */
         nbMinus--
 
         /* setting this number in the view */
-        document.getElementById('nbTokenUIType' + chosenTokenType).innerHTML = nbMinus
+        document.getElementById(
+          'nbTokenUIType' + chosenTokenType
+        ).innerHTML = nbMinus
 
-        if(nbMinus == 0){
-          document.getElementById('tokenType' + tokenSlotOneIsSetWith + 'Btn').disabled = true
-          document.getElementById('tokenType' + tokenSlotOneIsSetWith + 'Img').style.cursor = 'not-allowed'
+        if (nbMinus == 0) {
+          document.getElementById(
+            'tokenType' + tokenSlotOneIsSetWith + 'Btn'
+          ).disabled = true
+          document.getElementById(
+            'tokenType' + tokenSlotOneIsSetWith + 'Img'
+          ).style.cursor = 'not-allowed'
         }
 
-        
         chosenTokenType = ''
-
       } else {
-        if(tokenSlotOneIsSetWith !== '') {
-          tokenSlotOneIsSet = false        
+        if (tokenSlotOneIsSetWith !== '') {
+          tokenSlotOneIsSet = false
 
           /* getting the number of tokens of the recorded token */
           var nbPlus = 0
-          nbPlus = parseInt(document.getElementById('nbTokenUIType' + tokenSlotOneIsSetWith).innerHTML)
+          nbPlus = parseInt(
+            document.getElementById('nbTokenUIType' + tokenSlotOneIsSetWith)
+              .innerHTML
+          )
 
           /* decrementing number of token of source */
           nbPlus++
 
           /* setting this number in the view */
-          document.getElementById('nbTokenUIType' + tokenSlotOneIsSetWith).innerHTML = nbPlus
+          document.getElementById(
+            'nbTokenUIType' + tokenSlotOneIsSetWith
+          ).innerHTML = nbPlus
 
-          if(nbPlus > 0){
-            document.getElementById('tokenType' + tokenSlotOneIsSetWith + 'Btn').disabled = false
-            document.getElementById('tokenType' + tokenSlotOneIsSetWith + 'Img').style.cursor = 'pointer'
+          if (nbPlus > 0) {
+            document.getElementById(
+              'tokenType' + tokenSlotOneIsSetWith + 'Btn'
+            ).disabled = false
+            document.getElementById(
+              'tokenType' + tokenSlotOneIsSetWith + 'Img'
+            ).style.cursor = 'pointer'
           }
 
           /* clear icon in slot */
@@ -1078,51 +1105,67 @@ export function getTokenToSet (selectedSlot) {
       }
       break
 
-      case 2:
-      
+    case 2:
       if (tokenSlotTwoIsSet === false && chosenTokenType !== '') {
         /* setting the source token type present in the slot */
         tokenSlotTwoIsSetWith = chosenTokenType
         tokenSlotTwoIsSet = true
 
         /* set recorded icon into slot */
-        document.getElementById('tokenSlotTwoImg').src = require('../assets/icons/tokenType' + chosenTokenType + '.svg')
+        document.getElementById(
+          'tokenSlotTwoImg'
+        ).src = require('../assets/icons/tokenType' + chosenTokenType + '.svg')
 
         /* getting the number of tokens of the recorded token */
         var nbMinus = 0
-        nbMinus = parseInt(document.getElementById('nbTokenUIType' + chosenTokenType).innerHTML)
+        nbMinus = parseInt(
+          document.getElementById('nbTokenUIType' + chosenTokenType).innerHTML
+        )
 
         /* decrementing number of token of source */
         nbMinus--
 
         /* setting this number in the view */
-        document.getElementById('nbTokenUIType' + chosenTokenType).innerHTML = nbMinus
+        document.getElementById(
+          'nbTokenUIType' + chosenTokenType
+        ).innerHTML = nbMinus
 
-        if(nbMinus == 0){
-          document.getElementById('tokenType' + tokenSlotTwoIsSetWith + 'Btn').disabled = true
-          document.getElementById('tokenType' + tokenSlotTwoIsSetWith + 'Img').style.cursor = 'not-allowed'
+        if (nbMinus == 0) {
+          document.getElementById(
+            'tokenType' + tokenSlotTwoIsSetWith + 'Btn'
+          ).disabled = true
+          document.getElementById(
+            'tokenType' + tokenSlotTwoIsSetWith + 'Img'
+          ).style.cursor = 'not-allowed'
         }
 
-        
         chosenTokenType = ''
-
       } else {
-        if(tokenSlotTwoIsSetWith !== '') {
-          tokenSlotTwoIsSet = false        
+        if (tokenSlotTwoIsSetWith !== '') {
+          tokenSlotTwoIsSet = false
 
           /* getting the number of tokens of the recorded token */
           var nbPlus = 0
-          nbPlus = parseInt(document.getElementById('nbTokenUIType' + tokenSlotTwoIsSetWith).innerHTML)
+          nbPlus = parseInt(
+            document.getElementById('nbTokenUIType' + tokenSlotTwoIsSetWith)
+              .innerHTML
+          )
 
           /* decrementing number of token of source */
           nbPlus++
 
           /* setting this number in the view */
-          document.getElementById('nbTokenUIType' + tokenSlotTwoIsSetWith).innerHTML = nbPlus
+          document.getElementById(
+            'nbTokenUIType' + tokenSlotTwoIsSetWith
+          ).innerHTML = nbPlus
 
-          if(nbPlus > 0){
-            document.getElementById('tokenType' + tokenSlotTwoIsSetWith + 'Btn').disabled = false
-            document.getElementById('tokenType' + tokenSlotTwoIsSetWith + 'Img').style.cursor = 'pointer'
+          if (nbPlus > 0) {
+            document.getElementById(
+              'tokenType' + tokenSlotTwoIsSetWith + 'Btn'
+            ).disabled = false
+            document.getElementById(
+              'tokenType' + tokenSlotTwoIsSetWith + 'Img'
+            ).style.cursor = 'pointer'
           }
 
           /* clear icon in slot */
@@ -1133,51 +1176,67 @@ export function getTokenToSet (selectedSlot) {
       }
       break
 
-      case 3:
-      
+    case 3:
       if (tokenSlotThreeIsSet === false && chosenTokenType !== '') {
         /* setting the source token type present in the slot */
         tokenSlotThreeIsSetWith = chosenTokenType
         tokenSlotThreeIsSet = true
 
         /* set recorded icon into slot */
-        document.getElementById('tokenSlotThreeImg').src = require('../assets/icons/tokenType' + chosenTokenType + '.svg')
+        document.getElementById(
+          'tokenSlotThreeImg'
+        ).src = require('../assets/icons/tokenType' + chosenTokenType + '.svg')
 
         /* getting the number of tokens of the recorded token */
         var nbMinus = 0
-        nbMinus = parseInt(document.getElementById('nbTokenUIType' + chosenTokenType).innerHTML)
+        nbMinus = parseInt(
+          document.getElementById('nbTokenUIType' + chosenTokenType).innerHTML
+        )
 
         /* decrementing number of token of source */
         nbMinus--
 
         /* setting this number in the view */
-        document.getElementById('nbTokenUIType' + chosenTokenType).innerHTML = nbMinus
+        document.getElementById(
+          'nbTokenUIType' + chosenTokenType
+        ).innerHTML = nbMinus
 
-        if(nbMinus == 0){
-          document.getElementById('tokenType' + tokenSlotThreeIsSetWith + 'Btn').disabled = true
-          document.getElementById('tokenType' + tokenSlotThreeIsSetWith + 'Img').style.cursor = 'not-allowed'
+        if (nbMinus == 0) {
+          document.getElementById(
+            'tokenType' + tokenSlotThreeIsSetWith + 'Btn'
+          ).disabled = true
+          document.getElementById(
+            'tokenType' + tokenSlotThreeIsSetWith + 'Img'
+          ).style.cursor = 'not-allowed'
         }
 
-        
         chosenTokenType = ''
-
       } else {
-        if(tokenSlotThreeIsSetWith !== '') {
-          tokenSlotThreeIsSet = false        
+        if (tokenSlotThreeIsSetWith !== '') {
+          tokenSlotThreeIsSet = false
 
           /* getting the number of tokens of the recorded token */
           var nbPlus = 0
-          nbPlus = parseInt(document.getElementById('nbTokenUIType' + tokenSlotThreeIsSetWith).innerHTML)
+          nbPlus = parseInt(
+            document.getElementById('nbTokenUIType' + tokenSlotThreeIsSetWith)
+              .innerHTML
+          )
 
           /* decrementing number of token of source */
           nbPlus++
 
           /* setting this number in the view */
-          document.getElementById('nbTokenUIType' + tokenSlotThreeIsSetWith).innerHTML = nbPlus
+          document.getElementById(
+            'nbTokenUIType' + tokenSlotThreeIsSetWith
+          ).innerHTML = nbPlus
 
-          if(nbPlus > 0){
-            document.getElementById('tokenType' + tokenSlotThreeIsSetWith + 'Btn').disabled = false
-            document.getElementById('tokenType' + tokenSlotThreeIsSetWith + 'Img').style.cursor = 'pointer'
+          if (nbPlus > 0) {
+            document.getElementById(
+              'tokenType' + tokenSlotThreeIsSetWith + 'Btn'
+            ).disabled = false
+            document.getElementById(
+              'tokenType' + tokenSlotThreeIsSetWith + 'Img'
+            ).style.cursor = 'pointer'
           }
 
           /* clear icon in slot */
@@ -1187,20 +1246,24 @@ export function getTokenToSet (selectedSlot) {
         }
       }
       break
-    }
+  }
 
-    if((tokenSlotOneIsSetWith === '') || (tokenSlotTwoIsSetWith === '') || (tokenSlotThreeIsSetWith === '')){
-      document.getElementById('tokenTradeBtn').disabled = true
-      document.getElementById('tradeTokenBtnImg').style.cursor = 'not-allowed'
-    } else {
-      document.getElementById('tokenTradeBtn').disabled = false
-      document.getElementById('tradeTokenBtnImg').style.cursor = 'pointer'
-    }
+  if (
+    tokenSlotOneIsSetWith === '' ||
+    tokenSlotTwoIsSetWith === '' ||
+    tokenSlotThreeIsSetWith === ''
+  ) {
+    document.getElementById('tokenTradeBtn').disabled = true
+    document.getElementById('tradeTokenBtnImg').style.cursor = 'not-allowed'
+  } else {
+    document.getElementById('tokenTradeBtn').disabled = false
+    document.getElementById('tradeTokenBtnImg').style.cursor = 'pointer'
+  }
 }
 
-export function getTokenId (tokenStringId){
+export function getTokenId (tokenStringId) {
   var res = -1
-  switch(tokenStringId){
+  switch (tokenStringId) {
     case 'One':
       res = 1
       break
@@ -1219,16 +1282,16 @@ export function getTokenId (tokenStringId){
 }
 
 export function useTokens (token1, token2, token3) {
-  //clearUseTokenUI()
+  // clearUseTokenUI()
   var tokArray = []
 
-  if(tokenSlotOneIsSet){
+  if (tokenSlotOneIsSet) {
     tokArray.push(getTokenId(tokenSlotOneIsSetWith))
   }
-  if(tokenSlotTwoIsSet){
+  if (tokenSlotTwoIsSet) {
     tokArray.push(getTokenId(tokenSlotTwoIsSetWith))
   }
-  if(tokenSlotThreeIsSet){
+  if (tokenSlotThreeIsSet) {
     tokArray.push(getTokenId(tokenSlotThreeIsSetWith))
   }
 
@@ -1236,9 +1299,7 @@ export function useTokens (token1, token2, token3) {
   console.log(tokArray)
 
   // MainGame.prototype.tryUseTokens(token1, token2, token3)
-  MainGame.prototype.tryUseTokens(
-    tokArray[0], tokArray[1], tokArray[2]
-  )
+  MainGame.prototype.tryUseTokens(tokArray[0], tokArray[1], tokArray[2])
 }
 
 export function showTokenUIBtn () {
@@ -1251,29 +1312,33 @@ export function hideTokenUIBtn () {
   document.getElementById('TokenSpread').style.visibility = 'hidden'
 }
 
-export function displayUnitsTraded(nbUnits){
+export function displayUnitsTraded (nbUnits) {
   document.getElementById('TokenUIRight').style.display = 'block'
   document.getElementById('TokenUIRight').style.visibility = 'visible'
   document.getElementById('unitsTraded').innerHTML = nbUnits
 }
 
-export function clearUnitsTraded(){
+export function clearUnitsTraded () {
   document.getElementById('TokenUIRight').style.display = 'none'
   document.getElementById('TokenUIRight').style.visibility = 'hidden'
 }
 
 export function setNextPhaseBtnImg () {
-  document.getElementById('nextPhaseBtnImg').src = require('../assets/icons/nextPhase.svg')
+  document.getElementById(
+    'nextPhaseBtnImg'
+  ).src = require('../assets/icons/nextPhase.svg')
 }
 
 export function setEndtourBtnImg () {
-  document.getElementById('nextPhaseBtnImg').src = require('../assets/icons/endTour.svg')
+  document.getElementById(
+    'nextPhaseBtnImg'
+  ).src = require('../assets/icons/endTour.svg')
 }
 
-export function hide() {
-  this.TTXHiden = !this.TTXHiden;
+export function hide () {
+  this.TTXHiden = !this.TTXHiden
 }
-export function show() {
-  this.TTXHiden = !this.TTXHiden;
+export function show () {
+  this.TTXHiden = !this.TTXHiden
 }
 /** ******************************************************************************** */

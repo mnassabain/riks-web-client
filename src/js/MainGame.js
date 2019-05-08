@@ -509,7 +509,7 @@ export class MainGame {
   }
 
   useTokensResponse (msg) {
-    
+
     /* UPDATING for all clients */
     THIS.translateReceivedToken(msg.data.token1, msg.data.player, 'ALL')
     THIS.translateReceivedToken(msg.data.token2, msg.data.player, 'ALL')
@@ -518,7 +518,7 @@ export class MainGame {
     if (msg.data.player == localStorage.getItem('myId')) {
       THIS.translateReceivedToken(msg.data.token1, msg.data.player, 'LOCAL')
       THIS.translateReceivedToken(msg.data.token2, msg.data.player, 'LOCAL')
-      THIS.translateReceivedToken(msg.data.token3, msg.data.player, 'LOCAL')      
+      THIS.translateReceivedToken(msg.data.token3, msg.data.player, 'LOCAL')
     }
     THIS.tryShowTokenTradeBtn()
   }
@@ -921,8 +921,7 @@ export class MainGame {
     )
 
     /* Highlight the belligerents */
-    GameWindow.highlightTerritory(THIS.getCountryNameById(tSource), 'attack1')
-    GameWindow.highlightTerritory(THIS.getCountryNameById(tDest), 'attack2')
+    GameWindow.highlightTerritory(THIS.getCountryNameById(tSource), THIS.getCountryNameById(tDest))
   }
 
   /** Called when the player is being attacked
@@ -1821,7 +1820,7 @@ export class MainGame {
         console.log(data.errType)
         GameWindow.displayUITop()
         GameWindow.displayCurrentPlayer()
-        
+
       break
 
       default:
@@ -1836,19 +1835,19 @@ export class MainGame {
       THIS.synchronize()
     }, 3000)
   }
-  
+
   tryShowTokenTradeBtn () {
     console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
     if(localStorage.getItem('myId') == THIS.view.currentPlayer){
       var tokenCounter = 0
-  
+
       console.log('########### counter token ' + tokenCounter)
-      
+
       tokenCounter += THIS.view.players[THIS.view.currentPlayer].tokens.tok1
       tokenCounter += THIS.view.players[THIS.view.currentPlayer].tokens.tok2
       tokenCounter += THIS.view.players[THIS.view.currentPlayer].tokens.tok3
       tokenCounter += THIS.view.players[THIS.view.currentPlayer].tokens.tok4
-      
+
       console.log('########### counter token ' + tokenCounter)
       if(tokenCounter >= 3){
         GameWindow.showTokenUIBtn()
