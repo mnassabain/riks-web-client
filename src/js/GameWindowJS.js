@@ -412,22 +412,6 @@ export function displayCurrentPlayer () {
   )
   if (currentPlayer == localStorage.getItem('myId')) {
     document.getElementById('messageUITop').innerHTML = 'Your turn'
-
-    /** *********************************** TURN OFF BEFORE PRODUCTION ************************************************************************** */
-    /* if (MainGame.prototype.getAutoInit() === true) {
-      setTimeout(function () {
-        var idToSend = parseInt(localStorage.getItem('myId'))
-        MainGame.prototype.autoInit(idToSend)
-      }, 500)
-
-    }
-    if (MainGame.prototype.getAutoRein() === true) {
-      setTimeout(function () {
-          var idToSend = parseInt(localStorage.getItem('myId'))
-          MainGame.prototype.autoReinforce(idToSend)
-      }, 500)
-    } */
-    /** ************************************************************************************************************************************************ */
   } else {
     document.getElementById('messageUITop').innerHTML =
       MainGame.prototype.getActivePlayerName() + ' is playing.'
@@ -455,29 +439,12 @@ export function updateRatioBar (player, nbTerritories) {
   try {
     var str = 'ratioPlayer' + player
     var ratio = document.getElementById(str)
-    console.log('ratio : ' + ratio)
     ratio.style.width = (nbTerritories / 42) * 100 + '%'
-
-  //   var total = 0
-  //   for (var i = 0; i < 6; i++) {
-  //     var ratioP = document.getElementById('ratioPlayer' + i)
-  //     var width = ratioP.style.offsetWidth
-  //     total += width
-  //   }
-  //   while (total > 100) {
-  //     for (var i = 0; i < 6; i++) {
-  //       var ratioP = document.getElementById('ratioPlayer' + i)
-  //       var width = ratioP.style.offsetWidth
-  //       if (width > 0) {
-  //         document.getElementById('ratioPlayer' + i).style.width =
-  //           width - 1 + '%'
-  //       }
-  //     }
-  //   }
   } catch (error) {}
 
-  // console.log('ratio : ' + ((nbTerritories / 42) * 100) + '%')
-  // console.log('nbTerritories : ' + nbTerritories)
+  console.log(
+    'ratio player ' + player + ' : ' + (nbTerritories / 42) * 100 + '%'
+  )
 }
 
 export var _displayReinforcementUI = function () {
@@ -937,7 +904,7 @@ export function clearFortifyChooseUnits () {
   fortifyUI.style.visibility = 'hidden'
   fortifyUI.style.height = '0'
   fortifyUI.style.margin = '0'
-  //MainGame.prototype.fortificationLogic()
+  // MainGame.prototype.fortificationLogic()
 }
 
 export function fortifyWith (nb) {
@@ -959,15 +926,6 @@ export function displayUseTokensUI () {
   document.getElementById('tradeTokenBtnImg').style.cursor = 'not-allowed'
 
   console.log(window['players'])
-
-  // var playerId = localStorage.getItem('myId')
-  // var playerList = []
-  // playerList = MainGame.prototype.getViewPlayerList(playerId)
-  // console.log(MainGame.prototype.getPlayers())
-  // var tokenOne = playerList[playerId].tokens.tok1
-  // var tokenTwo = playerList[playerId].tokens.tok2
-  // var tokenThree = playerList[playerId].tokens.tok3
-  // var tokenFour = playerList[playerId].tokens.tok4
 
   var tokenOne = document.getElementById('nbTokenTypeOne').innerHTML
   var tokenTwo = document.getElementById('nbTokenTypeTwo').innerHTML
