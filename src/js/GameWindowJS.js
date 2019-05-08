@@ -1277,3 +1277,14 @@ export function show() {
   this.TTXHiden = !this.TTXHiden;
 }
 /** ******************************************************************************** */
+
+export function showDeadNotification(){
+  document.getElementById("dead-notification").style.display = "block"
+}
+export function hideDeadNotification(){
+  document.getElementById("dead-notification").style.display = "none"
+}
+
+export function setPlayerDead(playerID){
+  document.getElementById("playerSlot"+playerID+"Dead").style.display = "block"
+}

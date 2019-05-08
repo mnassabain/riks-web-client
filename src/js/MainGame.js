@@ -269,6 +269,13 @@ export class MainGame {
         )
         THIS.view.localTerritories = THIS.view.players[j].nbTerritories
         THIS.view.localArmies = THIS.view.players[j].reinforcements
+
+        if(THIS.view.players[j].nbTerritories == 0){
+          GameWindow.showDeadNotification()
+        }
+      }
+      if(THIS.view.players[j].nbTerritories == 0){
+        GameWindow.setPlayerDead(j)
       }
     }
   }
@@ -582,7 +589,7 @@ export class MainGame {
 
     var ms = 2000
     this.clearTimeoutDisplay()
-    this.timeoutDisplay = setTimeout(function () {
+    THIS.timeoutDisplay = setTimeout(function () {
       GameWindow.clearDisplayMessage()
       console.log(
         'localstorage id = ' +
@@ -679,7 +686,7 @@ export class MainGame {
 
     var ms = 3000
     this.clearTimeoutDisplay()
-    this.timeoutDisplay = setTimeout(function () {
+    THIS.timeoutDisplay = setTimeout(function () {
       GameWindow.clearDisplayMessage()
       console.log(
         'localstorage id = ' +
@@ -1505,6 +1512,18 @@ export class MainGame {
           THAT_CLASS.defend(msg.data.defenderName, msg.data.units)
 
           break
+        
+        case Packet.prototype.getTypeOf('DIE'):
+          var playerDead = msg.data.player
+          var me = THIS.getMyPlayer()
+
+          if(playerDead == me.id){
+            GameWindow.showDeadNotification()
+          }
+          else{
+            GameWindow.setPlayerDead(playerDead)
+          }
+        break
 
         case Packet.prototype.getTypeOf('ERROR'):
           // print the type of the error in the console

@@ -4,32 +4,32 @@
     <!--NorthWest UI -->
     <div class="tokens">
       <div class="tooltipHover" id="playerArmies">
-        <img src="../assets/icons/armies.svg">
+        <img src="@/assets/icons/armies.svg">
         <div id="nbArmies">{{ localArmies }}</div>
         <span class="tooltipText">Reinforcements</span>
       </div>
       <div class="tooltipHover" id="playerTerritories">
-        <img src="../assets/icons/flag.svg">
+        <img src="@/assets/icons/flag.svg">
         <div id="nbTerritories">{{ localTerritories }}</div>
         <span class="tooltipText">Owned territories</span>
       </div>
       <div class="tooltipHover" id="tokenTypeOne">
-        <img src="../assets/icons/tokenTypeOne.svg">
+        <img src="@/assets/icons/tokenTypeOne.svg">
         <div id="nbTokenTypeOne">{{ localNbTokenTypeOne }}</div>
         <span class="tooltipText">Token 1</span>
       </div>
       <div class="tooltipHover" id="tokenTypeTwo">
-        <img src="../assets/icons/tokenTypeTwo.svg">
+        <img src="@/assets/icons/tokenTypeTwo.svg">
         <div id="nbTokenTypeTwo">{{ localNbTokenTypeTwo }}</div>
         <span class="tooltipText">Token 2</span>
       </div>
       <div class="tooltipHover" id="tokenTypeThree">
-        <img src="../assets/icons/tokenTypeThree.svg">
+        <img src="@/assets/icons/tokenTypeThree.svg">
         <div id="nbTokenTypeThree">{{ localNbTokenTypeThree }}</div>
         <span class="tooltipText">Token 3</span>
       </div>
       <div class="tooltipHover" id="tokenTypeJoker">
-        <img src="../assets/icons/tokenTypeJoker.svg">
+        <img src="@/assets/icons/tokenTypeJoker.svg">
         <div id="nbTokenTypeJoker">{{ localNbTokenTypeJoker }}</div>
         <span class="tooltipText">Token joker</span>
       </div>
@@ -44,7 +44,7 @@
       <img
         draggable="false"
         v-on:click="(TTXHiden ? displayUseTokensUI() : clearUseTokensUI()),(TTXHiden ? hide() : show())"
-        src="../assets/icons/trade.svg"
+        src="@/assets/icons/trade.svg"
         class="tradeIcon"
       >
     </div>
@@ -100,13 +100,15 @@
 
     <div id="timer">00:00</div>
 
+    <div id="dead-notification">You are dead, spectating...</div>
+
     <!--Menu button NorthEast UI-->
     <div>
       <div class="menuBtn">
         <img
           draggable="false"
           v-on:click="dropdownClick()"
-          src="../assets/icons/menu.svg"
+          src="@/assets/icons/menu.svg"
           class="menuIcon dropbtn"
         >
       </div>
@@ -129,7 +131,7 @@
       </div>
       <div id="playerControlButton">
         <button id="nextPhaseBtn" v-on:click="nextPhase()">
-          <img id="nextPhaseBtnImg" draggable="false" src="../assets/icons/nextPhase.svg">
+          <img id="nextPhaseBtnImg" draggable="false" src="@/assets/icons/nextPhase.svg">
         </button>
       </div>
     </div>
@@ -141,32 +143,32 @@
           <!--li :id="'playerSlot'+(index+1)" :class="{current: (currentPlayer === index)}"-->
           <li :id="'playerSlot'+(index+1)">
             <div :id="'playerSlot'+(index+1)+'Name'" class="playerListName">
-              <p>{{player.displayName}}</p>
+              <p>{{player.displayName}} <img src="@/assets/icons/skull.svg" width="15px" style="color:white; display:none" :id="'playerSlot'+(index+1)+'Dead'"> </p>
             </div>
           </li>
           <li :id="'playerSlot'+(index+1)+'Info'">
             <div :id="'player'+(index+1)+'Armies'">
-              <img src="../assets/icons/armies.svg">
+              <img src="@/assets/icons/armies.svg">
               <div :id="'player'+(index+1)+'NbArmies'">{{player.reinforcements}}</div>
             </div>
             <div :id="'player'+(index+1)+'Territories'">
-              <img src="../assets/icons/flag.svg">
+              <img src="@/assets/icons/flag.svg">
               <div :id="'player'+(index+1)+'NbTerritories'">{{player.nbTerritories}}</div>
             </div>
             <div :id="'player'+(index+1)+'TokenTypeOne'">
-              <img src="../assets/icons/tokenTypeOne.svg">
+              <img src="@/assets/icons/tokenTypeOne.svg">
               <div :id="'player'+(index+1)+'NbTokenTypeOne'">{{player.tokens.tok2}}</div>
             </div>
             <div :id="'player'+(index+1)+'TokenTypeTwo'">
-              <img src="../assets/icons/tokenTypeTwo.svg">
+              <img src="@/assets/icons/tokenTypeTwo.svg">
               <div :id="'player'+(index+1)+'NbTokenTypeTwo'">{{player.tokens.tok3}}</div>
             </div>
             <div :id="'player'+(index+1)+'TokenTypeThree'">
-              <img src="../assets/icons/tokenTypeThree.svg">
+              <img src="@/assets/icons/tokenTypeThree.svg">
               <div :id="'player'+(index+1)+'NbTokenTypeThree'">{{player.tokens.tok4}}</div>
             </div>
             <div :id="'player'+(index+1)+'TokenTypeJoker'">
-              <img src="../assets/icons/tokenTypeJoker.svg">
+              <img src="@/assets/icons/tokenTypeJoker.svg">
               <div :id="'player'+(index+1)+'NbTokenTypeJoker'">{{player.tokens.tok1}}</div>
             </div>
           </li>
@@ -204,25 +206,25 @@
           <div id="TokenUIUpperLeft">
             <div id="tokenUITypeOne">
               <button id="tokenTypeOneBtn" v-on:click="setTokenType('One')">
-                <img id="tokenTypeOneImg" src="../assets/icons/tokenTypeOne.svg">
+                <img id="tokenTypeOneImg" src="@/assets/icons/tokenTypeOne.svg">
                 <div id="nbTokenUITypeOne"></div>
               </button>
             </div>
             <div id="tokenUITypeTwo">
               <button id="tokenTypeTwoBtn" v-on:click="setTokenType('Two')">
-                <img id="tokenTypeTwoImg" src="../assets/icons/tokenTypeTwo.svg">
+                <img id="tokenTypeTwoImg" src="@/assets/icons/tokenTypeTwo.svg">
                 <div id="nbTokenUITypeTwo"></div>
               </button>
             </div>
             <div id="tokenUITypeThree">
               <button id="tokenTypeThreeBtn" v-on:click="setTokenType('Three')">
-                <img id="tokenTypeThreeImg" src="../assets/icons/tokenTypeThree.svg">
+                <img id="tokenTypeThreeImg" src="@/assets/icons/tokenTypeThree.svg">
                 <div id="nbTokenUITypeThree"></div>
               </button>
             </div>
             <div id="tokenUITypeJoker">
               <button id="tokenTypeJokerBtn" v-on:click="setTokenType('Joker')">
-                <img id="tokenTypeJokerImg" src="../assets/icons/tokenTypeJoker.svg">
+                <img id="tokenTypeJokerImg" src="@/assets/icons/tokenTypeJoker.svg">
                 <div id="nbTokenUITypeJoker"></div>
               </button>
             </div>
@@ -246,7 +248,7 @@
               </button>
             </div>
             <button id="tokenTradeBtn" v-on:click="tradeToken()">
-              <img id="tradeTokenBtnImg"  draggable="false" src="../assets/icons/tradeTokens.svg">
+              <img id="tradeTokenBtnImg"  draggable="false" src="@/assets/icons/tradeTokens.svg">
             </button>
           </div>
         </div>
@@ -265,7 +267,7 @@
           </div>
         </div>
         <div class="combatUICenter" id="defendBtn">
-          <img draggable="false" onclick="test()" src="../assets/icons/defend.svg" class="bigBtn">
+          <img draggable="false" onclick="test()" src="@/assets/icons/defend.svg" class="bigBtn">
         </div>
         <div class="combatUIRight">
           <div>Defend with</div>
@@ -274,7 +276,7 @@
               <img
                 id="defendOneImg"
                 draggable="false"
-                src="../assets/icons/emptyOne.svg"
+                src="@/assets/icons/emptyOne.svg"
                 class="armiesSelectionBtn"
               >
             </button>
@@ -282,7 +284,7 @@
               <img
                 id="defendTwoImg"
                 draggable="false"
-                src="../assets/icons/emptyTwo.svg"
+                src="@/assets/icons/emptyTwo.svg"
                 class="armiesSelectionBtn"
               >
             </button>
@@ -297,7 +299,7 @@
           <div id="attackCombatRed"></div>
         </div>
         <div class="combatUICenter" id="defendBtn">
-          <img draggable="false" onclick="tes()" src="../assets/icons/attack.svg" class="bigBtn">
+          <img draggable="false" onclick="tes()" src="@/assets/icons/attack.svg" class="bigBtn">
         </div>
         <div class="combatUIRight">
           <div>Attack with</div>
@@ -306,7 +308,7 @@
               <img
                 id="attackOneImg"
                 draggable="false"
-                src="../assets/icons/emptyOne.svg"
+                src="@/assets/icons/emptyOne.svg"
                 class="armiesSelectionBtn"
               >
             </button>
@@ -314,7 +316,7 @@
               <img
                 id="attackTwoImg"
                 draggable="false"
-                src="../assets/icons/emptyTwo.svg"
+                src="@/assets/icons/emptyTwo.svg"
                 class="armiesSelectionBtn"
               >
             </button>
@@ -322,7 +324,7 @@
               <img
                 id="attackThreeImg"
                 draggable="false"
-                src="../assets/icons/emptyThree.svg"
+                src="@/assets/icons/emptyThree.svg"
                 class="armiesSelectionBtn"
               >
             </button>
