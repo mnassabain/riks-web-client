@@ -102,10 +102,18 @@ export class MainGame {
 
     console.log('player localstorage')
     console.log(localStorage)
-    console.log('')
+    console.log('name of the game : ' + data.name )
     if (this.gameIsSet === false) {
       this.gameIsSet = true
-      this.startGame()
+      if(data.name !== 'endgame'){
+        this.startGame()
+      }else{
+        /* End game scenario */
+        GameWindow.disableDbClick()
+        GameWindow.onDbClickReinUI()
+        GameWindow.enableNextPhaseBtn()
+        THIS.tryShowTokenTradeBtn()
+      }
     }
   }
 
@@ -150,10 +158,10 @@ export class MainGame {
       console.log(p)
       THIS.playerList.push(p)
       if (localStorage.login === data.players[i].name) {
-        THIS.view.localNbTokenTypeJoker = data.players[i].tokens.tok4
-        THIS.view.localNbTokenTypeOne = data.players[i].tokens.tok1
-        THIS.view.localNbTokenTypeTwo = data.players[i].tokens.tok2
-        THIS.view.localNbTokenTypeThree = data.players[i].tokens.tok3
+        THIS.view.localNbTokenTypeJoker = data.players[i].tokens.tok1
+        THIS.view.localNbTokenTypeOne = data.players[i].tokens.tok2
+        THIS.view.localNbTokenTypeTwo = data.players[i].tokens.tok3
+        THIS.view.localNbTokenTypeThree = data.players[i].tokens.tok4
       }
 
       i++
@@ -182,10 +190,10 @@ export class MainGame {
         localStorage.setItem('reinforcements', data.players[i].reinforcements)
         var n = 0
         localStorage.setItem('territories', n)
-        localStorage.setItem('token1', data.players[i].tokens.tok1)
-        localStorage.setItem('token2', data.players[i].tokens.tok2)
-        localStorage.setItem('token3', data.players[i].tokens.tok3)
-        localStorage.setItem('tokenJoker', data.players[i].tokens.tok4)
+        localStorage.setItem('token1', data.players[i].tokens.tok2)
+        localStorage.setItem('token2', data.players[i].tokens.tok3)
+        localStorage.setItem('token3', data.players[i].tokens.tok4)
+        localStorage.setItem('tokenJoker', data.players[i].tokens.tok1)
         console.log('localstorage')
         console.log(localStorage)
       } else {
@@ -500,19 +508,57 @@ export class MainGame {
     }
   }
 
-  /* Response to PUT event*
-   *
-   * @param name  the name of the active player
-   * @param units the quantity of units placed on the map
-   */
-  useTokensResponse (name, units) {
-    /* only the active player does not see this notifcation */
-    if (name != THIS.currentUserName) {
-      /* return name + "has received " + units + "unit(s)" ; */
-      console.log(name + 'has received ' + units + ' unit(s)')
-    } else {
-      /* only the active player sees this notification */
-      console.log('you have has received ' + units + ' unit(s)')
+  useTokensResponse (msg) {
+    
+    /* UPDATING for all clients */
+    THIS.translateReceivedToken(msg.data.token1, msg.data.player, 'ALL')
+    THIS.translateReceivedToken(msg.data.token2, msg.data.player, 'ALL')
+    THIS.translateReceivedToken(msg.data.token3, msg.data.player, 'ALL')
+
+    if (msg.data.player == localStorage.getItem('myId')) {
+      THIS.translateReceivedToken(msg.data.token1, msg.data.player, 'LOCAL')
+      THIS.translateReceivedToken(msg.data.token2, msg.data.player, 'LOCAL')
+      THIS.translateReceivedToken(msg.data.token3, msg.data.player, 'LOCAL')      
+    }
+    THIS.tryShowTokenTradeBtn()
+  }
+
+  translateReceivedToken (tokenId, playerId, scope) {
+    if(scope === 'ALL'){
+      switch(tokenId){
+        case 0:
+          THIS.view.players[playerId].tokens.tok1--
+          break
+        case 1:
+          THIS.view.players[playerId].tokens.tok2--
+          break
+        case 2:
+          THIS.view.players[playerId].tokens.tok3--
+          break
+        case 3:
+          THIS.view.players[playerId].tokens.tok4--
+          break
+        default:
+        break
+      }
+    }
+    if(scope === 'LOCAL'){
+      switch(tokenId){
+        case 0:
+          THIS.view.localNbTokenTypeJoker--
+          break
+        case 1:
+          THIS.view.localNbTokenTypeOne--
+          break
+        case 2:
+          THIS.view.localNbTokenTypeTwo--
+          break
+        case 3:
+          THIS.view.localNbTokenTypeThree--
+          break
+        default:
+        break
+      }
     }
   }
 
@@ -1254,6 +1300,7 @@ export class MainGame {
     GameWindow.displayCurrentPlayer()
     if (THIS.haveFortified === false) {
       if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
+        GameWindow.setEndtourBtnImg()
         // disable attack logic
         GameWindow._disableAttackFromTerritory()
         GameWindow._disableChooseTerritoryToAttack()
@@ -1401,6 +1448,8 @@ export class MainGame {
 
           if (msg.data.phase == phases['REINFORCEMENT']) {
             THIS.haveFortified = false
+            /*checking current user tokens if trade is possible */
+            THIS.tryShowTokenTradeBtn()
             GameWindow.setNextPhaseBtnImg()
             GameWindow.clearFortifyChooseUnits()
             GameWindow._disableChooseTerritoryToFortify()
@@ -1431,6 +1480,8 @@ export class MainGame {
           THAT_CLASS.currentPhase = msg.data.phase
 
           if (msg.data.phase == phases['OFFENSE']) {
+            GameWindow.hideTokenUIBtn()
+            GameWindow.clearUseTokensUI()
             THIS.beginAttackPhase()
           }
 
@@ -1489,10 +1540,10 @@ export class MainGame {
           console.log('msg data player' + msg.data.player)
 
           if (msg.data.player == localStorage.getItem('myId')) {
-            THAT_CLASS.view.localNbTokenTypeOne += msg.data.token1
-            THAT_CLASS.view.localNbTokenTypeTwo += msg.data.token2
-            THAT_CLASS.view.localNbTokenTypeThree += msg.data.token3
-            THAT_CLASS.view.localNbTokenTypeJoker += msg.data.token4
+            THAT_CLASS.view.localNbTokenTypeOne += msg.data.token2
+            THAT_CLASS.view.localNbTokenTypeTwo += msg.data.token3
+            THAT_CLASS.view.localNbTokenTypeThree += msg.data.token4
+            THAT_CLASS.view.localNbTokenTypeJoker += msg.data.token1
           }
           break
 
@@ -1686,11 +1737,15 @@ export class MainGame {
           console.log('REINFORCEMENT')
           console.log(msg)
 
+          /*checking current user tokens if trade is possible */
+          THIS.tryShowTokenTradeBtn()
+
           THAT_CLASS.view.players[msg.data.player].reinforcements +=
             msg.data.units
 
           if (msg.data.player == localStorage.getItem('myId')) {
             THIS.view.localArmies += msg.data.units
+            GameWindow.displayUnitsTraded(msg.data.units)
           }
           GameWindow.displayCurrentPlayer()
           break
@@ -1700,8 +1755,9 @@ export class MainGame {
           break
 
         case Packet.prototype.getTypeOf('USE_TOKENS'):
-          console.log('USE_TOKENS' + msg)
-          /* THIS.useTokensResponse(msg.player.name,msg.units); */
+          console.log('USE_TOKENS')
+          console.log(msg)
+          THIS.useTokensResponse(msg)
           break
 
         case Packet.prototype.getTypeOf('CHAT'):
@@ -1727,8 +1783,9 @@ export class MainGame {
 
   ErrorHandling (data) {
     var str = data.message
+
+    GameWindow.clearUseTokensUI()
     GameWindow.displayMessage(str.substr(str.indexOf(':') + 1))
-    // THIS.updateViewPlayers(THIS.playerList)
     console.log(str)
 
     switch (data.errType) {
@@ -1743,10 +1800,18 @@ export class MainGame {
         break
 
       case Packet.prototype.getTypeOf('MOVE'):
-        console.log('error attack')
+        console.log('error move')
         console.log(data.errType)
         THIS.fortificationLogic(str.substr(str.indexOf(':') + 1))
         break
+
+      case Packet.prototype.getTypeOf('USE_TOKENS'):
+        console.log('error use token')
+        console.log(data.errType)
+        GameWindow.displayUITop()
+        GameWindow.displayCurrentPlayer()
+        
+      break
 
       default:
         break
@@ -1759,5 +1824,24 @@ export class MainGame {
     setInterval(function () {
       THIS.synchronize()
     }, 3000)
+  }
+  
+  tryShowTokenTradeBtn () {
+    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+    if(localStorage.getItem('myId') == THIS.view.currentPlayer){
+      var tokenCounter = 0
+  
+      console.log('########### counter token ' + tokenCounter)
+      
+      tokenCounter += THIS.view.players[THIS.view.currentPlayer].tokens.tok1
+      tokenCounter += THIS.view.players[THIS.view.currentPlayer].tokens.tok2
+      tokenCounter += THIS.view.players[THIS.view.currentPlayer].tokens.tok3
+      tokenCounter += THIS.view.players[THIS.view.currentPlayer].tokens.tok4
+      
+      console.log('########### counter token ' + tokenCounter)
+      if(tokenCounter >= 3){
+        GameWindow.showTokenUIBtn()
+      }
+    }
   }
 }
