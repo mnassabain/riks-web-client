@@ -677,7 +677,7 @@ p {
   opacity: 0.9;
 }
 
-#dead-notification{
+#dead-notification {
   display: none;
   position: absolute;
   bottom: 10rem;
@@ -841,9 +841,6 @@ p {
   text-align: center;
 }
 
-#askAttackUIRightAbort {
-}
-
 #askAttackUIRightAbort:hover {
   margin-bottom: 1rem;
   color: red;
@@ -878,9 +875,6 @@ p {
   text-align: center;
 }
 
-#attackUIRightAbort {
-}
-
 #attackUIRightAbort:hover {
   margin-bottom: 1rem;
   color: red;
@@ -890,54 +884,14 @@ p {
   color: green;
 }
 
-/* PIN grayedOut class */
+/* Used to gray out the map during combat */
 .grayedOut {
   stroke: #27282d;
   opacity: 0.3;
 }
 
 /*********** FORTIFICATION UI ********************/
-/* #FortifyUI {
-  display: none;
-  visibility: hidden;
-  font-size: 0.5em;
-  margin-top: 1rem;
-  width: 30rem;
-  /* display: grid;
-  grid-template-columns: 1fr 1fr 1fr; */
-/*}
-.FortifyUILeft{
-  text-align: center;
-  padding: 0.5rem;
-  background-color: blue;
-  float: left;
-  width: 10rem;
-}
-.FortifyUICenter{
-  background-color: white;
-  float: left;
-  width: 5rem;
-}
 
-.FortifyUIRight{
-  text-align: center;
-  background-color: red;
-  float: left;
-  width: 10rem;
-}
-
-#FortifyUIRightAbort {
-
-}
-
-#FortifyUIRightAbort:hover {
-  margin-bottom: 1rem;
-  color: red
-}
-
-#FortifyUIRightOK:hover {
-  color: green
-} */
 #FortifyUI {
   display: none;
   visibility: hidden;
@@ -1012,7 +966,7 @@ p {
 }
 
 #TokenUIRight {
-  visibility: 'hidden';
+  visibility: "hidden";
   display: none;
   position: absolute;
   float: left;
@@ -1056,27 +1010,6 @@ p {
   left: 10.5rem;
 }
 
-/* #tokenSlotOne {
-  float: left;
-  width: 1.8rem;
-  height: 1.8rem;
-  margin: 0.3rem 0.4rem 0rem 0.4rem;
-}
-
-#tokenSlotTwo {
-  float: left;
-  width: 1.8rem;
-  height: 1.8rem;
-  margin: 0.3rem 0.4rem 0rem 0.4rem;
-}
-
-#tokenSlotThree {
-  float: left;
-  width: 1.8rem;
-  height: 1.8rem;
-  margin: 0.3rem 0.4rem 0rem 0.4rem;
-} */
-
 [id*="tokenSlot"][id$="Btn"] {
   float: left;
   margin: 0.3rem 0.7rem 0rem 0.4rem;
@@ -1111,7 +1044,6 @@ p {
   display: none;
   background-color: #27282d;
   position: absolute;
-  display: flex;
   justify-content: center;
   flex-direction: column;
   top: 0.3rem;

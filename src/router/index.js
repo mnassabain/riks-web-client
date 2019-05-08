@@ -9,6 +9,7 @@ import Lobby from '@/views/Lobby'
 import Start from '@/views/Start'
 import GameWindow from '@/views/GameWindow'
 import GameOver from '@/views/GameOver'
+import About from '@/views/About'
 
 Vue.use(Router)
 
@@ -23,5 +24,6 @@ export default new Router({
     { path: '/Lobby', name: 'Lobby', component: Lobby },
     { path: '/GameWindow', name: 'GameWindow', component: GameWindow },
     { path: '/GameOver', name: 'GameOver', component: GameOver },
+    { path: '/About', name: 'About', component: About }
   ]
 })

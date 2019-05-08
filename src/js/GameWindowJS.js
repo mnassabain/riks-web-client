@@ -459,24 +459,23 @@ export function updateRatioBar (player, nbTerritories) {
     ratio.style.width = (nbTerritories / 43) * 100 + '%'
 
     var total = 0
-    for(var i=0;i<6; i++){
+    for (var i = 0; i < 6; i++) {
       var ratioP = document.getElementById('ratioPlayer' + i)
       var width = ratioP.style.offsetWidth
-      total+=width
+      total += width
     }
-    while(total > 100){
-      for(var i=0;i<6; i++){
+    while (total > 100) {
+      for (var i = 0; i < 6; i++) {
         var ratioP = document.getElementById('ratioPlayer' + i)
         var width = ratioP.style.offsetWidth
-        if(width > 0){
-          document.getElementById('ratioPlayer' + i).style.width = (width-1)+"%"
+        if (width > 0) {
+          document.getElementById('ratioPlayer' + i).style.width =
+            width - 1 + '%'
         }
       }
     }
-  } catch (error) {
-    
-  }
-  
+  } catch (error) {}
+
   // console.log('ratio : ' + ((nbTerritories / 42) * 100) + '%')
   // console.log('nbTerritories : ' + nbTerritories)
 }
@@ -795,7 +794,7 @@ export function defendWith (nbUnits) {
   MainGame.prototype.tryDefend(targetedTerritory, nbUnits)
 }
 
-// PIN highlightTerritory
+// Gray out the map, exept tSource and tDest
 export function highlightTerritory (tSource, tDest) {
   var countries = document.getElementsByClassName('country')
 
@@ -808,6 +807,7 @@ export function highlightTerritory (tSource, tDest) {
   }
 }
 
+// Undo the highlightTerritory() results
 export function unhighlightTerritory () {
   var countries = document.getElementsByClassName('country')
 
@@ -1324,7 +1324,7 @@ export function useTokens (token1, token2, token3) {
 }
 
 export function showTokenUIBtn () {
-  document.getElementById('TokenSpread').style.display = 'block'
+  document.getElementById('TokenSpread').style.display = 'flex'
   document.getElementById('TokenSpread').style.visibility = 'visible'
 }
 
@@ -1364,13 +1364,15 @@ export function show () {
 }
 /** ******************************************************************************** */
 
-export function showDeadNotification(){
-  document.getElementById("dead-notification").style.display = "block"
+export function showDeadNotification () {
+  document.getElementById('dead-notification').style.display = 'block'
 }
-export function hideDeadNotification(){
-  document.getElementById("dead-notification").style.display = "none"
+export function hideDeadNotification () {
+  document.getElementById('dead-notification').style.display = 'none'
 }
 
-export function setPlayerDead(playerID){
-  document.getElementById("playerSlot"+(playerID+1)+"Dead").style.display = "inline-block"
+export function setPlayerDead (playerID) {
+  document.getElementById(
+    'playerSlot' + (playerID + 1) + 'Dead'
+  ).style.display = 'inline-block'
 }
