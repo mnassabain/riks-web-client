@@ -131,14 +131,14 @@ h1 {
 }
 
 
-.settings-button {
+.about-button {
   background-color: #27282d;
   color: #fdf6eb;
   border: 3px solid #f9ce93;
   font-weight: bold;
   width: 60%;
 }
-.settings-button:hover {
+.about-button:hover {
   background-color: #fbe3c2;
   border: 3px solid #fbe3c2;
   color: #27282d;

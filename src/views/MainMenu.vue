@@ -10,7 +10,7 @@
       <router-link to="/CreateGame" tag="button" class="button menu-button my-2">Create a game</router-link>
     </div>
     <div class="buttons-block">
-      <router-link to="" tag="button" class="button settings-button my-2">Settings</router-link>
+      <router-link to="/About" tag="button" class="button about-button my-2">About</router-link>
       <button tag="button" class="button logout-button my-2" @click="logout">Log Out</button>
     </div>
   </div>
@@ -19,7 +19,6 @@
 
 <script>
 import {Packet} from "../Packet.js";
-// import _ from "howler"
 
 export default {
   name: "MainMenu",

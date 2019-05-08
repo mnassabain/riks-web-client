@@ -6,21 +6,17 @@
     </div>
     <div></div>
     <div class="additional-button-block">
-      <button class="button second-button my-1" @click="Cancel">Cancel</button>
+      <router-link to="/MainMenu" tag="button" class="button second-button my-1">Cancel</router-link>
     </div>
   </div>
 </body>
 </template>
 
 <script>
+import {Packet} from "../Packet.js";
+
 export default {
-  name: "About",
-  data() {},
-  methods: {
-    Cancel() {
-      return this.$router.push({ path: "/MainMenu" });
-    }
-  }
+  name: "About"
 };
 </script>
 
