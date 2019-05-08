@@ -1302,11 +1302,11 @@ export class MainGame {
     console.log("HAVE FORTIFIED: "+THIS.haveFortified)
     if ((THIS.haveFortified === false) && (THIS.currentPhase != phases['OFFENSE'])) {
       if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
-        GameWindow.setEndtourBtnImg()
         // disable attack logic
         GameWindow._disableAttackFromTerritory()
         GameWindow._disableChooseTerritoryToAttack()
         GameWindow.displayCurrentPlayer()
+        GameWindow.setEndtourBtnImg()
         GameWindow.displayMessage(
           secondStr + 'You can fortify your territories.'
         )
@@ -1321,7 +1321,6 @@ export class MainGame {
       GameWindow._disableFortifyFromTerritory()
       GameWindow._disableChooseTerritoryToFortify()
       if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
-        GameWindow.setEndtourBtnImg()
         GameWindow.displayCurrentPlayer()
         if (THIS.currentPhase == phases['OFFENSE']) {
           GameWindow.displayMessage(
