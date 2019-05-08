@@ -890,7 +890,7 @@ p {
   color: green;
 }
 
-/* PIN grayedOut class */
+/* Used to gray out the map during combat */
 .grayedOut {
   stroke: #27282d;
   opacity: 0.3;
