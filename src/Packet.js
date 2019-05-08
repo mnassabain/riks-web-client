@@ -47,7 +47,8 @@ const types = {
 
   POKE: 34,
   HOVER: 35,
-  SELECT_TOKEN: 36
+  SELECT_TOKEN: 36,
+  DIE: 37
 }
 
 export class Packet {
