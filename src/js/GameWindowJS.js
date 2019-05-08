@@ -84,6 +84,10 @@ export function startTimer () {
   }
 }
 
+export function stopTimer(){
+  clearInterval(timer)
+}
+
 /*********************************************************************************************************************/
 /* Starting the mouse over country */
 export function startMouseoverCountry () {

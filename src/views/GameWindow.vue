@@ -742,9 +742,9 @@ export default {
     hide: GameWindow.hide,
     show: GameWindow.show,
 
-    /* TODO: call this function on game over */
     goToGameOver() {
-      this.$router.push("/GameOver");
+      delete this.$socket.onmessage
+      this.$router.push({ path: "/GameOver" });
     },
 
     displayMessage: function(message) {

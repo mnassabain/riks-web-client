@@ -1509,7 +1509,10 @@ export class MainGame {
             'winner',
             THAT_CLASS.getPlayerNameById(msg.data.winner)
           )
-          /* TODO: REDIRECT TO /GameOver (+delete listener?) */
+
+          GameWindow.stopTimer()
+          THIS.$socket.onmessage
+          THIS.view.goToGameOver()
           break
 
         case Packet.prototype.getTypeOf('GAME_RESULTS'):

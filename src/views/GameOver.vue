@@ -2,7 +2,11 @@
     <div class="game-over-container">
         <h1>{{ message }}</h1>
         <h2>Winner: {{ winner }}</h2>
-        <button @click="mainMenu">Main Menu</button>
+        <button
+          @click="mainMenu()"
+          tag="button"
+          class="button validate-button my-1"
+        >Main Menu</button>
     </div>
 </template>
 
@@ -17,7 +21,7 @@ export default {
     },
     methods: {
         mainMenu: function(){
-            this.$router.push({ path: "/" });
+            this.$router.push({ path: "/MainMenu" });
         }
     },
     created() {
