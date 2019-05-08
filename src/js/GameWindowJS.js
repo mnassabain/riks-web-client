@@ -474,9 +474,9 @@ export function updateRatioBar (player, nbTerritories) {
       }
     }
   } catch (error) {
-    
+
   }
-  
+
   // console.log('ratio : ' + ((nbTerritories / 42) * 100) + '%')
   // console.log('nbTerritories : ' + nbTerritories)
 }
@@ -1324,7 +1324,7 @@ export function useTokens (token1, token2, token3) {
 }
 
 export function showTokenUIBtn () {
-  document.getElementById('TokenSpread').style.display = 'block'
+  document.getElementById('TokenSpread').style.display = 'flex'
   document.getElementById('TokenSpread').style.visibility = 'visible'
 }
 
