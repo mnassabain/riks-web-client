@@ -1298,7 +1298,9 @@ export class MainGame {
       GameWindow.displayCurrentPlayer()
     }
     GameWindow.displayCurrentPlayer()
-    if (THIS.haveFortified === false) {
+    console.log("CURRENT PHASE: "+THIS.currentPhase+ "OFFENSE: "+phases['OFFENSE'])
+    console.log("HAVE FORTIFIED: "+THIS.haveFortified)
+    if ((THIS.haveFortified === false) && (THIS.currentPhase != phases['OFFENSE'])) {
       if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
         GameWindow.setEndtourBtnImg()
         // disable attack logic
@@ -1321,9 +1323,9 @@ export class MainGame {
       if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
         GameWindow.setEndtourBtnImg()
         GameWindow.displayCurrentPlayer()
-        if (this.currentPhase == phases['OFFENSE']) {
+        if (THIS.currentPhase == phases['OFFENSE']) {
           GameWindow.displayMessage(
-            secondStr + 'You can now end phase, or continue attacking'
+            secondStr + 'You can continue attacking'
           )
         } else {
           GameWindow.displayMessage(
@@ -1333,17 +1335,23 @@ export class MainGame {
 
         GameWindow.enableNextPhaseBtn()
       } else {
-        if (this.currentPhase != phases['OFFENSE']) {
+        if (THIS.currentPhase != phases['OFFENSE']) {
           GameWindow.displayMessage(
             THIS.getPlayerNameById(THIS.view.currentPlayer) +
               ' is finishing his/her turn.'
           )
         }
+        else{
+          GameWindow.displayMessage(
+            THIS.getPlayerNameById(THIS.view.currentPlayer) +
+              ' decided not to move soldiers.'
+          )
+        }
       }
     }
 
-    if (this.currentPhase == phases['OFFENSE']) {
-      this.beginAttackPhase()
+    if (THIS.currentPhase == phases['OFFENSE']) {
+      THIS.beginAttackPhase()
     }
   }
 
