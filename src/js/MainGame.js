@@ -103,31 +103,30 @@ export class MainGame {
     // SupportedColors[]
 
     GameWindow.displayMyColor(myColor)
-    
+
     GameWindow.unhighlightTerritory()
 
-    switch(THIS.currentPhase){
-
+    switch (THIS.currentPhase) {
       case phases['PREPHASE']:
         console.log('start game')
         THIS.startGame()
         break
-      
+
       case phases['REINFORCEMENT']:
         console.log('reinforcement phase')
         THIS.reinforcementLogic()
         break
-      
+
       case phases['OFFENSE']:
-      console.log('offenc phase')
+        console.log('offenc phase')
         THIS.beginAttackPhase()
         break
-    
+
       case phases['FORTIFICATION']:
         console.log('fortification phase')
         THIS.fortificationLogic()
         break
-    
+
       default:
         break
     }
@@ -160,7 +159,7 @@ export class MainGame {
     console.log('')
     var i = 0
     THIS.playerList = []
-    for(var i=0; i<data.players.length; i++){
+    for (var i = 0; i < data.players.length; i++) {
       var player = data.players[i]
       var p = new Player(i, player.name, i)
       p.reinforcements = data.players[i].reinforcements
@@ -522,7 +521,6 @@ export class MainGame {
   }
 
   useTokensResponse (msg) {
-
     /* UPDATING for all clients */
     THIS.translateReceivedToken(msg.data.token1, msg.data.player, 'ALL')
     THIS.translateReceivedToken(msg.data.token2, msg.data.player, 'ALL')
@@ -537,8 +535,8 @@ export class MainGame {
   }
 
   translateReceivedToken (tokenId, playerId, scope) {
-    if(scope === 'ALL'){
-      switch(tokenId){
+    if (scope === 'ALL') {
+      switch (tokenId) {
         case 0:
           THIS.view.players[playerId].tokens.tok1--
           break
@@ -552,11 +550,11 @@ export class MainGame {
           THIS.view.players[playerId].tokens.tok4--
           break
         default:
-        break
+          break
       }
     }
-    if(scope === 'LOCAL'){
-      switch(tokenId){
+    if (scope === 'LOCAL') {
+      switch (tokenId) {
         case 0:
           THIS.view.localNbTokenTypeJoker--
           break
@@ -570,7 +568,7 @@ export class MainGame {
           THIS.view.localNbTokenTypeThree--
           break
         default:
-        break
+          break
       }
     }
   }
@@ -877,30 +875,6 @@ export class MainGame {
       return -1
     }
 
-    /* check if the player controls the attacking territory territories */
-    // if (THIS.map[cSource][tSource].player != THIS.view.currentPlayer) {
-    //   console.log('Action not permitted: you do not control the territory')
-    //   return -1
-    // }
-
-    /* check if the attacked territory doesn't belong to the attacking player */
-    // if (THIS.map[cDest][tDest].player == THIS.map[cSource][tSource]) {
-    //   console.log('Action not permitted: cannot attack own territory')
-    //   return -1
-    // }
-
-    /* check if the number of units is ok */
-    // if (THIS.map[cSource][tSource].soldiers <= nbUnits) {
-    //   console.log('Action not permitted: not enough units')
-    //   return -1
-    // }
-
-    /* check if the territories are adjacent */
-    // if (!areAdjacent(tSource, tDest)) {
-    //   console.log('Action not permitted: territories not adjacent')
-    //   return -1
-    // }
-
     /* if all tests pass notify server */
     var data = {
       source: THIS.getCountryIdByName(tSource),
@@ -934,7 +908,10 @@ export class MainGame {
     )
 
     /* Highlight the belligerents */
-    GameWindow.highlightTerritory(THIS.getCountryNameById(tSource), THIS.getCountryNameById(tDest))
+    GameWindow.highlightTerritory(
+      THIS.getCountryNameById(tSource),
+      THIS.getCountryNameById(tDest)
+    )
   }
 
   /** Called when the player is being attacked
@@ -1065,21 +1042,6 @@ export class MainGame {
     console.log(defendingPlayer)
     console.log(myPlayer)
 
-    /* if (attackingPlayer.id == myPlayer.id) {
-      // We attacked
-      GameWindow.addServerMessage(
-        'YOUR LOSSES',
-        'You lost ' + attackerLoss + ' units'
-      )
-    } else if (defendingPlayer.id == myPlayer.id) {
-      GameWindow.addServerMessage(
-        'YOUR LOSSES',
-        'You lost ' + defenderLoss + ' units'
-      )
-    } else {
-
-    } */
-
     GameWindow.addServerMessage(
       'LOSSES',
       attackingPlayer.displayName +
@@ -1111,12 +1073,12 @@ export class MainGame {
       }
 
       THIS.view.players[THIS.map[cDest][tDest].player].nbTerritories--
-      
+
       /* updating local player territories number (NW UI) */
-      if(localStorage.getItem('myId') == THIS.map[cDest][tDest].player){
+      if (localStorage.getItem('myId') == THIS.map[cDest][tDest].player) {
         THIS.view.localTerritories--
       }
-      
+
       THIS.map[cDest][tDest].player = THIS.map[cSource][tSource].player
       THIS.map[cDest][tDest].soldiers = restAttack
       THIS.map[cSource][tSource].soldiers -= THIS.attackUnits
@@ -1137,12 +1099,12 @@ export class MainGame {
         tDest
       )
       THIS.view.players[THIS.map[cSource][tSource].player].nbTerritories++
-      
+
       /* updating local player territories number (NW UI) */
-      if(localStorage.getItem('myId') == THIS.map[cSource][tSource].player){
+      if (localStorage.getItem('myId') == THIS.map[cSource][tSource].player) {
         THIS.view.localTerritories++
       }
-      
+
       GameWindow.updateCountrySoldiersNumber(tmpDest)
       GameWindow.updateCountrySoldiersNumber(tmpSource)
     } else {
@@ -1158,10 +1120,10 @@ export class MainGame {
       this.beginAttackPhase()
     } else {
       // Player can move soldiers
-      if (attackingPlayer.id == myPlayer.id) { 
+      if (attackingPlayer.id == myPlayer.id) {
         THIS.lastFortify.tSource = tSource
         THIS.lastFortify.tDest = tDest
-        GameWindow.fortifyAfterConquering(tSource, tDest) 
+        GameWindow.fortifyAfterConquering(tSource, tDest)
       }
     }
   }
@@ -1233,12 +1195,6 @@ export class MainGame {
     /* continent which contains the destination territory */
     var cDest = getContinentOf(tDest)
 
-    /* check if it's phase 3 */
-    /* if (THIS.currentPhase != phases['FORTIFICATION']) {
-      console.log('Action not permitted: incorrect phase')
-      return -1
-    } */
-
     /* check if the player controls those territories */
     if (
       THIS.map[cSource][tSource].player != THIS.map[cDest][tDest].player ||
@@ -1288,10 +1244,10 @@ export class MainGame {
     }
     THIS.sendToServer(new Packet('USE_TOKENS', data))
   }
-  
+
   reinforcementLogic () {
     THIS.haveFortified = false
-    /*checking current user tokens if trade is possible */
+    /* checking current user tokens if trade is possible */
     GameWindow.enableNextPhaseBtn()
     THIS.tryShowTokenTradeBtn()
     GameWindow.setNextPhaseBtnImg()
@@ -1309,17 +1265,13 @@ export class MainGame {
         THIS.view.currentPlayer
     )
     if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
-      GameWindow.displayMessage(
-        'Put reinforcement units on your territories !'
-      )
+      GameWindow.displayMessage('Put reinforcement units on your territories !')
     } else {
       GameWindow.displayMessage(
-        THIS.getActivePlayerName() +
-          ' is reinforcing his/her territories !'
+        THIS.getActivePlayerName() + ' is reinforcing his/her territories !'
       )
     }
   }
-
 
   beginAttackPhase (message) {
     var secondStr = ''
@@ -1358,9 +1310,14 @@ export class MainGame {
       GameWindow.displayCurrentPlayer()
     }
     GameWindow.displayCurrentPlayer()
-    console.log("CURRENT PHASE: "+THIS.currentPhase+ "OFFENSE: "+phases['OFFENSE'])
-    console.log("HAVE FORTIFIED: "+THIS.haveFortified)
-    if ((THIS.haveFortified === false) && (THIS.currentPhase != phases['OFFENSE'])) {
+    console.log(
+      'CURRENT PHASE: ' + THIS.currentPhase + 'OFFENSE: ' + phases['OFFENSE']
+    )
+    console.log('HAVE FORTIFIED: ' + THIS.haveFortified)
+    if (
+      THIS.haveFortified === false &&
+      THIS.currentPhase != phases['OFFENSE']
+    ) {
       if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
         // disable attack logic
         GameWindow._disableAttackFromTerritory()
@@ -1383,9 +1340,7 @@ export class MainGame {
       if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
         GameWindow.displayCurrentPlayer()
         if (THIS.currentPhase == phases['OFFENSE']) {
-          GameWindow.displayMessage(
-            secondStr + 'You can continue attacking'
-          )
+          GameWindow.displayMessage(secondStr + 'You can continue attacking')
         } else {
           GameWindow.displayMessage(
             secondStr + 'You can now give turn to next player'
@@ -1399,8 +1354,7 @@ export class MainGame {
             THIS.getPlayerNameById(THIS.view.currentPlayer) +
               ' is finishing his/her turn.'
           )
-        }
-        else{
+        } else {
           GameWindow.displayMessage(
             THIS.getPlayerNameById(THIS.view.currentPlayer) +
               ' decided not to move soldiers.'
@@ -1511,7 +1465,7 @@ export class MainGame {
           if (THIS.currentPhase != msg.data.phase) {
             THIS.currentPhase = (THIS.currentPhase + 1) % 3
           }
-          
+
           /* updates the current phase in players controls area */
           GameWindow.displayCurrentPhase(msg.data.phase)
           THAT_CLASS.currentPhase = msg.data.phase
@@ -1544,16 +1498,16 @@ export class MainGame {
           THAT_CLASS.defend(msg.data.defenderName, msg.data.units)
 
           break
-        
+
         case Packet.prototype.getTypeOf('DIE'):
           var playerDead = msg.data.player
           var me = THIS.getMyPlayer()
 
-          if(playerDead == me.id){
+          if (playerDead == me.id) {
             GameWindow.showDeadNotification()
           }
           GameWindow.setPlayerDead(playerDead)
-        break
+          break
 
         case Packet.prototype.getTypeOf('ERROR'):
           // print the type of the error in the console
@@ -1566,7 +1520,7 @@ export class MainGame {
             'winner',
             THAT_CLASS.getPlayerNameById(msg.data.winner)
           )
-          THAT_CLASS.sendToServer(new Packet("LEAVE_GAME"))
+          THAT_CLASS.sendToServer(new Packet('LEAVE_GAME'))
           GameWindow.stopTimer()
           THIS.$socket.onmessage
           THIS.view.goToGameOver()
@@ -1722,7 +1676,7 @@ export class MainGame {
               msg.data.player,
               msg.data.units
             )
-            
+
             GameWindow.updateCountrySoldiersNumber(msg.data.territory)
             GameWindow.clearDisplayMessage()
 
@@ -1745,12 +1699,9 @@ export class MainGame {
             }
           }
           // updating the ratio bar
-            for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
-              GameWindow.updateRatioBar(
-                i,
-                THAT_CLASS.playerList[i].nbTerritories
-              )
-            }
+          for (var i = 0; i < THAT_CLASS.totalPlayers; i++) {
+            GameWindow.updateRatioBar(i, THAT_CLASS.playerList[i].nbTerritories)
+          }
           break
 
         case Packet.prototype.getTypeOf('REINFORCEMENT'):
@@ -1758,7 +1709,7 @@ export class MainGame {
           console.log('REINFORCEMENT')
           console.log(msg)
 
-          /*checking current user tokens if trade is possible */
+          /* checking current user tokens if trade is possible */
           THIS.tryShowTokenTradeBtn()
 
           THAT_CLASS.view.players[msg.data.player].reinforcements +=
@@ -1800,8 +1751,6 @@ export class MainGame {
     }
   }
 
-  // {"data":{"errType":21,"message":"ATTACK: You cannot attack one of your terrirories"},"type":0}
-
   ErrorHandling (data) {
     var str = data.message
 
@@ -1823,10 +1772,12 @@ export class MainGame {
       case Packet.prototype.getTypeOf('MOVE'):
         console.log('error move')
         console.log(data.errType)
-        if(THIS.currentPhase == phases['OFFENSE']){
-          GameWindow.fortifyAfterConquering(THIS.lastFortify.tSource, THIS.lastFortify.tDest) 
-        }
-        else{
+        if (THIS.currentPhase == phases['OFFENSE']) {
+          GameWindow.fortifyAfterConquering(
+            THIS.lastFortify.tSource,
+            THIS.lastFortify.tDest
+          )
+        } else {
           THIS.fortificationLogic(str.substr(str.indexOf(':') + 1))
         }
         break
@@ -1837,7 +1788,7 @@ export class MainGame {
         GameWindow.displayUITop()
         GameWindow.displayCurrentPlayer()
 
-      break
+        break
 
       default:
         break
@@ -1853,19 +1804,18 @@ export class MainGame {
   }
 
   tryShowTokenTradeBtn () {
-    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-    if(localStorage.getItem('myId') == THIS.view.currentPlayer){
+    if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
       var tokenCounter = 0
 
-      console.log('########### counter token ' + tokenCounter)
+      console.log('counter token ' + tokenCounter)
 
       tokenCounter += THIS.view.players[THIS.view.currentPlayer].tokens.tok1
       tokenCounter += THIS.view.players[THIS.view.currentPlayer].tokens.tok2
       tokenCounter += THIS.view.players[THIS.view.currentPlayer].tokens.tok3
       tokenCounter += THIS.view.players[THIS.view.currentPlayer].tokens.tok4
 
-      console.log('########### counter token ' + tokenCounter)
-      if(tokenCounter >= 3){
+      console.log('counter token ' + tokenCounter)
+      if (tokenCounter >= 3) {
         GameWindow.showTokenUIBtn()
       }
     }
