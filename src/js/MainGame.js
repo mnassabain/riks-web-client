@@ -1516,9 +1516,7 @@ export class MainGame {
           if(playerDead == me.id){
             GameWindow.showDeadNotification()
           }
-          else{
-            GameWindow.setPlayerDead(playerDead)
-          }
+          GameWindow.setPlayerDead(playerDead)
         break
 
         case Packet.prototype.getTypeOf('ERROR'):
