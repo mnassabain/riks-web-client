@@ -1372,5 +1372,5 @@ export function hideDeadNotification(){
 }
 
 export function setPlayerDead(playerID){
-  document.getElementById("playerSlot"+playerID+"Dead").style.display = "block"
+  document.getElementById("playerSlot"+(playerID+1)+"Dead").style.display = "block"
 }

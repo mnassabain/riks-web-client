@@ -144,11 +144,9 @@ export class MainGame {
     console.log('')
     var i = 0
     THIS.playerList = []
-    Object.keys(data.players).forEach(key => {
-      var player = data.players[key]
-      console.log(' i = ' + i)
-      var p = new Player(parseInt(i), player.name, i)
-      p.id = i
+    for(var i=0; i<data.players.length; i++){
+      var player = data.players[i]
+      var p = new Player(i, player.name, i)
       p.reinforcements = data.players[i].reinforcements
       p.tokens.tok1 = data.players[i].tokens.tok1
       p.tokens.tok2 = data.players[i].tokens.tok2
@@ -163,9 +161,7 @@ export class MainGame {
         THIS.view.localNbTokenTypeTwo = data.players[i].tokens.tok3
         THIS.view.localNbTokenTypeThree = data.players[i].tokens.tok4
       }
-
-      i++
-    })
+    }
     console.log('this playerlist is set')
     console.log(THIS.playerList)
 
