@@ -937,7 +937,7 @@ export function clearFortifyChooseUnits () {
   fortifyUI.style.visibility = 'hidden'
   fortifyUI.style.height = '0'
   fortifyUI.style.margin = '0'
-  MainGame.prototype.fortificationLogic()
+  //MainGame.prototype.fortificationLogic()
 }
 
 export function fortifyWith (nb) {
