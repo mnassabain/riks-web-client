@@ -155,19 +155,19 @@
             </div>
             <div :id="'player'+(index+1)+'TokenTypeOne'">
               <img src="../assets/icons/tokenTypeOne.svg">
-              <div :id="'player'+(index+1)+'NbTokenTypeOne'">{{player.tokens.tok1}}</div>
+              <div :id="'player'+(index+1)+'NbTokenTypeOne'">{{player.tokens.tok2}}</div>
             </div>
             <div :id="'player'+(index+1)+'TokenTypeTwo'">
               <img src="../assets/icons/tokenTypeTwo.svg">
-              <div :id="'player'+(index+1)+'NbTokenTypeTwo'">{{player.tokens.tok2}}</div>
+              <div :id="'player'+(index+1)+'NbTokenTypeTwo'">{{player.tokens.tok3}}</div>
             </div>
             <div :id="'player'+(index+1)+'TokenTypeThree'">
               <img src="../assets/icons/tokenTypeThree.svg">
-              <div :id="'player'+(index+1)+'NbTokenTypeThree'">{{player.tokens.tok3}}</div>
+              <div :id="'player'+(index+1)+'NbTokenTypeThree'">{{player.tokens.tok4}}</div>
             </div>
             <div :id="'player'+(index+1)+'TokenTypeJoker'">
               <img src="../assets/icons/tokenTypeJoker.svg">
-              <div :id="'player'+(index+1)+'NbTokenTypeJoker'">{{player.tokens.tok4}}</div>
+              <div :id="'player'+(index+1)+'NbTokenTypeJoker'">{{player.tokens.tok1}}</div>
             </div>
           </li>
         </ul>
@@ -222,11 +222,11 @@
             </div>
             <div id="tokenUITypeJoker">
               <button id="tokenTypeJokerBtn" v-on:click="setTokenType('Joker')">
-                <img id="tokenTypeFourImg" src="../assets/icons/tokenTypeJoker.svg">
+                <img id="tokenTypeJokerImg" src="../assets/icons/tokenTypeJoker.svg">
                 <div id="nbTokenUITypeJoker"></div>
               </button>
             </div>
-            <div id="tokenUINotice">Make a set of 3 tokens to gain an army unit.</div>
+            <div id="tokenUINotice">Make a set of 3 tokens to gain army units.</div>
           </div>
           <!--********************* LOWER *****************************-->
           <div id="TokenUILowerLeft">
@@ -245,15 +245,14 @@
                 <img id="tokenSlotThreeImg" src>
               </button>
             </div>
-            <button id="tokenTradeBtn">
-              <img draggable="false" src="../assets/icons/tradeTokens.svg">
+            <button id="tokenTradeBtn" v-on:click="tradeToken()">
+              <img id="tradeTokenBtnImg"  draggable="false" src="../assets/icons/tradeTokens.svg">
             </button>
           </div>
         </div>
         <!--********************* TOKEN UI RIGHT *****************************-->
         <div id="TokenUIRight">
-          You gained
-          <span id="unitsTraded"></span> units
+          You gained<br><span id="unitsTraded"></span><br>units
         </div>
       </div>
       <!--********************* TOKEN END *****************************-->
@@ -739,6 +738,9 @@ export default {
     getTokenToSet: GameWindow.getTokenToSet,
     displayUseTokensUI: GameWindow.displayUseTokensUI,
     clearUseTokensUI: GameWindow.clearUseTokensUI,
+    tradeToken: GameWindow.useTokens,
+    hide: GameWindow.hide,
+    show: GameWindow.show,
 
     /* TODO: call this function on game over */
     goToGameOver() {
