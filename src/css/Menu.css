@@ -227,3 +227,11 @@ ul, .lobby-list-room {
   margin-top: 4vh;
   margin-bottom: 3vh;
 }
+
+/* Game Over */
+
+.gameOverIllustration {
+  height: 30vh;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
