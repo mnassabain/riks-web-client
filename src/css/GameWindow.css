@@ -287,7 +287,7 @@ li[id*="playerSlot"] {
   color: rgb(225, 103, 103);
 }
 #playerSlot2:hover ~ #playerSlot2Info {
-  width: 27rem;
+  width: 28rem;
   border: solid 0.2rem #f9ce93;
   visibility: visible;
 }
@@ -297,7 +297,7 @@ li[id*="playerSlot"] {
   color: rgb(90, 170, 83);
 }
 #playerSlot3:hover ~ #playerSlot3Info {
-  width: 30rem;
+  width: 28rem;
   border: solid 0.2rem #f9ce93;
   visibility: visible;
 }
@@ -307,7 +307,7 @@ li[id*="playerSlot"] {
   color: rgb(227, 199, 92);
 }
 #playerSlot4:hover ~ #playerSlot4Info {
-  width: 25rem;
+  width: 28rem;
   border: solid 0.2rem #f9ce93;
   visibility: visible;
 }
@@ -317,7 +317,7 @@ li[id*="playerSlot"] {
   color: rgb(223, 111, 73);
 }
 #playerSlot5:hover ~ #playerSlot5Info {
-  width: 25rem;
+  width: 28rem;
   border: solid 0.2rem #f9ce93;
   visibility: visible;
 }
@@ -327,7 +327,7 @@ li[id*="playerSlot"] {
   color: rgb(147, 107, 216);
 }
 #playerSlot6:hover ~ #playerSlot6Info {
-  width: 25rem;
+  width: 28rem;
   border: solid 0.2rem #f9ce93;
   visibility: visible;
 }
