@@ -313,8 +313,15 @@ export function addDistantPlayerMessage (name, message) {
   var player = MainGame.prototype.getPlayerById(
     MainGame.prototype.getPlayerIdByName(name)
   )
+  
   var playerName = name
-  var playerColor = player.color
+  var playerColor = ''
+  if (name == 'SERVER') {
+    playerColor = 'white'
+  } else {
+    playerColor = player.color 
+  }
+  
   var msgParagraph = document.createElement('P')
   msgParagraph.className = 'playerMessage'
   msgParagraph.style.lineHeight = '1em'
