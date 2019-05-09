@@ -42,8 +42,9 @@ export class MainGame {
     this.attackUnits = 0
     this.haveFortified = false
 
-    this.autoInit = true
+    this.autoInit = false
     this.autoRein = false
+    
     this.cpt = 0
     this.lastFortify = {
       tSource: null,
@@ -109,7 +110,7 @@ export class MainGame {
     switch (THIS.currentPhase) {
       case phases['PREPHASE']:
         console.log('start game')
-        THIS.startGame()
+        THIS.startGame()        
         break
 
       case phases['REINFORCEMENT']:
@@ -589,8 +590,9 @@ export class MainGame {
    * @param data received from the game server
    */
   startGame (data) {
-    GameWindow.displayMessage('Welcome to RiKS World!')
-
+    if (THIS.gameIsSet == false) {
+      GameWindow.displayMessage('Welcome to RiKS World!')
+    }
     var ms = 2000
     this.clearTimeoutDisplay()
     THIS.timeoutDisplay = setTimeout(function () {
@@ -603,12 +605,22 @@ export class MainGame {
       )
 
       GameWindow.displayCurrentPlayer()
-      if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
-        GameWindow.displayMessage('Click on a territory to claim it !')
+      if (THIS.gameIsSet == false) {
+        if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
+          GameWindow.displayMessage('Click on a territory to claim it !')
+        } else {
+          GameWindow.displayMessage(
+            THIS.getActivePlayerName() + ' is choosing a territory !'
+          )
+        }
       } else {
-        GameWindow.displayMessage(
-          THIS.getActivePlayerName() + ' is choosing a territory !'
-        )
+        if (localStorage.getItem('myId') == THIS.view.currentPlayer) {
+          GameWindow.displayMessage('Put 1 unit on one of your territories !')
+        } else {
+          GameWindow.displayMessage(
+            THIS.getActivePlayerName() + ' is reinforcing a territory !'
+          )
+        }
       }
       console.log('free territories = ' + THIS.getFreeTerritoriesNumber())
     }, ms)
@@ -1303,7 +1315,8 @@ export class MainGame {
     if (message !== undefined) {
       secondStr = message + '<br/>'
     }
-
+    GameWindow.disableDbClick()
+    GameWindow.enableNextPhaseBtn()
     console.log('Server is now on phase offense')
     GameWindow.displayCurrentPlayer()
     if (localStorage.getItem('myId') == THIS.view.currentPlayer) {

@@ -3,6 +3,7 @@ import * as svgPanZoom from 'svg-pan-zoom'
 
 import { map, getContinentOf } from './Map'
 import { MainGame, phases } from './MainGame'
+import { Player, SupportedColors } from './Player'
 
 /*********************************************************************************************************************/
 /* Variables */
@@ -466,12 +467,20 @@ export var _displayReinforcementUI = function () {
       if (
         document.getElementById(selectedCountryName).className.baseVal !== 'sea'
       ) {
-        document.getElementById(
+        var country = document.getElementById(
           'reinforcementTerritory'
-        ).innerHTML = selectedCountryName
+        )
+        country.innerHTML = selectedCountryName
+        country.style.color = getCountryColor(selectedCountryName)
       }
     }
   }
+}
+
+export function getCountryColor (countryName) {
+  var territoryOwner = map[getContinentOf(countryName)][countryName].player
+  var colorToSet = SupportedColors[territoryOwner]
+  return colorToSet
 }
 
 export function clearReinUI () {
@@ -554,6 +563,7 @@ export function nextPhase () {
 /** *********************************  ATTACK UI ************************************************ */
 
 export function displayAttackChooseUnits () {
+  disableNextPhaseBtn()
   clearMessageUITop()
   var unitsAvailable = MainGame.prototype.getUnitsOnTerritory(attackFrom)
   console.log('units available on ' + attackFrom + ' : ' + unitsAvailable)
@@ -563,6 +573,7 @@ export function displayAttackChooseUnits () {
   attackUI.style.visibility = 'visible'
   attackUI.style.height = '8rem'
   document.getElementById('attackCombatRed').innerHTML = attackTo
+  document.getElementById('attackCombatRed').style.color = getCountryColor(attackTo)
 
   if (unitsAvailable < 4) {
     document.getElementById('selectArmyThreeAttack').disabled = true
@@ -596,6 +607,7 @@ export function clearAttackChooseUnits () {
 var lastUnits = 0
 var lastTerritory = -1
 export function displayDefendUIdChooseUnits (nbUnits, targetedTerritoryId) {
+  disableNextPhaseBtn()
   if (nbUnits !== undefined && targetedTerritoryId !== undefined) {
     lastUnits = nbUnits
     lastTerritory = targetedTerritoryId
@@ -612,6 +624,7 @@ export function displayDefendUIdChooseUnits (nbUnits, targetedTerritoryId) {
   defendUI.style.marginTop = '0'
   if (tName !== undefined) {
     document.getElementById('defendCombatRed').innerHTML = tName
+    document.getElementById('defendCombatRed').style.color = getCountryColor(tName)
     document.getElementById('attackingUnits').innerHTML = lastUnits
   } else {
     document.getElementById('defendCombatRed').innerHTML = 'Territory'
@@ -632,6 +645,7 @@ export function clearDefendUIChooseUnits () {
   defendUI.style.visibility = 'hidden'
   defendUI.style.height = '0'
   defendUI.style.marginTop = '0'
+  enableNextPhaseBtn()
 }
 
 var attackFrom = ''
@@ -695,7 +709,6 @@ export function attackFromTerritory () {
 export function attackWith (nb) {
   disableCancelAttackFromTerritory()
   clearAttackChooseUnits()
-  enableNextPhaseBtn()
   displayUITop()
   displayMessage(
     'You launched an attack on ' +

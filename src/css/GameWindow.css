@@ -278,7 +278,7 @@ li[id*="playerSlot"] {
   color: rgb(64, 121, 221);
 }
 #playerSlot1:hover ~ #playerSlot1Info {
-  width: 25rem;
+  width: 28rem;
   border: solid 0.2rem #f9ce93;
   visibility: visible;
 }
@@ -287,7 +287,7 @@ li[id*="playerSlot"] {
   color: rgb(225, 103, 103);
 }
 #playerSlot2:hover ~ #playerSlot2Info {
-  width: 25rem;
+  width: 27rem;
   border: solid 0.2rem #f9ce93;
   visibility: visible;
 }
@@ -297,7 +297,7 @@ li[id*="playerSlot"] {
   color: rgb(90, 170, 83);
 }
 #playerSlot3:hover ~ #playerSlot3Info {
-  width: 25rem;
+  width: 30rem;
   border: solid 0.2rem #f9ce93;
   visibility: visible;
 }
