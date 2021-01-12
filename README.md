@@ -1,5 +1,7 @@
 # risk
 
+Ce depôt est un fork du depôt officiel : https://git.unistra.fr/ms/riks-web-client
+
 > Risk UI with Vue.JS
 
 ## Build Setup
